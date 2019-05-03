@@ -1,0 +1,47 @@
+{
+  "name": "autosuggest",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "author": "Grzegorz Tomicki <gtomik@gmail.com>",
+  "scripts": {
+    "dev": "webpack-dev-server --config webpack.config.js --mode development --open",
+    "prod": "webpack --config webpack.config.js --mode production",
+    "server": "json-server --watch static/country.json --port 3004"
+  },
+  "keywords": [
+    "autosuggest",
+    "async/await",
+    "fetch"
+  ],
+  "dependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/polyfill": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "autoprefixer": "^9.5.1",
+    "babel-loader": "^8.0.5",
+    "clean-webpack-plugin": "^2.0.1",
+    "css-loader": "^2.1.1",
+    "cssnano": "^4.1.10",
+    "dotenv-webpack": "^1.7.0",
+    "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.6.0",
+    "node-sass": "^4.12.0",
+    "postcss-loader": "^3.0.0",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
+    "uglifyjs-webpack-plugin": "^2.1.2",
+    "webpack": "^4.30.0",
+    "webpack-cli": "^3.3.1",
+    "webpack-dev-server": "^3.3.1",
+    "whatwg-fetch": "^3.0.0"
+  },
+  "browserslist": [
+    "last 2 version",
+    ">1%",
+    "not dead"
+  ],
+  "devDependencies": {
+    "json-server": "^0.14.2"
+  }
+}

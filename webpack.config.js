@@ -6,7 +6,7 @@ const Dotenv = require('dotenv-webpack');
 
 module.exports = (env, argv) => {
   return {
-    devtool: 'none',
+    devtool: argv.mode === 'production' ? 'none': 'source-map',
     mode: argv.mode === 'production' ? 'production': 'development',
     entry: {
       searchJson: './sources/js/index.js',

@@ -7,21 +7,28 @@ import { htmlTemplate } from '../helpers/htmlTemplate';
 class SearchJson {
   constructor(options) {
     this.options = options;
-    this.initialSearch();
+    this.initialSearch(this.options);
+    this.keyCode = {
+      esc: 27,
+      enter: 13,
+      keyUp: 40,
+      keyDown: 38,
+    };
   }
 
-  initialSearch() {
-    const {
-      search,
-      isLoading,
-      howManyCharacters,
-      delay,
-      isActive,
-    } = this.options;
+  initialSearch({
+    searchOutput,
+    search,
+    isLoading,
+    howManyCharacters,
+    delay,
+    isActive,
+  }) {
     let timeout;
 
     this.searchId = document.getElementById(search);
-    this.createOutputSearch();
+    this.createOutputSearch(searchOutput);
+
     this.searchId.addEventListener('input', e => {
       this.valueFromSearch = e.target.value;
       this.classSearch = e.target.parentNode;
@@ -41,9 +48,7 @@ class SearchJson {
   }
 
   // create output-list and put after search input
-  createOutputSearch() {
-    const { searchOutput } = this.options;
-
+  createOutputSearch(searchOutput) {
     const outputSearch = document.createElement('div');
     outputSearch.id = searchOutput;
     outputSearch.className = 'output-search';
@@ -56,9 +61,7 @@ class SearchJson {
   }
 
   // hide output div when klic on li or press escape
-  closeOutputMatchesList() {
-    const { search, isActive } = this.options;
-
+  closeOutputMatchesList({ search, isActive }) {
     document.addEventListener('click', e => {
       e.stopPropagation();
       const itemActive = document.querySelector(`.${isActive}`);
@@ -70,7 +73,7 @@ class SearchJson {
     });
     // close outpu list when press ESC
     document.addEventListener('keyup', e => {
-      if (e.keyCode === 27) {
+      if (e.keyCode === this.keyCode.esc) {
         const itemActive = document.querySelector(`.${isActive}`);
         if (itemActive) {
           removeClass(itemActive, isActive);
@@ -81,14 +84,22 @@ class SearchJson {
 
   // preparation of the list
   outputHtml(matches) {
-    if (matches.length > 0) {
-      const { howManyRecordsShow, searchOutputUl, isActive } = this.options;
+    if (matches.length > 1) {
+      const {
+        search,
+        howManyRecordsShow,
+        searchOutputUl,
+        listItem,
+        isActive,
+        activeList,
+        searchOutput,
+      } = this.options;
+
       const rowMax = this.searchId.getAttribute(howManyRecordsShow) || 10;
 
       const html = matches
         .filter((test, index) => index > 0 && index <= rowMax)
         .map(match => {
-          const { listItem } = this.options;
           return htmlTemplate({ match, matches, listItem });
         })
         .join('');
@@ -96,24 +107,27 @@ class SearchJson {
       this.matchList.innerHTML = `<ul id="${searchOutputUl}">${html}</ul>`;
 
       addClass(this.matchList, isActive);
-      this.addTextFromLiToSearchInput();
-      this.keyUpInsideUl();
-      this.mouseActiveListItem();
-      this.closeOutputMatchesList();
+      this.addTextFromLiToSearchInput({ activeList, searchOutput, isActive });
+      this.keyUpInsideUl({ searchOutputUl, activeList });
+      this.mouseActiveListItem({
+        search,
+        searchOutputUl,
+        listItem,
+        activeList,
+      });
+      this.closeOutputMatchesList({ search, isActive });
     }
   }
 
   // adding text from list when enter button
-  addTextFromLiToSearchInput() {
-    const { activeList, searchOutput, isActive } = this.options;
-
+  addTextFromLiToSearchInput({ activeList, searchOutput, isActive }) {
     document.addEventListener('keyup', e => {
       e.preventDefault();
       if (this.valueFromSearch.length) {
         const active = document.querySelector(
           `#${searchOutput} .${activeList}`
         );
-        if (e.keyCode === 13 && active != null) {
+        if (e.keyCode === this.keyCode.enter && active != null) {
           this.searchId.value = active.innerText.trim();
           removeClass(e.target.nextSibling, isActive);
         }
@@ -122,9 +136,7 @@ class SearchJson {
   }
 
   // setting the active list with the mouse
-  mouseActiveListItem() {
-    const { listItem, activeList } = this.options;
-
+  mouseActiveListItem({ search, searchOutputUl, listItem, activeList }) {
     const searchOutputUlLi = document.querySelectorAll(`.${listItem}`);
     for (let i = 0; i < searchOutputUlLi.length; i++) {
       searchOutputUlLi[i].addEventListener('mouseenter', function(e) {
@@ -135,14 +147,12 @@ class SearchJson {
         e.target.classList.add(activeList);
       });
     }
-
-    this.mouseAddListItemToSearchInput();
+    this.mouseAddListItemToSearchInput({ search, searchOutputUl });
   }
 
   // add text from list when click mouse
-  mouseAddListItemToSearchInput() {
-    const { search, searchOutputUl } = this.options;
-
+  // eslint-disable-next-line class-methods-use-this
+  mouseAddListItemToSearchInput({ search, searchOutputUl }) {
     document.getElementById(searchOutputUl).addEventListener('click', e => {
       e.preventDefault();
       const item = e.target.parentNode.innerText;
@@ -151,38 +161,33 @@ class SearchJson {
   }
 
   // navigating the elements li
-  keyUpInsideUl() {
-    const { searchOutputUl, listItem, activeList, searchOutput } = this.options;
-
+  keyUpInsideUl({ searchOutputUl, activeList }) {
     let selected = 0;
-    const countItems = document.querySelectorAll(
-      `#${searchOutput} .${listItem}`
-    ).length;
-    const outputLi = document.querySelectorAll(`#${searchOutputUl} > li`);
+    const itemsLi = document.querySelectorAll(`#${searchOutputUl} > li`);
 
-    if (countItems >= 1) {
+    if (itemsLi.length >= 1) {
       this.searchId.addEventListener('keydown', e => {
         const itemActive = document.querySelector(`li.${activeList}`);
         const { keyCode } = e;
-        if (keyCode === 40) {
+        if (keyCode === this.keyCode.keyUp) {
           selected++;
-          if (selected > countItems) {
+          if (selected > itemsLi.length) {
             selected = 1;
           }
           if (itemActive) {
             removeClass(itemActive, activeList);
           }
-          outputLi[selected - 1].classList.add(activeList);
+          itemsLi[selected - 1].classList.add(activeList);
         }
-        if (keyCode === 38) {
+        if (keyCode === this.keyCode.keyDown) {
           selected--;
           if (selected <= 0) {
-            selected = countItems;
+            selected = itemsLi.length;
           }
           if (itemActive) {
             removeClass(itemActive, activeList);
           }
-          outputLi[selected - 1].classList.add(activeList);
+          itemsLi[selected - 1].classList.add(activeList);
         }
       });
     }

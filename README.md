@@ -56,3 +56,19 @@ JAVASCRIPT
 
   new searchJson(options);
 ```
+
+## Checked under the following last browsers
+
+* Desktop:
+  * Chrome
+  * Opera
+  * Firefox
+  * Microsoft Edge
+  * Vivaldi
+  * IE11/IE10
+
+* Mobile:
+  * Chrome
+  * Firefox
+  * Opera
+  * Microsoft Ege

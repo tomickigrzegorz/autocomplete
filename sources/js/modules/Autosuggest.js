@@ -123,18 +123,18 @@ class SearchJson {
 
   // setting the active list with the mouse
   mouseActiveListItem() {
-    const { searchOutputUl, listItem, activeList } = this.options;
+    const { listItem, activeList } = this.options;
 
-    document.getElementById(searchOutputUl).addEventListener('mouseover', e => {
-      const listAuto = e.target.parentNode;
-      if (listAuto.classList.value === listItem) {
+    const searchOutputUlLi = document.querySelectorAll(`.${listItem}`);
+    for (let i = 0; i < searchOutputUlLi.length; i++) {
+      searchOutputUlLi[i].addEventListener('mouseenter', function(e) {
         const itemActive = document.querySelector(`li.${activeList}`);
         if (itemActive) {
           removeClass(itemActive, activeList);
         }
-        listAuto.classList.add(activeList);
-      }
-    });
+        e.target.classList.add(activeList);
+      });
+    }
 
     this.mouseAddListItemToSearchInput();
   }

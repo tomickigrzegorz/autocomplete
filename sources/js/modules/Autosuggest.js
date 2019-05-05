@@ -38,7 +38,7 @@ class SearchJson {
       );
 
       this.classSearch = e.target.parentNode;
-      if (this.valueFromSearch.length > howManyCharacters) {
+      if (escapedChar.length > howManyCharacters) {
         this.searchId.parentNode.classList.add(isLoading);
         if (!timeout) {
           timeout = setTimeout(() => {

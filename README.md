@@ -20,7 +20,7 @@ The final code:
 
 ## Configuration of the plugin
 
-A library [Skeleton CSS](https://github.com/dhg/Skeleton) was used for the project  library.
+A library [Skeleton CSS](https://github.com/dhg/Skeleton) was used in this project.
 
 HTML
 ```

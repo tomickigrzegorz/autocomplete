@@ -31,13 +31,19 @@ class SearchJson {
 
     this.searchId.addEventListener('input', e => {
       this.valueFromSearch = e.target.value;
+      const escapedChar = this.valueFromSearch.replace(
+        // eslint-disable-next-line no-useless-escape
+        /[`~!@#$%^&*()_|+\-=÷¿?;:'",.<>\{\}\[\]\\\/]/gi,
+        ''
+      );
+
       this.classSearch = e.target.parentNode;
       if (this.valueFromSearch.length > howManyCharacters) {
         this.searchId.parentNode.classList.add(isLoading);
         if (!timeout) {
           timeout = setTimeout(() => {
             removeClass(this.classSearch, isLoading);
-            this.searchCountry(this.valueFromSearch);
+            this.searchCountry(escapedChar);
             timeout = null;
           }, delay);
         }
@@ -200,9 +206,7 @@ class SearchJson {
     const jsonData = await res.json();
 
     let matches = jsonData.filter(country => {
-      // eslint-disable-next-line no-useless-escape
-      const escapedChar = searchText.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-      const regex = new RegExp(`^${escapedChar}`, 'gi');
+      const regex = new RegExp(`^${searchText}`, 'gi');
       return country.name.match(regex);
     });
 

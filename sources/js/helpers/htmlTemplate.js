@@ -1,5 +1,4 @@
-const htmlTemplate = options => {
-  const { match, matches, listItem } = options;
+const htmlTemplate = ({ match, matches, listItem }) => {
   const regex = new RegExp(matches[0], 'i');
   return `
     <li class='${listItem}'>

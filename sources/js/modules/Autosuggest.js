@@ -200,11 +200,8 @@ class SearchJson {
     const jsonData = await res.json();
 
     let matches = jsonData.filter(country => {
-      const escapedChar = searchText.replace(
-        // eslint-disable-next-line no-useless-escape
-        /[-\/\\^$*+?.()|[\]{}]/g,
-        '\\$&'
-      );
+      // eslint-disable-next-line no-useless-escape
+      const escapedChar = searchText.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
       const regex = new RegExp(`^${escapedChar}`, 'gi');
       return country.name.match(regex);
     });

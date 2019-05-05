@@ -16,7 +16,7 @@
   </div>
 
   <div class="search">
-    <input type="text" id="search-second" class="u-full-width" data-item-row="10" placeholder="Enter city...">
+    <input type="text" id="search-second" class="u-full-width" data-item-row="10" placeholder="Enter code...">
   </div>
 
 
@@ -33,7 +33,8 @@
         activeList: 'active-list',
         howManyRecordsShow: 'data-item-row',
         howManyCharacters: 1,
-        urlPath: 'http://localhost:3004/country?name_like=',
+        urlPath: 'http://localhost:3004/country?like=',
+        searchBy: 'name'
       });
 
 
@@ -48,7 +49,8 @@
         activeList: 'active-list',
         howManyRecordsShow: 'data-item-row',
         howManyCharacters: 1,
-        urlPath: 'http://localhost:3004/country?name_like=',
+        urlPath: 'http://localhost:3004/country?like=',
+        searchBy: 'code'
       });
 
     });

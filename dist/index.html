@@ -15,9 +15,9 @@
     <input type="text" id="search" class="u-full-width" data-item-row="10" placeholder="Enter city...">
   </div>
 
-  <div class="search">
+  <!-- <div class="search">
     <input type="text" id="search-second" class="u-full-width" data-item-row="10" placeholder="Enter code...">
-  </div>
+  </div> -->
 
 
   <script type="text/javascript">
@@ -33,25 +33,25 @@
         activeList: 'active-list',
         howManyRecordsShow: 'data-item-row',
         howManyCharacters: 1,
-        urlPath: 'http://localhost:3004/country?like=',
-        searchBy: 'name'
+        urlPath: 'http://jsonplaceholder.typicode.com/comments?like=',
+        searchBy: 'name',
       });
 
 
-      new searchJson({
-        delay: 1000,
-        search: 'search-second',
-        searchOutput: 'output-second',
-        searchOutputUl: 'output-action-list',
-        isActive: 'is-active',
-        isLoading: 'is-loading',
-        listItem: 'list-item',
-        activeList: 'active-list',
-        howManyRecordsShow: 'data-item-row',
-        howManyCharacters: 1,
-        urlPath: 'http://localhost:3004/country?like=',
-        searchBy: 'code'
-      });
+      // new searchJson({
+      //   delay: 1000,
+      //   search: 'search-second',
+      //   searchOutput: 'output-second',
+      //   searchOutputUl: 'output-action-list',
+      //   isActive: 'is-active',
+      //   isLoading: 'is-loading',
+      //   listItem: 'list-item',
+      //   activeList: 'active-list',
+      //   howManyRecordsShow: 'data-item-row',
+      //   howManyCharacters: 1,
+      //   urlPath: 'http://jsonplaceholder.typicode.com/posts?like=',
+      //   searchBy: 'userId'
+      // });
 
     });
   </script>

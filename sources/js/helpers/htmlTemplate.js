@@ -1,6 +1,5 @@
 const htmlTemplate = ({ match, matches, listItem, searchBy }) => {
   const regex = new RegExp(matches[0], 'i');
-  console.log();
   return `
     <li class='${listItem}'>
       <a href="${match[searchBy]}">

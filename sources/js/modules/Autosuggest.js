@@ -23,6 +23,7 @@ class SearchJson {
     howManyCharacters,
     delay,
     isActive,
+    searchBy,
   }) {
     let timeout;
 
@@ -31,19 +32,21 @@ class SearchJson {
 
     this.searchId.addEventListener('input', e => {
       this.valueFromSearch = e.target.value;
+      this.classSearch = e.target.parentNode;
+
+      console.log(this.valueFromSearch.length);
       const escapedChar = this.valueFromSearch.replace(
         // eslint-disable-next-line no-useless-escape
         /[`~!@#$%^&*()_|+\-=÷¿?;:'",.<>\{\}\[\]\\\/]/gi,
         ''
       );
 
-      this.classSearch = e.target.parentNode;
       if (escapedChar.length > howManyCharacters) {
         this.searchId.parentNode.classList.add(isLoading);
         if (!timeout) {
           timeout = setTimeout(() => {
             removeClass(this.classSearch, isLoading);
-            this.searchCountry(escapedChar);
+            this.searchCountry(escapedChar, searchBy);
             timeout = null;
           }, delay);
         }
@@ -66,7 +69,7 @@ class SearchJson {
     this.matchList = document.getElementById(searchOutput);
   }
 
-  // hide output div when klic on li or press escape
+  // hide output div when click on li or press escape
   closeOutputMatchesList({ search, isActive }) {
     document.addEventListener('click', e => {
       e.stopPropagation();
@@ -99,14 +102,17 @@ class SearchJson {
         isActive,
         activeList,
         searchOutput,
+        searchBy,
       } = this.options;
 
       const rowMax = this.searchId.getAttribute(howManyRecordsShow) || 10;
 
+      // console.log(matches);
+
       const html = matches
         .filter((test, index) => index > 0 && index <= rowMax)
         .map(match => {
-          return htmlTemplate({ match, matches, listItem });
+          return htmlTemplate({ match, matches, listItem, searchBy });
         })
         .join('');
 
@@ -201,19 +207,21 @@ class SearchJson {
 
   // The async function gets the text from the search
   // and returns the matching array
-  async searchCountry(searchText) {
+  async searchCountry(searchText, searchBy) {
     const res = await fetch(this.options.urlPath + searchText);
     const jsonData = await res.json();
 
-    let matches = jsonData.filter(country => {
+    // console.log(this.options.searchBy);
+    let matches = jsonData.filter(element => {
       const regex = new RegExp(`^${searchText}`, 'gi');
-      return country.name.match(regex);
+      return element[searchBy].match(regex);
     });
 
     if (searchText.length === 0) {
       matches = [];
       this.matchList.innerHTML = '';
     }
+
     matches = [searchText, ...matches];
     this.outputHtml(matches);
   }

@@ -52,6 +52,8 @@ JAVASCRIPT
     howManyCharacters: 1, // the number of characters entered should start searching
     
     urlPath: process.env.ASSET_PATH // path to our API
+
+    searchBy: 'name' // searching by element
   }
 
   new searchJson(options);

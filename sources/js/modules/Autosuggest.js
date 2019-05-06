@@ -17,7 +17,6 @@ class SearchJson {
   }
 
   initialSearch({
-    searchOutput,
     search,
     isLoading,
     howManyCharacters,
@@ -28,13 +27,12 @@ class SearchJson {
     let timeout;
 
     this.searchId = document.getElementById(search);
-    this.createOutputSearch(searchOutput);
+    this.createOutputSearch(search);
 
     this.searchId.addEventListener('input', e => {
       this.valueFromSearch = e.target.value;
       this.classSearch = e.target.parentNode;
 
-      console.log(this.valueFromSearch.length);
       const escapedChar = this.valueFromSearch.replace(
         // eslint-disable-next-line no-useless-escape
         /[`~!@#$%^&*()_|+\-=÷¿?;:'",.<>\{\}\[\]\\\/]/gi,
@@ -57,16 +55,17 @@ class SearchJson {
   }
 
   // create output-list and put after search input
-  createOutputSearch(searchOutput) {
+  createOutputSearch(search) {
+    const outputAfterSearch = `${search}-auto`;
     const outputSearch = document.createElement('div');
-    outputSearch.id = searchOutput;
+    outputSearch.id = outputAfterSearch;
     outputSearch.className = 'output-search';
     this.searchId.parentNode.insertBefore(
       outputSearch,
       this.searchId.nextSibling
     );
 
-    this.matchList = document.getElementById(searchOutput);
+    this.matchList = document.getElementById(outputAfterSearch);
   }
 
   // hide output div when click on li or press escape
@@ -95,61 +94,57 @@ class SearchJson {
   outputHtml(matches) {
     if (matches.length > 1) {
       const {
-        search,
         howManyRecordsShow,
         searchOutputUl,
-        listItem,
         isActive,
-        activeList,
-        searchOutput,
         searchBy,
+        specificOutput,
       } = this.options;
 
-      const rowMax = this.searchId.getAttribute(howManyRecordsShow) || 10;
-
-      // console.log(matches);
+      const rowMax = howManyRecordsShow || 10;
 
       const html = matches
         .filter((test, index) => index > 0 && index <= rowMax)
         .map(match => {
-          return htmlTemplate({ match, matches, listItem, searchBy });
+          const htmlTemp = specificOutput
+            ? specificOutput({ ...match, matches })
+            : htmlTemplate({ match, matches, searchBy });
+          return htmlTemp;
         })
         .join('');
 
       this.matchList.innerHTML = `<ul id="${searchOutputUl}">${html}</ul>`;
 
       addClass(this.matchList, isActive);
-      this.addTextFromLiToSearchInput({ activeList, searchOutput, isActive });
-      this.keyUpInsideUl({ searchOutputUl, activeList });
-      this.mouseActiveListItem({
-        search,
-        searchOutputUl,
-        listItem,
-        activeList,
-      });
-      this.closeOutputMatchesList({ search, isActive });
+      this.addTextFromLiToSearchInput(this.options);
+      this.keyUpInsideUl(this.options);
+      this.mouseActiveListItem(this.options);
+      this.closeOutputMatchesList(this.options);
     }
   }
 
-  // adding text from list when enter button
-  addTextFromLiToSearchInput({ activeList, searchOutput, isActive }) {
+  // adding text from list when enter
+  addTextFromLiToSearchInput({ activeList, isActive }) {
     document.addEventListener('keyup', e => {
       e.preventDefault();
       if (this.valueFromSearch.length) {
-        const active = document.querySelector(
-          `#${searchOutput} .${activeList}`
-        );
-        if (e.keyCode === this.keyCode.enter && active != null) {
-          this.searchId.value = active.innerText.trim();
-          removeClass(e.target.nextSibling, isActive);
+        const itemActive = document.querySelector(`li.${activeList} > a`);
+        if (e.keyCode === this.keyCode.enter && itemActive != null) {
+          const item = e.target;
+          document.getElementById(item.id).value = itemActive.innerText.trim();
+
+          removeClass(item.nextSibling, isActive);
+          removeClass(itemActive, activeList);
         }
       }
     });
   }
 
   // setting the active list with the mouse
-  mouseActiveListItem({ search, searchOutputUl, listItem, activeList }) {
-    const searchOutputUlLi = document.querySelectorAll(`.${listItem}`);
+  mouseActiveListItem({ search, searchOutputUl, activeList }) {
+    const searchOutputUlLi = document.querySelectorAll(
+      `#${searchOutputUl} > li`
+    );
     for (let i = 0; i < searchOutputUlLi.length; i++) {
       searchOutputUlLi[i].addEventListener('mouseenter', function(e) {
         const itemActive = document.querySelector(`li.${activeList}`);
@@ -159,15 +154,15 @@ class SearchJson {
         e.target.classList.add(activeList);
       });
     }
-    this.mouseAddListItemToSearchInput({ search, searchOutputUl });
+    this.mouseAddListItemToSearchInput({ search, activeList, searchOutputUl });
   }
 
   // add text from list when click mouse
   // eslint-disable-next-line class-methods-use-this
-  mouseAddListItemToSearchInput({ search, searchOutputUl }) {
+  mouseAddListItemToSearchInput({ search, activeList, searchOutputUl }) {
     document.getElementById(searchOutputUl).addEventListener('click', e => {
       e.preventDefault();
-      const item = e.target.parentNode.innerText;
+      const item = document.querySelector(`li.${activeList} > a`).innerText;
       document.getElementById(search).value = item.trim();
     });
   }
@@ -181,6 +176,7 @@ class SearchJson {
       this.searchId.addEventListener('keydown', e => {
         const itemActive = document.querySelector(`li.${activeList}`);
         const { keyCode } = e;
+
         if (keyCode === this.keyCode.keyUp) {
           selected++;
           if (selected > itemsLi.length) {

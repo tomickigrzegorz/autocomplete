@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "webpack-dev-server --config webpack.config.js --mode development --open",
     "prod": "webpack --config webpack.config.js --mode production",
-    "server": "json-server --watch static/country.json --port 3004"
+    "server:country": "json-server --watch static/country.json --port 3004",
+    "server:persons": "json-server --watch static/persons.json --port 3005"
   },
   "keywords": [
     "autosuggest",

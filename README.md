@@ -25,7 +25,7 @@ A library [Skeleton CSS](https://github.com/dhg/Skeleton) was used in this proje
 HTML
 ```
 <div class="search">
-  <input type="text" id="search" class="u-full-width" data-item-row="10" placeholder="Enter country...">
+  <input type="text" id="search" class="u-full-width" placeholder="Enter country...">
 </div>
 ```
 JAVASCRIPT
@@ -58,6 +58,48 @@ JAVASCRIPT
 
   new searchJson(options);
 ```
+
+## Add your own result template
+
+We have json, are looking for the element by ```name```
+```
+    {
+      "index": 0,
+      "name": "Mierra Hamilton",
+      "gender": "male",
+      "address": "943 Raleigh Place, Harmon, Idaho, 8481"
+    },
+    {
+      "index": 1,
+      "name": "Jody Conley",
+      "gender": "female",
+      "address": "980 Preston Court, Thynedale, Oregon, 6050"
+    },
+```
+
+We need to add your own look of search results
+
+```
+  ...
+  searchBy: 'name',
+  specificOutput: function ({ name, gender, address, matches }) {
+      return '' +
+        '<li>' +
+          '<a href=' + name + '>' +
+            name.replace(new RegExp(matches[0], 'i'), str => '<b>' + str + '</b>') +
+          '</a>' +
+          '<div class="info">' +
+            '<div class="icon gender-' + gender + '"></div>' +
+            '<div class="address">' + address + '</div>' +
+          '</div>' +
+        '</li>';
+      }
+  }
+
+  new searchJson(options);
+```
+
+> Important if you want to have the highlighted text you have typed in the matches variable must be added adding last element ```matches```
 
 ## Checked under the following last browsers
 

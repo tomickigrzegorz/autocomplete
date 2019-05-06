@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -10,52 +9,51 @@
 </head>
 
 <body>
+  <div class="search"><input type="text" id="search" class="u-full-width" placeholder="Enter person name..."></div>
+  <div class="search"><input type="text" id="search-second" class="u-full-width" placeholder="Enter name..."></div>
 
-  <div class="search">
-    <input type="text" id="search" class="u-full-width" data-item-row="10" placeholder="Enter city...">
-  </div>
+  <script type="text/javascript">window.addEventListener('load', function () {
 
-  <div class="search">
-    <input type="text" id="search-second" class="u-full-width" data-item-row="10" placeholder="Enter code...">
-  </div>
-
-
-  <script type="text/javascript">
-    window.addEventListener('load', function () {
       new searchJson({
         delay: 1000,
         search: 'search',
-        searchOutput: 'output-search',
         searchOutputUl: 'output-list',
         isActive: 'is-active',
         isLoading: 'is-loading',
-        listItem: 'list-auto-item',
         activeList: 'active-list',
-        howManyRecordsShow: 'data-item-row',
+        howManyRecordsShow: 10,
         howManyCharacters: 1,
-        urlPath: 'http://localhost:3004/country?like=',
+        urlPath: 'http://localhost:3005/persons?like=',
         searchBy: 'name',
+        specificOutput: function ({ name, gender, address, matches }) {
+          return '' +
+            '<li>' +
+            '<a href=' + name + '>' +
+            name.replace(new RegExp(matches[0], 'i'), str => '<b>' + str + '</b>') +
+            '</a>' +
+            '<div class="info">' +
+            '<div class="icon gender-' + gender + '"></div>' +
+            '<div class="address">' + address + '</div>' +
+            '</div>' +
+            '</li>';
+        }
       });
-
 
       new searchJson({
         delay: 1000,
         search: 'search-second',
-        searchOutput: 'output-second',
         searchOutputUl: 'output-action-list',
         isActive: 'is-active',
         isLoading: 'is-loading',
-        listItem: 'list-item',
         activeList: 'active-list',
-        howManyRecordsShow: 'data-item-row',
+        howManyRecordsShow: 10,
         howManyCharacters: 1,
-        urlPath: 'http://localhost:3004/country/posts?like=',
+        urlPath: 'http://localhost:3004/country?like=',
         searchBy: 'name'
       });
 
     });
   </script>
-
 </body>
 
 </html>

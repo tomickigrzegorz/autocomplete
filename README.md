@@ -34,20 +34,16 @@ JAVASCRIPT
     delay: 1000, // delay without which the server would not survive ;)
 
     search: 'search', // search id our input
-    
-    searchOutput: 'output-search', // our result
-    
+       
     searchOutputUl: 'output-list', // container with our list
     
     isActive: 'is-active', // class to show our result
     
     isLoading: 'is-loading', // adding our spinner class
     
-    listItem: 'list-auto-item', // set class name for everyone li
-    
     activeList: 'active-list', // highlight li on mouse or keyup/keydown
     
-    howManyRecordsShow: 'data-item-row', // number of records displayed
+    howManyRecordsShow: 10, // number of records displayed
     
     howManyCharacters: 1, // the number of characters entered should start searching
     

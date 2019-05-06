@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -9,10 +10,16 @@
 </head>
 
 <body>
-  <div class="search"><input type="text" id="search" class="u-full-width" placeholder="Enter person name..."></div>
-  <div class="search"><input type="text" id="search-second" class="u-full-width" placeholder="Enter name..."></div>
+  <div class="search">
+    <input type="text" id="search" class="u-full-width" placeholder="Enter person name... e.g mi">
+  </div>
+  <div class="search">
+    <input type="text" id="search-second" class="u-full-width" placeholder="Enter city...">
+  </div>
 
-  <script type="text/javascript">window.addEventListener('load', function () {
+  <script type="text/javascript">
+
+    window.addEventListener('load', function () {
 
       new searchJson({
         delay: 1000,
@@ -23,7 +30,7 @@
         activeList: 'active-list',
         howManyRecordsShow: 10,
         howManyCharacters: 1,
-        urlPath: 'http://localhost:3005/persons?like=',
+        urlPath: './static/persons.json',
         searchBy: 'name',
         specificOutput: function ({ name, gender, address, matches }) {
           return '' +
@@ -48,7 +55,7 @@
         activeList: 'active-list',
         howManyRecordsShow: 10,
         howManyCharacters: 1,
-        urlPath: 'http://localhost:3004/country?like=',
+        urlPath: './static/country.json',
         searchBy: 'name'
       });
 

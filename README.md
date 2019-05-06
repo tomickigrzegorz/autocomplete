@@ -73,6 +73,8 @@ We have json, are looking for the element by ```name```
 
 We need to add your own look of search results
 > Important if you want to have the highlighted text you have typed in the matches variable must be added adding last element ```matches```
+
+E6 version
 ```
   ...
   searchBy: 'name',
@@ -85,6 +87,27 @@ We need to add your own look of search results
           '<div class="info">' +
             '<div class="icon gender-' + gender + '"></div>' +
             '<div class="address">' + address + '</div>' +
+          '</div>' +
+        '</li>';
+      }
+  }
+
+  new searchJson(options);
+```
+
+E5 version compatible with IE10/11
+```
+  ...
+  searchBy: 'name',
+  specificOutput: function (options) {
+      return '' +
+        '<li>' +
+          '<a href=' + options['name'] + '>' +
+            options['name'].replace(new RegExp(options['matches'][0], 'i'), function (str) { return '<b>' + str + '</b>' }) +
+          '</a>' +
+          '<div class="info">' +
+            '<div class="icon gender-' + options['gender'] + '"></div>' +
+            '<div class="address">' + options['address'] + '</div>' +
           '</div>' +
         '</li>';
       }

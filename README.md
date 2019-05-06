@@ -8,11 +8,9 @@ Before the first use, clone this repository and install node dependencies:
 ## Run the app
 At the beginning run [JSON Server](http://jsonplaceholder.typicode.com/) after starting the server, see this address [http://localhost:3004/country](http://localhost:3004/country)
 
-```yarn server``` or ```npm run server```
-
 Next to run the app, just call:
 
-```yarn dev``` or ```npm run start```
+```yarn dev``` or ```npm run dev```
 
 The final code:
 

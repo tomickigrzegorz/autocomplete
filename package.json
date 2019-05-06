@@ -5,10 +5,11 @@
   "license": "MIT",
   "author": "Grzegorz Tomicki <gtomik@gmail.com>",
   "scripts": {
-    "dev": "webpack-dev-server --config webpack.config.js --mode development --open",
+    "dev": "concurrently \"yarn build:dev\" \"yarn build:country\" \"yarn build:persons\"",
+    "build:dev": "webpack-dev-server --config webpack.config.js --mode development --open",
     "prod": "webpack --config webpack.config.js --mode production",
-    "server:country": "json-server --watch static/country.json --port 3004",
-    "server:persons": "json-server --watch static/persons.json --port 3005"
+    "build:country": "json-server --watch static/country.json --port 3004",
+    "build:persons": "json-server --watch static/persons.json --port 3005"
   },
   "keywords": [
     "autosuggest",
@@ -45,6 +46,7 @@
   "devDependencies": {
     "babel-eslint": "^10.0.1",
     "browser-sync": "^2.26.5",
+    "concurrently": "^4.1.0",
     "dotenv-webpack": "^1.7.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",

@@ -204,7 +204,7 @@ class SearchJson {
   // The async function gets the text from the search
   // and returns the matching array
   async searchCountry(searchText, searchBy) {
-    const res = await fetch(this.options.urlPath);
+    const res = await fetch(this.options.urlPath + searchText);
     const jsonData = await res.json();
 
     // console.log(this.options.searchBy);

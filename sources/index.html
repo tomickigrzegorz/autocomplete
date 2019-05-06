@@ -30,7 +30,7 @@
         activeList: 'active-list',
         howManyRecordsShow: 10,
         howManyCharacters: 1,
-        urlPath: './static/persons.json',
+        urlPath: 'http://localhost:3005/persons?like=',
         searchBy: 'name',
         specificOutput: function ({ name, gender, address, matches }) {
           return '' +
@@ -55,7 +55,7 @@
         activeList: 'active-list',
         howManyRecordsShow: 10,
         howManyCharacters: 1,
-        urlPath: './static/country.json',
+        urlPath: 'http://localhost:3004/country?like=',
         searchBy: 'name'
       });
 

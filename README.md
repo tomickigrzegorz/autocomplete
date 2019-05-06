@@ -78,7 +78,7 @@ We have json, are looking for the element by ```name```
 ```
 
 We need to add your own look of search results
-
+> Important if you want to have the highlighted text you have typed in the matches variable must be added adding last element ```matches```
 ```
   ...
   searchBy: 'name',
@@ -98,8 +98,6 @@ We need to add your own look of search results
 
   new searchJson(options);
 ```
-
-> Important if you want to have the highlighted text you have typed in the matches variable must be added adding last element ```matches```
 
 ## Checked under the following last browsers
 

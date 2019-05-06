@@ -99,6 +99,8 @@ We need to add your own look of search results
   new searchJson(options);
 ```
 
+![Screenshot1](https://github.com/tomik23/autosuggest/blob/master/static/your-template.png)
+
 ## Checked under the following last browsers
 
 * Desktop:

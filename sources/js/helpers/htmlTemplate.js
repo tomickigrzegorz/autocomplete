@@ -1,7 +1,7 @@
-const htmlTemplate = ({ match, matches, listItem, searchBy }) => {
+const htmlTemplate = ({ match, matches, searchBy }) => {
   const regex = new RegExp(matches[0], 'i');
   return `
-    <li class='${listItem}'>
+    <li>
       <a href="${match[searchBy]}">
         ${match[searchBy].replace(regex, str => `<b>${str}</b>`)}
       </a>

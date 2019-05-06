@@ -207,7 +207,6 @@ class SearchJson {
     const res = await fetch(this.options.urlPath + searchText);
     const jsonData = await res.json();
 
-    // console.log(this.options.searchBy);
     let matches = jsonData.filter(element => {
       const regex = new RegExp(`^${searchText}`, 'gi');
       return element[searchBy].match(regex);

@@ -32,15 +32,15 @@
         howManyCharacters: 1,
         urlPath: 'http://localhost:3005/persons?like=',
         searchBy: 'name',
-        specificOutput: function ({ name, gender, address, matches }) {
+        specificOutput: function (options) {
           return '' +
             '<li>' +
-            '<a href=' + name + '>' +
-            name.replace(new RegExp(matches[0], 'i'), str => '<b>' + str + '</b>') +
+            '<a href=' + options['name'] + '>' +
+            options['name'].replace(new RegExp(options['matches'][0], 'i'), function (str) { return '<b>' + str + '</b>' }) +
             '</a>' +
             '<div class="info">' +
-            '<div class="icon gender-' + gender + '"></div>' +
-            '<div class="address">' + address + '</div>' +
+            '<div class="icon gender-' + options['gender'] + '"></div>' +
+            '<div class="address">' + options['address'] + '</div>' +
             '</div>' +
             '</li>';
         }

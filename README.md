@@ -34,6 +34,8 @@ JAVASCRIPT
           isActive: 'is-active', // class to show our result
          isLoading: 'is-loading', // adding our spinner class
         activeList: 'active-list', // highlight li on mouse or keyup/keydown
+             error: 'error' // class error
+  placeholderError: 'something went wrong...', // plaseholder error text
              delay: 1000, // delay without which the server would not survive ;)
 howManyRecordsShow: 10, // number of records displayed
  howManyCharacters: 1, // the number of characters entered should start searching

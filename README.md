@@ -111,6 +111,10 @@ E5 version compatible with IE10/11
 
 ![Screenshot1](https://github.com/tomik23/autosuggest/blob/master/static/your-template.png)
 
+> The appearance of the error
+
+![Screenshot2](https://github.com/tomik23/autosuggest/blob/master/static/error.png)
+
 ## Tested on
 
 * Desktop:

@@ -29,12 +29,12 @@ HTML
 JAVASCRIPT
 ```javascript
   const options = {
-             delay: 1000, // delay without which the server would not survive ;)
             search: 'search', // search id our input    
-    searchOutputUl: 'output-list', // container with our list   
+    searchOutputUl: 'output-list', // container with our list
           isActive: 'is-active', // class to show our result
          isLoading: 'is-loading', // adding our spinner class
         activeList: 'active-list', // highlight li on mouse or keyup/keydown
+             delay: 1000, // delay without which the server would not survive ;)
 howManyRecordsShow: 10, // number of records displayed
  howManyCharacters: 1, // the number of characters entered should start searching
            urlPath: process.env.ASSET_PATH // path to our API

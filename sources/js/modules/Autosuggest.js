@@ -17,15 +17,20 @@ class SearchJson {
   }
 
   initialSearch({
-    search,
-    isLoading,
-    howManyCharacters,
     delay,
-    isActive,
+    search,
     searchBy,
+    error,
+    isLoading,
+    isActive,
+    placeholderError,
+    howManyCharacters,
   }) {
     let timeout;
 
+    this.placeholderError = placeholderError || 'something went wrong...';
+    this.errorClass = error || 'error';
+    this.isLoading = isLoading || 'loading';
     this.searchId = document.getElementById(search);
     this.createOutputSearch(search);
 
@@ -43,7 +48,6 @@ class SearchJson {
         this.searchId.parentNode.classList.add(isLoading);
         if (!timeout) {
           timeout = setTimeout(() => {
-            removeClass(this.classSearch, isLoading);
             this.searchCountry(escapedChar, searchBy);
             timeout = null;
           }, delay);
@@ -51,6 +55,7 @@ class SearchJson {
       } else {
         removeClass(this.matchList, isActive);
       }
+      removeClass(this.searchId, this.errorClass);
     });
   }
 
@@ -206,21 +211,29 @@ class SearchJson {
   // The async function gets the text from the search
   // and returns the matching array
   async searchCountry(searchText, searchBy) {
-    const res = await fetch(this.options.urlPath + searchText);
-    const jsonData = await res.json();
+    try {
+      const res = await fetch(this.options.urlPath + searchText);
+      const jsonData = await res.json();
 
-    let matches = jsonData.filter(element => {
-      const regex = new RegExp(`^${searchText}`, 'gi');
-      return element[searchBy].match(regex);
-    });
+      let matches = jsonData.filter(element => {
+        const regex = new RegExp(`^${searchText}`, 'gi');
+        return element[searchBy].match(regex);
+      });
 
-    if (searchText.length === 0) {
-      matches = [];
-      this.matchList.innerHTML = '';
+      if (searchText.length === 0) {
+        matches = [];
+        this.matchList.innerHTML = '';
+      }
+
+      matches = [searchText, ...matches];
+      removeClass(this.classSearch, this.isLoading);
+      this.outputHtml(matches);
+    } catch (err) {
+      removeClass(this.classSearch, this.isLoading);
+      this.searchId.value = '';
+      this.searchId.classList.add(this.errorClass);
+      this.searchId.placeholder = this.placeholderError;
     }
-
-    matches = [searchText, ...matches];
-    this.outputHtml(matches);
   }
 }
 

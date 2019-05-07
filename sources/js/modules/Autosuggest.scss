@@ -2,6 +2,7 @@ $color-white: #fff;
 $color-gray: #e4e4e4;
 $color-border-active: #ced4da;
 $color-black: #000;
+$color-error: #ff0000;
 $color-spinner: #ccc;
 
 * {
@@ -80,10 +81,20 @@ $color-spinner: #ccc;
       margin-top: -8px;
       z-index: 1;
     }
+
   }
 
   .active-list {
     background-color: $color-gray;
+  }
+}
+
+.error {
+  border: 1px solid lighten($color-error, 10%) !important;
+
+  &::placeholder {
+    color: lighten($color-error, 20%);
+    opacity: 1;
   }
 }
 

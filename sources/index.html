@@ -32,9 +32,11 @@
         isActive: 'active',
         isLoading: 'loading',
         activeList: 'active-list',
+        error: 'error',
         howManyRecordsShow: 10,
         howManyCharacters: 1,
         urlPath: 'http://localhost:3005/persons?like=',
+        placeholderError: 'something went wrong...',
         searchBy: 'name',
         specificOutput: function ({ name, gender, address, matches }) {
           return '' +
@@ -57,9 +59,11 @@
         isActive: 'active',
         isLoading: 'loading',
         activeList: 'active-list',
+        error: 'error',
         howManyRecordsShow: 10,
         howManyCharacters: 1,
         urlPath: 'http://localhost:3005/persons?like=',
+        placeholderError: 'something went wrong...',
         searchBy: 'name',
         specificOutput: function (options) {
           return '' +
@@ -82,10 +86,12 @@
         isActive: 'active',
         isLoading: 'loading',
         activeList: 'active-list',
+        error: 'error',
         howManyRecordsShow: 10,
         howManyCharacters: 1,
         urlPath: 'http://localhost:3004/country?like=',
-        searchBy: 'name'
+        placeholderError: 'something went wrong...',
+        searchBy: 'name',
       });
 
     });

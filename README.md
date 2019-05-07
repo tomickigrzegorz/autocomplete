@@ -21,13 +21,13 @@ The final code:
 A library [Skeleton CSS](https://github.com/dhg/Skeleton) was used in this project.
 
 HTML
-```
+```html
 <div class="search">
   <input type="text" id="search" class="u-full-width" placeholder="Enter country...">
 </div>
 ```
 JAVASCRIPT
-```
+```javascript
   const options = {
     delay: 1000, // delay without which the server would not survive ;)
 
@@ -56,7 +56,7 @@ JAVASCRIPT
 ## Add your own result template
 
 We have json, are looking for the element by ```name```
-```
+```json
     {
       "index": 0,
       "name": "Mierra Hamilton",
@@ -75,7 +75,7 @@ We need to add your own look of search results
 > Important if you want to have the highlighted text you have typed in the matches variable must be added adding last element ```matches```
 
 E6 version
-```
+```html
   ...
   searchBy: 'name',
   specificOutput: function ({ name, gender, address, matches }) {
@@ -96,7 +96,7 @@ E6 version
 ```
 
 E5 version compatible with IE10/11
-```
+```html
   ...
   searchBy: 'name',
   specificOutput: function (options) {
@@ -121,7 +121,7 @@ E5 version compatible with IE10/11
 ## Checked under the following last browsers
 
 * Desktop:
-  * Chrome
+  * Chrome 
   * Opera
   * Firefox
   * Microsoft Edge
@@ -133,3 +133,6 @@ E5 version compatible with IE10/11
   * Firefox
   * Opera
   * Microsoft Ege
+
+## License
+This project is available under the [MIT](https://opensource.org/licenses/mit-license.php) license.  

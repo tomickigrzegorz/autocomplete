@@ -17,16 +17,45 @@
     <input type="text" id="search-second" class="u-full-width" placeholder="Enter city... e.g gu">
   </div>
 
+  <div class="search">
+    <input type="text" id="search-second" class="u-full-width" placeholder="Enter city... e.g gu">
+  </div>
+
   <script type="text/javascript">
 
     window.addEventListener('load', function () {
 
       new searchJson({
         delay: 1000,
+        search: 'search-last',
+        searchOutputUl: 'output-list',
+        isActive: 'active',
+        isLoading: 'loading',
+        activeList: 'active-list',
+        howManyRecordsShow: 10,
+        howManyCharacters: 1,
+        urlPath: 'http://localhost:3005/persons?like=',
+        searchBy: 'name',
+        specificOutput: function ({ name, gender, address, matches }) {
+          return '' +
+            '<li>' +
+            '<a href=' + name + '>' +
+            name.replace(new RegExp(matches[0], 'i'), str => '<b>' + str + '</b>') +
+            '</a>' +
+            '<div class="info">' +
+            '<div class="icon gender-' + gender + '"></div>' +
+            '<div class="address">' + address + '</div>' +
+            '</div>' +
+            '</li>';
+        }
+      });
+
+      new searchJson({
+        delay: 1000,
         search: 'search',
         searchOutputUl: 'output-list',
-        isActive: 'is-active',
-        isLoading: 'is-loading',
+        isActive: 'active',
+        isLoading: 'loading',
         activeList: 'active-list',
         howManyRecordsShow: 10,
         howManyCharacters: 1,
@@ -50,8 +79,8 @@
         delay: 1000,
         search: 'search-second',
         searchOutputUl: 'output-action-list',
-        isActive: 'is-active',
-        isLoading: 'is-loading',
+        isActive: 'active',
+        isLoading: 'loading',
         activeList: 'active-list',
         howManyRecordsShow: 10,
         howManyCharacters: 1,

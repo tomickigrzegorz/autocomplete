@@ -124,7 +124,7 @@ class SearchJson {
   }
 
   // adding text from list when enter
-  addTextFromLiToSearchInput({ activeList, isActive }) {
+  addTextFromLiToSearchInput({ activeList, isActive, searchOutputUl }) {
     document.addEventListener('keyup', e => {
       e.preventDefault();
       if (this.valueFromSearch.length) {
@@ -132,9 +132,9 @@ class SearchJson {
         if (e.keyCode === this.keyCode.enter && itemActive != null) {
           const item = e.target;
           document.getElementById(item.id).value = itemActive.innerText.trim();
-
           removeClass(item.nextSibling, isActive);
           removeClass(itemActive, activeList);
+          document.getElementById(searchOutputUl).outerHTML = '';
         }
       }
     });
@@ -160,10 +160,12 @@ class SearchJson {
   // add text from list when click mouse
   // eslint-disable-next-line class-methods-use-this
   mouseAddListItemToSearchInput({ search, activeList, searchOutputUl }) {
-    document.getElementById(searchOutputUl).addEventListener('click', e => {
+    const searchOutpuli = document.getElementById(searchOutputUl);
+    searchOutpuli.addEventListener('click', e => {
       e.preventDefault();
       const item = document.querySelector(`li.${activeList} > a`).innerText;
       document.getElementById(search).value = item.trim();
+      searchOutpuli.outerHTML = '';
     });
   }
 

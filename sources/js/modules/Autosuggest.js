@@ -137,9 +137,9 @@ class SearchJson {
         if (e.keyCode === this.keyCode.enter && itemActive != null) {
           const item = e.target;
           document.getElementById(item.id).value = itemActive.innerText.trim();
+          document.getElementById(searchOutputUl).outerHTML = '';
           removeClass(item.nextSibling, isActive);
           removeClass(itemActive, activeList);
-          document.getElementById(searchOutputUl).outerHTML = '';
         }
       }
     });
@@ -182,27 +182,31 @@ class SearchJson {
     if (itemsLi.length >= 1) {
       this.searchId.addEventListener('keydown', e => {
         const itemActive = document.querySelector(`li.${activeList}`);
-        const { keyCode } = e;
-
-        if (keyCode === this.keyCode.keyUp) {
-          selected++;
-          if (selected > itemsLi.length) {
-            selected = 1;
+        switch (e.keyCode) {
+          case this.keyCode.keyUp: {
+            selected++;
+            if (selected > itemsLi.length) {
+              selected = 1;
+            }
+            if (itemActive) {
+              removeClass(itemActive, activeList);
+            }
+            itemsLi[selected - 1].classList.add(activeList);
+            break;
           }
-          if (itemActive) {
-            removeClass(itemActive, activeList);
+          case this.keyCode.keyDown: {
+            selected--;
+            if (selected <= 0) {
+              selected = itemsLi.length;
+            }
+            if (itemActive) {
+              removeClass(itemActive, activeList);
+            }
+            itemsLi[selected - 1].classList.add(activeList);
+            break;
           }
-          itemsLi[selected - 1].classList.add(activeList);
-        }
-        if (keyCode === this.keyCode.keyDown) {
-          selected--;
-          if (selected <= 0) {
-            selected = itemsLi.length;
-          }
-          if (itemActive) {
-            removeClass(itemActive, activeList);
-          }
-          itemsLi[selected - 1].classList.add(activeList);
+          default:
+            break;
         }
       });
     }

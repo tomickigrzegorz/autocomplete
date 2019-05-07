@@ -15,7 +15,7 @@ $color-spinner: #ccc;
   }
 }
 
-.is-loading:before {
+.loading:before {
   content: '';
   box-sizing: border-box;
   position: absolute;
@@ -73,7 +73,7 @@ $color-spinner: #ccc;
       }
     }
 
-    &.is-active {
+    &.active {
       display: block;
       position: absolute;
       width: 100%;

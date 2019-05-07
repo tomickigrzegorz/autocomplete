@@ -29,25 +29,16 @@ HTML
 JAVASCRIPT
 ```javascript
   const options = {
-    delay: 1000, // delay without which the server would not survive ;)
-
-    search: 'search', // search id our input
-       
-    searchOutputUl: 'output-list', // container with our list
-    
-    isActive: 'is-active', // class to show our result
-    
-    isLoading: 'is-loading', // adding our spinner class
-    
-    activeList: 'active-list', // highlight li on mouse or keyup/keydown
-    
-    howManyRecordsShow: 10, // number of records displayed
-    
-    howManyCharacters: 1, // the number of characters entered should start searching
-    
-    urlPath: process.env.ASSET_PATH // path to our API
-
-    searchBy: 'name' // searching by element
+             delay: 1000, // delay without which the server would not survive ;)
+            search: 'search', // search id our input    
+    searchOutputUl: 'output-list', // container with our list   
+          isActive: 'is-active', // class to show our result
+         isLoading: 'is-loading', // adding our spinner class
+        activeList: 'active-list', // highlight li on mouse or keyup/keydown
+howManyRecordsShow: 10, // number of records displayed
+ howManyCharacters: 1, // the number of characters entered should start searching
+           urlPath: process.env.ASSET_PATH // path to our API
+          searchBy: 'name' // searching by element
   }
 
   new searchJson(options);
@@ -118,21 +109,22 @@ E5 version compatible with IE10/11
 
 ![Screenshot1](https://github.com/tomik23/autosuggest/blob/master/static/your-template.png)
 
-## Checked under the following last browsers
+## Tested on
 
 * Desktop:
-  * Chrome 
-  * Opera
-  * Firefox
-  * Microsoft Edge
-  * Vivaldi
-  * IE11/IE10
+  * Chrome 74+ ✓
+  * Opera 58+ ✓
+  * Firefox 66+ ✓
+  * Microsoft Edge 44+ ✓
+  * Vivaldi 2.4+ ✓
+  * IE11/IE10 ✓
 
 * Mobile:
-  * Chrome
-  * Firefox
-  * Opera
-  * Microsoft Ege
+  + MI Android 10.6 ✓
+  * Chrome 74+ ✓
+  * Firefox 66+ ✓
+  * Opera 51+ ✓
+  * Microsoft Ege 42+ ✓
 
 ## License
 This project is available under the [MIT](https://opensource.org/licenses/mit-license.php) license.  

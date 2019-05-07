@@ -6,11 +6,11 @@ Before the first use, clone this repository and install node dependencies:
 ```yarn``` or ```npm install```
 
 ## Run the app
-At the beginning run [JSON Server](http://jsonplaceholder.typicode.com/) after starting the server, see this address [http://localhost:3004/country](http://localhost:3004/country) and [http://localhost:3005/persons](http://localhost:3005/persons)
-
-Next to run the app, just call:
+Run the app, just call:
 
 ```yarn dev``` or ```npm run dev```
+
+After starting the server [JSON Server](http://jsonplaceholder.typicode.com/), see this addresses [http://localhost:3004/country](http://localhost:3004/country) and [http://localhost:3005/persons](http://localhost:3005/persons)
 
 The final code:
 

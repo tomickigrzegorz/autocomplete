@@ -23,7 +23,7 @@ A library [Skeleton CSS](https://github.com/dhg/Skeleton) was used in this proje
 props | type | default | require | description
 ---- | :----: | :-------: | :--------: | -----------
 **search** | `String` |   | ✔ | Search id our input
-**searchOutputUl** | `String` |   | ✔ | container with our list
+**searchOutputUl** | `String` | `output-list`  |  | container with our list
 **isActive** | `String` | `active` |  | Show/hide our result
 **isLoading** | `String` | `loading`  |  | Spinner class
 **activeList** | `String` | 'active-list'  |  | Highlight li on mouse or keyup/keydown

@@ -26,7 +26,7 @@ props | type | default | require | description
 **searchOutputUl** | `String` | `output-list`  |  | Container with our list
 **isActive** | `String` | `active` |  | Show/hide our result
 **isLoading** | `String` | `loading`  |  | Spinner class
-**activeList** | `String` | 'active-list'  |  | Highlight li on mouse or keyup/keydown
+**activeList** | `String` | `active-list`  |  | Highlight li on mouse or keyup/keydown
 **error** | `String` | `error`  |  | Adding class error
 **placeholderError** | `String` | `something went wrong...`  |  | Adding plaseholder
 **delay** | `Number` | `1000` |  | Delay without which the server would not survive ;)

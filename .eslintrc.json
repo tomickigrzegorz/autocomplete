@@ -1,13 +1,13 @@
 {
+    "extends": [
+        "airbnb-base",
+        "prettier"
+    ],
     "env": {
         "browser": true,
         "es6": true,
         "node": true
     },
-    "extends": [
-        "airbnb-base",
-        "prettier"
-    ],
     "parser": "babel-eslint",
     "globals": {
         "Atomics": "readonly",
@@ -26,7 +26,6 @@
             "smart"
         ],
         "no-useless-return": "error",
-        "no-console": 0,
         "import/prefer-default-export": 0,
         "import": 0,
         "func-names": 0,
@@ -40,6 +39,7 @@
         "no-plusplus": 0,
         "prefer-const": 0,
         "class-methods-use-this": "error",
+        "no-whitespace-before-property": "error",
         "no-unused-vars": [
             1,
             {

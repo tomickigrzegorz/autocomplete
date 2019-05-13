@@ -7,28 +7,19 @@ import { htmlTemplate } from '../helpers/htmlTemplate';
 class SearchJson {
   constructor(options) {
     this.options = options;
-    this.initialSearch(this.options);
-    this.keyCode = {
-      esc: 27,
-      enter: 13,
-      keyUp: 40,
-      keyDown: 38,
-    };
-  }
+    const {
+      delay,
+      search,
+      searchOutputUl,
+      searchBy,
+      error,
+      isLoading,
+      isActive,
+      activeList,
+      placeholderError,
+      howManyCharacters,
+    } = this.options;
 
-  initialSearch({
-    delay,
-    search,
-    searchOutputUl,
-    searchBy,
-    error,
-    isLoading,
-    isActive,
-    activeList,
-    placeholderError,
-    howManyCharacters,
-  }) {
-    let timeout;
     this.search = search;
     this.searchOutputUl = searchOutputUl || 'output-list';
     this.placeholderError = placeholderError || 'something went wrong...';
@@ -39,6 +30,19 @@ class SearchJson {
     this.isActive = isActive || 'active';
     this.howManyCharacters = howManyCharacters || 1;
     this.activeList = activeList || 'active-list';
+    this.keyCode = {
+      esc: 27,
+      enter: 13,
+      keyUp: 40,
+      keyDown: 38,
+    };
+
+    this.initialSearch(searchBy);
+  }
+
+  initialSearch(searchBy) {
+    let timeout;
+
     this.createOutputSearch(this.search);
 
     this.searchId.addEventListener('input', e => {

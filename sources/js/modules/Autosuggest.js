@@ -19,19 +19,26 @@ class SearchJson {
   initialSearch({
     delay,
     search,
+    searchOutputUl,
     searchBy,
     error,
     isLoading,
     isActive,
+    activeList,
     placeholderError,
     howManyCharacters,
   }) {
     let timeout;
 
+    this.searchOutputUl = searchOutputUl || 'output-list';
     this.placeholderError = placeholderError || 'something went wrong...';
     this.errorClass = error || 'error';
     this.isLoading = isLoading || 'loading';
     this.searchId = document.getElementById(search);
+    this.delay = delay || 1000;
+    this.isActive = isActive || 'active';
+    this.howManyCharacters = howManyCharacters || 1;
+    this.activeList = activeList || 'active-list';
     this.createOutputSearch(search);
 
     this.searchId.addEventListener('input', e => {
@@ -44,16 +51,16 @@ class SearchJson {
         ''
       );
 
-      if (escapedChar.length > howManyCharacters) {
-        this.searchId.parentNode.classList.add(isLoading);
+      if (escapedChar.length > this.howManyCharacters) {
+        this.searchId.parentNode.classList.add(this.isLoading);
         if (!timeout) {
           timeout = setTimeout(() => {
             this.searchCountry(escapedChar, searchBy);
             timeout = null;
-          }, delay);
+          }, this.delay);
         }
       } else {
-        removeClass(this.matchList, isActive);
+        removeClass(this.matchList, this.isActive);
       }
       removeClass(this.searchId, this.errorClass);
     });
@@ -74,22 +81,22 @@ class SearchJson {
   }
 
   // hide output div when click on li or press escape
-  closeOutputMatchesList({ search, isActive }) {
+  closeOutputMatchesList(search) {
     document.addEventListener('click', e => {
       e.stopPropagation();
-      const itemActive = document.querySelector(`.${isActive}`);
+      const itemActive = document.querySelector(`.${this.isActive}`);
       if (e.target.id !== search) {
         if (itemActive) {
-          removeClass(itemActive, isActive);
+          removeClass(itemActive, this.isActive);
         }
       }
     });
     // close outpu list when press ESC
     document.addEventListener('keyup', e => {
       if (e.keyCode === this.keyCode.esc) {
-        const itemActive = document.querySelector(`.${isActive}`);
+        const itemActive = document.querySelector(`.${this.isActive}`);
         if (itemActive) {
-          removeClass(itemActive, isActive);
+          removeClass(itemActive, this.isActive);
         }
       }
     });
@@ -98,13 +105,7 @@ class SearchJson {
   // preparation of the list
   outputHtml(matches) {
     if (matches.length > 1) {
-      const {
-        howManyRecordsShow,
-        searchOutputUl,
-        isActive,
-        searchBy,
-        specificOutput,
-      } = this.options;
+      const { howManyRecordsShow, searchBy, specificOutput } = this.options;
 
       const rowMax = howManyRecordsShow || 10;
 
@@ -118,70 +119,71 @@ class SearchJson {
         })
         .join('');
 
-      this.matchList.innerHTML = `<ul id="${searchOutputUl}">${html}</ul>`;
+      this.matchList.innerHTML = `<ul id="${this.searchOutputUl}">${html}</ul>`;
 
-      addClass(this.matchList, isActive);
-      this.addTextFromLiToSearchInput(this.options);
-      this.keyUpInsideUl(this.options);
+      addClass(this.matchList, this.isActive);
+      this.addTextFromLiToSearchInput();
+      this.keyUpInsideUl();
       this.mouseActiveListItem(this.options);
       this.closeOutputMatchesList(this.options);
     }
   }
 
   // adding text from list when enter
-  addTextFromLiToSearchInput({ activeList, isActive, searchOutputUl }) {
+  addTextFromLiToSearchInput() {
     document.addEventListener('keyup', e => {
       e.preventDefault();
       if (this.valueFromSearch.length) {
-        const itemActive = document.querySelector(`li.${activeList} > a`);
+        const itemActive = document.querySelector(`li.${this.activeList} > a`);
         if (e.keyCode === this.keyCode.enter && itemActive != null) {
           const item = e.target;
           document.getElementById(item.id).value = itemActive.innerText.trim();
-          document.getElementById(searchOutputUl).outerHTML = '';
-          removeClass(item.nextSibling, isActive);
-          removeClass(itemActive, activeList);
+          document.getElementById(this.searchOutputUl).outerHTML = '';
+          removeClass(item.nextSibling, this.isActive);
+          removeClass(itemActive, this.activeList);
         }
       }
     });
   }
 
   // setting the active list with the mouse
-  mouseActiveListItem({ search, searchOutputUl, activeList }) {
+  mouseActiveListItem({ search }) {
     const searchOutputUlLi = document.querySelectorAll(
-      `#${searchOutputUl} > li`
+      `#${this.searchOutputUl} > li`
     );
     for (let i = 0; i < searchOutputUlLi.length; i++) {
-      searchOutputUlLi[i].addEventListener('mouseenter', function(e) {
-        const itemActive = document.querySelector(`li.${activeList}`);
+      searchOutputUlLi[i].addEventListener('mouseenter', e => {
+        const itemActive = document.querySelector(`li.${this.activeList}`);
         if (itemActive) {
-          removeClass(itemActive, activeList);
+          removeClass(itemActive, this.activeList);
         }
-        e.target.classList.add(activeList);
+        e.target.classList.add(this.activeList);
       });
     }
-    this.mouseAddListItemToSearchInput({ search, activeList, searchOutputUl });
+    this.mouseAddListItemToSearchInput(search);
   }
 
   // add text from list when click mouse
   // eslint-disable-next-line class-methods-use-this
-  mouseAddListItemToSearchInput({ search, activeList, searchOutputUl }) {
-    const searchOutpuli = document.getElementById(searchOutputUl);
+  mouseAddListItemToSearchInput(search) {
+    const searchOutpuli = document.getElementById(this.searchOutputUl);
     searchOutpuli.addEventListener('click', e => {
       e.preventDefault();
-      const item = document.querySelector(`li.${activeList} > a`).innerText;
+      const item = document.querySelector(`li.${this.activeList} > a`)
+        .innerText;
       document.getElementById(search).value = item.trim();
       searchOutpuli.outerHTML = '';
     });
   }
 
   // navigating the elements li
-  keyUpInsideUl({ searchOutputUl, activeList }) {
+  keyUpInsideUl() {
     let selected = 0;
-    const itemsLi = document.querySelectorAll(`#${searchOutputUl} > li`);
+    const itemsLi = document.querySelectorAll(`#${this.searchOutputUl} > li`);
 
     if (itemsLi.length >= 1) {
       this.searchId.addEventListener('keydown', e => {
-        const itemActive = document.querySelector(`li.${activeList}`);
+        const itemActive = document.querySelector(`li.${this.activeList}`);
         switch (e.keyCode) {
           case this.keyCode.keyUp: {
             selected++;
@@ -189,9 +191,9 @@ class SearchJson {
               selected = 1;
             }
             if (itemActive) {
-              removeClass(itemActive, activeList);
+              removeClass(itemActive, this.activeList);
             }
-            itemsLi[selected - 1].classList.add(activeList);
+            itemsLi[selected - 1].classList.add(this.activeList);
             break;
           }
           case this.keyCode.keyDown: {
@@ -200,9 +202,9 @@ class SearchJson {
               selected = itemsLi.length;
             }
             if (itemActive) {
-              removeClass(itemActive, activeList);
+              removeClass(itemActive, this.activeList);
             }
-            itemsLi[selected - 1].classList.add(activeList);
+            itemsLi[selected - 1].classList.add(this.activeList);
             break;
           }
           default:

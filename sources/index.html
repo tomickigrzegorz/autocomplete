@@ -16,7 +16,6 @@
   <div class="search">
     <input type="text" id="search-second" class="u-full-width" placeholder="Enter city... e.g gu">
   </div>
-
   <div class="search">
     <input type="text" id="search-last" class="u-full-width" placeholder="Enter city... e.g gu">
   </div>
@@ -79,18 +78,10 @@
         }
       });
 
+      // minimal configuration
       new searchJson({
-        delay: 1000,
         search: 'search-second',
-        searchOutputUl: 'output-action-list',
-        isActive: 'active',
-        isLoading: 'loading',
-        activeList: 'active-list',
-        error: 'error',
-        howManyRecordsShow: 10,
-        howManyCharacters: 1,
-        urlPath: 'http://localhost:3004/country?like=',
-        placeholderError: 'something went wrong...',
+        urlPath: 'http://localhost:3005/persons?like=',
         searchBy: 'name',
       });
 

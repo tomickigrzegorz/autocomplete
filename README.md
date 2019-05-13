@@ -30,6 +30,7 @@ props | type | default | require | description
 **error** | `String` | `error`  |  | Adding class error
 **placeholderError** | `String` | `something went wrong...`  |  | Adding plaseholder
 **delay** | `Number` | `1000` |  | Delay without which the server would not survive ;)
+**howManyRecordsShow** | `Number` | `10` |  | How many records will be shown
 **howManyCharacters** | `Number` | `1` |  | The number of characters entered should start searching
 **urlPath** | `String` |   | ✔ | Path to our Rest API
 **searchBy** | `String` |   | ✔ | The name of the element after which we do a search

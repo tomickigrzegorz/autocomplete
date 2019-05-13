@@ -29,17 +29,17 @@ class SearchJson {
     howManyCharacters,
   }) {
     let timeout;
-
+    this.search = search;
     this.searchOutputUl = searchOutputUl || 'output-list';
     this.placeholderError = placeholderError || 'something went wrong...';
     this.errorClass = error || 'error';
     this.isLoading = isLoading || 'loading';
-    this.searchId = document.getElementById(search);
+    this.searchId = document.getElementById(this.search);
     this.delay = delay || 1000;
     this.isActive = isActive || 'active';
     this.howManyCharacters = howManyCharacters || 1;
     this.activeList = activeList || 'active-list';
-    this.createOutputSearch(search);
+    this.createOutputSearch(this.search);
 
     this.searchId.addEventListener('input', e => {
       this.valueFromSearch = e.target.value;
@@ -67,8 +67,8 @@ class SearchJson {
   }
 
   // create output-list and put after search input
-  createOutputSearch(search) {
-    const outputAfterSearch = `${search}-auto`;
+  createOutputSearch() {
+    const outputAfterSearch = `${this.search}-auto`;
     const outputSearch = document.createElement('div');
     outputSearch.id = outputAfterSearch;
     outputSearch.className = 'output-search';
@@ -81,11 +81,11 @@ class SearchJson {
   }
 
   // hide output div when click on li or press escape
-  closeOutputMatchesList(search) {
+  closeOutputMatchesList() {
     document.addEventListener('click', e => {
       e.stopPropagation();
       const itemActive = document.querySelector(`.${this.isActive}`);
-      if (e.target.id !== search) {
+      if (e.target.id !== this.search) {
         if (itemActive) {
           removeClass(itemActive, this.isActive);
         }
@@ -124,8 +124,8 @@ class SearchJson {
       addClass(this.matchList, this.isActive);
       this.addTextFromLiToSearchInput();
       this.keyUpInsideUl();
-      this.mouseActiveListItem(this.options);
-      this.closeOutputMatchesList(this.options);
+      this.mouseActiveListItem();
+      this.closeOutputMatchesList();
     }
   }
 
@@ -147,7 +147,7 @@ class SearchJson {
   }
 
   // setting the active list with the mouse
-  mouseActiveListItem({ search }) {
+  mouseActiveListItem() {
     const searchOutputUlLi = document.querySelectorAll(
       `#${this.searchOutputUl} > li`
     );
@@ -160,18 +160,18 @@ class SearchJson {
         e.target.classList.add(this.activeList);
       });
     }
-    this.mouseAddListItemToSearchInput(search);
+    this.mouseAddListItemToSearchInput();
   }
 
   // add text from list when click mouse
   // eslint-disable-next-line class-methods-use-this
-  mouseAddListItemToSearchInput(search) {
+  mouseAddListItemToSearchInput() {
     const searchOutpuli = document.getElementById(this.searchOutputUl);
     searchOutpuli.addEventListener('click', e => {
       e.preventDefault();
       const item = document.querySelector(`li.${this.activeList} > a`)
         .innerText;
-      document.getElementById(search).value = item.trim();
+      document.getElementById(this.search).value = item.trim();
       searchOutpuli.outerHTML = '';
     });
   }

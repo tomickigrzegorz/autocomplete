@@ -6,8 +6,8 @@ const Dotenv = require('dotenv-webpack');
 
 module.exports = (env, argv) => {
   return {
-    devtool: argv.mode === 'production' ? 'none': 'source-map',
-    mode: argv.mode === 'production' ? 'production': 'development',
+    devtool: argv.mode === 'production' ? 'none' : 'source-map',
+    mode: argv.mode === 'production' ? 'production' : 'development',
     entry: {
       searchJson: './sources/js/index.js',
     },
@@ -16,7 +16,7 @@ module.exports = (env, argv) => {
       filename: './autosuggest.js',
       library: '[name]',
       libraryExport: 'default',
-      libraryTarget: 'var'
+      libraryTarget: 'var',
     },
     module: {
       rules: [
@@ -45,7 +45,7 @@ module.exports = (env, argv) => {
             {
               loader: 'postcss-loader',
               options: {
-                sourceMap: true
+                sourceMap: true,
               },
             },
             {
@@ -64,12 +64,12 @@ module.exports = (env, argv) => {
         verbose: true,
       }),
       new MiniCssExtractPlugin({
-        filename: './autosuggest.css'
+        filename: './autosuggest.css',
       }),
       new HtmlWebPackPlugin({
         filename: 'index.html',
-        template: './sources/index.html'
-      })
-    ]
+        template: './sources/index.html',
+      }),
+    ],
   };
 };

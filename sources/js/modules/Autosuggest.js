@@ -41,7 +41,7 @@ class SearchJson {
   }
 
   initialSearch(searchBy) {
-    let timeout;
+    let timeout = null;
 
     this.createOutputSearch(this.search);
 
@@ -55,17 +55,17 @@ class SearchJson {
         ''
       );
 
-      if (escapedChar.length > this.howManyCharacters) {
-        this.searchId.parentNode.classList.add(this.isLoading);
-        if (!timeout) {
-          timeout = setTimeout(() => {
-            this.searchCountry(escapedChar, searchBy);
-            timeout = null;
-          }, this.delay);
+      clearTimeout(timeout);
+
+      timeout = setTimeout(() => {
+        if (escapedChar.length > this.howManyCharacters) {
+          this.searchId.parentNode.classList.add(this.isLoading);
+          this.searchCountry(escapedChar, searchBy);
+        } else {
+          removeClass(this.matchList, this.isActive);
         }
-      } else {
-        removeClass(this.matchList, this.isActive);
-      }
+      }, this.delay);
+
       removeClass(this.searchId, this.errorClass);
     });
   }

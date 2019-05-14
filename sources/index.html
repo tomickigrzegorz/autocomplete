@@ -17,7 +17,7 @@
     <input type="text" id="search-second" class="u-full-width" placeholder="Enter city... e.g gu">
   </div>
   <div class="search">
-    <input type="text" id="search-last" class="u-full-width" placeholder="Enter city... e.g gu">
+    <input type="text" id="search-last" class="u-full-width" placeholder="Enter city... e.g mi">
   </div>
 
   <script type="text/javascript">
@@ -25,7 +25,7 @@
     window.addEventListener('load', function () {
 
       new searchJson({
-        delay: 1000,
+        delay: 500,
         search: 'search-last',
         searchOutputUl: 'output-list',
         isActive: 'active',
@@ -52,7 +52,7 @@
       });
 
       new searchJson({
-        delay: 1000,
+        delay: 500,
         search: 'search',
         searchOutputUl: 'output-list',
         isActive: 'active',

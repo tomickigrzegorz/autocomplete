@@ -26,7 +26,7 @@ class SearchJson {
     this.errorClass = error || 'error';
     this.isLoading = isLoading || 'loading';
     this.searchId = document.getElementById(this.search);
-    this.delay = delay || 1000;
+    this.delay = delay || 500;
     this.isActive = isActive || 'active';
     this.howManyCharacters = howManyCharacters || 1;
     this.activeList = activeList || 'active-list';

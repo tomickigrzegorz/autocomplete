@@ -1,6 +1,7 @@
 $color-white: #fff;
 $color-gray: #e4e4e4;
 $color-border-active: #ced4da;
+$color-blue: #008cff;
 $color-black: #000;
 $color-error: #ff0000;
 $color-spinner: #ccc;
@@ -26,8 +27,8 @@ $color-spinner: #ccc;
   height: 15px;
   margin-top: -15px;
   border-radius: 50%;
-  border: 2px solid $color-spinner;
-  border-top-color: $color-black;
+  border: 2px solid $color-blue;
+  border-top-color: $color-gray;
   animation: spinner .6s linear infinite;
 }
 
@@ -47,7 +48,8 @@ $color-spinner: #ccc;
     list-style: none;
     margin-bottom: 0;
     border: 1px solid $color-border-active;
-    border-radius: 2px;
+    border-radius: 4px;
+    overflow: hidden;
 
     li {
       cursor: pointer;
@@ -78,14 +80,17 @@ $color-spinner: #ccc;
       display: block;
       position: absolute;
       width: 100%;
-      margin-top: -8px;
+      margin-top: -12px;
       z-index: 1;
+      border-radius: 4px;
+      box-shadow: 0 4px 6px 0 rgba(32, 33, 36, 0.28);
     }
 
   }
 
   .active-list {
     background-color: $color-gray;
+    transition: background-color 0.2s ease-out;
   }
 }
 

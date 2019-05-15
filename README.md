@@ -154,7 +154,8 @@ new searchJson(options);
 
 ## Browser Compatibility
 
-**Desktop:**
+>Desktop:
+
 | Browser | Version |
 | :---- | :-------: |
 | Chrome | 74+ |
@@ -164,7 +165,8 @@ new searchJson(options);
 | Vivaldi | 2.4+ |
 | IE | 10+ |
 
-**Mobile:**
+>Mobile:
+
 | Browser | Version |
 | :---- | :-------: |
 | MI Android | 10.6+ |

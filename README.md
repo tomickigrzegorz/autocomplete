@@ -152,22 +152,26 @@ new searchJson(options);
 
 ![Screenshot2](https://github.com/tomik23/autosuggest/blob/master/static/error.png)
 
-## Tested on
+## Browser Compatibility
 
-* Desktop:
-  * Chrome 74+ ✓
-  * Opera 58+ ✓
-  * Firefox 66+ ✓
-  * Microsoft Edge 44+ ✓
-  * Vivaldi 2.4+ ✓
-  * IE11/IE10 ✓
+**Desktop:**
+Browser | Version
+---- | :----
+**Chrome**|74+
+**Opera** | 58+
+**Firefox**|66+
+**Edge**|44+
+**Vivaldi**|2.4+
+**IE** |10+
 
-* Mobile:
-  + MI Android 10.6 ✓
-  * Chrome 74+ ✓
-  * Firefox 66+ ✓
-  * Opera 51+ ✓
-  * Microsoft Ege 42+ ✓
+**Mobile:**
+Browser | Version
+---- | :----
+**MI Android**|10.6+
+**Chrome**|74+
+**Firefox**|66+
+**Opera**|51+
+**Ege**|42+
 
 ## License
 This project is available under the [MIT](https://opensource.org/licenses/mit-license.php) license.  

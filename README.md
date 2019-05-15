@@ -156,7 +156,7 @@ new searchJson(options);
 
 **Desktop:**
 Browser | Version
----- | :----
+---- | ---------
 **Chrome**|74+
 **Opera** | 58+
 **Firefox**|66+
@@ -166,7 +166,7 @@ Browser | Version
 
 **Mobile:**
 Browser | Version
----- | :----
+---- | ---------
 **MI Android**|10.6+
 **Chrome**|74+
 **Firefox**|66+

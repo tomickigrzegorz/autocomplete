@@ -168,7 +168,6 @@ class SearchJson {
   }
 
   // add text from list when click mouse
-  // eslint-disable-next-line class-methods-use-this
   mouseAddListItemToSearchInput() {
     const searchOutpuli = document.getElementById(this.searchOutputUl);
     searchOutpuli.addEventListener('click', e => {

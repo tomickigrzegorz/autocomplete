@@ -12,9 +12,9 @@ module.exports = (env, argv) => {
       searchJson: './sources/js/index.js',
     },
     output: {
-      path: path.resolve(__dirname, './dist'),
+      path: path.resolve(__dirname, 'dist'),
       filename: './autosuggest.js',
-      library: '[name]',
+      library: 'searchJson',
       libraryExport: 'default',
       libraryTarget: 'var',
     },

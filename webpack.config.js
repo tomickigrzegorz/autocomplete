@@ -16,7 +16,8 @@ module.exports = (env, argv) => {
       filename: './autosuggest.js',
       library: 'searchJson',
       libraryExport: 'default',
-      libraryTarget: 'var',
+      libraryTarget: 'umd',
+      umdNamedDefine: true,
     },
     module: {
       rules: [

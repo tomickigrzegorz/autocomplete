@@ -60,7 +60,7 @@ class SearchJson {
       timeout = setTimeout(() => {
         if (escapedChar.length > this.howManyCharacters) {
           this.searchId.parentNode.classList.add(this.isLoading);
-          this.searchCountry(escapedChar, searchBy);
+          this.searchItem(escapedChar, searchBy);
         } else {
           removeClass(this.matchList, this.isActive);
         }
@@ -219,7 +219,7 @@ class SearchJson {
 
   // The async function gets the text from the search
   // and returns the matching array
-  async searchCountry(searchText, searchBy) {
+  async searchItem(searchText, searchBy) {
     try {
       const res = await fetch(this.options.urlPath + searchText);
       const jsonData = await res.json();

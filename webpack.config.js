@@ -1,8 +1,12 @@
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const Dotenv = require('dotenv-webpack');
+
+function prodPlugin(plugin, argv) {
+  return argv.mode === 'production' ? plugin : () => {};
+}
 
 module.exports = (env, argv) => {
   return {
@@ -61,9 +65,12 @@ module.exports = (env, argv) => {
     },
     plugins: [
       new Dotenv(),
-      new CleanWebpackPlugin({
-        verbose: true,
-      }),
+      prodPlugin(
+        new CleanWebpackPlugin({
+          verbose: true,
+        }),
+        argv
+      ),
       new MiniCssExtractPlugin({
         filename: './autosuggest.css',
       }),

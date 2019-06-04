@@ -1,4 +1,4 @@
-# Simple autosuggest with async/await method
+# Simple autosuggest/autocomplete with async/await method
 
 ## Initialization
 Before the first use, clone this repository and install node dependencies:

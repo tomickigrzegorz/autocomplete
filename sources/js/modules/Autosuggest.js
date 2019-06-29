@@ -1,4 +1,3 @@
-import 'whatwg-fetch';
 import './Autosuggest.scss';
 import { removeClass } from '../helpers/removeClass';
 import { addClass } from '../helpers/addClass';

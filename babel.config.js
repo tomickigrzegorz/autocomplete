@@ -5,7 +5,7 @@ module.exports = {
       {
         // debug: true,
         useBuiltIns: 'usage',
-        corejs: 2,
+        corejs: 3,
       },
     ],
   ],

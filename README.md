@@ -22,19 +22,19 @@ A library [Skeleton CSS](https://github.com/dhg/Skeleton) was used in this proje
 
 props | type | default | require | description
 ---- | :----: | :-------: | :--------: | -----------
-**search** | `String` |   | ✔ | Search id our input
-**searchOutputUl** | `String` | `output-list`  |  | Container with our list
-**isActive** | `String` | `active` |  | Show/hide our result
-**isLoading** | `String` | `loading`  |  | Spinner class
-**activeList** | `String` | `active-list`  |  | Highlight li on mouse or keyup/keydown
-**error** | `String` | `error`  |  | Adding class error
-**placeholderError** | `String` | `something went wrong...`  |  | Adding plaseholder
-**delay** | `Number` | `1000` |  | Delay without which the server would not survive ;)
-**howManyRecordsShow** | `Number` | `10` |  | How many records will be shown
-**howManyCharacters** | `Number` | `1` |  | The number of characters entered should start searching
-**urlPath** | `String` |   | ✔ | Path to our Rest API
-**searchBy** | `String` |   | ✔ | The name of the element after which we do a search
-**specificOutput** | `Function` | `<li><a href="searchBy">searchBy</a></li>` |  | Function that creates the appearance of the result
+`search` | `String` |   | ✔ | Search id our input
+`searchOutputUl` | `String` | `output-list`  |  | Container with our list
+`isActive` | `String` | `active` |  | Show/hide our result
+`isLoading` | `String` | `loading`  |  | Spinner class
+`activeList` | `String` | `active-list`  |  | Highlight li on mouse or keyup/keydown
+`error` | `String` | `error`  |  | Adding class error
+`placeholderError` | `String` | `something went wrong...`  |  | Adding plaseholder
+`delay` | `Number` | `1000` |  | Delay without which the server would not survive ;)
+`howManyRecordsShow` | `Number` | `10` |  | How many records will be shown
+`howManyCharacters` | `Number` | `1` |  | The number of characters entered should start searching
+`urlPath` | `String` |   | ✔ | Path to our Rest API
+`searchBy` | `String` |   | ✔ | The name of the element after which we do a search
+`specificOutput` | `Function` | `<li><a href="searchBy">searchBy</a></li>` |  | Function that creates the appearance of the result
 
 HTML
 ```html

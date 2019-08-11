@@ -10,8 +10,8 @@ function prodPlugin(plugin, argv) {
 
 module.exports = (env, argv) => {
   return {
-    devtool: argv.mode === 'production' ? 'none' : 'source-map',
-    mode: argv.mode === 'production' ? 'production' : 'development',
+    devtool: argv.mode === 'production' ? 'none' : 'eval-source-map',
+    // mode: argv.mode === 'production' ? 'production' : 'development',
     entry: {
       searchJson: './sources/js/index.js',
     },

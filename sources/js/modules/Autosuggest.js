@@ -224,7 +224,7 @@ class SearchJson {
       const jsonData = await res.json();
 
       let matches = jsonData.filter(element => {
-        const regex = new RegExp(`^${searchText}`, 'gi');
+        const regex = new RegExp(`${searchText}`, 'gi');
         return element[searchBy].match(regex);
       });
 

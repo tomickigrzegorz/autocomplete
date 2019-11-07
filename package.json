@@ -1,6 +1,6 @@
 {
   "name": "autosuggest",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "index.js",
   "license": "MIT",
   "author": "Grzegorz Tomicki <gtomik@gmail.com>",
@@ -23,16 +23,16 @@
     "not dead"
   ],
   "devDependencies": {
-    "@babel/core": "^7.6.4",
-    "@babel/polyfill": "^7.6.0",
-    "@babel/preset-env": "^7.6.3",
-    "autoprefixer": "^9.7.0",
+    "@babel/core": "^7.7.2",
+    "@babel/polyfill": "^7.7.0",
+    "@babel/preset-env": "^7.7.1",
+    "autoprefixer": "^9.7.1",
     "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.6",
     "browser-sync": "^2.26.7",
     "clean-webpack-plugin": "^3.0.0",
     "concurrently": "^5.0.0",
-    "core-js": "^3.3.4",
+    "core-js": "^3.4.0",
     "css-loader": "^3.2.0",
     "cssnano": "^4.1.10",
     "dotenv-webpack": "^1.7.0",
@@ -52,7 +52,7 @@
     "style-loader": "^1.0.0",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.9",
+    "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.9.0"
   }
 }

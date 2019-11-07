@@ -11,14 +11,13 @@ function prodPlugin(plugin, argv) {
 module.exports = (env, argv) => {
   return {
     devtool: argv.mode === 'production' ? 'none' : 'eval-source-map',
-    // mode: argv.mode === 'production' ? 'production' : 'development',
     entry: {
-      searchJson: './sources/js/index.js',
+      Autosuggest: './sources/js/Autosuggest.js',
     },
     output: {
       path: path.resolve(__dirname, 'dist'),
-      filename: './autosuggest.js',
-      library: 'searchJson',
+      filename: './[name].js',
+      library: '[name]',
       libraryExport: 'default',
       libraryTarget: 'umd',
       umdNamedDefine: true,
@@ -26,7 +25,6 @@ module.exports = (env, argv) => {
     module: {
       rules: [
         {
-          // JS
           test: /\.js$/,
           exclude: /node_modules/,
           use: {
@@ -34,7 +32,6 @@ module.exports = (env, argv) => {
           },
         },
         {
-          // CSS SASS SCSS
           test: /\.(css|sass|scss)$/,
           use: [
             argv.mode === 'development'
@@ -72,7 +69,7 @@ module.exports = (env, argv) => {
         argv
       ),
       new MiniCssExtractPlugin({
-        filename: './autosuggest.css',
+        filename: './[name].css',
       }),
       new HtmlWebPackPlugin({
         filename: 'index.html',

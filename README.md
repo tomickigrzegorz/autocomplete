@@ -32,7 +32,8 @@ props | type | default | require | description
 `delay` | `Number` | `1000` |  | Delay without which the server would not survive ;)
 `howManyRecordsShow` | `Number` | `10` |  | How many records will be shown
 `howManyCharacters` | `Number` | `1` |  | The number of characters entered should start searching
-`urlPath` | `String` |   | ✔ | Path to our Rest API
+`dataAPI -> api` | `Boolean` |   | ✔ | Switch to show if data is from API or local json file - true/false
+`dataAPI -> path` | `String` |   | ✔ | Path to our Rest API or static file
 `searchBy` | `String` |   | ✔ | The name of the element after which we do a search
 `specificOutput` | `Function` | `<li><a href="searchBy">searchBy</a></li>` |  | Function that creates the appearance of the result
 
@@ -55,7 +56,10 @@ JAVASCRIPT
              delay: 1000,
 howManyRecordsShow: 10,
  howManyCharacters: 1,
-           urlPath: process.env.ASSET_PATH
+           dataAPI: {
+               api: true,
+              path: process.env.ASSET_PATH
+          },
           searchBy: 'name'
     specificOutput: function ({ name, gender, address, matches }) {
           return '' +
@@ -77,9 +81,12 @@ howManyRecordsShow: 10,
 Minimal config
 ```javascript
 const options = {
-  search: 'search',
-  urlPath: process.env.ASSET_PATH,
-  searchBy: 'name',
+   search: 'search',
+  dataAPI: {
+      api: true
+     path: process.env.ASSET_PATH
+ },
+ searchBy: 'name',
 });
 ```
 

@@ -57,7 +57,7 @@ class Autosuggest {
       clearTimeout(timeout);
 
       timeout = setTimeout(() => {
-        if (escapedChar.length > this.howManyCharacters) {
+        if (escapedChar.length >= this.howManyCharacters) {
           this.searchId.parentNode.classList.add(this.isLoading);
           this.searchItem(escapedChar, searchBy);
         } else {

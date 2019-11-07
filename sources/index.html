@@ -22,9 +22,9 @@
 
   <script type="text/javascript">
 
-    window.addEventListener('load', function () {
+    window.addEventListener('DOMContentLoaded', function () {
 
-      new searchJson({
+      new Autosuggest({
         delay: 500,
         search: 'search-last',
         searchOutputUl: 'output-list',
@@ -34,7 +34,10 @@
         error: 'error',
         howManyRecordsShow: 10,
         howManyCharacters: 1,
-        urlPath: 'http://localhost:3005/persons?like=',
+        dataAPI: {
+          api: true,
+          path: 'http://localhost:3005/persons?like='
+        },
         placeholderError: 'something went wrong...',
         searchBy: 'name',
         specificOutput: function ({ name, gender, address, matches }) {
@@ -51,7 +54,7 @@
         }
       });
 
-      new searchJson({
+      new Autosuggest({
         delay: 500,
         search: 'search',
         searchOutputUl: 'output-list',
@@ -61,7 +64,10 @@
         error: 'error',
         howManyRecordsShow: 10,
         howManyCharacters: 1,
-        urlPath: 'http://localhost:3005/persons?like=',
+        dataAPI: {
+          api: true,
+          path: 'http://localhost:3005/persons?like='
+        },
         placeholderError: 'something went wrong...',
         searchBy: 'name',
         specificOutput: function (options) {
@@ -79,9 +85,12 @@
       });
 
       // minimal configuration
-      new searchJson({
+      new Autosuggest({
         search: 'search-second',
-        urlPath: 'http://localhost:3004/country?like=',
+        dataAPI: {
+          api: true,
+          path: 'http://localhost:3004/country?like='
+        },
         searchBy: 'name',
       });
 

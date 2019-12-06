@@ -1,11 +1,11 @@
-import { classListSupport } from './classListSupport.js';
+import classListSupport from './classListSupport';
 
 const hasClass = classListSupport
-  ? function(el, str) {
+  ? (el, str) => {
       return el.classList.contains(str);
     }
-  : function(el, str) {
+  : (el, str) => {
       return el.className.indexOf(str) >= 0;
     };
 
-export { classListSupport, hasClass };
+export default hasClass;

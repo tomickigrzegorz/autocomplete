@@ -8,4 +8,4 @@ const htmlTemplate = ({ match, matches, searchBy }) => {
     </li>`;
 };
 
-export { htmlTemplate };
+export default htmlTemplate;

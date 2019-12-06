@@ -1,15 +1,16 @@
-import { classListSupport, hasClass } from './hasClass.js';
+import hasClass from './hasClass';
+import classListSupport from './classListSupport';
 
 const addClass = classListSupport
-  ? function(el, str) {
+  ? (el, str) => {
       if (!hasClass(el, str)) {
         el.classList.add(str);
       }
     }
-  : function(el, str) {
+  : (el, str) => {
       if (!hasClass(el, str)) {
         el.className += ` ${str}`;
       }
     };
 
-export { addClass };
+export default addClass;

@@ -1,15 +1,16 @@
-import { classListSupport, hasClass } from './hasClass.js';
+import hasClass from './hasClass';
+import classListSupport from './classListSupport';
 
 const removeClass = classListSupport
-  ? function(el, str) {
+  ? (el, str) => {
       if (hasClass(el, str)) {
         el.classList.remove(str);
       }
     }
-  : function(el, str) {
+  : (el, str) => {
       if (hasClass(el, str)) {
         el.className = el.className.replace(str, '');
       }
     };
 
-export { removeClass };
+export default removeClass;

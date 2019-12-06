@@ -1,7 +1,7 @@
 import './Autosuggest.scss';
-import { removeClass } from './helpers/removeClass';
-import { addClass } from './helpers/addClass';
-import { htmlTemplate } from './helpers/htmlTemplate';
+import removeClass from './helpers/removeClass';
+import addClass from './helpers/addClass';
+import htmlTemplate from './helpers/htmlTemplate';
 
 class Autosuggest {
   constructor(options) {
@@ -50,7 +50,7 @@ class Autosuggest {
 
       const escapedChar = this.valueFromSearch.replace(
         // eslint-disable-next-line no-useless-escape
-        /[`~!@#$%^&*()_|+\-=÷¿?;:'",.<>\{\}\[\]\\\/]/gi,
+        /[`~!@#$%^&*()_|+\-=÷¿?;:'",.<>\{\}\[\]\\\/]/g,
         ''
       );
 

@@ -1,8 +1,9 @@
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const Dotenv = require('dotenv-webpack');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 function prodPlugin(plugin, argv) {
   return argv.mode === 'production' ? plugin : () => {};
@@ -75,6 +76,13 @@ module.exports = (env, argv) => {
         filename: 'index.html',
         template: './sources/index.html',
       }),
+      prodPlugin(
+        new BundleAnalyzerPlugin({
+          openAnalyzer: true,
+          generateStatsFile: true,
+        }),
+        argv
+      ),
     ],
   };
 };

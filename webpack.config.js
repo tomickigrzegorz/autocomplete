@@ -5,13 +5,14 @@ const Dotenv = require('dotenv-webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
-function prodPlugin(plugin, argv) {
-  return argv.mode === 'production' ? plugin : () => {};
+function prodPlugin(plugin, mode) {
+  return mode ? () => {} : plugin;
 }
 
-module.exports = (env, argv) => {
+module.exports = (env, { mode }) => {
+  const inDev = mode === 'development';
   return {
-    devtool: argv.mode === 'production' ? 'none' : 'eval-source-map',
+    devtool: inDev ? 'source-map' : 'none',
     entry: {
       Autosuggest: './sources/js/Autosuggest.js',
     },
@@ -35,9 +36,7 @@ module.exports = (env, argv) => {
         {
           test: /\.(css|sass|scss)$/,
           use: [
-            argv.mode === 'development'
-              ? 'style-loader'
-              : MiniCssExtractPlugin.loader,
+            inDev ? 'style-loader' : MiniCssExtractPlugin.loader,
             {
               loader: 'css-loader',
               options: {
@@ -67,7 +66,7 @@ module.exports = (env, argv) => {
         new CleanWebpackPlugin({
           verbose: true,
         }),
-        argv
+        mode
       ),
       new MiniCssExtractPlugin({
         filename: './[name].css',
@@ -81,7 +80,7 @@ module.exports = (env, argv) => {
           openAnalyzer: true,
           generateStatsFile: true,
         }),
-        argv
+        mode
       ),
     ],
   };

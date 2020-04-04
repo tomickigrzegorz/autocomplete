@@ -17,7 +17,7 @@ module.exports = (env, { mode }) => {
       Autosuggest: './sources/js/Autosuggest.js',
     },
     output: {
-      path: path.resolve(__dirname, 'docs'),
+      path: path.resolve(__dirname, 'dist'),
       filename: './[name].js',
       library: '[name]',
       libraryExport: 'default',

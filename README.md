@@ -1,6 +1,6 @@
 # Simple autosuggest/autocomplete with async/await method
 
-[Live DEMO](https://tomik23.github.io/autosuggest/)
+[Live DEMO](http://www.grzegorztomicki.pl/serwisy/autosuggest/)
 
 ## Initialization
 Before the first use, clone this repository and install node dependencies:

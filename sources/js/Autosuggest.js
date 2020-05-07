@@ -1,4 +1,6 @@
 import './Autosuggest.scss';
+
+import 'whatwg-fetch';
 import removeClass from './helpers/removeClass';
 import addClass from './helpers/addClass';
 import htmlTemplate from './helpers/htmlTemplate';
@@ -44,7 +46,7 @@ class Autosuggest {
 
     this.createOutputSearch(this.search);
 
-    this.searchId.addEventListener('input', e => {
+    this.searchId.addEventListener('input', (e) => {
       this.valueFromSearch = e.target.value;
       this.classSearch = e.target.parentNode;
 
@@ -85,7 +87,7 @@ class Autosuggest {
 
   // hide output div when click on li or press escape
   closeOutputMatchesList() {
-    document.addEventListener('click', e => {
+    document.addEventListener('click', (e) => {
       e.stopPropagation();
       const itemActive = document.querySelector(`.${this.isActive}`);
       if (e.target.id !== this.search) {
@@ -95,7 +97,7 @@ class Autosuggest {
       }
     });
     // close outpu list when press ESC
-    document.addEventListener('keyup', e => {
+    document.addEventListener('keyup', (e) => {
       if (e.keyCode === this.keyCode.esc) {
         const itemActive = document.querySelector(`.${this.isActive}`);
         if (itemActive) {
@@ -113,8 +115,8 @@ class Autosuggest {
       const rowMax = howManyRecordsShow || 10;
 
       const html = matches
-        .filter((test, index) => index > 0 && index <= rowMax)
-        .map(match => {
+        .filter((_, index) => index > 0 && index <= rowMax)
+        .map((match) => {
           const htmlTemp = specificOutput
             ? specificOutput({ ...match, matches })
             : htmlTemplate({ match, matches, searchBy });
@@ -134,7 +136,7 @@ class Autosuggest {
 
   // adding text from list when enter
   addTextFromLiToSearchInput() {
-    document.addEventListener('keyup', e => {
+    document.addEventListener('keyup', (e) => {
       e.preventDefault();
       if (this.valueFromSearch.length) {
         const itemActive = document.querySelector(`li.${this.activeList} > a`);
@@ -155,7 +157,7 @@ class Autosuggest {
       `#${this.searchOutputUl} > li`
     );
     for (let i = 0; i < searchOutputUlLi.length; i++) {
-      searchOutputUlLi[i].addEventListener('mouseenter', e => {
+      searchOutputUlLi[i].addEventListener('mouseenter', (e) => {
         const itemActive = document.querySelector(`li.${this.activeList}`);
         if (itemActive) {
           removeClass(itemActive, this.activeList);
@@ -169,7 +171,7 @@ class Autosuggest {
   // add text from list when click mouse
   mouseAddListItemToSearchInput() {
     const searchOutpuli = document.getElementById(this.searchOutputUl);
-    searchOutpuli.addEventListener('click', e => {
+    searchOutpuli.addEventListener('click', (e) => {
       e.preventDefault();
       const item = document.querySelector(`li.${this.activeList} > a`)
         .innerText;
@@ -181,10 +183,12 @@ class Autosuggest {
   // navigating the elements li
   keyUpInsideUl() {
     let selected = 0;
-    const itemsLi = document.querySelectorAll(`#${this.searchOutputUl} > li`);
+    const itemsLi = document.querySelectorAll(
+      `.${this.isActive} > #${this.searchOutputUl} > li`
+    );
 
     if (itemsLi.length >= 1) {
-      this.searchId.addEventListener('keydown', e => {
+      this.searchId.addEventListener('keydown', (e) => {
         const itemActive = document.querySelector(`li.${this.activeList}`);
         switch (e.keyCode) {
           case this.keyCode.keyUp: {
@@ -226,7 +230,9 @@ class Autosuggest {
       const res = await fetch(dataResponse);
       const jsonData = await res.json();
 
-      let matches = jsonData.filter(element => {
+      // console.log('ok');
+
+      let matches = jsonData.filter((element) => {
         const regex = new RegExp(`${searchText}`, 'gi');
         return element[searchBy].match(regex);
       });

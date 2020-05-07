@@ -6,24 +6,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Autosuggest</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
 </head>
 
 <body>
-  <div class="search">
-    <input type="text" id="search" class="u-full-width" placeholder="Enter person name... e.g mi">
+  <div class="container">
+    <div class="search">
+      <input type="text" id="search" class="full-width" placeholder="Enter person name... e.g mi">
+    </div>
+    <div class="search">
+      <input type="text" id="search-second" class="full-width" placeholder="Enter city... e.g gu">
+    </div>
+    <div class="search">
+      <input type="text" id="search-last" class="full-width" placeholder="Enter city... e.g mi">
+    </div>
   </div>
-  <div class="search">
-    <input type="text" id="search-second" class="u-full-width" placeholder="Enter city... e.g gu">
-  </div>
-  <div class="search">
-    <input type="text" id="search-last" class="u-full-width" placeholder="Enter city... e.g mi">
-  </div>
-
   <script type="text/javascript">
-
     window.addEventListener('DOMContentLoaded', function () {
-
       new Autosuggest({
         delay: 500,
         search: 'search-last',
@@ -36,22 +34,23 @@
         howManyCharacters: 2,
         dataAPI: {
           api: true,
-          path: 'http://localhost:3005/persons?like='
+          path: 'http://localhost:3005/persons?like=',
         },
         placeholderError: 'something went wrong...',
         searchBy: 'name',
-        specificOutput: function ({ name, gender, address, matches }) {
-          return '' +
-            '<li>' +
-            '<a href=' + name + '>' +
-            name.replace(new RegExp(matches[0], 'i'), str => '<b>' + str + '</b>') +
-            '</a>' +
+        specificOutput({ name, gender, address, matches }) {
+          return (
+            `${'' + '<li>' + '<a href='}${name}>${name.replace(
+              new RegExp(matches[0], 'i'),
+              str => `<b>${str}</b>`
+            )}</a>` +
             '<div class="info">' +
-            '<div class="icon gender-' + gender + '"></div>' +
-            '<div class="address">' + address + '</div>' +
+            `<div class="icon gender-${gender}"></div>` +
+            `<div class="address">${address}</div>` +
             '</div>' +
-            '</li>';
-        }
+            '</li>'
+          );
+        },
       });
 
       new Autosuggest({
@@ -66,22 +65,25 @@
         howManyCharacters: 2,
         dataAPI: {
           api: true,
-          path: 'http://localhost:3005/persons?like='
+          path: 'http://localhost:3005/persons?like=',
         },
         placeholderError: 'something went wrong...',
         searchBy: 'name',
-        specificOutput: function (options) {
-          return '' +
-            '<li>' +
-            '<a href=' + options['name'] + '>' +
-            options['name'].replace(new RegExp(options['matches'][0], 'i'), function (str) { return '<b>' + str + '</b>' }) +
-            '</a>' +
+        specificOutput(options) {
+          return (
+            `${'' + '<li>' + '<a href='}${options.name}>${options.name.replace(
+              new RegExp(options.matches[0], 'i'),
+              function (str) {
+                return `<b>${str}</b>`;
+              }
+            )}</a>` +
             '<div class="info">' +
-            '<div class="icon gender-' + options['gender'] + '"></div>' +
-            '<div class="address">' + options['address'] + '</div>' +
+            `<div class="icon gender-${options.gender}"></div>` +
+            `<div class="address">${options.address}</div>` +
             '</div>' +
-            '</li>';
-        }
+            '</li>'
+          );
+        },
       });
 
       // minimal configuration
@@ -89,11 +91,10 @@
         search: 'search-second',
         dataAPI: {
           api: true,
-          path: 'http://localhost:3004/country?like='
+          path: 'http://localhost:3004/country?like=',
         },
         searchBy: 'name',
       });
-
     });
   </script>
 </body>

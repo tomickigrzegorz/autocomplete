@@ -2,11 +2,12 @@ const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const Dotenv = require('dotenv-webpack');
+const CopyPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 function prodPlugin(plugin, mode) {
-  return mode ? () => {} : plugin;
+  return mode === 'development' ? () => { } : plugin;
 }
 
 module.exports = (env, { mode }) => {
@@ -17,7 +18,7 @@ module.exports = (env, { mode }) => {
       Autosuggest: './sources/js/Autosuggest.js',
     },
     output: {
-      path: path.resolve(__dirname, 'dist'),
+      path: path.resolve(__dirname, 'docs'),
       filename: './[name].js',
       library: '[name]',
       libraryExport: 'default',
@@ -68,20 +69,40 @@ module.exports = (env, { mode }) => {
         }),
         mode
       ),
+      prodPlugin(
+        new CopyPlugin([
+          {
+            from: 'static/_country.json',
+            to: './'
+          },
+          {
+            from: 'static/_persons.json',
+            to: './'
+          },
+        ]),
+        mode
+      ),
       new MiniCssExtractPlugin({
         filename: './[name].css',
       }),
       new HtmlWebPackPlugin({
         filename: 'index.html',
         template: './sources/index.html',
+        minify: {
+          collapseWhitespace: true,
+          removeComments: true,
+          removeScriptTypeAttributes: true,
+          removeStyleLinkTypeAttributes: true,
+          useShortDoctype: true
+        },
       }),
-      prodPlugin(
-        new BundleAnalyzerPlugin({
-          openAnalyzer: true,
-          generateStatsFile: true,
-        }),
-        mode
-      ),
+      // prodPlugin(
+      //   new BundleAnalyzerPlugin({
+      //     openAnalyzer: true,
+      //     // generateStatsFile: true,
+      //   }),
+      //   mode
+      // ),
     ],
   };
 };

@@ -2,6 +2,14 @@
 
 [Live DEMO](http://www.grzegorztomicki.pl/serwisy/autosuggest/)
 
+
+![Screenshot1](https://github.com/tomik23/autosuggest/blob/master/static/your-template.png)
+
+> The appearance of the error
+
+![Screenshot2](https://github.com/tomik23/autosuggest/blob/master/static/error.png)
+
+
 ## Initialization
 Before the first use, clone this repository and install node dependencies:
 
@@ -86,7 +94,7 @@ const options = {
    search: 'search',
   dataAPI: {
       api: true
-     path: process.env.ASSET_PATH
+     path: process.env.ASSET_PATH // 'http://api.com.pl/' or './static/_persons.json',
  },
  searchBy: 'name',
 });
@@ -154,12 +162,6 @@ specificOutput: function (options) {
 
 new searchJson(options);
 ```
-
-![Screenshot1](https://github.com/tomik23/autosuggest/blob/master/static/your-template.png)
-
-> The appearance of the error
-
-![Screenshot2](https://github.com/tomik23/autosuggest/blob/master/static/error.png)
 
 ## Browsers support
 

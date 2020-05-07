@@ -13,7 +13,12 @@
     [
       "@babel/plugin-transform-runtime",
       {
-        "corejs": 3
+        "absoluteRuntime": false,
+        "corejs": false,
+        "helpers": true,
+        "regenerator": true,
+        "useESModules": false,
+        "version": "7.9.6"
       }
     ]
   ]

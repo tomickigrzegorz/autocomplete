@@ -3,6 +3,7 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyPlugin = require('copy-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
@@ -61,6 +62,12 @@ module.exports = (env, { mode }) => {
         },
       ],
     },
+    optimization: {
+      minimize: true,
+      minimizer: [
+        new TerserPlugin({}),
+      ]
+    },
     plugins: [
       new Dotenv(),
       prodPlugin(
@@ -96,13 +103,13 @@ module.exports = (env, { mode }) => {
           useShortDoctype: true
         },
       }),
-      // prodPlugin(
-      //   new BundleAnalyzerPlugin({
-      //     openAnalyzer: true,
-      //     // generateStatsFile: true,
-      //   }),
-      //   mode
-      // ),
+      prodPlugin(
+        new BundleAnalyzerPlugin({
+          openAnalyzer: true,
+          // generateStatsFile: true,
+        }),
+        mode
+      ),
     ],
   };
 };

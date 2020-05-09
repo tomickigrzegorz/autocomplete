@@ -92,6 +92,7 @@ Minimal config
 ```javascript
 const options = {
     search: 'search',
+  searchBy: 'name',
    dataAPI: {
 
 // searched from static file
@@ -105,8 +106,7 @@ searchLike: false
 // searched from dynamic API https://yoururl.com?like=searched-text
 searchLike: true
       path: 'https://jsonplaceholder.typicode.com/users?name_like='
- },
-  searchBy: 'name',
+ }
 });
 ```
 
@@ -182,6 +182,33 @@ new searchJson(options);
 | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>IE / Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png" alt="Opera" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Opera | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/vivaldi/vivaldi_48x48.png" alt="Vivaldi" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Vivaldi |
 | --------- | --------- | --------- | --------- | --------- |
 | IE10, IE11, Edge| last 2 versions| last 2 versions| last 2 versions| last 2 versions
+
+## IE10, IE11
+
+Will work if you use polyfill for promise.
+There are three ways to add this polyfill:
+
+1. Add the following script to your html
+```html
+<script type="text/javascript">
+  if (!('Promise' in window)) {
+    var script = document.createElement("script");
+    script.src = "https://polyfill.io/v3/polyfill.min.js?features=Promise";
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+</script>
+```
+
+2. Add the script below to head in html 
+```html
+<script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"></script>
+```
+
+3. Add pollyfill to Autosuggest.js and build the script again 
+```javascript
+import 'promise-polyfill/src/polyfill';
+```
+
 
 ## License
 This project is available under the [MIT](https://opensource.org/licenses/mit-license.php) license.  

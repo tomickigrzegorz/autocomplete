@@ -38,6 +38,9 @@ body {
 
 .container {
   margin-top: 30px;
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto;
 }
 
 .loading:before {
@@ -56,10 +59,14 @@ body {
   animation: spinner .6s linear infinite;
 }
 
+.label {
+  display: block;
+  font-size: 80%;
+}
+
 .search {
   position: relative;
   display: block;
-  width: 400px;
   margin: 10px auto;
 
   input {
@@ -109,6 +116,7 @@ body {
       outline: none;
     }
   }
+
 
   .full-width {
     width: 100%;

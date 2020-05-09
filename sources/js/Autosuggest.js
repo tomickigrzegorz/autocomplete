@@ -224,8 +224,8 @@ class Autosuggest {
   // and returns the matching array
   async searchItem(searchText, searchBy) {
     try {
-      const { api, path } = this.options.dataAPI;
-      const dataResponse = api === true ? path + searchText : path;
+      const { searchLike, path } = this.options.dataAPI;
+      const dataResponse = searchLike === true ? path + searchText : path;
 
       const res = await fetch(dataResponse);
       const jsonData = await res.json();

@@ -34,7 +34,7 @@ props | type | default | require | description
 ---- | :----: | :-------: | :--------: | -----------
 search | String |   | ✔ | Search id our input
 searchBy | String |   | ✔ | The name of the element after which we do a search
-dataAPI -> searchLike | Boolean |   | ✔ | This parameter controls whether we append the search text to http://localhost:3005/persons?like=search-text
+dataAPI -> searchLike | Boolean |   | ✔ | This parameter controls whether we append the search text to url http://localhost:3005/persons?like=search-text
 dataAPI -> path | String |   | ✔ | Path to our Rest API or static file
 searchOutputUl | String | `output-list`  |  | Container with our list
 isActive | String | `active` |  | Show/hide our result
@@ -67,7 +67,7 @@ JAVASCRIPT
 howManyRecordsShow: 10,
  howManyCharacters: 1,
            dataAPI: {
-               api: true,
+        searchLike: true,
               path: process.env.ASSET_PATH
           },
           searchBy: 'name'
@@ -91,14 +91,28 @@ howManyRecordsShow: 10,
 Minimal config
 ```javascript
 const options = {
-   search: 'search',
-  dataAPI: {
-      api: true
-     path: process.env.ASSET_PATH // 'http://api.com.pl/' or './static/_persons.json',
+    search: 'search',
+   dataAPI: {
+
+// searched from static file
+searchLike: false
+      path: './static/_persons.json'
+
+// searched from https://yoururl.com
+searchLike: false
+      path: 'https://jsonplaceholder.typicode.com/users'
+
+// searched from dynamic API https://yoururl.com?line=searched-text
+searchLike: true
+      path: 'https://jsonplaceholder.typicode.com/users?name_like='
  },
- searchBy: 'name',
+  searchBy: 'name',
 });
 ```
+
+## ATTENTION
+> The `searchLike` parameter is responsible for the way the data will be downloaded. If our api allows you to download data dynamically to the parameter `searchLike: true` the search text will be appended to the link `https://jsonplaceholder.typicode.com/users?name_like=appended-text` if our api does not support it or we want to download from a static json file then set the parameter `searchLike: false` and `https://jsonplaceholder.typicode.com/users'`.
+
 
 ## Add your own result template
 

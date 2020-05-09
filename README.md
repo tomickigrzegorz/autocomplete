@@ -50,8 +50,11 @@ specificOutput | Function | `<li><a href="searchBy">searchBy</a></li>` |  | Func
 
 ### HTML
 ```html
-<div class="search">
-  <input type="text" id="search" class="u-full-width" placeholder="Enter country...">
+<div class="row">
+  <label class="label" for="search">Search by letter</label>
+  <div class="search">
+    <input type="text" id="search" class="full-width" placeholder="Enter letter">
+  </div>
 </div>
 ```
 ### JAVASCRIPT

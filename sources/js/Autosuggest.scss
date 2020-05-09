@@ -3,7 +3,7 @@
 $color-white: #fff;
 $color-gray: #e4e4e4;
 $color-border-active: #ced4da;
-$color-blue: #008cff;
+$color-blue: rgb(0, 140, 255);
 $color-black: #000;
 $color-error: #ff0000;
 $color-spinner: #ccc;
@@ -55,6 +55,7 @@ body {
   height: 15px;
   border-radius: 50%;
   border: 2px solid $color-blue;
+  border-left-color: $color-gray;
   border-top-color: $color-gray;
   animation: spinner .6s linear infinite;
 }
@@ -151,6 +152,10 @@ body {
   .active-list {
     background-color: $color-gray;
     transition: background-color 0.2s ease-out;
+
+    +li:before {
+      border-top: none;
+    }
   }
 }
 

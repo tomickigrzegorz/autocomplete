@@ -1,6 +1,7 @@
 import './Autosuggest.scss';
 
 import 'whatwg-fetch';
+// import 'promise-polyfill/src/polyfill';
 import removeClass from './helpers/removeClass';
 import addClass from './helpers/addClass';
 import htmlTemplate from './helpers/htmlTemplate';

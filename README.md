@@ -1,7 +1,8 @@
 # Simple autosuggest/autocomplete with async/await method
 
-[Live DEMO](http://www.grzegorztomicki.pl/serwisy/autosuggest/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
+[Live DEMO](http://www.grzegorztomicki.pl/serwisy/autosuggest/)
 
 ![Screenshot1](https://github.com/tomik23/autosuggest/blob/master/static/your-template.png)
 
@@ -47,13 +48,13 @@ howManyRecordsShow | Number | `10` |  | How many records will be shown
 howManyCharacters | Number | `1` |  | The number of characters entered should start searching
 specificOutput | Function | `<li><a href="searchBy">searchBy</a></li>` |  | Function that creates the appearance of the result
 
-HTML
+### HTML
 ```html
 <div class="search">
   <input type="text" id="search" class="u-full-width" placeholder="Enter country...">
 </div>
 ```
-JAVASCRIPT
+### JAVASCRIPT
 ```javascript
   const options = {
             search: 'search',
@@ -88,7 +89,7 @@ howManyRecordsShow: 10,
   new searchJson(options);
 ```
 
-Minimal config
+### Minimal config
 ```javascript
 const options = {
     search: 'search',
@@ -135,7 +136,7 @@ We have json, are looking for the element by ```name```
 We need to add your own look of search results
 > Important if you want to have the highlighted text you have typed in the matches variable must be added adding last element ```matches```
 
-E6 version
+### E6 version
 ```html
 ...
 searchBy: 'name',
@@ -156,7 +157,7 @@ specificOutput: function ({ name, gender, address, matches }) {
 new searchJson(options);
 ```
 
-E5 version compatible with IE10/11
+### E5 version compatible with IE10/11
 ```html
 ...
 searchBy: 'name',
@@ -183,7 +184,7 @@ new searchJson(options);
 | --------- | --------- | --------- | --------- | --------- |
 | IE10, IE11, Edge| last 2 versions| last 2 versions| last 2 versions| last 2 versions
 
-## IE10, IE11
+### IE10, IE11
 
 Will work if you use polyfill for promise.
 There are three ways to add this polyfill:

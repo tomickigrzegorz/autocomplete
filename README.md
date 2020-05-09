@@ -111,7 +111,7 @@ searchLike: true
 ```
 
 ## ATTENTION
-> The `searchLike` parameter is responsible for the way the data will be downloaded. If our api allows you to download data dynamically to the parameter `searchLike: true` the search text will be appended to the link `https://jsonplaceholder.typicode.com/users?name_like=appended-text` if our api does not support it or we want to download from a static json file then set the parameter `searchLike: false` and `https://jsonplaceholder.typicode.com/users'`.
+> The `searchLike` parameter is responsible for the way the data will be downloaded. If our api allows you to download data dynamically to the parameter `searchLike: true` the search text will be appended to the link `https://jsonplaceholder.typicode.com/users?name_like=appended-text` if our api does not support it or we want to download from a static json file then set the parameter `searchLike: false` and `https://jsonplaceholder.typicode.com/users`.
 
 
 ## Add your own result template

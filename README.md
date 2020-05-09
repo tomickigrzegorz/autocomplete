@@ -102,7 +102,7 @@ searchLike: false
 searchLike: false
       path: 'https://jsonplaceholder.typicode.com/users'
 
-// searched from dynamic API https://yoururl.com?line=searched-text
+// searched from dynamic API https://yoururl.com?like=searched-text
 searchLike: true
       path: 'https://jsonplaceholder.typicode.com/users?name_like='
  },

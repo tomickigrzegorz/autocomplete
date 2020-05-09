@@ -61,7 +61,7 @@ class Autosuggest {
       timeout = setTimeout(() => {
         if (escapedChar.length >= this.howManyCharacters) {
           this.searchId.parentNode.classList.add(this.isLoading);
-          this.searchItem(escapedChar, searchBy);
+          this.searchItem(escapedChar.trim(), searchBy);
         } else {
           removeClass(this.matchList, this.isActive);
         }
@@ -229,8 +229,6 @@ class Autosuggest {
 
       const res = await fetch(dataResponse);
       const jsonData = await res.json();
-
-      // console.log('ok');
 
       let matches = jsonData.filter((element) => {
         const regex = new RegExp(`${searchText}`, 'gi');

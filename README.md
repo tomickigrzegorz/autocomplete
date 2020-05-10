@@ -38,6 +38,7 @@ searchBy | String |   | ✔ | The name of the element after which we do a search
 dataAPI -> searchLike | Boolean |   | ✔ | This parameter controls whether we append the search text to url http://localhost:3005/persons?like=search-text
 dataAPI -> path | String |   | ✔ | Path to our Rest API or static file
 searchOutputUl | String | `output-list`  |  | Container with our list
+searchMethod | Boolean | `false` |  | `true` we are looking from the beginning of the string, if the parameter is missing or is set to `false` then we are looking in the whole string
 isActive | String | `active` |  | Show/hide our result
 isLoading | String | `loading`  |  | Spinner class
 activeList | String | `active-list`  |  | Highlight li on mouse or keyup/keydown

@@ -15,6 +15,7 @@ class Autosuggest {
       searchOutputUl,
       searchBy,
       error,
+      searchMethod,
       isLoading,
       isActive,
       activeList,
@@ -29,6 +30,7 @@ class Autosuggest {
     this.isLoading = isLoading || 'loading';
     this.searchId = document.getElementById(this.search);
     this.delay = delay || 500;
+    this.searchMethod = searchMethod || false;
     this.isActive = isActive || 'active';
     this.howManyCharacters = howManyCharacters || 1;
     this.activeList = activeList || 'active-list';
@@ -227,12 +229,13 @@ class Autosuggest {
     try {
       const { searchLike, path } = this.options.dataAPI;
       const dataResponse = searchLike === true ? path + searchText : path;
+      const searchMethod = this.searchMethod ? '^' : '';
 
       const res = await fetch(dataResponse);
       const jsonData = await res.json();
 
       let matches = jsonData.filter((element) => {
-        const regex = new RegExp(`${searchText}`, 'gi');
+        const regex = new RegExp(`${searchMethod}${searchText}`, 'gi');
         return element[searchBy].match(regex);
       });
 

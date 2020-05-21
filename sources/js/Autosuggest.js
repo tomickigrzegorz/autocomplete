@@ -21,6 +21,7 @@ class Autosuggest {
       activeList,
       placeholderError,
       howManyCharacters,
+      clearButton,
     } = options;
 
     this.search = search;
@@ -30,6 +31,7 @@ class Autosuggest {
     this.isLoading = isLoading || 'loading';
     this.searchId = document.getElementById(this.search);
     this.delay = delay || 500;
+    this.clearButton = clearButton || false;
     this.searchMethod = searchMethod || false;
     this.isActive = isActive || 'active';
     this.howManyCharacters = howManyCharacters || 1;
@@ -59,11 +61,12 @@ class Autosuggest {
         ''
       );
 
+      // if (escapedChar.length > 0) {
       clearTimeout(timeout);
 
       timeout = setTimeout(() => {
-        if (escapedChar.length >= this.howManyCharacters) {
-          this.searchId.parentNode.classList.add(this.isLoading);
+        if (escapedChar.length >= this.howManyCharacters && escapedChar.length > 0) {
+          addClass(this.searchId.parentNode, this.isLoading);
           this.searchItem(escapedChar.trim(), searchBy);
         } else {
           removeClass(this.matchList, this.isActive);
@@ -165,7 +168,7 @@ class Autosuggest {
         if (itemActive) {
           removeClass(itemActive, this.activeList);
         }
-        e.target.classList.add(this.activeList);
+        addClass(e.target, this.activeList);
       });
     }
     this.mouseAddListItemToSearchInput();
@@ -202,7 +205,7 @@ class Autosuggest {
             if (itemActive) {
               removeClass(itemActive, this.activeList);
             }
-            itemsLi[selected - 1].classList.add(this.activeList);
+            addClass(itemsLi[selected - 1], this.activeList);
             break;
           }
           case this.keyCode.keyDown: {
@@ -213,7 +216,7 @@ class Autosuggest {
             if (itemActive) {
               removeClass(itemActive, this.activeList);
             }
-            itemsLi[selected - 1].classList.add(this.activeList);
+            addClass(itemsLi[selected - 1], this.activeList);
             break;
           }
           default:
@@ -221,6 +224,30 @@ class Autosuggest {
         }
       });
     }
+  }
+
+  // Removing text from the input field
+  clearSearchInpu() {
+    const clearButton = document.getElementById(this.search);
+    const spanExist = clearButton.nextElementSibling.matches('.clear');
+
+    if (spanExist) {
+      this.removeClearButton(clearButton);
+    }
+    const clear = document.createElement('span');
+    clear.classList.add('clear');
+    clear.setAttribute('title', 'clear');
+    this.searchId.parentNode.insertBefore(clear, this.searchId.nextSibling);
+
+    clear.addEventListener('click', () => {
+      clearButton.value = '';
+      clearButton.focus();
+      this.removeClearButton(clearButton);
+    });
+  }
+
+  removeClearButton(clearButton) {
+    clearButton.nextElementSibling.remove();
   }
 
   // The async function gets the text from the search
@@ -246,11 +273,15 @@ class Autosuggest {
 
       matches = [searchText, ...matches];
       removeClass(this.classSearch, this.isLoading);
+
+      // clear input
+      if (this.clearButton) this.clearSearchInpu();
+
       this.outputHtml(matches);
     } catch (err) {
       removeClass(this.classSearch, this.isLoading);
       this.searchId.value = '';
-      this.searchId.classList.add(this.errorClass);
+      addClass(this.searchId, this.errorClass);
       this.searchId.placeholder = this.placeholderError;
     }
   }

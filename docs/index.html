@@ -1,75 +1,76 @@
 <!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="X-UA-Compatible" content="ie=edge"><title>Autosuggest</title><link href="./Autosuggest.css" rel="stylesheet"></head><body><div class="container"><div class="row"><div class="search"><input type="text" id="search" class="full-width" placeholder="Enter person name... e.g mi"></div></div><div class="row"><div class="search"><input type="text" id="search-last" class="full-width" placeholder="Enter country... e.g po"></div></div><div class="row"><label class="label" for="search-second">Data from jsonplaceholder.typicode.com/users</label><div class="search"><input type="text" id="search-second" class="full-width" placeholder="Enter letter"></div></div></div><script>if (!('Promise' in window)) {
-      var script = document.createElement("script");
-      script.src = "https://polyfill.io/v3/polyfill.min.js?features=Promise";
-      document.getElementsByTagName('head')[0].appendChild(script);
-    }</script><script>window.addEventListener('DOMContentLoaded', function () {
-      new Autosuggest({
-        delay: 500,
-        search: 'search-last',
-        searchOutputUl: 'output-list',
-        isActive: 'active',
-        isLoading: 'loading',
-        activeList: 'active-list',
-        error: 'error',
-        howManyRecordsShow: 10,
-        howManyCharacters: 2,
-        dataAPI: {
-          searchLike: true,
-          path: 'http://localhost:3004/country?like=',
-        },
-        placeholderError: 'something went wrong...',
-        searchBy: 'name',
-        specificOutput({ name, code, matches }) {
-          return (
-            `<li><a href='#'>${name.replace(
-              new RegExp(matches[0], 'i'),
-              str => `<b>${str}</b>`
-            )} › <small>${code}</small></li>`
-          );
-        },
-      });
+        var script = document.createElement("script");
+        script.src = "https://polyfill.io/v3/polyfill.min.js?features=Promise";
+        document.getElementsByTagName('head')[0].appendChild(script);
+      }</script><script>window.addEventListener('DOMContentLoaded', function () {
+        new Autosuggest({
+          delay: 500,
+          search: 'search-last',
+          searchOutputUl: 'output-list',
+          isActive: 'active',
+          isLoading: 'loading',
+          activeList: 'active-list',
+          error: 'error',
+          howManyRecordsShow: 10,
+          howManyCharacters: 2,
+          dataAPI: {
+            searchLike: true,
+            path: 'http://localhost:3004/country?like=',
+          },
+          placeholderError: 'something went wrong...',
+          searchBy: 'name',
+          specificOutput({ name, code, matches }) {
+            return (
+              `<li><a href='#'>${name.replace(
+                new RegExp(matches[0], 'i'),
+                str => `<b>${str}</b>`
+              )} › <small>${code}</small></li>`
+            );
+          },
+        });
 
-      new Autosuggest({
-        delay: 500,
-        search: 'search',
-        searchOutputUl: 'output-list',
-        isActive: 'active',
-        isLoading: 'loading',
-        activeList: 'active-list',
-        error: 'error',
-        howManyRecordsShow: 10,
-        howManyCharacters: 2,
-        dataAPI: {
-          searchLike: true,
-          path: 'http://localhost:3005/persons?like=',
-        },
-        placeholderError: 'something went wrong...',
-        searchBy: 'name',
-        specificOutput(options) {
-          return (
-            `${'' + '<li>' + '<a href='}${options.name}>${options.name.replace(
-              new RegExp(options.matches[0], 'i'),
-              function (str) {
-                return `<b>${str}</b>`;
-              }
-            )}</a>` +
-            '<div class="info">' +
-            `<div class="icon gender-${options.gender}"></div>` +
-            `<div class="address">${options.address}</div>` +
-            '</div>' +
-            '</li>'
-          );
-        },
-      });
+        new Autosuggest({
+          delay: 500,
+          search: 'search',
+          searchOutputUl: 'output-list',
+          isActive: 'active',
+          isLoading: 'loading',
+          activeList: 'active-list',
+          error: 'error',
+          howManyRecordsShow: 10,
+          howManyCharacters: 2,
+          clearButton: true,
+          dataAPI: {
+            searchLike: true,
+            path: 'http://localhost:3005/persons?like=',
+          },
+          placeholderError: 'something went wrong...',
+          searchBy: 'name',
+          specificOutput(options) {
+            return (
+              `${'' + '<li>' + '<a href='}${options.name}>${options.name.replace(
+                new RegExp(options.matches[0], 'i'),
+                function (str) {
+                  return `<b>${str}</b>`;
+                }
+              )}</a>` +
+              '<div class="info">' +
+              `<div class="icon gender-${options.gender}"></div>` +
+              `<div class="address">${options.address}</div>` +
+              '</div>' +
+              '</li>'
+            );
+          },
+        });
 
-      // minimal configuration
-      new Autosuggest({
-        search: 'search-second',
-        // searchMethod: true,
-        dataAPI: {
-          searchLike: false,
-          path: 'https://jsonplaceholder.typicode.com/users',
-        },
-        searchBy: 'name',
-      });
-    });</script><script src="./Autosuggest.js"></script></body></html>
+        // minimal configuration
+        new Autosuggest({
+          search: 'search-second',
+          // searchMethod: true,
+          dataAPI: {
+            searchLike: false,
+            path: 'https://jsonplaceholder.typicode.com/users',
+          },
+          searchBy: 'name',
+        });
+      });</script><script src="./Autosuggest.js"></script></body></html>

@@ -47,8 +47,8 @@ body {
   content: '';
   box-sizing: border-box;
   position: absolute;
-  top: 0%;
-  bottom: 0%;
+  top: 0;
+  bottom: 0;
   margin: auto;
   right: 8px;
   width: 15px;
@@ -58,6 +58,22 @@ body {
   border-left-color: $color-gray;
   border-top-color: $color-gray;
   animation: spinner .6s linear infinite;
+}
+
+.clear:before {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 130%;
+  content: 'x';
+  top: -5px;
+  bottom: 0;
+  margin: auto;
+  right: 8px;
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
 }
 
 .label {

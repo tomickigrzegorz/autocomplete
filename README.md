@@ -6,6 +6,8 @@
 
 ![Screenshot1](https://github.com/tomik23/autosuggest/blob/master/static/your-template.png)
 
+You can move between the records using the arrows <kbd>↓</kbd> <kbd>↑</kbd>, and confirm by <kbd>Enter</kbd>
+
 > The appearance of the error
 
 ![Screenshot2](https://github.com/tomik23/autosuggest/blob/master/static/error.png)
@@ -35,9 +37,10 @@ props | type | default | require | description
 ---- | :----: | :-------: | :--------: | -----------
 search | String |   | ✔ | Search id our input
 searchBy | String |   | ✔ | The name of the element after which we do a search
-dataAPI -> searchLike | Boolean |   | ✔ | This parameter controls whether we append the search text to url http://localhost:3005/persons?like=search-text
+dataAPI -> searchLike | Boolean |   | ✔ | This parameter controls whether we append the search text to url `http://localhost:3005/persons?like=search-text`
 dataAPI -> path | String |   | ✔ | Path to our Rest API or static file
 searchOutputUl | String | `output-list`  |  | Container with our list
+clearButton | Boolea | `false` |  | The parameter set to `true` adds a button to delete the text from the input field, a small `x` to the right of the input field 
 searchMethod | Boolean | `false` |  | `true` we are looking from the beginning of the string, if the parameter is missing or is set to `false` then we are looking in the whole string
 isActive | String | `active` |  | Show/hide our result
 isLoading | String | `loading`  |  | Spinner class

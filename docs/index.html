@@ -3,21 +3,24 @@
         script.src = "https://polyfill.io/v3/polyfill.min.js?features=Promise";
         document.getElementsByTagName('head')[0].appendChild(script);
       }</script><script>window.addEventListener('DOMContentLoaded', function () {
-        new Autosuggest({
+        new Autosuggest('#search-last', {
+          output: 'output-list',
           delay: 500,
-          search: 'search-last',
-          searchOutputUl: 'output-list',
-          isActive: 'active',
-          isLoading: 'loading',
           activeList: 'active-list',
-          error: 'error',
           howManyRecordsShow: 10,
           howManyCharacters: 2,
+          error: {
+            errorClass: 'error',
+            placeholder: 'something went wrong...',
+          },
+          actions: {
+            isActive: 'active',
+            isLoading: 'loading'
+          },
           dataAPI: {
             searchLike: true,
             path: 'http://localhost:3004/country?like=',
           },
-          placeholderError: 'something went wrong...',
           searchBy: 'name',
           specificOutput({ name, code, matches }) {
             return (
@@ -29,22 +32,25 @@
           },
         });
 
-        new Autosuggest({
+        new Autosuggest('#search', {
+          output: 'output-list',
           delay: 500,
-          search: 'search',
-          searchOutputUl: 'output-list',
-          isActive: 'active',
-          isLoading: 'loading',
           activeList: 'active-list',
-          error: 'error',
           howManyRecordsShow: 10,
           howManyCharacters: 2,
           clearButton: true,
+          error: {
+            errorClass: 'error',
+            placeholder: 'something went wrong...',
+          },
+          actions: {
+            isActive: 'active',
+            isLoading: 'loading'
+          },
           dataAPI: {
             searchLike: true,
             path: 'http://localhost:3005/persons?like=',
           },
-          placeholderError: 'something went wrong...',
           searchBy: 'name',
           specificOutput(options) {
             return (
@@ -64,9 +70,7 @@
         });
 
         // minimal configuration
-        new Autosuggest({
-          search: 'search-second',
-          // searchMethod: true,
+        new Autosuggest('#search-second', {
           dataAPI: {
             searchLike: false,
             path: 'https://jsonplaceholder.typicode.com/users',

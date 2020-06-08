@@ -35,18 +35,18 @@ A library [Skeleton CSS](https://github.com/dhg/Skeleton) was used in this proje
 
 props | type | default | require | description
 ---- | :----: | :-------: | :--------: | -----------
-search | String |   | ✔ | Search id our input
+search | String |   | ✔ | Search by id or class
 searchBy | String |   | ✔ | The name of the element after which we do a search
 dataAPI -> searchLike | Boolean |   | ✔ | This parameter controls whether we append the search text to url `http://localhost:3005/persons?like=search-text`
 dataAPI -> path | String |   | ✔ | Path to our Rest API or static file
 searchOutputUl | String | `output-list`  |  | Container with our list
 clearButton | Boolea | `false` |  | The parameter set to `true` adds a button to delete the text from the input field, a small `x` to the right of the input field 
 searchMethod | Boolean | `false` |  | `true` we are looking from the beginning of the string, if the parameter is missing or is set to `false` then we are looking in the whole string
-isActive | String | `active` |  | Show/hide our result
-isLoading | String | `loading`  |  | Spinner class
+actions -> isActive | String | `active` |  | Show/hide our result
+actions -> isLoading | String | `loading`  |  | Spinner class
 activeList | String | `active-list`  |  | Highlight li on mouse or keyup/keydown
-error | String | `error`  |  | Adding class error
-placeholderError | String | `something went wrong...`  |  | Adding plaseholder
+error -> error | String | `error`  |  | Adding class error
+error -> placeholder | String | `something went wrong...`  |  | Adding plaseholder
 delay | Number | `1000` |  | Delay without which the server would not survive ;)
 howManyRecordsShow | Number | `10` |  | How many records will be shown
 howManyCharacters | Number | `1` |  | The number of characters entered should start searching
@@ -64,36 +64,40 @@ specificOutput | Function | `<li><a href="searchBy">searchBy</a></li>` |  | Func
 ### JAVASCRIPT
 ```javascript
   const options = {
-            search: 'search',
-    searchOutputUl: 'output-list',
-          isActive: 'is-active',
-         isLoading: 'is-loading',
-        activeList: 'active-list',
-             error: 'error'
-  placeholderError: 'something went wrong...',
-             delay: 1000,
-howManyRecordsShow: 10,
- howManyCharacters: 1,
-           dataAPI: {
-        searchLike: true,
-              path: process.env.ASSET_PATH
-          },
-          searchBy: 'name'
+    search: 'search', // input id
+    searchBy: 'name', // searching by item
+    output: 'output-list', // container output
+    delay: 1000, // character delay
+    activeList: 'active-list', // coloring results, records
+    howManyRecordsShow: 10, // number of results
+    howManyCharacters: 1, // how many characters to search
+    actions: {
+      isActive: 'is-active', // show/hide results
+      isLoading: 'is-loading', // loading animation
+    },
+    error: {
+      error: 'error', // error class
+      placeholder: 'something went wrong...',
+    },
+    dataAPI: {
+      searchLike: true, // controlling the way data is downloaded
+      path: process.env.ASSET_PATH,
+    },
     specificOutput: function ({ name, gender, address, matches }) {
-          return '' +
-            '<li>' +
-              '<a href=' + name + '>' +
-                name.replace(new RegExp(matches[0], 'i'), str => '<b>' + str + '</b>') +
-              '</a>' +
-              '<div class="info">' +
-                '<div class="icon gender-' + gender + '"></div>' +
-                '<div class="address">' + address + '</div>' +
-              '</div>' +
-            '</li>';
-          }
+      return '' +
+        '<li>' +
+        '<a href=' + name + '>' +
+          name.replace(new RegExp(matches[0], 'i'), str => '<b>' + str + '</b>') +
+        '</a>' +
+        '<div class="info">' +
+          '<div class="icon gender-' + gender + '"></div>' +
+          '<div class="address">' + address + '</div>' +
+        '</div>' +
+        '</li>';
+    }
   }
 
-  new searchJson(options);
+  new Autosuggest('.element | #element', options);
 ```
 
 ### Minimal config
@@ -161,7 +165,7 @@ specificOutput: function ({ name, gender, address, matches }) {
     }
 }
 
-new searchJson(options);
+new Autosuggest('.element | #element', options);
 ```
 
 ### E5 version compatible with IE10/11
@@ -182,7 +186,7 @@ specificOutput: function (options) {
     }
 }
 
-new searchJson(options);
+new Autosuggest('.element | #element', options);
 ```
 
 ## Browsers support

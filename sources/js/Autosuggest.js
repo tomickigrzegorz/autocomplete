@@ -1,39 +1,48 @@
 import './Autosuggest.scss';
 
 import 'whatwg-fetch';
-// import 'promise-polyfill/src/polyfill';
+// import 'promise-polyfill/src/polyfill'; // enable if you want to support IE
 import removeClass from './helpers/removeClass';
 import addClass from './helpers/addClass';
 import htmlTemplate from './helpers/htmlTemplate';
 
 class Autosuggest {
-  constructor(options) {
-    this.options = options;
-    const {
+  constructor(
+    element,
+    {
       delay,
-      search,
-      searchOutputUl,
+      output,
       searchBy,
       error,
       searchMethod,
-      isLoading,
-      isActive,
+      actions,
       activeList,
-      placeholderError,
+      dataAPI,
+      howManyRecordsShow,
+      specificOutput,
       howManyCharacters,
       clearButton,
-    } = options;
-
-    this.search = search;
-    this.searchOutputUl = searchOutputUl || 'output-list';
-    this.placeholderError = placeholderError || 'something went wrong...';
-    this.errorClass = error || 'error';
-    this.isLoading = isLoading || 'loading';
-    this.searchId = document.getElementById(this.search);
+    }
+  ) {
+    this.search = element;
+    this.searchBy = searchBy;
+    this.searchId = document.querySelector(this.search);
+    this.searchOutputUl = output || 'output-list';
+    this.placeholderError =
+      error && error.placeholder
+        ? error.placeholder
+        : 'something went wrong...';
+    this.errorClass = error && error.errorClass ? error.errorClass : 'error';
+    this.isLoading =
+      actions && actions.isLoading ? actions.isLoading : 'loading';
+    this.isActive = actions && actions.isActive ? actions.isActive : 'active';
     this.delay = delay || 500;
+    this.rowMax = howManyRecordsShow || 10;
     this.clearButton = clearButton || false;
     this.searchMethod = searchMethod || false;
-    this.isActive = isActive || 'active';
+    this.searchLike = dataAPI.searchLike;
+    this.path = dataAPI.path;
+    this.specificOutput = specificOutput;
     this.howManyCharacters = howManyCharacters || 1;
     this.activeList = activeList || 'active-list';
     this.keyCode = {
@@ -43,7 +52,7 @@ class Autosuggest {
       keyDown: 38,
     };
 
-    this.initialSearch(searchBy);
+    this.initialSearch(this.searchBy);
   }
 
   initialSearch(searchBy) {
@@ -61,11 +70,13 @@ class Autosuggest {
         ''
       );
 
-      // if (escapedChar.length > 0) {
       clearTimeout(timeout);
 
       timeout = setTimeout(() => {
-        if (escapedChar.length >= this.howManyCharacters && escapedChar.length > 0) {
+        if (
+          escapedChar.length >= this.howManyCharacters &&
+          escapedChar.length > 0
+        ) {
           addClass(this.searchId.parentNode, this.isLoading);
           this.searchItem(escapedChar.trim(), searchBy);
         } else {
@@ -116,15 +127,12 @@ class Autosuggest {
   // preparation of the list
   outputHtml(matches) {
     if (matches.length > 1) {
-      const { howManyRecordsShow, searchBy, specificOutput } = this.options;
-
-      const rowMax = howManyRecordsShow || 10;
-
+      const { searchBy } = this;
       const html = matches
-        .filter((_, index) => index > 0 && index <= rowMax)
+        .filter((_, index) => index > 0 && index <= this.rowMax)
         .map((match) => {
-          const htmlTemp = specificOutput
-            ? specificOutput({ ...match, matches })
+          const htmlTemp = this.specificOutput
+            ? this.specificOutput({ ...match, matches })
             : htmlTemplate({ match, matches, searchBy });
           return htmlTemp;
         })
@@ -181,7 +189,7 @@ class Autosuggest {
       e.preventDefault();
       const item = document.querySelector(`li.${this.activeList} > a`)
         .innerText;
-      document.getElementById(this.search).value = item.trim();
+      document.querySelector(this.search).value = item.trim();
       searchOutpuli.outerHTML = '';
     });
   }
@@ -228,7 +236,7 @@ class Autosuggest {
 
   // Removing text from the input field
   clearSearchInpu() {
-    const clearButton = document.getElementById(this.search);
+    const clearButton = document.querySelector(this.search);
     const spanExist = clearButton.nextElementSibling.matches('.clear');
 
     if (spanExist) {
@@ -254,8 +262,8 @@ class Autosuggest {
   // and returns the matching array
   async searchItem(searchText, searchBy) {
     try {
-      const { searchLike, path } = this.options.dataAPI;
-      const dataResponse = searchLike === true ? path + searchText : path;
+      const dataResponse =
+        this.searchLike === true ? this.path + searchText : this.path;
       const searchMethod = this.searchMethod ? '^' : '';
 
       const res = await fetch(dataResponse);

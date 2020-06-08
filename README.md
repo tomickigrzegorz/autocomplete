@@ -35,7 +35,6 @@ A library [Skeleton CSS](https://github.com/dhg/Skeleton) was used in this proje
 
 props | type | default | require | description
 ---- | :----: | :-------: | :--------: | -----------
-search | String |   | ✔ | Search by id or class
 searchBy | String |   | ✔ | The name of the element after which we do a search
 dataAPI -> searchLike | Boolean |   | ✔ | This parameter controls whether we append the search text to url `http://localhost:3005/persons?like=search-text`
 dataAPI -> path | String |   | ✔ | Path to our Rest API or static file
@@ -64,7 +63,6 @@ specificOutput | Function | `<li><a href="searchBy">searchBy</a></li>` |  | Func
 ### JAVASCRIPT
 ```javascript
   const options = {
-    search: 'search', // input id
     searchBy: 'name', // searching by item
     output: 'output-list', // container output
     delay: 1000, // character delay
@@ -103,7 +101,6 @@ specificOutput | Function | `<li><a href="searchBy">searchBy</a></li>` |  | Func
 ### Minimal config
 ```javascript
 const options = {
-    search: 'search',
   searchBy: 'name',
    dataAPI: {
 

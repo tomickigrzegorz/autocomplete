@@ -22,9 +22,11 @@ class Autosuggest {
       specificOutput,
       howManyCharacters,
       clearButton,
+      formatGeoJSON,
     }
   ) {
     this.search = element;
+    this.formatGeoJSON = formatGeoJSON || false;
     this.searchBy = searchBy;
     this.searchId = document.querySelector(this.search);
     this.searchOutputUl = output || 'output-list';
@@ -153,9 +155,10 @@ class Autosuggest {
     document.addEventListener('keyup', (e) => {
       e.preventDefault();
       if (this.valueFromSearch.length) {
-        const itemActive = document.querySelector(`li.${this.activeList} > a`);
+        const itemActive = document.querySelector(`li.${this.activeList} > *`);
         if (e.keyCode === this.keyCode.enter && itemActive != null) {
           const item = e.target;
+          this.addNominative(itemActive.parentElement);
           document.getElementById(item.id).value = itemActive.innerText.trim();
           document.getElementById(this.searchOutputUl).outerHTML = '';
           removeClass(item.nextSibling, this.isActive);
@@ -163,6 +166,16 @@ class Autosuggest {
         }
       }
     });
+  }
+
+  addNominative(item) {
+    const name = item.textContent.trim();
+    const search = document.querySelector('.search');
+    // const dataCoords = search.dataset.coords;
+
+    // search.dataset.coordsOld = dataCoords;
+    search.dataset.coords = item.getAttribute('data-coordinate');
+    search.dataset.name = name;
   }
 
   // setting the active list with the mouse
@@ -187,9 +200,9 @@ class Autosuggest {
     const searchOutpuli = document.getElementById(this.searchOutputUl);
     searchOutpuli.addEventListener('click', (e) => {
       e.preventDefault();
-      const item = document.querySelector(`li.${this.activeList} > a`)
-        .innerText;
-      document.querySelector(this.search).value = item.trim();
+      const item = document.querySelector(`li.${this.activeList} > *`);
+      document.querySelector(this.search).value = item.innerText.trim();
+      this.addNominative(item.parentNode);
       searchOutpuli.outerHTML = '';
     });
   }
@@ -265,17 +278,25 @@ class Autosuggest {
       const dataResponse =
         this.searchLike === true ? this.path + searchText : this.path;
       const searchMethod = this.searchMethod ? '^' : '';
+      const regex = new RegExp(`${searchMethod}${searchText}`, 'gi');
 
       const res = await fetch(dataResponse);
       const jsonData = await res.json();
+      let matches = [];
 
-      let matches = jsonData.filter((element) => {
-        const regex = new RegExp(`${searchMethod}${searchText}`, 'gi');
-        return element[searchBy].match(regex);
-      });
+      if (this.formatGeoJSON) {
+        matches = jsonData.features.map((element) => {
+          const { coordinates } = element.geometry;
+          const name = element.properties.display_name;
+          return { coordinates, name };
+        });
+      } else {
+        matches = jsonData.filter((element) => {
+          return element[searchBy].match(regex);
+        });
+      }
 
       if (searchText.length === 0) {
-        matches = [];
         this.matchList.innerHTML = '';
       }
 

@@ -3,7 +3,7 @@ const htmlTemplate = ({ match, matches, searchBy }) => {
   return `
     <li>
       <a href="${match[searchBy]}">
-        ${match[searchBy].replace(regex, str => `<b>${str}</b>`)}
+        ${match[searchBy].replace(regex, (str) => `<b>${str}</b>`)}
       </a>
     </li>`;
 };

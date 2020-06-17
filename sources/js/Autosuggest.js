@@ -128,9 +128,14 @@ class Autosuggest {
 
   // preparation of the list
   outputHtml(matches) {
-    if (matches.length > 1) {
-      const { searchBy } = this;
-      const html = matches
+    const { searchBy } = this;
+    let html;
+    // console.log(matches);
+    if (this.formatGeoJSON) {
+      const filter = matches.filter((_, index) => index < this.rowMax);
+      html = this.specificOutput(filter);
+    } else {
+      html = matches
         .filter((_, index) => index > 0 && index <= this.rowMax)
         .map((match) => {
           const htmlTemp = this.specificOutput
@@ -139,15 +144,15 @@ class Autosuggest {
           return htmlTemp;
         })
         .join('');
-
-      this.matchList.innerHTML = `<ul id="${this.searchOutputUl}">${html}</ul>`;
-
-      addClass(this.matchList, this.isActive);
-      this.addTextFromLiToSearchInput();
-      this.keyUpInsideUl();
-      this.mouseActiveListItem();
-      this.closeOutputMatchesList();
     }
+
+    this.matchList.innerHTML = `<ul id="${this.searchOutputUl}">${html}</ul>`;
+
+    addClass(this.matchList, this.isActive);
+    this.addTextFromLiToSearchInput();
+    this.keyUpInsideUl();
+    this.mouseActiveListItem();
+    this.closeOutputMatchesList();
   }
 
   // adding text from list when enter
@@ -171,9 +176,7 @@ class Autosuggest {
   addNominative(item) {
     const name = item.textContent.trim();
     const search = document.querySelector('.search');
-    // const dataCoords = search.dataset.coords;
 
-    // search.dataset.coordsOld = dataCoords;
     search.dataset.coords = item.getAttribute('data-coordinate');
     search.dataset.name = name;
   }
@@ -282,19 +285,11 @@ class Autosuggest {
 
       const res = await fetch(dataResponse);
       const jsonData = await res.json();
-      let matches = [];
 
-      if (this.formatGeoJSON) {
-        matches = jsonData.features.map((element) => {
-          const { coordinates } = element.geometry;
-          const name = element.properties.display_name;
-          return { coordinates, name };
-        });
-      } else {
-        matches = jsonData.filter((element) => {
-          return element[searchBy].match(regex);
-        });
-      }
+      let matches = [];
+      matches = this.formatGeoJSON
+        ? jsonData.features
+        : jsonData.filter((element) => element[searchBy].match(regex));
 
       if (searchText.length === 0) {
         this.matchList.innerHTML = '';
@@ -306,8 +301,9 @@ class Autosuggest {
       // clear input
       if (this.clearButton) this.clearSearchInpu();
 
-      this.outputHtml(matches);
+      if (matches.length > 1) this.outputHtml(matches);
     } catch (err) {
+      console.log(err);
       removeClass(this.classSearch, this.isLoading);
       this.searchId.value = '';
       addClass(this.searchId, this.errorClass);

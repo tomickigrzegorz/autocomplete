@@ -6,27 +6,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Autosuggest</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
+    <style>
+      body {
+        padding: 0;
+        margin: 0;
+      }
+
+      html,
+      body,
+      #map {
+        height: 100%;
+      }
+    </style>
   </head>
 
   <body>
+    <!-- search container -->
     <div class="container">
       <div class="row">
-        <div class="search">
-          <input type="text" id="search" class="full-width" placeholder="Enter person name... e.g mi">
-        </div>
-      </div>
-      <div class="row">
-        <div class="search">
-          <input type="text" id="search-last" class="full-width" placeholder="Enter country... e.g po">
-        </div>
-      </div>
-      <div class="row">
-        <label class="label" for="search-second">Data from jsonplaceholder.typicode.com/users</label>
-        <div class="search">
-          <input type="text" id="search-second" class="full-width" placeholder="Enter letter">
+        <div class="search" data-coords="" data-name="">
+          <input type="text" id="search" class="full-width" placeholder="Enter address">
         </div>
       </div>
     </div>
+
+    <!-- map -->
+    <div id="map"></div>
+
     <script type="text/javascript">
       if (!('Promise' in window)) {
         var script = document.createElement("script");
@@ -36,79 +44,105 @@
     </script>
     <script type="text/javascript">
       window.addEventListener('DOMContentLoaded', function () {
-        new Autosuggest('#search-last', {
-          output: 'output-list',
-          delay: 500,
-          activeList: 'active-list',
-          howManyRecordsShow: 10,
-          howManyCharacters: 2,
-          error: {
-            errorClass: 'error',
-            placeholder: 'something went wrong...',
-          },
-          actions: {
-            isActive: 'active',
-            isLoading: 'loading'
-          },
-          dataAPI: {
-            searchLike: true,
-            path: 'http://localhost:3004/country?like=',
-          },
-          searchBy: 'name',
-          specificOutput({ name, code, matches }) {
-            return (
-              `<li><a href='#'>${name.replace(
-                new RegExp(matches[0], 'i'),
-                str => `<b>${str}</b>`
-              )} › <small>${code}</small></li>`
-            );
-          },
-        });
-
         new Autosuggest('#search', {
-          output: 'output-list',
-          delay: 500,
-          activeList: 'active-list',
-          howManyRecordsShow: 10,
           howManyCharacters: 2,
-          clearButton: true,
+          delay: 500,
+          howManyRecordsShow: 5,
+          output: 'output-list',
+          searchMethod: true,
           error: {
-            errorClass: 'error',
             placeholder: 'something went wrong...',
           },
-          actions: {
-            isActive: 'active',
-            isLoading: 'loading'
-          },
+          formatGeoJSON: true,
           dataAPI: {
+            // nominatim
             searchLike: true,
-            path: 'http://localhost:3005/persons?like=',
+            path: 'https://nominatim.openstreetmap.org/search?format=geojson&q=',
+
+            // static files
+            // searchLike: false,
+            // path: '../static/search.json',
           },
-          searchBy: 'name',
-          specificOutput(options) {
-            return (
-              `${'' + '<li>' + '<a href='}${options.name}>${options.name.replace(
-                new RegExp(options.matches[0], 'i'),
-                function (str) {
-                  return `<b>${str}</b>`;
-                }
-              )}</a>` +
-              '<div class="info">' +
-              `<div class="icon gender-${options.gender}"></div>` +
-              `<div class="address">${options.address}</div>` +
-              '</div>' +
-              '</li>'
-            );
-          },
+          clearButton: true,
+          specificOutput: function ({ coordinates, name, matches }) {
+            const regex = new RegExp(matches[0], 'i');
+            return `<li data-coordinate="${coordinates}">
+            <div href="${name}">
+              ${name.replace(regex, (str) => `<b>${str}</b>`)}
+              </div>
+            </li> `;
+          }
         });
 
-        // minimal configuration
-        new Autosuggest('#search-second', {
-          dataAPI: {
-            searchLike: false,
-            path: 'https://jsonplaceholder.typicode.com/users',
-          },
-          searchBy: 'name',
+        const config = {
+          minZoom: 6,
+          maxZomm: 18,
+        };
+        // magnification with which the map will start
+        const zoom = 3;
+        // co-ordinates
+        const lat = 52.22977;
+        const lon = 21.01178;
+
+        // calling map
+        const map = L.map('map', config).setView([lat, lon], zoom);
+
+        // Used to load and display tile layers on the map
+        // Most tile servers require attribution, which you can set under `Layer`
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        }).addTo(map);
+
+        // set new marker and remove previous
+        const markers = [];
+        function setNewMarkerAndRemoveOlder() {
+          const coordinates = document.querySelector('.search');
+
+          setTimeout(() => {
+            const { name } = coordinates.dataset;
+            const [cordlat, cordlng] = coordinates.dataset.coords.split(',');
+            const corlat = +cordlat;
+            const corlng = +cordlng;
+            const marker = L.marker([corlng, corlat], {
+              title: name,
+            })
+              .addTo(map)
+              .bindPopup(name);
+
+            markers.push(marker);
+            map.setView([corlng, corlat], 8);
+
+            if (markers.length > 1) {
+              for (let i = 0; i < markers.length - 1; i++) {
+                map.removeLayer(markers[i]);
+              }
+            }
+          }, 500);
+        }
+
+        // events
+        function handleEvent(event) {
+          event.stopPropagation();
+          switch (event.type) {
+            case 'click':
+            case 'keyup': {
+              setNewMarkerAndRemoveOlder();
+              break;
+            }
+            default:
+              break;
+          }
+        }
+
+        // trigger events click or keyup
+        const coordinates = document.querySelector('.output-search');
+        coordinates.addEventListener('click', handleEvent);
+        document.addEventListener('keyup', function (e) {
+          e.preventDefault();
+          if (e.keyCode === 13) {
+            handleEvent(e);
+          }
         });
       });
     </script>

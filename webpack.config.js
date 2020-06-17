@@ -77,16 +77,11 @@ module.exports = (env, { mode }) => {
         mode
       ),
       prodPlugin(
-        new CopyPlugin([
-          {
-            from: 'static/_country.json',
-            to: './'
-          },
-          {
-            from: 'static/_persons.json',
-            to: './'
-          },
-        ]),
+        new CopyPlugin({
+          patterns: [
+            { from: 'static/search.json', to: './' },
+          ]
+        }),
         mode
       ),
       new MiniCssExtractPlugin({

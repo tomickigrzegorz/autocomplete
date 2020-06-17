@@ -13,7 +13,7 @@
         document.getElementsByTagName('head')[0].appendChild(script);
       }</script><script>window.addEventListener('DOMContentLoaded', function () {
         new Autosuggest('#search', {
-          howManyCharacters: 4,
+          howManyCharacters: 2,
           delay: 500,
           howManyRecordsShow: 5,
           output: 'output-list',
@@ -37,10 +37,10 @@
             return matches.map((element, index) => {
               if (index > 0) {
                 const { geometry, properties } = element;
-                return `<li data-data="${geometry.coordinates} | ${properties.display_name}">
-                  <div href="${properties.display_name}">
+                return `<li data-elements="${geometry.coordinates} | ${properties.display_name}">
+                  <p>
                     ${properties.display_name.replace(regex, (str) => `<b>${str}</b>`)}
-                  </div>
+                  </p>
                 </li> `;
               }
             }).join('');
@@ -71,9 +71,10 @@
         const markers = [];
         function setNewMarkerAndRemoveOlder() {
           setTimeout(() => {
-            const coordinates = document.querySelector('.search');
-            const { data } = coordinates.dataset;
-            const [coord, name] = data.split('|');
+            const dataElements = document
+              .querySelector('.search')
+              .getAttribute('data-elements');
+            const [coord, name] = dataElements.split('|');
             const [cordlat, cordlng] = coord.split(',');
             const corlat = +cordlat;
             const corlng = +cordlng;

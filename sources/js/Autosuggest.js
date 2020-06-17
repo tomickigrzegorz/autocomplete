@@ -175,7 +175,7 @@ class Autosuggest {
 
   addNominative(item) {
     const search = document.querySelector('.search');
-    search.dataset.data = item.getAttribute('data-data');
+    search.setAttribute('data-elements', item.getAttribute('data-elements'));
   }
 
   // setting the active list with the mouse

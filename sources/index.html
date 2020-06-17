@@ -64,13 +64,18 @@
             // path: '../static/search.json',
           },
           clearButton: true,
-          specificOutput: function ({ coordinates, name, matches }) {
+          specificOutput: function (matches) {
             const regex = new RegExp(matches[0], 'i');
-            return `<li data-coordinate="${coordinates}">
-            <div href="${name}">
-              ${name.replace(regex, (str) => `<b>${str}</b>`)}
-              </div>
-            </li> `;
+            return matches.map((element, index) => {
+              if (index > 0) {
+                const { geometry, properties } = element;
+                return `<li data-coordinate="${geometry.coordinates}">
+                  <div href="${properties.display_name}">
+                    ${properties.display_name.replace(regex, (str) => `<b>${str}</b>`)}
+                  </div>
+                </li> `;
+              }
+            }).join('');
           }
         });
 

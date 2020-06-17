@@ -1,4 +1,15 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="X-UA-Compatible" content="ie=edge"><title>Autosuggest</title><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script><style>body {
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Autosuggest</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
+    <style>
+      body {
         padding: 0;
         margin: 0;
       }
@@ -7,11 +18,25 @@
       body,
       #map {
         height: 100%;
-      }</style><link href="./Autosuggest.css" rel="stylesheet"></head><body><div class="container"><div class="row"><div class="search" data-coords="" data-name=""><input type="text" id="search" class="full-width" placeholder="Enter address"></div></div></div><div id="map"></div><script>if (!('Promise' in window)) {
+      }
+    </style>
+    <link href="./Autosuggest.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="search" data-coords="" data-name=""><input type="text" id="search" class="full-width"
+            placeholder="Enter address"></div>
+      </div>
+    </div>
+    <div id="map"></div>
+    <script>if (!('Promise' in window)) {
         var script = document.createElement("script");
         script.src = "https://polyfill.io/v3/polyfill.min.js?features=Promise";
         document.getElementsByTagName('head')[0].appendChild(script);
-      }</script><script>window.addEventListener('DOMContentLoaded', function () {
+      }</script>
+    <script>window.addEventListener('DOMContentLoaded', function () {
         new Autosuggest('#search', {
           howManyCharacters: 2,
           delay: 500,
@@ -29,16 +54,21 @@
 
             // static files
             // searchLike: false,
-            // path: '../static/search.json',
+            // path: './search.json',
           },
           clearButton: true,
-          specificOutput: function ({ coordinates, name, matches }) {
+          specificOutput: function (matches) {
             const regex = new RegExp(matches[0], 'i');
-            return `<li data-coordinate="${coordinates}">
-            <div href="${name}">
-              ${name.replace(regex, (str) => `<b>${str}</b>`)}
-              </div>
-            </li> `;
+            return matches.map((element, index) => {
+              if (index > 0) {
+                const { geometry, properties } = element;
+                return `<li data-coordinate="${geometry.coordinates}">
+                  <div href="${properties.display_name}">
+                    ${properties.display_name.replace(regex, (str) => `<b>${str}</b>`)}
+                  </div>
+                </li> `;
+              }
+            }).join('');
           }
         });
 
@@ -111,4 +141,8 @@
             handleEvent(e);
           }
         });
-      });</script><script src="./Autosuggest.js"></script></body></html>
+      });</script>
+    <script src="./Autosuggest.js"></script>
+  </body>
+
+</html>

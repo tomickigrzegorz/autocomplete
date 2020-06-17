@@ -97,9 +97,8 @@
         // set new marker and remove previous
         const markers = [];
         function setNewMarkerAndRemoveOlder() {
-          const coordinates = document.querySelector('.search');
-
           setTimeout(() => {
+            const coordinates = document.querySelector('.search');
             const { name } = coordinates.dataset;
             const [cordlat, cordlng] = coordinates.dataset.coords.split(',');
             const corlat = +cordlat;

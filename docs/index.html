@@ -1,15 +1,4 @@
-<!doctype html>
-<html lang="en">
-
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Autosuggest</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
-    <style>
-      body {
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="X-UA-Compatible" content="ie=edge"><title>Autosuggest</title><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script><style>body {
         padding: 0;
         margin: 0;
       }
@@ -18,27 +7,13 @@
       body,
       #map {
         height: 100%;
-      }
-    </style>
-    <link href="./Autosuggest.css" rel="stylesheet">
-  </head>
-
-  <body>
-    <div class="container">
-      <div class="row">
-        <div class="search" data-coords="" data-name=""><input type="text" id="search" class="full-width"
-            placeholder="Enter address"></div>
-      </div>
-    </div>
-    <div id="map"></div>
-    <script>if (!('Promise' in window)) {
+      }</style><link href="./Autosuggest.css" rel="stylesheet"></head><body><div class="container"><div class="row"><div class="search"><input type="text" id="search" class="full-width" placeholder="Enter address"></div></div></div><div id="map"></div><script>if (!('Promise' in window)) {
         var script = document.createElement("script");
         script.src = "https://polyfill.io/v3/polyfill.min.js?features=Promise";
         document.getElementsByTagName('head')[0].appendChild(script);
-      }</script>
-    <script>window.addEventListener('DOMContentLoaded', function () {
+      }</script><script>window.addEventListener('DOMContentLoaded', function () {
         new Autosuggest('#search', {
-          howManyCharacters: 2,
+          howManyCharacters: 4,
           delay: 500,
           howManyRecordsShow: 5,
           output: 'output-list',
@@ -54,7 +29,7 @@
 
             // static files
             // searchLike: false,
-            // path: './search.json',
+            // path: '../static/search.json',
           },
           clearButton: true,
           specificOutput: function (matches) {
@@ -62,7 +37,7 @@
             return matches.map((element, index) => {
               if (index > 0) {
                 const { geometry, properties } = element;
-                return `<li data-coordinate="${geometry.coordinates}">
+                return `<li data-data="${geometry.coordinates} | ${properties.display_name}">
                   <div href="${properties.display_name}">
                     ${properties.display_name.replace(regex, (str) => `<b>${str}</b>`)}
                   </div>
@@ -97,8 +72,9 @@
         function setNewMarkerAndRemoveOlder() {
           setTimeout(() => {
             const coordinates = document.querySelector('.search');
-            const { name } = coordinates.dataset;
-            const [cordlat, cordlng] = coordinates.dataset.coords.split(',');
+            const { data } = coordinates.dataset;
+            const [coord, name] = data.split('|');
+            const [cordlat, cordlng] = coord.split(',');
             const corlat = +cordlat;
             const corlng = +cordlng;
             const marker = L.marker([corlng, corlat], {
@@ -141,8 +117,4 @@
             handleEvent(e);
           }
         });
-      });</script>
-    <script src="./Autosuggest.js"></script>
-  </body>
-
-</html>
+      });</script><script src="./Autosuggest.js"></script></body></html>

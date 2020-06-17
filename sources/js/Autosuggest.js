@@ -174,11 +174,8 @@ class Autosuggest {
   }
 
   addNominative(item) {
-    const name = item.textContent.trim();
     const search = document.querySelector('.search');
-
-    search.dataset.coords = item.getAttribute('data-coordinate');
-    search.dataset.name = name;
+    search.dataset.data = item.getAttribute('data-data');
   }
 
   // setting the active list with the mouse
@@ -303,7 +300,6 @@ class Autosuggest {
 
       if (matches.length > 1) this.outputHtml(matches);
     } catch (err) {
-      console.log(err);
       removeClass(this.classSearch, this.isLoading);
       this.searchId.value = '';
       addClass(this.searchId, this.errorClass);

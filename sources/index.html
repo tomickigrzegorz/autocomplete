@@ -26,7 +26,7 @@
     <!-- search container -->
     <div class="container">
       <div class="row">
-        <div class="search" data-coords="" data-name="">
+        <div class="search">
           <input type="text" id="search" class="full-width" placeholder="Enter address">
         </div>
       </div>
@@ -45,7 +45,7 @@
     <script type="text/javascript">
       window.addEventListener('DOMContentLoaded', function () {
         new Autosuggest('#search', {
-          howManyCharacters: 2,
+          howManyCharacters: 4,
           delay: 500,
           howManyRecordsShow: 5,
           output: 'output-list',
@@ -69,7 +69,7 @@
             return matches.map((element, index) => {
               if (index > 0) {
                 const { geometry, properties } = element;
-                return `<li data-coordinate="${geometry.coordinates}">
+                return `<li data-data="${geometry.coordinates} | ${properties.display_name}">
                   <div href="${properties.display_name}">
                     ${properties.display_name.replace(regex, (str) => `<b>${str}</b>`)}
                   </div>
@@ -104,8 +104,9 @@
         function setNewMarkerAndRemoveOlder() {
           setTimeout(() => {
             const coordinates = document.querySelector('.search');
-            const { name } = coordinates.dataset;
-            const [cordlat, cordlng] = coordinates.dataset.coords.split(',');
+            const { data } = coordinates.dataset;
+            const [coord, name] = data.split('|');
+            const [cordlat, cordlng] = coord.split(',');
             const corlat = +cordlat;
             const corlng = +cordlng;
             const marker = L.marker([corlng, corlat], {

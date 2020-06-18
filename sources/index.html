@@ -55,7 +55,10 @@
               .sort((a, b) => a - b)
               .map(el => {
                 return `<li>
-                  <p>${el.name.replace(regex, (str) => `<b>${str}</b>`)}</p>
+                  <h3>${el.name.replace(regex, (str) => `<b>${str}</b>`)}</h3>
+                  <div class="info">
+                    <p class="address">City: ${el.address.city} Adress: ${el.address.street} </p>
+                  </div>
                   </li>`;
               });
             return html.join('');

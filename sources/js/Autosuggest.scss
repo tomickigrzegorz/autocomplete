@@ -193,26 +193,10 @@ h1 {
 
 .info {
   display: flex;
-}
-
-.icon {
-  width: 32px;
-  height: 32px;
-  padding: 3px;
+  margin-top: 5px;
 }
 
 .address {
-  margin-left: 5px;
   font-size: 80%;
   align-self: center;
-}
-
-.gender {
-  &-male {
-    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAw0lEQVRYR2NkIB0IALXUA3EAVOsCIN1IujEQHYxkaJwA1JOPpm8ikF9AhllkOeAD0CJ+NMseAPmKA+mAh0DLFejlgAZoGkC2D5QGQOIkA3LSAMgSUDpAToRkWU5uIiTZl/g0kBsCVHMEKQ5wANo6H09iA+WERCA+QIrrSHEAyAJ5AoaD1JCUHUlxwH8ifUaKmSQVRKMOGA2B0RAYDYEBDwFYQQhzCKwdCGofkl2zklRsQi0adcBoCIyGwGgIjIYAVUMAAGMeMyEOprIEAAAAAElFTkSuQmCC') no-repeat;
-  }
-
-  &-female {
-    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABtElEQVRYR+1X0TEEQRB1ESACexEgAicCMnAZIAIrAmSwMiACROBEYGVABLzHtOqa2pntblfu57qqa29np/u96XnTw2TDb1sIuYAfp9AOz0t/mp+ISSDwGjGnWdwN3s8CuUIE3gG0mYH1eJ+uksAbwJv/ItAmDWg8aoDjbotogCDUgRZhCDwqQvcqawHRCiyNhIfAAqi7I8ics+9hZyUwJLwSjkuQFgJ7QHr2rCpVgdUYNQsBKf1HypY3IQHR381bMUZAl/4QSHP4SWFZtxjv4A/p+3k6rtUq1Ag0qfS8fCQZx14LGdmKezjvhCs4WzYFybGi1Qg8IuoAfg+XpsNEQ3cBx7YVyh1+H8GZg5ULEZghqk3gBKDxnVfxkGn1s2oEZzX4DBHIg5iU5edzyEiS2yBka7i/38ZEqJPUVi/zXD2AQVYCTVq9ZVUiRstcM4EO2UrHLwficZyb0I0VWHknpIp5HD3GmOrxk2RWDch8XQ35S1iOpWvvowQY95mCcwLexXyniQStCfSo3A5cb8EL3qkPt0W2QE6FJvAE5JkbPaiBNQH551RvgfsS+ksfaBHM5rMUAl/qE1YhPnkY8wAAAABJRU5ErkJggg==') no-repeat;
-  }
 }

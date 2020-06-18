@@ -123,7 +123,7 @@ specificOutput: function (matches) {
   return html.join('');
 }
 
-new Autosuggest('.element | #element', options);
+new Autosuggest('#search', options);
 ```
 
 ## Browsers support

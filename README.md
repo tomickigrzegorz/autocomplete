@@ -60,44 +60,44 @@ howManyCharacters | Number | `1` |  | The number of characters entered should st
 ```
 ### JAVASCRIPT
 ```js
-  const options = {
-    searchBy: 'name', // searching by item
-    output: 'output-list', // container output
-    delay: 1000, // character delay
-    activeList: 'active-list', // coloring results, records
-    howManyCharacters: 1, // how many characters to search
-    actions: {
-      isActive: 'is-active', // show/hide results
-      isLoading: 'is-loading', // loading animation
-    },
-    error: {
-      error: 'error', // error class
-      placeholder: 'something went wrong...',
-    },
-    dataAPI: {
-      searchLike: true, // controlling the way data is downloaded
-      path: process.env.ASSET_PATH, // static file or address
-    },
-    // this part is responsible for the number of records,
-    // the appearance of li elements and it really depends
-    //  on you how it will look
-    specificOutput: function (matches) {
-      const regex = new RegExp(`${matches[0]}`, 'gi');
-      const html = matches.slice(1)
-        .filter((element, index) => {
-          return element.name.match(regex);
-        })
-        .sort((a, b) => a - b)
-        .map(el => {
-          return `<li>
-             <p>${el.name.replace(regex, (str) => `<b>${str}</b>`)}</p>
-            </li>`;
-        });
-        return html.join('');
-    }
+const options = {
+  searchBy: 'name', // searching by item
+  output: 'output-list', // container output
+  delay: 1000, // character delay
+  activeList: 'active-list', // coloring results, records
+  howManyCharacters: 1, // how many characters to search
+  actions: {
+    isActive: 'is-active', // show/hide results
+    isLoading: 'is-loading', // loading animation
+  },
+  error: {
+    error: 'error', // error class
+    placeholder: 'something went wrong...',
+  },
+  dataAPI: {
+    searchLike: true, // controlling the way data is downloaded
+    path: process.env.ASSET_PATH, // static file or address
+  },
+  // this part is responsible for the number of records,
+  // the appearance of li elements and it really depends
+  //  on you how it will look
+  specificOutput: function (matches) {
+    const regex = new RegExp(`${matches[0]}`, 'gi');
+    const html = matches.slice(1)
+      .filter((element, index) => {
+        return element.name.match(regex);
+      })
+      .sort((a, b) => a - b)
+      .map(el => {
+        return `<li>
+            <p>${el.name.replace(regex, (str) => `<b>${str}</b>`)}</p>
+          </li>`;
+      });
+      return html.join('');
   }
+}
 
-  new Autosuggest('.element | #element', options);
+new Autosuggest('.element | #element', options);
 ```
 
 ## Add your own result template `specificOutput`

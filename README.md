@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-[Live DEMO](http://www.grzegorztomicki.pl/serwisy/autosuggest/)
+[Live DEMO](https://tomik23.github.io/autosuggest/)
 
 ![Screenshot1](https://github.com/tomik23/autosuggest/blob/master/static/your-template.png)
 

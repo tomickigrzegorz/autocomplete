@@ -4,7 +4,6 @@ import 'whatwg-fetch';
 // import 'promise-polyfill/src/polyfill'; // enable if you want to support IE
 import removeClass from './helpers/removeClass';
 import addClass from './helpers/addClass';
-import htmlTemplate from './helpers/htmlTemplate';
 
 class Autosuggest {
   constructor(
@@ -12,22 +11,17 @@ class Autosuggest {
     {
       delay,
       output,
-      searchBy,
       error,
       searchMethod,
       actions,
       activeList,
       dataAPI,
-      howManyRecordsShow,
       specificOutput,
       howManyCharacters,
       clearButton,
-      formatGeoJSON,
     }
   ) {
     this.search = element;
-    this.formatGeoJSON = formatGeoJSON || false;
-    this.searchBy = searchBy;
     this.searchId = document.querySelector(this.search);
     this.searchOutputUl = output || 'output-list';
     this.placeholderError =
@@ -39,7 +33,6 @@ class Autosuggest {
       actions && actions.isLoading ? actions.isLoading : 'loading';
     this.isActive = actions && actions.isActive ? actions.isActive : 'active';
     this.delay = delay || 500;
-    this.rowMax = howManyRecordsShow || 10;
     this.clearButton = clearButton || false;
     this.searchMethod = searchMethod || false;
     this.searchLike = dataAPI.searchLike;
@@ -54,13 +47,12 @@ class Autosuggest {
       keyDown: 38,
     };
 
-    this.initialSearch(this.searchBy);
+    this.initialSearch();
+    this.createOutputSearch(this.search);
   }
 
-  initialSearch(searchBy) {
+  initialSearch() {
     let timeout = null;
-
-    this.createOutputSearch(this.search);
 
     this.searchId.addEventListener('input', (e) => {
       this.valueFromSearch = e.target.value;
@@ -80,7 +72,7 @@ class Autosuggest {
           escapedChar.length > 0
         ) {
           addClass(this.searchId.parentNode, this.isLoading);
-          this.searchItem(escapedChar.trim(), searchBy);
+          this.searchItem(escapedChar.trim());
         } else {
           removeClass(this.matchList, this.isActive);
         }
@@ -104,17 +96,8 @@ class Autosuggest {
     this.matchList = document.getElementById(outputAfterSearch);
   }
 
-  // hide output div when click on li or press escape
+  // hide output div when press escape
   closeOutputMatchesList() {
-    document.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const itemActive = document.querySelector(`.${this.isActive}`);
-      if (e.target.id !== this.search) {
-        if (itemActive) {
-          removeClass(itemActive, this.isActive);
-        }
-      }
-    });
     // close outpu list when press ESC
     document.addEventListener('keyup', (e) => {
       if (e.keyCode === this.keyCode.esc) {
@@ -128,23 +111,8 @@ class Autosuggest {
 
   // preparation of the list
   outputHtml(matches) {
-    const { searchBy } = this;
-    let html;
-    // console.log(matches);
-    if (this.formatGeoJSON) {
-      const filter = matches.filter((_, index) => index < this.rowMax);
-      html = this.specificOutput(filter);
-    } else {
-      html = matches
-        .filter((_, index) => index > 0 && index <= this.rowMax)
-        .map((match) => {
-          const htmlTemp = this.specificOutput
-            ? this.specificOutput({ ...match, matches })
-            : htmlTemplate({ match, matches, searchBy });
-          return htmlTemp;
-        })
-        .join('');
-    }
+    const html = this.specificOutput(matches);
+    // console.log('html', matches);
 
     this.matchList.innerHTML = `<ul id="${this.searchOutputUl}">${html}</ul>`;
 
@@ -163,7 +131,7 @@ class Autosuggest {
         const itemActive = document.querySelector(`li.${this.activeList} > *`);
         if (e.keyCode === this.keyCode.enter && itemActive != null) {
           const item = e.target;
-          this.addNominative(itemActive.parentElement);
+          this.dataElements(itemActive.parentElement);
           document.getElementById(item.id).value = itemActive.innerText.trim();
           document.getElementById(this.searchOutputUl).outerHTML = '';
           removeClass(item.nextSibling, this.isActive);
@@ -173,9 +141,12 @@ class Autosuggest {
     });
   }
 
-  addNominative(item) {
-    const search = document.querySelector('.search');
-    search.setAttribute('data-elements', item.getAttribute('data-elements'));
+  dataElements(item) {
+    const search = document.querySelector(this.search);
+    const checkIfDataElementsExist = item.getAttribute('data-elements');
+    if (checkIfDataElementsExist !== null) {
+      search.setAttribute('data-elements', item.getAttribute('data-elements'));
+    }
   }
 
   // setting the active list with the mouse
@@ -202,7 +173,7 @@ class Autosuggest {
       e.preventDefault();
       const item = document.querySelector(`li.${this.activeList} > *`);
       document.querySelector(this.search).value = item.innerText.trim();
-      this.addNominative(item.parentNode);
+      this.dataElements(item.parentNode);
       searchOutpuli.outerHTML = '';
     });
   }
@@ -273,32 +244,28 @@ class Autosuggest {
 
   // The async function gets the text from the search
   // and returns the matching array
-  async searchItem(searchText, searchBy) {
+  async searchItem(searchText) {
     try {
       const dataResponse =
         this.searchLike === true ? this.path + searchText : this.path;
-      const searchMethod = this.searchMethod ? '^' : '';
-      const regex = new RegExp(`${searchMethod}${searchText}`, 'gi');
+      // const searchMethod = this.searchMethod ? '^' : '';
+      // const regex = new RegExp(`${searchMethod}${searchText}`, 'gi');
 
       const res = await fetch(dataResponse);
       const jsonData = await res.json();
-
-      let matches = [];
-      matches = this.formatGeoJSON
-        ? jsonData.features
-        : jsonData.filter((element) => element[searchBy].match(regex));
 
       if (searchText.length === 0) {
         this.matchList.innerHTML = '';
       }
 
-      matches = [searchText, ...matches];
-      removeClass(this.classSearch, this.isLoading);
+      const matches = Array.isArray(jsonData)
+        ? [searchText, ...jsonData]
+        : { searchText, ...jsonData };
 
+      removeClass(this.classSearch, this.isLoading);
       // clear input
       if (this.clearButton) this.clearSearchInpu();
-
-      if (matches.length > 1) this.outputHtml(matches);
+      this.outputHtml(matches);
     } catch (err) {
       removeClass(this.classSearch, this.isLoading);
       this.searchId.value = '';

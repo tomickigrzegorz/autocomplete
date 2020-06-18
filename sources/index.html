@@ -47,13 +47,12 @@
         new Autosuggest('#search', {
           howManyCharacters: 2,
           delay: 500,
-          howManyRecordsShow: 5,
           output: 'output-list',
           searchMethod: true,
           error: {
             placeholder: 'something went wrong...',
           },
-          formatGeoJSON: true,
+          clearButton: true,
           dataAPI: {
             // nominatim
             searchLike: true,
@@ -63,11 +62,11 @@
             // searchLike: false,
             // path: '../static/search.json',
           },
-          clearButton: true,
+          // nominatim
           specificOutput: function (matches) {
-            const regex = new RegExp(matches[0], 'i');
-            return matches.map((element, index) => {
-              if (index > 0) {
+            const regex = new RegExp(matches.searchText, 'i');
+            return matches.features.map((element, index) => {
+              if (index < 5) {
                 const { geometry, properties } = element;
                 return `<li data-elements="${geometry.coordinates} | ${properties.display_name}">
                   <p>
@@ -78,6 +77,9 @@
             }).join('');
           }
         });
+
+
+        // MAP
 
         const config = {
           minZoom: 6,
@@ -104,7 +106,7 @@
         function setNewMarkerAndRemoveOlder() {
           setTimeout(() => {
             const dataElements = document
-              .querySelector('.search')
+              .querySelector('#search')
               .getAttribute('data-elements');
             const [coord, name] = dataElements.split('|');
             const [cordlat, cordlng] = coord.split(',');
@@ -150,6 +152,7 @@
             handleEvent(e);
           }
         });
+
       });
     </script>
   </body>

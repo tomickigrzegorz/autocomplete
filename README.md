@@ -126,26 +126,6 @@ specificOutput: function (matches) {
 new Autosuggest('.element | #element', options);
 ```
 
-### E5 version compatible with IE10/11
-```js
-...
-specificOutput: function (options) {
-  return '' +
-    '<li>' +
-      '<a href=' + options['name'] + '>' +
-        options['name'].replace(new RegExp(options['matches'][0], 'i'), function (str) { return '<b>' + str + '</b>' }) +
-      '</a>' +
-      '<div class="info">' +
-        '<div class="icon gender-' + options['gender'] + '"></div>' +
-        '<div class="address">' + options['address'] + '</div>' +
-      '</div>' +
-    '</li>';
-  }
-}
-
-new Autosuggest('.element | #element', options);
-```
-
 ## Browsers support
 
 | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>IE / Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png" alt="Opera" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Opera | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/vivaldi/vivaldi_48x48.png" alt="Vivaldi" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Vivaldi |

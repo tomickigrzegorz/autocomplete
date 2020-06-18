@@ -104,7 +104,7 @@ new Autosuggest('.element | #element', options);
 In fact, we can work on dynamic data or static files. Data can be in the form of an array or json. It's up to you what the results list will look like. You can configure everything yourself using the `specificOutput` method
 
 
-### E6 version
+### specificOutput example
 ```js
 ...
 specificOutput: function (matches) {

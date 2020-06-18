@@ -96,8 +96,17 @@ class Autosuggest {
     this.matchList = document.getElementById(outputAfterSearch);
   }
 
-  // hide output div when press escape
+  // hide output div when click on li or press escape
   closeOutputMatchesList() {
+    document.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const itemActive = document.querySelector(`.${this.isActive}`);
+      if (e.target.id !== this.search) {
+        if (itemActive) {
+          removeClass(itemActive, this.isActive);
+        }
+      }
+    });
     // close outpu list when press ESC
     document.addEventListener('keyup', (e) => {
       if (e.keyCode === this.keyCode.esc) {
@@ -112,15 +121,15 @@ class Autosuggest {
   // preparation of the list
   outputHtml(matches) {
     const html = this.specificOutput(matches);
-    // console.log('html', matches);
 
-    this.matchList.innerHTML = `<ul id="${this.searchOutputUl}">${html}</ul>`;
-
-    addClass(this.matchList, this.isActive);
-    this.addTextFromLiToSearchInput();
-    this.keyUpInsideUl();
-    this.mouseActiveListItem();
-    this.closeOutputMatchesList();
+    if (html !== '') {
+      this.matchList.innerHTML = `<ul id="${this.searchOutputUl}">${html}</ul>`;
+      addClass(this.matchList, this.isActive);
+      this.addTextFromLiToSearchInput();
+      this.keyUpInsideUl();
+      this.mouseActiveListItem();
+      this.closeOutputMatchesList();
+    }
   }
 
   // adding text from list when enter

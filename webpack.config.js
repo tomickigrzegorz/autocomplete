@@ -80,6 +80,7 @@ module.exports = (env, { mode }) => {
         new CopyPlugin({
           patterns: [
             { from: 'static/search.json', to: './' },
+            { from: 'static/users.json', to: './' },
           ]
         }),
         mode

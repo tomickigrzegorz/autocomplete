@@ -6,20 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Autosuggest</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
-    <style>
-      body {
-        padding: 0;
-        margin: 0;
-      }
-
-      html,
-      body,
-      #map {
-        height: 100%;
-      }
-    </style>
   </head>
 
   <body>
@@ -27,7 +13,7 @@
     <div class="container">
       <div class="row">
         <div class="search">
-          <input type="text" id="search" class="full-width" placeholder="Enter address">
+          <input type="text" id="search" class="full-width" placeholder="Enter le">
         </div>
       </div>
     </div>
@@ -54,102 +40,27 @@
           },
           clearButton: true,
           dataAPI: {
-            // nominatim
-            searchLike: true,
-            path: 'https://nominatim.openstreetmap.org/search?format=geojson&q=',
-
             // static files
-            // searchLike: false,
-            // path: '../static/search.json',
+            path: '../static/users.json',
+
+            // jsonplaceholder dynami data 
+            // searchLike: true,
+            // path: 'https://jsonplaceholder.typicode.com/users?name_like=',
           },
-          // nominatim
+          // static file example from jsonplaceholder site
           specificOutput: function (matches) {
-            const regex = new RegExp(matches.searchText, 'i');
-            return matches.features.map((element, index) => {
-              if (index < 5) {
-                const { geometry, properties } = element;
-                return `<li data-elements="${geometry.coordinates} | ${properties.display_name}">
-                  <p>
-                    ${properties.display_name.replace(regex, (str) => `<b>${str}</b>`)}
-                  </p>
-                </li> `;
-              }
-            }).join('');
-          }
-        });
-
-
-        // MAP
-
-        const config = {
-          minZoom: 6,
-          maxZomm: 18,
-        };
-        // magnification with which the map will start
-        const zoom = 3;
-        // co-ordinates
-        const lat = 52.22977;
-        const lon = 21.01178;
-
-        // calling map
-        const map = L.map('map', config).setView([lat, lon], zoom);
-
-        // Used to load and display tile layers on the map
-        // Most tile servers require attribution, which you can set under `Layer`
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution:
-            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        }).addTo(map);
-
-        // set new marker and remove previous
-        const markers = [];
-        function setNewMarkerAndRemoveOlder() {
-          setTimeout(() => {
-            const dataElements = document
-              .querySelector('#search')
-              .getAttribute('data-elements');
-            const [coord, name] = dataElements.split('|');
-            const [cordlat, cordlng] = coord.split(',');
-            const corlat = +cordlat;
-            const corlng = +cordlng;
-            const marker = L.marker([corlng, corlat], {
-              title: name,
-            })
-              .addTo(map)
-              .bindPopup(name);
-
-            markers.push(marker);
-            map.setView([corlng, corlat], 8);
-
-            if (markers.length > 1) {
-              for (let i = 0; i < markers.length - 1; i++) {
-                map.removeLayer(markers[i]);
-              }
-            }
-          }, 500);
-        }
-
-        // events
-        function handleEvent(event) {
-          event.stopPropagation();
-          switch (event.type) {
-            case 'click':
-            case 'keyup': {
-              setNewMarkerAndRemoveOlder();
-              break;
-            }
-            default:
-              break;
-          }
-        }
-
-        // trigger events click or keyup
-        const coordinates = document.querySelector('.output-search');
-        coordinates.addEventListener('click', handleEvent);
-        document.addEventListener('keyup', function (e) {
-          e.preventDefault();
-          if (e.keyCode === 13) {
-            handleEvent(e);
+            const regex = new RegExp(`${matches[0]}`, 'gi');
+            const html = matches.slice(1)
+              .filter((element, index) => {
+                return element.name.match(regex);
+              })
+              .sort((a, b) => a - b)
+              .map(el => {
+                return `<li>
+                  <p>${el.name.replace(regex, (str) => `<b>${str}</b>`)}</p>
+                  </li>`;
+              });
+            return html.join('');
           }
         });
 

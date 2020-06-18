@@ -38,18 +38,16 @@ props | type | default | require | description
 searchBy | String |   | ✔ | The name of the element after which we do a search
 dataAPI -> searchLike | Boolean |   | ✔ | This parameter controls whether we append the search text to url `http://localhost:3005/persons?like=search-text`
 dataAPI -> path | String |   | ✔ | Path to our Rest API or static file
+specificOutput | Function | `<li><a href="searchBy">searchBy</a></li>` | ✔ | Function that creates the appearance of the result
 searchOutputUl | String | `output-list`  |  | Container with our list
 clearButton | Boolea | `false` |  | The parameter set to `true` adds a button to delete the text from the input field, a small `x` to the right of the input field 
-searchMethod | Boolean | `false` |  | `true` we are looking from the beginning of the string, if the parameter is missing or is set to `false` then we are looking in the whole string
 actions -> isActive | String | `active` |  | Show/hide our result
 actions -> isLoading | String | `loading`  |  | Spinner class
 activeList | String | `active-list`  |  | Highlight li on mouse or keyup/keydown
 error -> error | String | `error`  |  | Adding class error
 error -> placeholder | String | `something went wrong...`  |  | Adding plaseholder
 delay | Number | `1000` |  | Delay without which the server would not survive ;)
-howManyRecordsShow | Number | `10` |  | How many records will be shown
 howManyCharacters | Number | `1` |  | The number of characters entered should start searching
-specificOutput | Function | `<li><a href="searchBy">searchBy</a></li>` |  | Function that creates the appearance of the result
 
 ### HTML
 ```html
@@ -61,13 +59,12 @@ specificOutput | Function | `<li><a href="searchBy">searchBy</a></li>` |  | Func
 </div>
 ```
 ### JAVASCRIPT
-```javascript
+```js
   const options = {
     searchBy: 'name', // searching by item
     output: 'output-list', // container output
     delay: 1000, // character delay
     activeList: 'active-list', // coloring results, records
-    howManyRecordsShow: 10, // number of results
     howManyCharacters: 1, // how many characters to search
     actions: {
       isActive: 'is-active', // show/hide results
@@ -79,108 +76,72 @@ specificOutput | Function | `<li><a href="searchBy">searchBy</a></li>` |  | Func
     },
     dataAPI: {
       searchLike: true, // controlling the way data is downloaded
-      path: process.env.ASSET_PATH,
+      path: process.env.ASSET_PATH, // static file or address
     },
-    specificOutput: function ({ name, gender, address, matches }) {
-      return '' +
-        '<li>' +
-        '<a href=' + name + '>' +
-          name.replace(new RegExp(matches[0], 'i'), str => '<b>' + str + '</b>') +
-        '</a>' +
-        '<div class="info">' +
-          '<div class="icon gender-' + gender + '"></div>' +
-          '<div class="address">' + address + '</div>' +
-        '</div>' +
-        '</li>';
+    // this part is responsible for the number of records,
+    // the appearance of li elements and it really depends
+    //  on you how it will look
+    specificOutput: function (matches) {
+      const regex = new RegExp(`${matches[0]}`, 'gi');
+      const html = matches.slice(1)
+        .filter((element, index) => {
+          return element.name.match(regex);
+        })
+        .sort((a, b) => a - b)
+        .map(el => {
+          return `<li>
+             <p>${el.name.replace(regex, (str) => `<b>${str}</b>`)}</p>
+            </li>`;
+        });
+        return html.join('');
     }
   }
 
   new Autosuggest('.element | #element', options);
 ```
 
-### Minimal config
-```javascript
-const options = {
-  searchBy: 'name',
-   dataAPI: {
+## Add your own result template `specificOutput`
 
-// searched from static file
-searchLike: false
-      path: './static/_persons.json'
+In fact, we can work on dynamic data or static files. Data can be in the form of an array or json. It's up to you what the results list will look like. You can configure everything yourself using the `specificOutput` method
 
-// searched from https://yoururl.com
-searchLike: false
-      path: 'https://jsonplaceholder.typicode.com/users'
-
-// searched from dynamic API https://yoururl.com?like=searched-text
-searchLike: true
-      path: 'https://jsonplaceholder.typicode.com/users?name_like='
- }
-});
-```
-
-## ATTENTION
-> The `searchLike` parameter is responsible for the way the data will be downloaded. If our api allows you to download data dynamically to the parameter `searchLike: true` the search text will be appended to the link `https://jsonplaceholder.typicode.com/users?name_like=appended-text` if our api does not support it or we want to download from a static json file then set the parameter `searchLike: false` and `https://jsonplaceholder.typicode.com/users`.
-
-
-## Add your own result template
-
-We have json, are looking for the element by ```name```
-```json
-{
-  "index": 0,
-  "name": "Mierra Hamilton",
-  "gender": "male",
-  "address": "943 Raleigh Place, Harmon, Idaho, 8481"
-},
-{
-  "index": 1,
-  "name": "Jody Conley",
-  "gender": "female",
-  "address": "980 Preston Court, Thynedale, Oregon, 6050"
-},
-```
-
-We need to add your own look of search results
-> Important if you want to have the highlighted text you have typed in the matches variable must be added adding last element ```matches```
 
 ### E6 version
-```html
+```js
 ...
-searchBy: 'name',
-specificOutput: function ({ name, gender, address, matches }) {
-    return '' +
-      '<li>' +
-        '<a href=' + name + '>' +
-          name.replace(new RegExp(matches[0], 'i'), str => '<b>' + str + '</b>') +
-        '</a>' +
-        '<div class="info">' +
-          '<div class="icon gender-' + gender + '"></div>' +
-          '<div class="address">' + address + '</div>' +
-        '</div>' +
-      '</li>';
-    }
+specificOutput: function (matches) {
+  const regex = new RegExp(`${matches[0]}`, 'gi');
+  const html = matches.slice(1)
+    .filter((element, index) => {
+      return element.name.match(regex);
+    })
+    .sort((a, b) => a - b)
+    .map(el => {
+      return `
+        <li>
+          <p>${el.name.replace(regex, (str) => `<b>${str}</b>`)}</p>
+        </li>`;
+    });
+  return html.join('');
 }
 
 new Autosuggest('.element | #element', options);
 ```
 
 ### E5 version compatible with IE10/11
-```html
+```js
 ...
-searchBy: 'name',
 specificOutput: function (options) {
-    return '' +
-      '<li>' +
-        '<a href=' + options['name'] + '>' +
-          options['name'].replace(new RegExp(options['matches'][0], 'i'), function (str) { return '<b>' + str + '</b>' }) +
-        '</a>' +
-        '<div class="info">' +
-          '<div class="icon gender-' + options['gender'] + '"></div>' +
-          '<div class="address">' + options['address'] + '</div>' +
-        '</div>' +
-      '</li>';
-    }
+  return '' +
+    '<li>' +
+      '<a href=' + options['name'] + '>' +
+        options['name'].replace(new RegExp(options['matches'][0], 'i'), function (str) { return '<b>' + str + '</b>' }) +
+      '</a>' +
+      '<div class="info">' +
+        '<div class="icon gender-' + options['gender'] + '"></div>' +
+        '<div class="address">' + options['address'] + '</div>' +
+      '</div>' +
+    '</li>';
+  }
 }
 
 new Autosuggest('.element | #element', options);

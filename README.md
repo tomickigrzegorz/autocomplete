@@ -37,7 +37,7 @@ props | type | default | require | description
 ---- | :----: | :-------: | :--------: | -----------
 dataAPI -> path | String |   | ✔ | Path to our Rest API or static file
 specificOutput | Function | `<li><a href="searchBy">searchBy</a></li>` | ✔ | Function that creates the appearance of the result
-dataAPI -> searchLike | Boolean |   |  | The `true` parameter controls whether we append the search text to the URL `http://localhost:3005/persons?like=search-text`
+dataAPI -> searchLike | Boolean | `false` |  | The `true` parameter controls whether we append the search text to the URL `http://localhost:3005/persons?like=search-text`
 searchOutputUl | String | `output-list`  |  | Container with our list
 clearButton | Boolea | `false` |  | The parameter set to `true` adds a button to delete the text from the input field, a small `x` to the right of the input field 
 actions -> isActive | String | `active` |  | Show/hide our result

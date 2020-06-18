@@ -25,7 +25,9 @@ html {
 
 body {
   display: flex;
+  justify-content: center;
   flex-direction: column;
+  height: 100%;
   font-family: 'Lato', sans-serif;
   min-height: 100%;
   background-color: #eaeaea;
@@ -42,6 +44,10 @@ body {
   width: 100%;
   max-width: 400px;
   margin: 20px auto;
+}
+
+h1 {
+  letter-spacing: 3px;
 }
 
 .loading:before {

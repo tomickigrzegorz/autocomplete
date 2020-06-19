@@ -95,7 +95,7 @@ const options = {
   }
 }
 
-new Autosuggest('element', options);
+new Autosuggest('#element', options);
 ```
 
 ## Add your own result template `specificOutput`
@@ -129,7 +129,7 @@ specificOutput: function (matches) {
   return html.join('');
 }
 
-new Autosuggest('search', options);
+new Autosuggest('#search', options);
 ```
 
 ## Browsers support

@@ -45,7 +45,7 @@ actions -> isLoading | String | `loading`  |  | Spinner class
 activeList | String | `active-list`  |  | Highlight li on mouse or keyup/keydown
 error -> error | String | `error`  |  | Adding class error
 error -> placeholder | String | `something went wrong...`  |  | Adding plaseholder
-delay | Number | `1000` |  | Delay without which the server would not survive ;)
+delay | Number | `500` |  | Delay without which the server would not survive ;)
 howManyCharacters | Number | `1` |  | The number of characters entered should start searching
 
 ### HTML

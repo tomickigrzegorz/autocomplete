@@ -37,15 +37,15 @@
           },
           clearButton: true,
           dataAPI: {
-            // static files
+
             path: 'https://cdn.jsdelivr.net/gh/tomik23/autosuggest@master/docs/users.json',
 
-            // jsonplaceholder dynami data 
-            // searchLike: true,
-            // path: 'https://jsonplaceholder.typicode.com/users?name_like=',
+            // static files
+            // path: '../static/users.json'
           },
-          // static file example from jsonplaceholder site
+
           specificOutput: function (matches) {
+            // const regex = new RegExp(`^${matches[0]}`, 'gi'); // start with
             const regex = new RegExp(`${matches[0]}`, 'gi');
             const html = matches.slice(1)
               .filter((element, index) => {

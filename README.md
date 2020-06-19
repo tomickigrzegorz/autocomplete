@@ -36,7 +36,7 @@ A library [Skeleton CSS](https://github.com/dhg/Skeleton) was used in this proje
 props | type | default | require | description
 ---- | :----: | :-------: | :--------: | -----------
 dataAPI -> path | String |   | ✔ | Path to our Rest API or static file
-specificOutput | Function | `<li><a href="searchBy">searchBy</a></li>` | ✔ | Function that creates the appearance of the result
+specificOutput | Function | `<li><p>xxxxx</p></li>` | ✔ | Function that creates the appearance of the result
 dataAPI -> searchLike | Boolean | `false` |  | The `true` parameter controls whether we append the search text to the URL `http://localhost:3005/persons?like=search-text`
 searchOutputUl | String | `output-list`  |  | Container with our list
 clearButton | Boolea | `false` |  | The parameter set to `true` adds a button to delete the text from the input field, a small `x` to the right of the input field 
@@ -60,7 +60,6 @@ howManyCharacters | Number | `1` |  | The number of characters entered should st
 ### JAVASCRIPT
 ```js
 const options = {
-  searchBy: 'name', // searching by item
   output: 'output-list', // container output
   delay: 1000, // character delay
   activeList: 'active-list', // coloring results, records
@@ -96,7 +95,7 @@ const options = {
   }
 }
 
-new Autosuggest('.element | #element', options);
+new Autosuggest('element', options);
 ```
 
 ## Add your own result template `specificOutput`
@@ -105,6 +104,13 @@ In fact, we can work on dynamic data or static files. Data can be in the form of
 
 
 ### specificOutput example
+
+```html
+<div class="search">
+  <input type="text" id="search" class="full-width" placeholder="Enter letter">
+</div>
+```
+
 ```js
 ...
 specificOutput: function (matches) {
@@ -123,7 +129,7 @@ specificOutput: function (matches) {
   return html.join('');
 }
 
-new Autosuggest('#search', options);
+new Autosuggest('search', options);
 ```
 
 ## Browsers support

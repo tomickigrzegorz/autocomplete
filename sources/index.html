@@ -52,7 +52,7 @@
               .filter((element, index) => {
                 return element.name.match(regex);
               })
-              .sort((a, b) => a - b)
+              .sort((a, b) => a.name.localeCompare(b.name))
               .map(el => {
                 return `<li>
                   <h3>${el.name.replace(regex, (str) => `<b>${str}</b>`)}</h3>

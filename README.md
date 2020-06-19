@@ -85,7 +85,7 @@ const options = {
       .filter((element, index) => {
         return element.name.match(regex);
       })
-      .sort((a, b) => a - b)
+      .sort((a, b) => a.name.localeCompare(b.name))
       .map(el => {
         return `<li>
             <p>${el.name.replace(regex, (str) => `<b>${str}</b>`)}</p>
@@ -119,7 +119,7 @@ specificOutput: function (matches) {
     .filter((element, index) => {
       return element.name.match(regex);
     })
-    .sort((a, b) => a - b)
+    .sort((a, b) => a.name.localeCompare(b.name))
     .map(el => {
       return `
         <li>

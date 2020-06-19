@@ -12,7 +12,6 @@ class Autosuggest {
       delay,
       output,
       error,
-      searchMethod,
       actions,
       activeList,
       dataAPI,
@@ -34,7 +33,6 @@ class Autosuggest {
     this.isActive = actions && actions.isActive ? actions.isActive : 'active';
     this.delay = delay || 500;
     this.clearButton = clearButton || false;
-    this.searchMethod = searchMethod || false;
     this.searchLike = dataAPI.searchLike;
     this.path = dataAPI.path;
     this.specificOutput = specificOutput;
@@ -257,8 +255,6 @@ class Autosuggest {
     try {
       const dataResponse =
         this.searchLike === true ? this.path + searchText : this.path;
-      // const searchMethod = this.searchMethod ? '^' : '';
-      // const regex = new RegExp(`${searchMethod}${searchText}`, 'gi');
 
       const res = await fetch(dataResponse);
       const jsonData = await res.json();

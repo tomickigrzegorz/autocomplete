@@ -116,9 +116,22 @@ specificOutput: function (matches) {
 ```js
 const options = {
   dataAPI: {
-    path: process.env.ASSET_PATH, // static file or address
+    path: process.env.ASSET_PATH, // static file or dynamic api
   },
-  specificOutput: function (matches) { }
+  specificOutput: function (matches) {
+    const regex = new RegExp(`${matches[0]}`, 'gi');
+    const html = matches.slice(1)
+      .filter((element, index) => {
+        return element.name.match(regex);
+      })
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .map(el => {
+        return `
+          <li>
+            <p>${el.name.replace(regex, (str) => `<b>${str}</b>`)}</p>
+          </li>`;
+      }).join('');
+  }
 }
 ```
 

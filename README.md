@@ -23,13 +23,9 @@ Run the app, just call:
 
 ```yarn dev``` or ```npm run dev```
 
-After starting the server [JSON Server](http://jsonplaceholder.typicode.com/), see this addresses [http://localhost:3004/country](http://localhost:3004/country) and [http://localhost:3005/persons](http://localhost:3005/persons)
-
 The final code:
 
 ```yarn prod```
-
-A library [Skeleton CSS](https://github.com/dhg/Skeleton) was used in this project.
 
 ## Configuration of the plugin
 

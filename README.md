@@ -46,10 +46,8 @@ howManyCharacters | Number | `1` |  | The number of characters entered should st
 
 ### HTML
 ```html
-<div class="row">
-  <div class="search">
-    <input type="text" id="search" class="full-width" placeholder="Enter letter">
-  </div>
+<div class="search">
+  <input type="text" id="search" class="full-width" placeholder="Enter letter">
 </div>
 ```
 ### JAVASCRIPT

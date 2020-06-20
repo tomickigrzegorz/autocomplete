@@ -1,43 +1,38 @@
-import './Autosuggest.scss';
+import '../scss/style.scss';
 
-import 'whatwg-fetch';
 // import 'promise-polyfill/src/polyfill'; // enable if you want to support IE
+import 'whatwg-fetch';
 import removeClass from './helpers/removeClass';
 import addClass from './helpers/addClass';
+import hasClass from './helpers/hasClass';
 
 class Autosuggest {
   constructor(
     element,
     {
       delay,
-      output,
-      error,
-      actions,
-      activeList,
       dataAPI,
+      placeholderError,
       specificOutput,
       howManyCharacters,
       clearButton,
     }
   ) {
     this.search = element;
-    this.searchId = document.querySelector(this.search);
-    this.searchOutputUl = output || 'output-list';
-    this.placeholderError =
-      error && error.placeholder
-        ? error.placeholder
-        : 'something went wrong...';
-    this.errorClass = error && error.errorClass ? error.errorClass : 'error';
-    this.isLoading =
-      actions && actions.isLoading ? actions.isLoading : 'loading';
-    this.isActive = actions && actions.isActive ? actions.isActive : 'active';
+    this.searchId = document.getElementById(this.search);
+    this.placeholderError = placeholderError || 'something went wrong...';
     this.delay = delay || 500;
     this.clearButton = clearButton || false;
     this.searchLike = dataAPI.searchLike;
     this.path = dataAPI.path;
     this.specificOutput = specificOutput;
     this.howManyCharacters = howManyCharacters || 1;
-    this.activeList = activeList || 'active-list';
+
+    this.searchOutputUl = 'auto-output-list';
+    this.isLoading = 'auto-is-loading';
+    this.isActive = 'auto-is-active';
+    this.errorClass = 'auto-error';
+    this.activeList = 'auto-active-list';
     this.keyCode = {
       esc: 27,
       enter: 13,
@@ -85,7 +80,7 @@ class Autosuggest {
     const outputAfterSearch = `${this.search}-auto`;
     const outputSearch = document.createElement('div');
     outputSearch.id = outputAfterSearch;
-    outputSearch.className = 'output-search';
+    outputSearch.className = 'auto-output-search';
     this.searchId.parentNode.insertBefore(
       outputSearch,
       this.searchId.nextSibling
@@ -119,7 +114,6 @@ class Autosuggest {
   // preparation of the list
   outputHtml(matches) {
     const html = this.specificOutput(matches);
-
     if (html !== '') {
       this.matchList.innerHTML = `<ul id="${this.searchOutputUl}">${html}</ul>`;
       addClass(this.matchList, this.isActive);
@@ -149,10 +143,9 @@ class Autosuggest {
   }
 
   dataElements(item) {
-    const search = document.querySelector(this.search);
     const checkIfDataElementsExist = item.getAttribute('data-elements');
     if (checkIfDataElementsExist !== null) {
-      search.setAttribute('data-elements', item.getAttribute('data-elements'));
+      this.searchId.setAttribute('data-elements', item.getAttribute('data-elements'));
     }
   }
 
@@ -179,7 +172,7 @@ class Autosuggest {
     searchOutpuli.addEventListener('click', (e) => {
       e.preventDefault();
       const item = document.querySelector(`li.${this.activeList} > *`);
-      document.querySelector(this.search).value = item.innerText.trim();
+      this.searchId.value = item.innerText.trim();
       this.dataElements(item.parentNode);
       searchOutpuli.outerHTML = '';
     });
@@ -195,58 +188,55 @@ class Autosuggest {
     if (itemsLi.length >= 1) {
       this.searchId.addEventListener('keydown', (e) => {
         const itemActive = document.querySelector(`li.${this.activeList}`);
-        switch (e.keyCode) {
-          case this.keyCode.keyUp: {
-            selected += 1;
-            if (selected > itemsLi.length) {
-              selected = 1;
-            }
-            if (itemActive) {
-              removeClass(itemActive, this.activeList);
-            }
-            addClass(itemsLi[selected - 1], this.activeList);
-            break;
+
+        if (e.keyCode === this.keyCode.keyUp) {
+          selected += 1;
+          if (selected > itemsLi.length) {
+            selected = 1;
           }
-          case this.keyCode.keyDown: {
-            selected -= 1;
-            if (selected <= 0) {
-              selected = itemsLi.length;
-            }
-            if (itemActive) {
-              removeClass(itemActive, this.activeList);
-            }
-            addClass(itemsLi[selected - 1], this.activeList);
-            break;
+        }
+
+        if (e.keyCode === this.keyCode.keyDown) {
+          selected -= 1;
+          if (selected <= 0) {
+            selected = itemsLi.length;
           }
-          default:
-            break;
+        }
+
+        if (
+          e.keyCode === this.keyCode.keyUp ||
+          e.keyCode === this.keyCode.keyDown
+        ) {
+          if (itemActive) removeClass(itemActive, this.activeList);
+          addClass(itemsLi[selected - 1], this.activeList);
         }
       });
     }
   }
 
   // Removing text from the input field
-  clearSearchInpu() {
-    const clearButton = document.querySelector(this.search);
-    const spanExist = clearButton.nextElementSibling.matches('.clear');
+  clearSearchInput() {
+    const clearButtonExist = document.querySelector('.auto-clear');
 
-    if (spanExist) {
-      this.removeClearButton(clearButton);
+
+    if (clearButtonExist) {
+      this.removeClearButton();
     }
+
     const clear = document.createElement('span');
-    clear.classList.add('clear');
-    clear.setAttribute('title', 'clear');
+    clear.classList.add('auto-clear');
+    clear.setAttribute('title', 'clear the input field');
     this.searchId.parentNode.insertBefore(clear, this.searchId.nextSibling);
 
     clear.addEventListener('click', () => {
-      clearButton.value = '';
-      clearButton.focus();
-      this.removeClearButton(clearButton);
+      this.searchId.value = '';
+      this.searchId.focus();
+      this.removeClearButton();
     });
   }
 
-  removeClearButton(clearButton) {
-    clearButton.nextElementSibling.remove();
+  removeClearButton() {
+    this.searchId.nextElementSibling.remove();
   }
 
   // The async function gets the text from the search
@@ -269,8 +259,9 @@ class Autosuggest {
 
       removeClass(this.classSearch, this.isLoading);
       // clear input
-      if (this.clearButton) this.clearSearchInpu();
+      // console.log('aaaaaaaaaaaaa', matches);
       this.outputHtml(matches);
+      if (this.clearButton) this.clearSearchInput();
     } catch (err) {
       removeClass(this.classSearch, this.isLoading);
       this.searchId.value = '';

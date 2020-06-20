@@ -1,71 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
+  <hea>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Autosuggest</title>
-  </head>
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Lato&display=swap);
 
-  <body>
-    <!-- search container -->
-    <div class="container">
-      <div class="row">
-        <h1>AUTOSUGGEST</h1>
-        <div class="search">
-          <input type="text" id="search" class="full-width" placeholder="Enter le">
+      * {
+        margin: 0;
+        padding: 0
+      }
+
+      html {
+        height: 100%
+      }
+
+      body,
+      html {
+        margin: 0;
+        padding: 0
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        height: 100%;
+        font-family: Lato, sans-serif;
+        min-height: 100%;
+        background-image: radial-gradient(circle, #f9f9f9, #e4e4e4, #cfcfcf, #bababa, #a6a6a6)
+      }
+
+      @-webkit-keyframes spinner {
+        to {
+          -webkit-transform: rotate(1turn);
+          transform: rotate(1turn)
+        }
+      }
+
+      @keyframes spinner {
+        to {
+          -webkit-transform: rotate(1turn);
+          transform: rotate(1turn)
+        }
+      }
+
+      .container {
+        width: 100%;
+        max-width: 400px;
+        margin: 20px auto
+      }
+
+      h1 {
+        letter-spacing: 3px
+      }
+
+      .label {
+        display: block;
+        font-size: 80%
+      }
+
+      .search {
+        position: relative;
+        display: block;
+        margin: 10px auto
+      }
+
+      .search input::-ms-clear {
+        display: none
+      }
+
+      .search ul {
+        list-style: none;
+        margin-bottom: 0;
+        border: 1px solid #b1b1b1;
+        border-top: none;
+        border-radius: 0 0 4px 4px;
+        overflow: hidden;
+        box-shadow: 0 8px 5px -4px hsla(0, 0%, 62%, .35)
+      }
+
+      .search ul li {
+        position: relative;
+        cursor: pointer;
+        margin: 0;
+        padding: 10px
+      }
+
+      .search ul li:before {
+        position: absolute;
+        content: "";
+        top: 0;
+        width: 100%;
+        left: 0;
+        right: 0;
+        margin: auto;
+        border-top: 1px solid #e4e4e4
+      }
+
+      .search ul li:not(:last-child) {
+        border-top: none
+      }
+
+      .search a {
+        text-decoration: none;
+        color: #000
+      }
+
+      .search a:focus {
+        outline: none
+      }
+
+      .search .full-width {
+        width: 100%;
+        height: 38px;
+        padding: 6px 45px 6px 10px;
+        background-color: #fff;
+        border: 1px solid #d7d7d7;
+        border-radius: 4px;
+        box-shadow: none;
+        box-sizing: border-box
+      }
+
+      .search .full-width:focus {
+        border: 1px solid #b1b1b1;
+        outline: 0
+      }
+    </style>
+    </head>
+
+    <body>
+      <!-- search container -->
+      <div class="container">
+        <div class="row">
+          <h1>AUTOSUGGEST</h1>
+          <div class="search">
+            <input type="text" id="search" class="full-width" placeholder="Enter le">
+          </div>
         </div>
       </div>
-    </div>
 
-    <script type="text/javascript">
-      if (!('Promise' in window)) {
-        var script = document.createElement("script");
-        script.src = "https://polyfill.io/v3/polyfill.min.js?features=Promise";
-        document.getElementsByTagName('head')[0].appendChild(script);
-      }
-    </script>
-    <script type="text/javascript">
-      window.addEventListener('DOMContentLoaded', function () {
-        new Autosuggest('#search', {
-          howManyCharacters: 2,
-          delay: 500,
-          output: 'output-list',
-          error: {
-            placeholder: 'something went wrong...',
-          },
-          clearButton: true,
-          dataAPI: {
-
-            path: 'https://cdn.jsdelivr.net/gh/tomik23/autosuggest@master/docs/users.json',
-
-            // static files
-            // path: '../static/users.json'
-          },
-
-          specificOutput: function (matches) {
-            // const regex = new RegExp(`^${matches[0]}`, 'gi'); // start with
-            const regex = new RegExp(`${matches[0]}`, 'gi');
-            const html = matches.slice(1)
-              .filter((element, index) => {
-                return element.name.match(regex);
-              })
-              .sort((a, b) => a.name.localeCompare(b.name))
-              .map(el => {
-                return `<li>
+      <script type="text/javascript">
+        if (!('Promise' in window)) {
+          var script = document.createElement("script");
+          script.src = "https://polyfill.io/v3/polyfill.min.js?features=Promise";
+          document.getElementsByTagName('head')[0].appendChild(script);
+        }
+      </script>
+      <script type="text/javascript">
+        window.addEventListener('DOMContentLoaded', function () {
+          new Autosuggest('search', {
+            howManyCharacters: 2,
+            delay: 500,
+            placeholderError: 'something went wrong...',
+            clearButton: true,
+            dataAPI: {
+              path: 'https://cdn.jsdelivr.net/gh/tomik23/autosuggest@master/docs/users.json',
+              // static files
+              // path: '../static/users.json'
+            },
+            specificOutput: function (matches) {
+              // const regex = new RegExp(`^${matches[0]}`, 'gi'); // start with
+              const regex = new RegExp(`${matches[0]}`, 'gi');
+              const html = matches.slice(1)
+                .filter((element, index) => {
+                  return element.name.match(regex);
+                })
+                .sort((a, b) => a.name.localeCompare(b.name))
+                .map(el => {
+                  return `<li>
                   <h3>${el.name.replace(regex, (str) => `<b>${str}</b>`)}</h3>
                   <div class="info">
                     <p class="address">City: ${el.address.city} Adress: ${el.address.street} </p>
                   </div>
                   </li>`;
-              });
-            return html.join('');
-          }
+                });
+              return html.join('');
+            }
+          });
         });
-
-      });
-    </script>
-  </body>
+      </script>
+    </body>
 
 </html>

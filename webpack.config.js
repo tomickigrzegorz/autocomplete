@@ -14,9 +14,9 @@ function prodPlugin(plugin, mode) {
 module.exports = (env, { mode }) => {
   const inDev = mode === 'development';
   return {
-    devtool: inDev ? 'source-map' : 'none',
+    devtool: inDev ? 'eval-source-map' : 'none',
     entry: {
-      Autosuggest: './sources/js/Autosuggest.js',
+      Autosuggest: './sources/js/script.js',
     },
     output: {
       path: path.resolve(__dirname, 'docs'),
@@ -99,13 +99,14 @@ module.exports = (env, { mode }) => {
           useShortDoctype: true
         },
       }),
-      prodPlugin(
-        new BundleAnalyzerPlugin({
-          openAnalyzer: true,
-          // generateStatsFile: true,
-        }),
-        mode
-      ),
+
+      // prodPlugin(
+      //   new BundleAnalyzerPlugin({
+      //     openAnalyzer: true,
+      //     // generateStatsFile: true,
+      //   }),
+      //   mode
+      // ),
     ],
   };
 };

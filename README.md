@@ -35,23 +35,18 @@ A library [Skeleton CSS](https://github.com/dhg/Skeleton) was used in this proje
 
 props | type | default | require | description
 ---- | :----: | :-------: | :--------: | -----------
-dataAPI -> path | String |   | ✔ | Path to our Rest API or static file
+element | String |  | ✔ | Input field id
 specificOutput | Function |  | ✔ | Function that creates the appearance of the result
+dataAPI -> path | String |   | ✔ | Path to our Rest API or static file
 dataAPI -> searchLike | Boolean | `false` |  | The `true` parameter controls whether we append the search text to the URL `http://localhost:3005/persons?like=search-text`
-searchOutputUl | String | `output-list`  |  | Container with our list
 clearButton | Boolea | `false` |  | The parameter set to `true` adds a button to delete the text from the input field, a small `x` to the right of the input field 
-actions -> isActive | String | `active` |  | Show/hide our result
-actions -> isLoading | String | `loading`  |  | Spinner class
-activeList | String | `active-list`  |  | Highlight li on mouse or keyup/keydown
-error -> error | String | `error`  |  | Adding class error
-error -> placeholder | String | `something went wrong...`  |  | Adding plaseholder
+placeholderError | String | `something went wrong...`  |  | Adding plaseholder
 delay | Number | `500` |  | Delay without which the server would not survive ;)
 howManyCharacters | Number | `1` |  | The number of characters entered should start searching
 
 ### HTML
 ```html
 <div class="row">
-  <label class="label" for="search">Search by letter</label>
   <div class="search">
     <input type="text" id="search" class="full-width" placeholder="Enter letter">
   </div>
@@ -60,18 +55,9 @@ howManyCharacters | Number | `1` |  | The number of characters entered should st
 ### JAVASCRIPT
 ```js
 const options = {
-  output: 'output-list', // container output
   delay: 1000, // character delay
-  activeList: 'active-list', // coloring results, records
   howManyCharacters: 1, // how many characters to search
-  actions: {
-    isActive: 'is-active', // show/hide results
-    isLoading: 'is-loading', // loading animation
-  },
-  error: {
-    error: 'error', // error class
-    placeholder: 'something went wrong...',
-  },
+  placeholderError: 'something went wrong...',
   dataAPI: {
     searchLike: true, // controlling the way data is downloaded
     path: process.env.ASSET_PATH, // static file or address
@@ -95,7 +81,7 @@ const options = {
   }
 }
 
-new Autosuggest('#element', options);
+new Autosuggest('element', options);
 ```
 
 ## Add your own result template `specificOutput`
@@ -104,12 +90,6 @@ In fact, we can work on dynamic data or static files. Data can be in the form of
 
 
 ### specificOutput example
-
-```html
-<div class="search">
-  <input type="text" id="search" class="full-width" placeholder="Enter letter">
-</div>
-```
 
 ```js
 ...
@@ -129,8 +109,23 @@ specificOutput: function (matches) {
   return html.join('');
 }
 
-new Autosuggest('#search', options);
 ```
+
+### Minimal config
+
+```js
+const options = {
+  dataAPI: {
+    path: process.env.ASSET_PATH, // static file or address
+  },
+  specificOutput: function (matches) { }
+}
+```
+
+### SCSS/CSS
+
+You want to modify the look, change the scss source (sources/scss/*) and recompile or modify css (docs/Autosuggest.css)
+You want to change the look change scss  source recompile or modify css
 
 ## Browsers support
 

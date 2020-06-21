@@ -63,7 +63,7 @@
 }
 
 .auto-active-list {
-  background-color: $color-gray;
+  background-color: lighten($color-blue, 45%);
   transition: background-color 0.2s ease-out;
 
   +li:before {

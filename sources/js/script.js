@@ -4,7 +4,6 @@ import '../scss/style.scss';
 import 'whatwg-fetch';
 import removeClass from './helpers/removeClass';
 import addClass from './helpers/addClass';
-import hasClass from './helpers/hasClass';
 
 class Autosuggest {
   constructor(

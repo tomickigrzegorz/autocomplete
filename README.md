@@ -32,7 +32,7 @@ The final code:
 props | type | default | require | description
 ---- | :----: | :-------: | :--------: | -----------
 element | String |  | ✔ | Input field id
-specificOutput | Function |  | ✔ | Function that creates the appearance of the result
+htmlTemplate | Function |  | ✔ | Function that creates the appearance of the result
 dataAPI -> path | String |   | ✔ | Path to our Rest API or static file
 dataAPI -> searchLike | Boolean | `false` |  | The `true` parameter controls whether we append the search text to the URL `http://localhost:3005/persons?like=search-text`
 clearButton | Boolea | `false` |  | The parameter set to `true` adds a button to delete the text from the input field, a small `x` to the right of the input field 
@@ -59,7 +59,7 @@ const options = {
   // this part is responsible for the number of records,
   // the appearance of li elements and it really depends
   //  on you how it will look
-  specificOutput: function (matches) {
+  htmlTemplate: function (matches) {
     const regex = new RegExp(`${matches[0]}`, 'gi');
     const html = matches.slice(1)
       .filter((element, index) => {
@@ -87,7 +87,7 @@ In fact, we can work on dynamic data or static files. Data can be in the form of
 
 ```js
 ...
-specificOutput: function (matches) {
+htmlTemplate: function (matches) {
   const regex = new RegExp(`${matches[0]}`, 'gi');
   const html = matches.slice(1)
     .filter((element, index) => {
@@ -112,7 +112,7 @@ const options = {
   dataAPI: {
     path: process.env.ASSET_PATH, // static file or dynamic api
   },
-  specificOutput: function (matches) {
+  htmlTemplate: function (matches) {
     const regex = new RegExp(`${matches[0]}`, 'gi');
     const html = matches.slice(1)
       .filter((element, index) => {

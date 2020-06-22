@@ -148,7 +148,7 @@
             // static files
             // path: '../static/users.json'
           },
-          specificOutput: function (matches) {
+          htmlTemplate: function (matches) {
             // const regex = new RegExp(`^${matches[0]}`, 'gi'); // start with
             const regex = new RegExp(`${matches[0]}`, 'gi');
             const html = matches.slice(1)

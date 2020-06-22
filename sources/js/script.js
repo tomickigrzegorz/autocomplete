@@ -12,7 +12,7 @@ class Autosuggest {
       delay,
       dataAPI,
       placeholderError,
-      specificOutput,
+      htmlTemplate,
       howManyCharacters,
       clearButton,
     }
@@ -24,7 +24,7 @@ class Autosuggest {
     this.clearButton = clearButton || false;
     this.searchLike = dataAPI.searchLike;
     this.path = dataAPI.path;
-    this.specificOutput = specificOutput;
+    this.htmlTemplate = htmlTemplate;
     this.howManyCharacters = howManyCharacters || 1;
 
     this.searchOutputUl = 'auto-output-list';
@@ -113,7 +113,7 @@ class Autosuggest {
 
   // preparation of the list
   outputHtml(matches) {
-    const html = this.specificOutput(matches);
+    const html = this.htmlTemplate(matches);
     if (html !== '') {
       this.matchList.innerHTML = `<ul id="${this.searchOutputUl}">${html}</ul>`;
       addClass(this.matchList, this.isActive);
@@ -216,7 +216,14 @@ class Autosuggest {
 
   // Removing text from the input field
   clearSearchInput() {
+    const autoClear = document.querySelector(`#auto-clear-${this.search}`);
+
+    if (autoClear) {
+      this.removeClearButton(this.searchId);
+    }
+
     const clear = document.createElement('span');
+    clear.id = `auto-clear-${this.search}`;
     clear.classList.add('auto-clear');
     clear.setAttribute('title', 'clear the input field');
     this.searchId.parentNode.insertBefore(clear, this.searchId.nextSibling);

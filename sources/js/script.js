@@ -63,6 +63,7 @@ class Autosuggest {
           escapedChar.length >= this.howManyCharacters &&
           escapedChar.length > 0
         ) {
+          if (escapedChar.trim().length <= 0) return;
           addClass(this.searchId.parentNode, this.isLoading);
           this.searchItem(escapedChar.trim());
         } else {
@@ -215,13 +216,6 @@ class Autosuggest {
 
   // Removing text from the input field
   clearSearchInput() {
-    const clearButtonExist = document.querySelector('.auto-clear');
-
-
-    if (clearButtonExist) {
-      this.removeClearButton();
-    }
-
     const clear = document.createElement('span');
     clear.classList.add('auto-clear');
     clear.setAttribute('title', 'clear the input field');
@@ -230,12 +224,12 @@ class Autosuggest {
     clear.addEventListener('click', () => {
       this.searchId.value = '';
       this.searchId.focus();
-      this.removeClearButton();
+      this.removeClearButton(this.searchId);
     });
   }
 
-  removeClearButton() {
-    this.searchId.nextElementSibling.remove();
+  removeClearButton(id) {
+    id.nextElementSibling.remove();
   }
 
   // The async function gets the text from the search
@@ -258,10 +252,12 @@ class Autosuggest {
 
       removeClass(this.classSearch, this.isLoading);
       // clear input
-      // console.log('aaaaaaaaaaaaa', matches);
+      // console.log('matches', matches);
       this.outputHtml(matches);
       if (this.clearButton) this.clearSearchInput();
     } catch (err) {
+      // console.log(err);
+
       removeClass(this.classSearch, this.isLoading);
       this.searchId.value = '';
       addClass(this.searchId, this.errorClass);

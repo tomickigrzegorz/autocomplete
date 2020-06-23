@@ -78,12 +78,12 @@ const options = {
 new Autosuggest('element', options);
 ```
 
-## Add your own result template `specificOutput`
+## Add your own result template `htmlTemplate`
 
 In fact, we can work on dynamic data or static files. Data can be in the form of an array or json. It's up to you what the results list will look like. You can configure everything yourself using the `specificOutput` method
 
 
-### specificOutput example
+### htmlTemplate example
 
 ```js
 ...

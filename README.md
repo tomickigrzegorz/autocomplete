@@ -46,15 +46,21 @@ howManyCharacters | Number | `1` |  | The number of characters entered should st
   <input type="text" id="search" class="full-width" placeholder="Enter letter">
 </div>
 ```
+
 ### JAVASCRIPT
 ```js
 const options = {
-  delay: 1000, // character delay
-  howManyCharacters: 1, // how many characters to search
+// search delay
+  delay: 1000,
+  // how many characters to search
+  howManyCharacters: 1,
+  // text when an error occurs
   placeholderError: 'something went wrong...',
   dataAPI: {
-    searchLike: true, // controlling the way data is downloaded
-    path: process.env.ASSET_PATH, // static file or address
+    // controlling the way data is downloaded
+    searchLike: true,
+    // static file or dynamic address
+    path: process.env.ASSET_PATH,
   },
   // this part is responsible for the number of records,
   // the appearance of li elements and it really depends
@@ -75,6 +81,7 @@ const options = {
   }
 }
 
+// `element` this is the id of the input field
 new Autosuggest('element', options);
 ```
 

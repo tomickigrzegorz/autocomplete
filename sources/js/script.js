@@ -4,7 +4,6 @@ import '../scss/style.scss';
 import 'whatwg-fetch';
 import removeClass from './helpers/removeClass';
 import addClass from './helpers/addClass';
-import defaultConfig from './utils/defaultConfig';
 
 class Autosuggest {
   constructor(
@@ -29,7 +28,17 @@ class Autosuggest {
     this.howManyCharacters = howManyCharacters || 1;
 
     // default config
-    Object.assign(this, defaultConfig);
+    this.searchOutputUl = 'auto-output-list';
+    this.isLoading = 'auto-is-loading';
+    this.isActive = 'auto-is-active';
+    this.errorClass = 'auto-error';
+    this.activeList = 'auto-active-list';
+    this.keyCode = {
+      esc: 27,
+      enter: 13,
+      keyUp: 40,
+      keyDown: 38,
+    };
 
     this.initialSearch();
     this.createOutputSearch(this.search);

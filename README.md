@@ -41,6 +41,7 @@ delay | Number | `500` |  | Delay without which the server would not survive ;)
 howManyCharacters | Number | `1` |  | The number of characters entered should start searching
 
 ### HTML
+
 ```html
 <div class="search">
   <input type="text" id="search" class="full-width" placeholder="Enter letter">
@@ -114,26 +115,43 @@ htmlTemplate: function (matches) {
 
 ### Minimal config
 
+CSS
+```html
+<link href="./autosuggest.min.css" rel="stylesheet">
+```
+
+HTML
+```html
+<div class="search">
+  <input type="text" id="search" class="full-width" placeholder="Enter letter">
+</div>
+```
+JavaScript
 ```js
-const options = {
-  dataAPI: {
-    path: process.env.ASSET_PATH, // static file or dynamic api
-  },
-  htmlTemplate: function (matches) {
-    const regex = new RegExp(`${matches[0]}`, 'gi');
-    const html = matches.slice(1)
-      .filter((element, index) => {
-        return element.name.match(regex);
-      })
-      .sort((a, b) => a.name.localeCompare(b.name))
-      .map(el => {
-        return `
-          <li>
-            <p>${el.name.replace(regex, (str) => `<b>${str}</b>`)}</p>
-          </li>`;
-      }).join('');
-  }
-}
+window.addEventListener('DOMContentLoaded', function () {
+  new Autosuggest('search', {
+    dataAPI: {
+      path: process.env.ASSET_PATH, // static file or dynamic api
+    },
+    htmlTemplate: function (matches) {
+      const regex = new RegExp(`${matches[0]}`, 'gi');
+      const html = matches.slice(1)
+        .filter((element, index) => {
+          return element.name.match(regex);
+        })
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .map(el => {
+          return `
+            <li>
+              <p>${el.name.replace(regex, (str) => `<b>${str}</b>`)}</p>
+            </li>`;
+        }).join('');
+    }
+  });
+});
+
+<script src="./autosuggest.min.js"></script>
+
 ```
 
 ### SCSS/CSS

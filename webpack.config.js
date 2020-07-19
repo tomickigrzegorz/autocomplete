@@ -16,12 +16,12 @@ module.exports = (env, { mode }) => {
   return {
     devtool: inDev ? 'eval-source-map' : 'none',
     entry: {
-      Autosuggest: './sources/js/script.js',
+      autosuggest: './sources/js/script.js',
     },
     output: {
       path: path.resolve(__dirname, 'docs'),
-      filename: './[name].js',
-      library: '[name]',
+      filename: './[name].min.js',
+      library: 'Autosuggest',
       libraryExport: 'default',
       libraryTarget: 'umd',
       umdNamedDefine: true,
@@ -86,27 +86,19 @@ module.exports = (env, { mode }) => {
         mode
       ),
       new MiniCssExtractPlugin({
-        filename: './[name].css',
+        filename: './[name].min.css',
       }),
       new HtmlWebPackPlugin({
         filename: 'index.html',
-        template: './sources/index.html',
-        minify: {
-          collapseWhitespace: true,
-          removeComments: true,
-          removeScriptTypeAttributes: true,
-          removeStyleLinkTypeAttributes: true,
-          useShortDoctype: true
-        },
+        template: './sources/index.html'
       }),
-
-      // prodPlugin(
-      //   new BundleAnalyzerPlugin({
-      //     openAnalyzer: true,
-      //     // generateStatsFile: true,
-      //   }),
-      //   mode
-      // ),
+      prodPlugin(
+        new BundleAnalyzerPlugin({
+          openAnalyzer: true,
+          // generateStatsFile: true,
+        }),
+        mode
+      ),
     ],
   };
 };

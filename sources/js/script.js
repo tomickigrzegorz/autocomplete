@@ -4,6 +4,7 @@ import '../scss/style.scss';
 import 'whatwg-fetch';
 import removeClass from './helpers/removeClass';
 import addClass from './helpers/addClass';
+import defaultConfig from './utils/defaultConfig';
 
 class Autosuggest {
   constructor(
@@ -27,17 +28,8 @@ class Autosuggest {
     this.htmlTemplate = htmlTemplate;
     this.howManyCharacters = howManyCharacters || 1;
 
-    this.searchOutputUl = 'auto-output-list';
-    this.isLoading = 'auto-is-loading';
-    this.isActive = 'auto-is-active';
-    this.errorClass = 'auto-error';
-    this.activeList = 'auto-active-list';
-    this.keyCode = {
-      esc: 27,
-      enter: 13,
-      keyUp: 40,
-      keyDown: 38,
-    };
+    // default config
+    Object.assign(this, defaultConfig);
 
     this.initialSearch();
     this.createOutputSearch(this.search);
@@ -142,10 +134,15 @@ class Autosuggest {
     });
   }
 
+  // the part responsible for appending json to the search
+  // field use - https://github.com/tomik23/Leaflet.Autocomplete
   dataElements(item) {
     const checkIfDataElementsExist = item.getAttribute('data-elements');
     if (checkIfDataElementsExist !== null) {
-      this.searchId.setAttribute('data-elements', item.getAttribute('data-elements'));
+      this.searchId.setAttribute(
+        'data-elements',
+        item.getAttribute('data-elements')
+      );
     }
   }
 

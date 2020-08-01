@@ -148,6 +148,10 @@
       #auto-output-list li.loupe {
         padding-left: 40px;
       }
+
+      small {
+        color: gray;
+      }
     </style>
   </head>
 
@@ -191,13 +195,15 @@
             const regex = new RegExp(`${matches.searchText}`, 'gi');
             const html = matches.query.search
               .sort((a, b) => a.title.localeCompare(b.title))
+              // .slice(5)
               .filter((element) => {
                 return element.title.match(regex);
               })
               .map((el) => {
                 return `
                   <li class="loupe">
-                    <span>${el.title.replace(regex, (str) => `${str}`)}</span>
+                    <h4>${el.title.replace(regex, (str) => `${str}`)}</h4>
+                    <!-- <small>${el.snippet}</small> -->
                   </li>`;
               });
             return html.join('');

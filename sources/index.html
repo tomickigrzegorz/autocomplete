@@ -26,12 +26,13 @@
 
       body {
         display: flex;
-        justify-content: center;
+        /* justify-content: center; */
         flex-direction: column;
         height: 100%;
         font-family: Lato, sans-serif;
         min-height: 100%;
         background: #ebebeb;
+        padding: 0 15px;
       }
 
       @-webkit-keyframes spinner {
@@ -51,7 +52,7 @@
       .container {
         width: 100%;
         max-width: 400px;
-        margin: 20px auto
+        margin: 20px auto;
       }
 
       h1 {
@@ -158,11 +159,9 @@
   <body>
     <!-- search container -->
     <div class="container">
-      <div class="row">
-        <h1>search on wikipedia</h1>
-        <div class="search loupe">
-          <input type="text" id="search" class="full-width" placeholder="search for some text">
-        </div>
+      <h1>search on wikipedia</h1>
+      <div class="search loupe">
+        <input type="text" id="search" class="full-width" placeholder="search for some text">
       </div>
     </div>
 

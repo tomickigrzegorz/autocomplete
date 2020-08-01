@@ -15,6 +15,7 @@ class Autosuggest {
       htmlTemplate,
       howManyCharacters,
       clearButton,
+      onSubmit = () => { },
     }
   ) {
     this.search = element;
@@ -26,6 +27,7 @@ class Autosuggest {
     this.path = dataAPI.path;
     this.htmlTemplate = htmlTemplate;
     this.howManyCharacters = howManyCharacters || 1;
+    this.onSubmit = onSubmit;
 
     // default config
     this.searchOutputUl = 'auto-output-list';
@@ -135,6 +137,10 @@ class Autosuggest {
           const item = e.target;
           this.dataElements(itemActive.parentElement);
           document.getElementById(item.id).value = itemActive.innerText.trim();
+
+          // onSubmit
+          this.onSubmit(itemActive.innerText.trim());
+
           document.getElementById(this.searchOutputUl).outerHTML = '';
           removeClass(item.nextSibling, this.isActive);
           removeClass(itemActive, this.activeList);
@@ -179,6 +185,10 @@ class Autosuggest {
       e.preventDefault();
       const item = document.querySelector(`li.${this.activeList} > *`);
       this.searchId.value = item.innerText.trim();
+
+      // onSubmit
+      this.onSubmit(item.innerText.trim());
+
       this.dataElements(item.parentNode);
       searchOutpuli.outerHTML = '';
     });

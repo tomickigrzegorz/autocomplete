@@ -35,10 +35,11 @@ element | String |  | ✔ | Input field id
 htmlTemplate | Function |  | ✔ | Function that creates the appearance of the result
 dataAPI -> path | String |   | ✔ | Path to our Rest API or static file
 dataAPI -> searchLike | Boolean | `false` |  | The `true` parameter controls whether we append the search text to the URL `http://localhost:3005/persons?like=search-text`
-clearButton | Boolea | `false` |  | The parameter set to `true` adds a button to delete the text from the input field, a small `x` to the right of the input field 
+clearButton | Boolean | `false` |  | The parameter set to `true` adds a button to delete the text from the input field, a small `x` to the right of the input field 
 placeholderError | String | `something went wrong...`  |  | Adding plaseholder
 delay | Number | `500` |  | Delay without which the server would not survive ;)
 howManyCharacters | Number | `1` |  | The number of characters entered should start searching
+onSubmit | Function |  |  | Executed on input submission
 
 ### HTML
 
@@ -65,7 +66,7 @@ const options = {
   },
   // this part is responsible for the number of records,
   // the appearance of li elements and it really depends
-  //  on you how it will look
+  // on you how it will look
   htmlTemplate: function (matches) {
     const regex = new RegExp(`${matches[0]}`, 'gi');
     const html = matches.slice(1)
@@ -74,11 +75,23 @@ const options = {
       })
       .sort((a, b) => a.name.localeCompare(b.name))
       .map(el => {
-        return `<li>
+        // this part is responsible for the appearance 
+        // in the drop-down list - see the example in index.html
+        // remember only the first element from <li> is put 
+        // into the input field, in this case the text
+        // from the <p> element
+        return `
+          <li>
             <p>${el.name.replace(regex, (str) => `<b>${str}</b>`)}</p>
           </li>`;
       });
       return html.join('');
+  },
+  // the onSubmit function is executed when the user 
+  // submits their result by either selecting a result
+  // from the list, or pressing enter or mouse button
+  onSubmit: (matches) => {
+    console.log(`You selected ${matches}`);
   }
 }
 

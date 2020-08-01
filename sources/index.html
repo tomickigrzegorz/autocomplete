@@ -95,7 +95,7 @@
         padding: 10px
       }
 
-      .search ul li:before {
+      .search ul li:after {
         position: absolute;
         content: "";
         top: 0;
@@ -116,22 +116,10 @@
         outline: none
       }
 
-      .search:before {
-        position: absolute;
-        content: "";
-        width: 20px;
-        height: 20px;
-        top: 0;
-        bottom: 0;
-        left: 10px;
-        margin: auto;
-        background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"%3E%3Cpath fill="lightgrey" d="M31.008 27.231l-7.58-6.447c-.784-.705-1.622-1.029-2.299-.998a11.954 11.954 0 002.87-7.787c0-6.627-5.373-12-12-12s-12 5.373-12 12 5.373 12 12 12c2.972 0 5.691-1.081 7.787-2.87-.031.677.293 1.515.998 2.299l6.447 7.58c1.104 1.226 2.907 1.33 4.007.23s.997-2.903-.23-4.007zM12 20a8 8 0 110-16 8 8 0 010 16z"/%3E%3C/svg%3E%0A');
-      }
-
       .search .full-width {
         width: 100%;
         height: 48px;
-        padding: 6px 45px 6px 40px;
+        padding: 6px 45px 6px 10px;
         background-color: #fff;
         border: 1px solid #d7d7d7;
         border-radius: 4px;
@@ -143,6 +131,26 @@
         border: 1px solid #96cffd;
         outline: 0
       }
+
+      .loupe .full-width {
+        padding: 6px 45px 6px 40px;
+      }
+
+      .loupe:before {
+        position: absolute;
+        content: "";
+        width: 20px;
+        height: 20px;
+        top: 0;
+        bottom: 0;
+        left: 10px;
+        margin: auto;
+        background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"%3E%3Cpath fill="lightgrey" d="M31.008 27.231l-7.58-6.447c-.784-.705-1.622-1.029-2.299-.998a11.954 11.954 0 002.87-7.787c0-6.627-5.373-12-12-12s-12 5.373-12 12 5.373 12 12 12c2.972 0 5.691-1.081 7.787-2.87-.031.677.293 1.515.998 2.299l6.447 7.58c1.104 1.226 2.907 1.33 4.007.23s.997-2.903-.23-4.007zM12 20a8 8 0 110-16 8 8 0 010 16z"/%3E%3C/svg%3E%0A');
+      }
+
+      #auto-output-list li.loupe {
+        padding-left: 40px;
+      }
     </style>
   </head>
 
@@ -151,7 +159,7 @@
     <div class="container">
       <div class="row">
         <h1>AUTOSUGGEST</h1>
-        <div class="search">
+        <div class="search loupe">
           <input type="text" id="search" class="full-width" placeholder="Enter le">
         </div>
       </div>
@@ -159,13 +167,14 @@
 
     <script type="text/javascript">
       if (!('Promise' in window)) {
-        var script = document.createElement("script");
-        script.src = "https://polyfill.io/v3/polyfill.min.js?features=Promise";
+        const script = document.createElement('script');
+        script.src = 'https://polyfill.io/v3/polyfill.min.js?features=Promise';
         document.getElementsByTagName('head')[0].appendChild(script);
       }
     </script>
     <script type="text/javascript">
-      window.addEventListener('DOMContentLoaded', function () {
+      window.addEventListener('DOMContentLoaded', () => {
+        // eslint-disable-next-line no-new
         new Autosuggest('search', {
           howManyCharacters: 2,
           delay: 500,
@@ -176,23 +185,32 @@
             // static files
             // path: '../static/users.json'
           },
-          htmlTemplate: function (matches) {
+          htmlTemplate: (matches) => {
             // const regex = new RegExp(`^${matches[0]}`, 'gi'); // start with
             const regex = new RegExp(`${matches[0]}`, 'gi');
-            const html = matches.slice(1)
-              .filter((element, index) => {
+            const html = matches
+              .slice(1)
+              .filter((element) => {
                 return element.name.match(regex);
               })
               .sort((a, b) => a.name.localeCompare(b.name))
-              .map(el => {
-                return `<li>
-                  <h3>${el.name.replace(regex, (str) => `<b>${str}</b>`)}</h3>
-                  <div class="info">
-                    <p class="address">City: ${el.address.city} Adress: ${el.address.street} </p>
-                  </div>
+              .map((el) => {
+                return `
+                  <li class="loupe">
+                    <h3>${el.name.replace(regex, (str) => `${str}`)}</h3>
+                    <div class="info">
+                      <p class="address">
+                        City: ${el.address.city} Adress: ${el.address.street}
+                      </p>
+                    </div>
                   </li>`;
               });
             return html.join('');
+          },
+          onSubmit: (matches) => {
+            // eslint-disable-next-line no-console
+            // enabling the onsubmit event
+            console.log(`You selected ${matches}`);
           }
         });
       });

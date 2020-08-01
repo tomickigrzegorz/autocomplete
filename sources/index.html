@@ -55,7 +55,7 @@
       }
 
       h1 {
-        letter-spacing: 3px
+        letter-spacing: 1px;
       }
 
       .label {
@@ -67,6 +67,10 @@
         position: relative;
         display: block;
         margin: 10px auto
+      }
+
+      .search input {
+        font-size: 16px;
       }
 
       .search input::-ms-clear {
@@ -93,17 +97,6 @@
         cursor: pointer;
         margin: 0;
         padding: 10px
-      }
-
-      .search ul li:after {
-        position: absolute;
-        content: "";
-        top: 0;
-        width: 100%;
-        left: 0;
-        right: 0;
-        margin: auto;
-        border-top: 1px solid #addaff
       }
 
       .search ul li:not(:last-child) {
@@ -136,6 +129,10 @@
         padding: 6px 45px 6px 40px;
       }
 
+      .search.loupe:before {
+        filter: invert(50%)
+      }
+
       .loupe:before {
         position: absolute;
         content: "";
@@ -158,9 +155,9 @@
     <!-- search container -->
     <div class="container">
       <div class="row">
-        <h1>AUTOSUGGEST</h1>
+        <h1>search on wikipedia</h1>
         <div class="search loupe">
-          <input type="text" id="search" class="full-width" placeholder="Enter le">
+          <input type="text" id="search" class="full-width" placeholder="search for some text">
         </div>
       </div>
     </div>
@@ -181,37 +178,35 @@
           placeholderError: 'something went wrong...',
           clearButton: true,
           dataAPI: {
-            path: 'https://cdn.jsdelivr.net/gh/tomik23/autosuggest@master/docs/users.json',
+            // dynamically adding search text to the url, optional
+            searchLike: true,
+            // wikipedia API
+            path: 'https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&origin=*&srsearch=',
+            // path: 'https://cdn.jsdelivr.net/gh/tomik23/autosuggest@master/docs/users.json',
             // static files
             // path: '../static/users.json'
           },
           htmlTemplate: (matches) => {
-            // const regex = new RegExp(`^${matches[0]}`, 'gi'); // start with
-            const regex = new RegExp(`${matches[0]}`, 'gi');
-            const html = matches
-              .slice(1)
+            // const regex = new RegExp(`^${matches.searchText}`, 'gi'); // start with
+            const regex = new RegExp(`${matches.searchText}`, 'gi');
+            const html = matches.query.search
+              .sort((a, b) => a.title.localeCompare(b.title))
               .filter((element) => {
-                return element.name.match(regex);
+                return element.title.match(regex);
               })
-              .sort((a, b) => a.name.localeCompare(b.name))
               .map((el) => {
                 return `
                   <li class="loupe">
-                    <h3>${el.name.replace(regex, (str) => `${str}`)}</h3>
-                    <div class="info">
-                      <p class="address">
-                        City: ${el.address.city} Adress: ${el.address.street}
-                      </p>
-                    </div>
+                    <span>${el.title.replace(regex, (str) => `${str}`)}</span>
                   </li>`;
               });
             return html.join('');
           },
+          // enabling the onsubmit event
           onSubmit: (matches) => {
             // eslint-disable-next-line no-console
-            // enabling the onsubmit event
-            console.log(`You selected ${matches}`);
-          }
+            window.open(`https://en.wikipedia.org/wiki/${encodeURI(matches)}`);
+          },
         });
       });
     </script>

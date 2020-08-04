@@ -1,11 +1,15 @@
 {
   "name": "autosuggest",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "webpack-dev-server --config webpack.config.js --mode development --open",
-    "prod": "webpack --config webpack.config.js --mode production"
+    "dev": "concurrently \"yarn sass:prod\" \"yarn sass:dev\" \"yarn watch\"",
+    "prod": "concurrently \"yarn sass:prod\" \"yarn build\"",
+    "sass:dev": "node-sass -w sources/scss/global.scss docs/global.min.css",
+    "sass:prod": "node-sass sources/scss/global.scss docs/global.min.css --output-style compressed",
+    "watch": "webpack-dev-server --config webpack.config.js --mode development --open",
+    "build": "webpack --config webpack.config.js --mode production"
   },
   "keywords": [
     "autosuggest",
@@ -25,17 +29,16 @@
   "devDependencies": {
     "@babel/core": "^7.11.0",
     "@babel/plugin-transform-runtime": "^7.11.0",
-    "@babel/preset-env": "^7.10.4",
+    "@babel/preset-env": "^7.11.0",
     "@babel/runtime-corejs3": "^7.11.0",
     "autoprefixer": "^9.8.6",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
-    "clean-webpack-plugin": "^3.0.0",
+    "concurrently": "^5.2.0",
     "copy-webpack-plugin": "^6.0.3",
     "core-js": "^3.6.5",
     "css-loader": "^4.2.0",
     "cssnano": "^4.1.10",
-    "dotenv-webpack": "^2.0.0",
     "eslint": "^7.6.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-config-prettier": "^6.11.0",
@@ -49,7 +52,7 @@
     "prettier": "^2.0.5",
     "sass-loader": "^9.0.2",
     "style-loader": "^1.2.1",
-    "terser-webpack-plugin": "^3.0.8",
+    "terser-webpack-plugin": "^3.1.0",
     "webpack": "^4.44.1",
     "webpack-bundle-analyzer": "^3.8.0",
     "webpack-cli": "^3.3.12",

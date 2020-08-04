@@ -250,11 +250,8 @@ import 'promise-polyfill/src/polyfill';
 
 ## More appearance examples
 
-<h5 align="center">
-No result
-</h5>
-
 <p align="center">
+  <h5 align="center">No result</h5>
   <img src="static/02.png">
 </p>
 

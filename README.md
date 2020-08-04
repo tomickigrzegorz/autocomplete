@@ -1,6 +1,6 @@
-<h3 align="center">
+<h1 align="center">
   autosuggest/autocomplete
-</h3>
+</h1>
 
 <p align="center">
   Simple autosuggest/autocomplete with asynchronous data fetch

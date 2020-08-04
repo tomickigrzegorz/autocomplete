@@ -57,8 +57,8 @@ props | type | default | require | description
 ---- | :----: | :-------: | :--------: | -----------
 element | String |  | ✔ | Input field id
 htmlTemplate | Function |  | ✔ | Function that creates the appearance of the result
-dataAPI -> path | String |   | ✔ | Path to our Rest API or static file
-dataAPI -> searchLike | Boolean | `false` |  | The `true` parameter controls whether we append the search text to the URL `http://localhost:3005/persons?like=search-text`
+dataAPI/path | String |   | ✔ | Path to our Rest API or static file
+dataAPI/searchLike | Boolean | `false` |  | The `true` parameter controls whether we append the search text to the URL `http://localhost:3005/persons?like=search-text`
 clearButton | Boolean | `false` |  | The parameter set to `true` adds a button to delete the text from the input field, a small `x` to the right of the input field 
 placeholderError | String | `something went wrong...`  |  | Adding plaseholder
 delay | Number | `500` |  | Delay without which the server would not survive ;)
@@ -77,24 +77,32 @@ HMTL
 JAVASCRIPT
 ```js
 const options = {
-// search delay
+  
+  // search delay
   delay: 1000,
+  
   // how many characters to search
   howManyCharacters: 1,
+  
   // text when an error occurs
   placeholderError: 'something went wrong...',
+  
   // add button 'x' to clear the text from
   // the input filed
   clearButton: true,
+  
   // setting this parameter causes no result 
   // when there are no results
   noResult: 'No result',
   dataAPI: {
+    
     // controlling the way data is downloaded
     searchLike: true,
+  
     // static file or dynamic address
     path: process.env.ASSET_PATH,
   },
+
   // this part is responsible for the number of records,
   // the appearance of li elements and it really depends
   // on you how it will look
@@ -106,6 +114,7 @@ const options = {
       })
       .sort((a, b) => a.name.localeCompare(b.name))
       .map(el => {
+
         // this part is responsible for the appearance 
         // in the drop-down list - see the example in index.html
         // remember only the first element from <li> is put 
@@ -118,9 +127,11 @@ const options = {
       });
       return html.join('');
   },
+
   // the onSubmit function is executed when the user 
   // submits their result by either selecting a result
   // from the list, or pressing enter or mouse button
+  
   onSubmit: (matches) => {
     console.log(`You selected ${matches}`);
     // you can open a window or do a redirect

@@ -114,10 +114,6 @@ const options = {
         return `
           <li class="autocomplete-item loupe" role="option" aria-selected="false" tabindex="-1">
             <p>${el.name.replace(regex, (str) => `<b>${str}</b>`)}</p>
-            <!-- you can add other elements to <li>
-            but remember only the first element in
-            this case <p> will be inserted into the
-            input field -->
           </li>`;
       });
       return html.join('');

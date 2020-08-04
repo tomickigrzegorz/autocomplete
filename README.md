@@ -255,16 +255,12 @@ import 'promise-polyfill/src/polyfill';
   <img src="static/02.png">
 </p>
 
-<p align="center">
-More complicated results
-</p>
+<div align="center">More complicated results</div>
 <p align="center">
   <img src="static/03.png">
 </p>
 
-<p align="center">
-Error
-</p>
+<div align="center">Error</div>
 <p align="center">
   <img src="static/04.png">
 </p>

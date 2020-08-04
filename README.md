@@ -65,15 +65,16 @@ delay | Number | `500` |  | Delay without which the server would not survive ;)
 howManyCharacters | Number | `1` |  | The number of characters entered should start searching
 onSubmit | Function |  |  | Executed on input submission
 
-### Usage
+## Usage
 
+HMTL
 ```html
 <div class="search">
   <input type="text" id="search" class="full-width" autocomplete="off" placeholder="Enter letter">
 </div>
 ```
 
-### JAVASCRIPT
+JAVASCRIPT
 ```js
 const options = {
 // search delay
@@ -140,7 +141,7 @@ new Autosuggest('element', options);
 In fact, we can work on dynamic data or static files. Data can be in the form of an array or json. It's up to you what the results list will look like. You can configure everything yourself using the `htmlTemplate` method
 
 
-### htmlTemplate example
+## htmlTemplate example
 
 ```js
 ...

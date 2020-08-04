@@ -86,13 +86,13 @@ module.exports = (env, { mode }) => {
         minify: false,
         css: inDev ? './docs/global.min.css' : './global.min.css'
       }),
-      // prodPlugin(
-      //   new BundleAnalyzerPlugin({
-      //     openAnalyzer: true,
-      //     // generateStatsFile: true,
-      //   }),
-      //   mode
-      // ),
+      prodPlugin(
+        new BundleAnalyzerPlugin({
+          openAnalyzer: true,
+          // generateStatsFile: true,
+        }),
+        mode
+      ),
     ],
   };
 };

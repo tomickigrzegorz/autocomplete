@@ -250,9 +250,9 @@ import 'promise-polyfill/src/polyfill';
 
 ## More appearance examples
 
-<p align="center">
+<h5 align="center">
 No result
-</p>
+</h5>
 
 <p align="center">
   <img src="static/02.png">
@@ -261,7 +261,6 @@ No result
 <p align="center">
 More complicated results
 </p>
-
 <p align="center">
   <img src="static/03.png">
 </p>
@@ -269,7 +268,6 @@ More complicated results
 <p align="center">
 Error
 </p>
-
 <p align="center">
   <img src="static/04.png">
 </p>

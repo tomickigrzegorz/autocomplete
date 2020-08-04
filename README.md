@@ -24,7 +24,7 @@ See the demo - [example](https://tomik23.github.io/autosuggest/)
 - Accessible, with full support for ARIA attributes and keyboard interactions.
 - Customize your own CSS.
 - Support for asynchronous data fetching.
-- You can move between the records using the arrows <kbd>↓</kbd> <kbd>↑</kbd>, and confirm by <kbd>Enter</kbd>
+- Move between the records using the arrows <kbd>↓</kbd> <kbd>↑</kbd>, and confirm by <kbd>Enter</kbd>
 - No dependencies
 
 ## 
@@ -173,7 +173,7 @@ Download from `docs` folder:
 CSS
 ```html
 <link rel="stylesheet" href="global.min.css">
-<link href="autosuggest.min.css" rel="stylesheet">
+<link rel="stylesheet" href="autosuggest.min.css">
 ```
 
 HTML

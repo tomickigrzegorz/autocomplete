@@ -14,7 +14,7 @@
 </p>
 
 <p align="center">
-  <img src="static/your-template.png">
+  <img src="static/01.png">
 </p>
 
 ## Demo
@@ -61,6 +61,7 @@ dataAPI/path | String |   | ✔ | Path to our Rest API or static file
 dataAPI/searchLike | Boolean | `false` |  | The `true` parameter controls whether we append the search text to the URL `http://localhost:3005/persons?like=search-text`
 clearButton | Boolean | `false` |  | The parameter set to `true` adds a button to delete the text from the input field, a small `x` to the right of the input field 
 placeholderError | String | `something went wrong...`  |  | Adding plaseholder
+noResult | String | `No result`  |  | Adding plaseholder
 delay | Number | `500` |  | Delay without which the server would not survive ;)
 howManyCharacters | Number | `1` |  | The number of characters entered should start searching
 onSubmit | Function |  |  | Executed on input submission
@@ -246,6 +247,21 @@ There are three ways to add this polyfill:
 ```javascript
 import 'promise-polyfill/src/polyfill';
 ```
+
+## More appearance examples
+
+No result
+<p align="center">
+  <img src="static/02.png">
+</p>
+More complicated results
+<p align="center">
+  <img src="static/03.png">
+</p>
+Error
+<p align="center">
+  <img src="static/04.png">
+</p>
 
 
 ## License

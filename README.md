@@ -27,8 +27,6 @@ See the demo - [example](https://tomik23.github.io/autosuggest/)
 - Move between the records using the arrows <kbd>↓</kbd> <kbd>↑</kbd>, and confirm by <kbd>Enter</kbd>
 - No dependencies
 
-## 
-
 ## Initialization
 Before the first use, clone this repository and install node dependencies:
 

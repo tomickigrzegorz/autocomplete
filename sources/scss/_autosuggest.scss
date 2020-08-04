@@ -1,24 +1,28 @@
 // AUTOSUGGESTION
-.auto-is-loading:after {
-  content: '';
-  box-sizing: border-box;
-  position: absolute;
-  top: 0px;
-  bottom: 0;
-  margin: auto;
-  right: 12px;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  border: 2px solid $color-blue;
-  border-left-color: lighten($color-gray, 35%);
-  border-top-color: lighten($color-gray, 35%);
-  animation: spinner .6s linear infinite;
+
+.auto-is-loading {
+  &:after {
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    top: 0px;
+    bottom: 0;
+    margin: auto;
+    right: 12px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid $color-blue;
+    border-left-color: lighten($color-gray, 35%);
+    border-top-color: lighten($color-gray, 35%);
+    animation: spinner .6s linear infinite;
+  }
 
   .auto-clear {
     display: none;
   }
 }
+
 
 .auto-clear {
   position: absolute;

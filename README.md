@@ -250,15 +250,26 @@ import 'promise-polyfill/src/polyfill';
 
 ## More appearance examples
 
+<p align="center">
 No result
+</p>
+
 <p align="center">
   <img src="static/02.png">
 </p>
+
+<p align="center">
 More complicated results
+</p>
+
 <p align="center">
   <img src="static/03.png">
 </p>
+
+<p align="center">
 Error
+</p>
+
 <p align="center">
   <img src="static/04.png">
 </p>

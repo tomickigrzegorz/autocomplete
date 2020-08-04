@@ -9,6 +9,8 @@ All notable changes to this project will be documented in this file.
 - accessible for ARIA attributes and keyboard interactions
 
 ### Changed
+- fix the 'x' button is not hidden fixed
+- fix no reset of settings
 - update dependencies
 - update readme
 - update webpack.config.js

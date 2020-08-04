@@ -1,10 +1,8 @@
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const Dotenv = require('dotenv-webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 function prodPlugin(plugin, mode) {
@@ -16,7 +14,7 @@ module.exports = (env, { mode }) => {
   return {
     devtool: inDev ? 'eval-source-map' : 'none',
     entry: {
-      autosuggest: './sources/js/script.js',
+      autosuggest: './sources/js/script.js'
     },
     output: {
       path: path.resolve(__dirname, 'docs'),
@@ -66,16 +64,9 @@ module.exports = (env, { mode }) => {
       minimize: true,
       minimizer: [
         new TerserPlugin({}),
-      ]
+      ],
     },
     plugins: [
-      new Dotenv(),
-      prodPlugin(
-        new CleanWebpackPlugin({
-          verbose: true,
-        }),
-        mode
-      ),
       prodPlugin(
         new CopyPlugin({
           patterns: [
@@ -86,19 +77,22 @@ module.exports = (env, { mode }) => {
         mode
       ),
       new MiniCssExtractPlugin({
-        filename: './[name].min.css',
+        filename: '[name].min.css',
+        chunkFilename: "[name].css"
       }),
       new HtmlWebPackPlugin({
         filename: 'index.html',
-        template: './sources/index.html'
+        template: './sources/index.html',
+        minify: false,
+        css: inDev ? './docs/global.min.css' : './global.min.css'
       }),
-      prodPlugin(
-        new BundleAnalyzerPlugin({
-          openAnalyzer: true,
-          // generateStatsFile: true,
-        }),
-        mode
-      ),
+      // prodPlugin(
+      //   new BundleAnalyzerPlugin({
+      //     openAnalyzer: true,
+      //     // generateStatsFile: true,
+      //   }),
+      //   mode
+      // ),
     ],
   };
 };

@@ -49,7 +49,6 @@
             const regex = new RegExp(`${matches.searchText}`, 'gi');
             const html = matches.query.search
               .sort((a, b) => a.title.localeCompare(b.title))
-              // .slice(5)
               .filter((element) => {
                 return element.title.match(regex);
               })

@@ -78,6 +78,8 @@ class Autosuggest {
           addClass(this.searchId.parentNode, this.isLoading);
           this.searchItem(escapedChar.trim());
         } else {
+          this.searchId.classList.remove('expanded');
+          this.setDefaultAriaLabel();
           removeClass(this.matchList, this.isActive);
         }
       }, this.delay);
@@ -258,7 +260,7 @@ class Autosuggest {
       const countCharInSearchId = this.searchId.value.length;
       const itemsLi = document.querySelectorAll(`#${this.searchOutputUl} > li`);
 
-      if (countCharInSearchId > 0 && itemsLi.length > 0) {
+      if (countCharInSearchId >= this.howManyCharacters && itemsLi.length > 0) {
         this.searchId.setAttribute('aria-expanded', true);
         this.searchId.classList.add('expanded');
         addClass(this.outputSearch, this.isActive);

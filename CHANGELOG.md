@@ -69,7 +69,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - upgrade to core-js 3
 
-## 2019-05-07
+## 2019-06-07
 ### Added
 - adding license
 - the appearance of the error

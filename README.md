@@ -1,31 +1,57 @@
-# Simple autosuggest/autocomplete with async/await method
+<h3 align="center">
+  autosuggest/autocomplete
+</h3>
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+<p align="center">
+  Simple autosuggest/autocomplete with asynchronous data fetch
+</p>
 
-[Live DEMO](https://tomik23.github.io/autosuggest/)
+<p align="center">
+  <img src="https://img.shields.io/github/package-json/v/tomik23/autosuggest">
+  <a href="LICENSE">
+    <img src="https://img.shields.io/badge/License-MIT-green.svg">
+  </a>
+</p>
 
-![Screenshot1](https://github.com/tomik23/autosuggest/blob/master/static/your-template.png)
+<p align="center">
+  <img src="static/your-template.png">
+</p>
 
-You can move between the records using the arrows <kbd>↓</kbd> <kbd>↑</kbd>, and confirm by <kbd>Enter</kbd>
+## Demo
+See the demo - [example](https://tomik23.github.io/autosuggest/)
 
-> The appearance of the error
+## Features
+- Accessible, with full support for ARIA attributes and keyboard interactions.
+- Customize your own CSS.
+- Support for asynchronous data fetching.
+- You can move between the records using the arrows <kbd>↓</kbd> <kbd>↑</kbd>, and confirm by <kbd>Enter</kbd>
+- No dependencies
 
-![Screenshot2](https://github.com/tomik23/autosuggest/blob/master/static/error.png)
-
+## 
 
 ## Initialization
 Before the first use, clone this repository and install node dependencies:
 
-```yarn``` or ```npm install```
+```js
+yarn
+// or 
+npm install
+```
 
 ## Run the app
 Run the app, just call:
 
-```yarn dev``` or ```npm run dev```
+```js
+yarn dev
+// or
+npm run dev
+```
 
 The final code:
 
-```yarn prod```
+```js
+yarn prod
+```
 
 ## Configuration of the plugin
 
@@ -41,11 +67,11 @@ delay | Number | `500` |  | Delay without which the server would not survive ;)
 howManyCharacters | Number | `1` |  | The number of characters entered should start searching
 onSubmit | Function |  |  | Executed on input submission
 
-### HTML
+### Usage
 
 ```html
 <div class="search">
-  <input type="text" id="search" class="full-width" placeholder="Enter letter">
+  <input type="text" id="search" class="full-width" autocomplete="off" placeholder="Enter letter">
 </div>
 ```
 
@@ -58,6 +84,12 @@ const options = {
   howManyCharacters: 1,
   // text when an error occurs
   placeholderError: 'something went wrong...',
+  // add button 'x' to clear the text from
+  // the input filed
+  clearButton: true,
+  // setting this parameter causes no result 
+  // when there are no results
+  noResult: 'No result',
   dataAPI: {
     // controlling the way data is downloaded
     searchLike: true,
@@ -81,8 +113,12 @@ const options = {
         // into the input field, in this case the text
         // from the <p> element
         return `
-          <li>
+          <li class="autocomplete-item loupe" role="option" aria-selected="false" tabindex="-1">
             <p>${el.name.replace(regex, (str) => `<b>${str}</b>`)}</p>
+            <!-- you can add other elements to <li>
+            but remember only the first element in
+            this case <p> will be inserted into the
+            input field -->
           </li>`;
       });
       return html.join('');
@@ -92,6 +128,8 @@ const options = {
   // from the list, or pressing enter or mouse button
   onSubmit: (matches) => {
     console.log(`You selected ${matches}`);
+    // you can open a window or do a redirect
+    // window.open(`https://en.wikipedia.org/wiki/${encodeURI(matches)}`);
   }
 }
 
@@ -117,7 +155,7 @@ htmlTemplate: function (matches) {
     .sort((a, b) => a.name.localeCompare(b.name))
     .map(el => {
       return `
-        <li>
+        <li class="autocomplete-item loupe" role="option" aria-selected="false" tabindex="-1">
           <p>${el.name.replace(regex, (str) => `<b>${str}</b>`)}</p>
         </li>`;
     });
@@ -126,17 +164,22 @@ htmlTemplate: function (matches) {
 
 ```
 
-### Minimal config
+## Minimal config
+Download from `docs` folder:
+- autosuggest.min.css
+- autosuggest.min.js
+- global.min.css
 
 CSS
 ```html
-<link href="./autosuggest.min.css" rel="stylesheet">
+<link rel="stylesheet" href="global.min.css">
+<link href="autosuggest.min.css" rel="stylesheet">
 ```
 
 HTML
 ```html
 <div class="search">
-  <input type="text" id="search" class="full-width" placeholder="Enter letter">
+  <input type="text" id="search" class="full-width" autocomplete="off" placeholder="Enter letter">
 </div>
 ```
 JavaScript
@@ -155,7 +198,7 @@ window.addEventListener('DOMContentLoaded', function () {
         .sort((a, b) => a.name.localeCompare(b.name))
         .map(el => {
           return `
-            <li>
+            <li class="autocomplete-item loupe" role="option" aria-selected="false" tabindex="-1">
               <p>${el.name.replace(regex, (str) => `<b>${str}</b>`)}</p>
             </li>`;
         }).join('');
@@ -163,15 +206,9 @@ window.addEventListener('DOMContentLoaded', function () {
   });
 });
 
-<script src="./autosuggest.min.js"></script>
+<script src="autosuggest.min.js"></script>
 
 ```
-
-### SCSS/CSS
-
-You want to modify the look, change the scss source (sources/scss/*) and recompile or modify css (docs/Autosuggest.css)
-You want to change the look change scss  source recompile or modify css
-
 ## Browsers support
 
 | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>IE / Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png" alt="Opera" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Opera | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/vivaldi/vivaldi_48x48.png" alt="Vivaldi" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Vivaldi |

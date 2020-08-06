@@ -60,8 +60,8 @@ htmlTemplate | Function |  | ✔ | Function that creates the appearance of the r
 dataAPI/path | String |   | ✔ | Path to our Rest API or static file
 dataAPI/searchLike | Boolean | `false` |  | The `true` parameter controls whether we append the search text to the URL `http://localhost:3005/persons?like=search-text`
 clearButton | Boolean | `false` |  | The parameter set to `true` adds a button to delete the text from the input field, a small `x` to the right of the input field 
-placeholderError | String | `something went wrong...`  |  | Adding plaseholder
-noResult | String | `No result`  |  | Adding plaseholder
+placeholderError | String | `something went wrong...`  |  | Adding plaseholder - [example](https://github.com/tomik23/autosuggest/#more-appearance-examples) 
+noResult | String | `No result`  |  | Adding information if no results - [example](https://github.com/tomik23/autosuggest/#more-appearance-examples) 
 delay | Number | `500` |  | Delay without which the server would not survive ;)
 howManyCharacters | Number | `1` |  | The number of characters entered should start searching
 onSubmit | Function |  |  | Executed on input submission

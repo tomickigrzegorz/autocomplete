@@ -55,7 +55,7 @@
               .map((el) => {
                 return `
                   <li class="autocomplete-item loupe" role="option" aria-selected="false" tabindex="-1">
-                    <p>${el.title.replace(regex, (str) => `${str}`)}</p>
+                    <p>${el.title.replace(regex, (str) => `<b>${str}</b>`)}</p>
                     <!-- <small>${el.snippet}</small> -->
                   </li>`;
               });

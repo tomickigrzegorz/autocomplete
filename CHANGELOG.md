@@ -4,7 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## 2020-08-12
 ### Added
-- Use Promises instead of async/await to avoid @babel/runtime
+- adding an example of using jquery
+- use Promises instead of async/await to avoid @babel/runtime
 - adding a new 'onSearch' function where you can decide for yourself how the data will be downloaded [jquery, axios, fetch, ...]
 - aria-describedby -> [attribute](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-describedby_attribute)
 - new API for testing -> [breakingbadapi](https://breakingbadapi.com/documentation)

@@ -56,15 +56,13 @@ yarn prod
 props | type | default | require | description
 ---- | :----: | :-------: | :--------: | -----------
 element | String |  | ✔ | Input field id
-htmlTemplate | Function |  | ✔ | Function that creates the appearance of the result
-dataAPI/path | String |   | ✔ | Path to our Rest API or static file
-dataAPI/searchLike | Boolean | `false` |  | The `true` parameter controls whether we append the search text to the URL `http://localhost:3005/persons?like=search-text`
-clearButton | Boolean | `false` |  | The parameter set to `true` adds a button to delete the text from the input field, a small `x` to the right of the input field 
-placeholderError | String | `something went wrong...`  |  | Adding plaseholder - [example](https://github.com/tomik23/autosuggest/#more-appearance-examples) 
-noResult | String | `No result`  |  | Adding information if no results - [example](https://github.com/tomik23/autosuggest/#more-appearance-examples) 
-delay | Number | `500` |  | Delay without which the server would not survive ;)
-howManyCharacters | Number | `1` |  | The number of characters entered should start searching
+onSearch | Function |  | ✔ | Function for user input. It can be a synchronous function or a promise
+onResults | Function |  | ✔ | Function that creates the appearance of the result
 onSubmit | Function |  |  | Executed on input submission
+clearButton | Boolean | `false` |  | A parameter set to 'true' adds a button to remove text from the input field
+placeholderError | String | `something went wrong...`  |  | Adding plaseholder - [example](https://github.com/tomik23/autosuggest/#more-appearance-examples) 
+delay | Number | `1000` |  | Delay without which the server would not survive, 1000 = 1s ;)
+instruction | String | `When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.` |  | aria-describedby [attribute](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-describedby_attribute)
 
 ## Usage
 
@@ -82,32 +80,56 @@ const options = {
   // search delay
   delay: 1000,
   
-  // how many characters to search
-  howManyCharacters: 1,
-  
-  // text when an error occurs
+    // text when an error occurs
   placeholderError: 'something went wrong...',
   
   // add button 'x' to clear the text from
   // the input filed
   clearButton: true,
   
-  // setting this parameter causes no result 
-  // when there are no results
-  noResult: 'No result',
-  dataAPI: {
+  onSearch: () => {
     
     // controlling the way data is downloaded
-    searchLike: true,
+    const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(input)}`;
   
-    // static file or dynamic address
-    path: process.env.ASSET_PATH,
+    /**
+     * axios
+     */
+    // 
+    if (input.length < 2) {
+      return [];
+    }
+
+    return axios.get(api)
+      .then((response) => {
+        return response.data;
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
+    // OR
+
+    /**
+     * Promise
+     */
+    return new Promise((resolve) => {
+      if (input.length < 2) {
+        return resolve([])
+      }
+
+      fetch(api)
+        .then((response) => response.json())
+        .then((data) => {
+          resolve(data)
+        })
+    })
   },
 
   // this part is responsible for the number of records,
   // the appearance of li elements and it really depends
   // on you how it will look
-  htmlTemplate: function (matches) {
+  onResults: (matches, input) => {
     const regex = new RegExp(`${matches[0]}`, 'gi');
     const html = matches.slice(1)
       .filter((element, index) => {
@@ -136,7 +158,7 @@ const options = {
   onSubmit: (matches) => {
     console.log(`You selected ${matches}`);
     // you can open a window or do a redirect
-    // window.open(`https://en.wikipedia.org/wiki/${encodeURI(matches)}`);
+    window.open(`https://www.imdb.com/find?q=${encodeURI(matches)}`)
   }
 }
 
@@ -153,7 +175,7 @@ In fact, we can work on dynamic data or static files. Data can be in the form of
 
 ```js
 ...
-htmlTemplate: function (matches) {
+onResults: (matches) => {
   const regex = new RegExp(`${matches[0]}`, 'gi');
   const html = matches.slice(1)
     .filter((element, index) => {
@@ -193,10 +215,22 @@ JavaScript
 ```js
 window.addEventListener('DOMContentLoaded', function () {
   new Autosuggest('search', {
-    dataAPI: {
-      path: process.env.ASSET_PATH, // static file or dynamic api
+    onSearch: (input) => {
+      const api = `https://your-api.com?name=${encodeURI(input)}`;
+
+      return new Promise((resolve) => {
+        if (input.length < 2) {
+          return resolve([])
+        }
+
+        fetch(api)
+          .then((response) => response.json())
+          .then((data) => {
+            resolve(data)
+          })
+      })
     },
-    htmlTemplate: function (matches) {
+    onResults: (matches) => {
       const regex = new RegExp(`${matches[0]}`, 'gi');
       const html = matches.slice(1)
         .filter((element, index) => {
@@ -249,11 +283,6 @@ import 'promise-polyfill/src/polyfill';
 ```
 
 ## More appearance examples
-
-<div align="center">No result</div>
-<p align="center">
-  <img src="static/02.png">
-</p>
 
 <div align="center">More complicated results</div>
 <p align="center">

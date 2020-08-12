@@ -110,7 +110,7 @@ const options = {
         console.log(error);
       });
 
-    // OR
+// OR -------------------------------
 
     /**
      * Promise

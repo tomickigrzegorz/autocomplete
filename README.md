@@ -59,7 +59,6 @@ element | String |  | ✔ | Input field id
 onSearch | Function |  | ✔ | Function for user input. It can be a synchronous function or a promise
 onResults | Function |  | ✔ | Function that creates the appearance of the result
 onSubmit | Function |  |  | Executed on input submission
-noResult | String | `No result`  |  | Adding information if no results - [example](https://github.com/tomik23/autosuggest/#more-appearance-examples) 
 howManyCharacters | Number | `2` |  | The number of characters entered should start searching
 clearButton | Boolean | `false` |  | A parameter set to 'true' adds a button to remove text from the input field
 delay | Number | `1000` |  | Time in milliseconds that the component should wait after last keystroke before calling search function 1000 = 1s
@@ -88,6 +87,10 @@ const options = {
   // the input filed
   clearButton: true,
   
+  // the number of characters entered
+  // should start searching
+  howManyCharacters: 2,
+
   // Function for user input. It can be a synchronous function or a promise
   // you can fetch data with jquery, axios, fetch, etc.
   onSearch: () => {
@@ -99,10 +102,6 @@ const options = {
      * axios
      */
     // 
-    if (input.length < 2) {
-      return [];
-    }
-
     return axios.get(api)
       .then((response) => {
         return response.data;
@@ -117,10 +116,6 @@ const options = {
      * Promise
      */
     return new Promise((resolve) => {
-      if (input.length < 2) {
-        return resolve([])
-      }
-
       fetch(api)
         .then((response) => response.json())
         .then((data) => {

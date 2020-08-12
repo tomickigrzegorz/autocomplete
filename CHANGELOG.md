@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 - new API for testing -> [breakingbadapi](https://breakingbadapi.com/documentation)
 
 ### Changed
+- restoration of functionality 'howManyCharacters'
 - reducing library size by removing babel-runtime
 - remove noResult (temporarily?)
 - remove prettier

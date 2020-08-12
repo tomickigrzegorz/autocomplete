@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Autosuggest</title>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"
+      integrity="sha512-VZ6m0F78+yo3sbu48gElK4irv2dzPoep8oo9LEjxviigcnnnNvnTOJRSrIhuFk68FMLOpiNz+T77nNY89rnWDg=="
+      crossorigin="anonymous"></script> -->
     <link rel="stylesheet" href="<%= htmlWebpackPlugin.options.css %>">
   </head>
 
@@ -23,23 +26,18 @@
         new Autosuggest('search', {
           delay: 1000,
           clearButton: true,
+          howManyCharacters: 2,
           // onSearch
           onSearch: (input) => {
             // You can also use static files
             // const api = '../static/users.json'
             const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(input)}`;
-
             /**
              * axios
              * If you want to use axios you have to add the
              * axios library to head html
              * https://cdnjs.com/libraries/axios
              */
-            // The number of characters entered should start searching
-            // if (input.length < 2) {
-            //   return [];
-            // }
-
             // return axios.get(api)
             //   .then((response) => {
             //     return response.data;
@@ -52,11 +50,6 @@
              * Promise
              */
             return new Promise((resolve) => {
-              // The number of characters entered should start searching
-              if (input.length < 2) {
-                return resolve([])
-              }
-
               fetch(api)
                 .then(response => response.json())
                 .then(data => {

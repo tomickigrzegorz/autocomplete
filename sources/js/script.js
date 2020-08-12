@@ -9,8 +9,8 @@ class Autosuggest {
     element,
     {
       delay,
-      placeholderError,
       clearButton,
+      howManyCharacters,
       instruction,
       onResults,
       onSearch,
@@ -27,6 +27,7 @@ class Autosuggest {
       ? onSearch
       : (value) => Promise.resolve(onSearch(value));
     this.delay = delay || 1000;
+    this.howManyCharacters = howManyCharacters || 2;
     this.clearButton = clearButton || false;
 
     // default config
@@ -108,7 +109,17 @@ class Autosuggest {
   searchItem = (input) => {
     this.searchId.parentNode.classList.add(this.isLoading);
 
+    // console.log(this.howManny, input.length);
+    if (this.howManyCharacters > input.length) {
+      this.hiddenButtonHide();
+      this.classSearch.classList.remove(this.isLoading);
+      this.outputSearch.classList.remove(this.isActive);
+      this.setDefault();
+      return;
+    }
+
     this.onSearch(input).then((result) => {
+      // set no result
       const matches = Array.isArray(result)
         ? [...result]
         : JSON.parse(JSON.stringify(result));
@@ -117,7 +128,7 @@ class Autosuggest {
 
       if (result.length === 0) {
         this.hiddenButtonHide();
-
+        this.searchId.classList.remove('expanded');
         this.outputSearch.classList.remove(this.isActive);
         this.setDefault();
       }
@@ -133,9 +144,9 @@ class Autosuggest {
     const describedby = document.createElement('span');
     describedby.id = 'initInstruction';
     describedby.className = 'init-instruction';
-    const textContent = document.createTextNode(this.instruction);
+    this.textContent = document.createTextNode(this.instruction);
     this.outputSearch.insertAdjacentElement('afterend', describedby);
-    describedby.appendChild(textContent);
+    describedby.appendChild(this.textContent);
   }
 
   // hide output div when click on li or press escape
@@ -219,9 +230,9 @@ class Autosuggest {
 
         this.searchId.value = this.firstElementFromLi.firstElementChild.innerText.trim();
 
-        this.outputSearch.classList.remove(this.isActive);
-
         this.dataElements(this.firstElementFromLi.getAttribute('data-elements'));
+
+        this.outputSearch.classList.remove(this.isActive);
 
         // set default settings
         this.setDefault();

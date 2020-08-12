@@ -62,7 +62,10 @@ onSubmit | Function |  |  | Executed on input submission
 clearButton | Boolean | `false` |  | A parameter set to 'true' adds a button to remove text from the input field
 placeholderError | String | `something went wrong...`  |  | Adding plaseholder - [example](https://github.com/tomik23/autosuggest/#more-appearance-examples) 
 delay | Number | `1000` |  | Delay without which the server would not survive, 1000 = 1s ;)
-instruction | String | `When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.` |  | aria-describedby [attribute](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-describedby_attribute)
+instruction | String | `When autocomplete results ...` |  | aria-describedby [attribute](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-describedby_attribute)
+
+The entire text of the instructions 
+> When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures
 
 ## Usage
 

@@ -31,21 +31,6 @@ body {
 h1 {
   letter-spacing: 1px;
 }
-
-@-webkit-keyframes spinner {
-  to {
-    -webkit-transform: rotate(1turn);
-    transform: rotate(1turn)
-  }
-}
-
-@keyframes spinner {
-  to {
-    -webkit-transform: rotate(1turn);
-    transform: rotate(1turn)
-  }
-}
-
 .container {
   width: 100%;
   max-width: 400px;

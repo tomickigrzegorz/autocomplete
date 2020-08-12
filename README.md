@@ -90,6 +90,8 @@ const options = {
   // the input filed
   clearButton: true,
   
+  // Function for user input. It can be a synchronous function or a promise
+  // you can fetch data with jquery, axios, fetch, etc.
   onSearch: () => {
     
     // controlling the way data is downloaded
@@ -157,7 +159,6 @@ const options = {
   // the onSubmit function is executed when the user 
   // submits their result by either selecting a result
   // from the list, or pressing enter or mouse button
-  
   onSubmit: (matches) => {
     console.log(`You selected ${matches}`);
     // you can open a window or do a redirect
@@ -169,12 +170,12 @@ const options = {
 new Autosuggest('element', options);
 ```
 
-## Add your own result template `htmlTemplate`
+## Add your own result template `onResults`
 
 In fact, we can work on dynamic data or static files. Data can be in the form of an array or json. It's up to you what the results list will look like. You can configure everything yourself using the `htmlTemplate` method
 
 
-## htmlTemplate example
+## onResults example
 
 ```js
 ...

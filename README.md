@@ -128,8 +128,8 @@ const options = {
   // the appearance of li elements and it really depends
   // on you how it will look
   onResults: (matches, input) => {
-    const regex = new RegExp(`${matches[0]}`, 'gi');
-    const html = matches.slice(1)
+    const regex = new RegExp(input, 'gi');
+    const html = matches
       .filter((element, index) => {
         return element.name.match(regex);
       })

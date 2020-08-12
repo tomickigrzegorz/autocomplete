@@ -59,6 +59,8 @@ element | String |  | ✔ | Input field id
 onSearch | Function |  | ✔ | Function for user input. It can be a synchronous function or a promise
 onResults | Function |  | ✔ | Function that creates the appearance of the result
 onSubmit | Function |  |  | Executed on input submission
+noResult | String | `No result`  |  | Adding information if no results - [example](https://github.com/tomik23/autosuggest/#more-appearance-examples) 
+howManyCharacters | Number | `2` |  | The number of characters entered should start searching
 clearButton | Boolean | `false` |  | A parameter set to 'true' adds a button to remove text from the input field
 delay | Number | `1000` |  | Time in milliseconds that the component should wait after last keystroke before calling search function 1000 = 1s
 instruction | String | `When autocomplete results ...` |  | aria-describedby [attribute](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-describedby_attribute)
@@ -283,6 +285,11 @@ import 'promise-polyfill/src/polyfill';
 ```
 
 ## More appearance examples
+
+<div align="center">No result</div>
+<p align="center">
+  <img src="static/02.png">
+</p>
 
 <div align="center">More complicated results</div>
 <p align="center">

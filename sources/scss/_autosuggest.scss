@@ -57,11 +57,11 @@
       top: 0px;
       bottom: 0;
       margin: auto;
-      right: 12px;
-      width: 18px;
-      height: 18px;
+      right: 10px;
+      width: 20px;
+      height: 20px;
       border-radius: 50%;
-      border: 2px solid $color-blue;
+      border: 2px solid $color-gray;
       border-left-color: lighten($color-gray, 35%);
       border-top-color: lighten($color-gray, 35%);
       animation: spinner .6s linear infinite;
@@ -72,6 +72,18 @@
     }
   }
 
+}
+
+@-webkit-keyframes spinner {
+  to {
+    transform: rotate(1turn)
+  }
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(1turn)
+  }
 }
 
 .loupe {

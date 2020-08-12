@@ -281,11 +281,6 @@ import 'promise-polyfill/src/polyfill';
 
 ## More appearance examples
 
-<div align="center">No result</div>
-<p align="center">
-  <img src="static/02.png">
-</p>
-
 <div align="center">More complicated results</div>
 <p align="center">
   <img src="static/03.png">

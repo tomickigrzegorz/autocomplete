@@ -10,11 +10,6 @@
     ]
   ],
   "plugins": [
-    [
-      "@babel/plugin-transform-runtime",
-      {
-        "regenerator": true
-      }
-    ]
+    "@babel/proposal-class-properties"
   ]
 }

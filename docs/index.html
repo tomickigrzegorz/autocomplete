@@ -6,69 +6,101 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Autosuggest</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"
+      integrity="sha512-VZ6m0F78+yo3sbu48gElK4irv2dzPoep8oo9LEjxviigcnnnNvnTOJRSrIhuFk68FMLOpiNz+T77nNY89rnWDg=="
+      crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./global.min.css">
   <link href="autosuggest.min.css" rel="stylesheet"></head>
 
   <body>
     <!-- search container -->
     <div class="container">
-      <h1>search on wikipedia</h1>
+      <h1>The Breaking Bad API</h1>
       <div class="search loupe">
-        <input type="text" id="search" class="full-width" autocomplete="off" placeholder="search for some text">
+        <input type="text" id="search" class="full-width" autocomplete="off" placeholder="type wa">
       </div>
     </div>
 
     <script type="text/javascript">
       if (!('Promise' in window)) {
-        const script = document.createElement('script');
-        script.src = 'https://polyfill.io/v3/polyfill.min.js?features=Promise';
-        document.getElementsByTagName('head')[0].appendChild(script);
+        const script = document.createElement('script')
+        script.src = 'https://polyfill.io/v3/polyfill.min.js?features=Promise'
+        document.getElementsByTagName('head')[0].appendChild(script)
       }
     </script>
     <script type="text/javascript">
       window.addEventListener('DOMContentLoaded', () => {
         // eslint-disable-next-line no-new
         new Autosuggest('search', {
-          howManyCharacters: 2,
-          delay: 500,
-          placeholderError: 'something went wrong...',
+          delay: 1000,
           clearButton: true,
-          noResult: 'No result',
-          dataAPI: {
-            // dynamically adding search text to the url, optional
-            searchLike: true,
-            // wikipedia API
-            path:
-              'https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&origin=*&srsearch=',
-            // path: 'https://cdn.jsdelivr.net/gh/tomik23/autosuggest@master/docs/users.json',
-            // static files
-            // path: '../static/users.json'
+          placeholderError: 'something went wrong...',
+          // instruction: '',
+          // onSearch
+          onSearch: (input) => {
+            const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(input)}`;
+            /**
+             * axios
+             */
+            // if (input.length < 2) {
+            //   return [];
+            // }
+
+            // return axios.get(api)
+            //   .then((response) => {
+            //     return response.data;
+            //   })
+            //   .catch(error => {
+            //     console.log(error);
+            //   });
+
+            /**
+             * Promise
+             */
+            return new Promise((resolve) => {
+              if (input.length < 2) {
+                return resolve([])
+              }
+
+              fetch(api)
+                .then((response) => response.json())
+                .then((data) => {
+                  resolve(data)
+                })
+            })
           },
-          htmlTemplate: (matches) => {
-            // const regex = new RegExp(`^${matches.searchText}`, 'gi'); // start with
-            const regex = new RegExp(`${matches.searchText}`, 'gi');
-            const html = matches.query.search
-              .sort((a, b) => a.title.localeCompare(b.title))
+
+          onResults: (matches, input) => {
+            // const regex = new RegExp(^${input}`, 'gi'); // start with
+            const regex = new RegExp(input, 'gi')
+            return matches
+              .sort((a, b) => a.name.localeCompare(b.name))
               .filter((element) => {
-                return element.title.match(regex);
+                return element.name.match(regex)
               })
               .map((el) => {
                 return `
-                  <li class="autocomplete-item loupe" role="option" aria-selected="false" tabindex="-1">
-                    <p>${el.title.replace(regex, (str) => `<b>${str}</b>`)}</p>
-                    <!-- <small>${el.snippet}</small> -->
-                  </li>`;
-              });
-            return html.join('');
+                  <li class="autocomplete-item" role="option" aria-selected="false" tabindex="-1">
+                    <h2 style="margin-bottom: 10px;">${el.name.replace(regex, (str) => `<b>${str}</b>`)}</h2>
+                    <div style="display: flex;">
+                      <div style="margin-right: 10px;">
+                        <img src="${el.img}" style="max-width: 100px;">
+                      </div>
+                      <div>
+                        <div><b>nickname</b> - ${el.nickname}</div>
+                        <div><b>birthday</b>- ${el.birthday}</div>
+                        <div><b>status</b> - ${el.status}</div>
+                      </div>
+                    </div>
+                  </li>`
+              }).join('')
           },
-          // enabling the onsubmit event
+          // event onsubmit
           onSubmit: (matches) => {
-            // eslint-disable-next-line no-console
-            // console.log(matches);
-            window.open(`https://en.wikipedia.org/wiki/${encodeURI(matches)}`);
+            console.log(matches);
           },
-        });
-      });
+        })
+      })
     </script>
   <script src="./autosuggest.min.js"></script></body>
 

@@ -99,9 +99,24 @@ const options = {
     const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(input)}`;
   
     /**
+     * jquery
+     */
+    return $.ajax({
+        url: api,
+        method: 'GET',
+      })
+      .done(function (data) {
+        return data
+      })
+      .fail(function (xhr) {
+        console.error(xhr);
+      });
+
+// OR -------------------------------
+
+    /**
      * axios
      */
-    // 
     return axios.get(api)
       .then((response) => {
         return response.data;
@@ -113,7 +128,7 @@ const options = {
 // OR -------------------------------
 
     /**
-     * Promise
+     * Promise + fetch
      */
     return new Promise((resolve) => {
       fetch(api)

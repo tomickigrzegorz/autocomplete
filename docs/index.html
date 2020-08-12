@@ -7,7 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Autosuggest</title>
     <link rel="stylesheet" href="./global.min.css">
-  <link href="autosuggest.min.css" rel="stylesheet"></head>
+    <link href="autosuggest.min.css" rel="stylesheet">
+  </head>
 
   <body>
     <!-- search container -->
@@ -23,7 +24,6 @@
         new Autosuggest('search', {
           delay: 1000,
           clearButton: true,
-          placeholderError: 'something went wrong...',
           // onSearch
           onSearch: (input) => {
             // You can also use static files
@@ -104,6 +104,7 @@
         })
       })
     </script>
-  <script src="./autosuggest.min.js"></script></body>
+    <script src="./autosuggest.min.js"></script>
+  </body>
 
 </html>

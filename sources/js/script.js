@@ -1,35 +1,34 @@
 import '../scss/style.scss';
 
 // import 'promise-polyfill/src/polyfill'; // enable if you want to support IE
-import 'whatwg-fetch';
-import removeClass from './helpers/removeClass';
-import addClass from './helpers/addClass';
+import isPromise from './helpers/isPromise';
+import isObject from './helpers/isObject';
 
 class Autosuggest {
   constructor(
     element,
     {
       delay,
-      dataAPI,
       placeholderError,
-      htmlTemplate,
-      noResult,
-      howManyCharacters,
       clearButton,
+      instruction,
+      onResults,
+      onSearch,
       onSubmit = () => { },
-    }
+    },
   ) {
     this.search = element;
     this.searchId = document.getElementById(this.search);
     this.placeholderError = placeholderError || 'something went wrong...';
-    this.path = dataAPI.path;
-    this.searchLike = dataAPI.searchLike;
-    this.htmlTemplate = htmlTemplate;
+    this.instruction = instruction
+      || 'When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.';
+    this.onResults = onResults;
     this.onSubmit = onSubmit;
-    this.delay = delay || 500;
+    this.onSearch = isPromise(onSearch)
+      ? onSearch
+      : (value) => Promise.resolve(onSearch(value));
+    this.delay = delay || 1000;
     this.clearButton = clearButton || false;
-    this.noResult = noResult || false;
-    this.howManyCharacters = howManyCharacters || 1;
 
     // default config
     this.searchOutputUl = 'autocomplete-list';
@@ -38,359 +37,334 @@ class Autosuggest {
     this.errorClass = 'auto-error';
     this.activeList = 'selected';
     this.selectedOption = 'selectedOption';
-    this.keyCode = {
-      esc: 27,
-      enter: 13,
-      keyUp: 40,
-      keyDown: 38,
+
+    this.keyCodes = {
+      ESC: 27,
+      ENTER: 13,
+      UP: 40,
+      DOWN: 38,
+      TAB: 9,
     };
 
-    this.setDefaultAriaLabel();
-    this.initialSearch();
-    this.createOutputSearch(this.search);
+    // set default aria
+    this.setDefault();
 
-    this.ariaActivedescendant = document.querySelector(
-      '[aria-activedescendant]'
-    );
-  }
+    this.initialize();
 
-  initialSearch() {
-    let timeout = null;
-
-    this.searchId.addEventListener('input', (e) => {
-      this.valueFromSearch = e.target.value;
-      this.classSearch = e.target.parentNode;
-
-      const escapedChar = this.valueFromSearch.replace(
-        // eslint-disable-next-line no-useless-escape
-        /[`~!@#$%^&*()_|+\-=÷¿?;:'",.<>\{\}\[\]\\\/]/g,
-        ''
-      );
-
-      clearTimeout(timeout);
-
-      timeout = setTimeout(() => {
-        if (
-          escapedChar.length >= this.howManyCharacters &&
-          escapedChar.length > 0
-        ) {
-          if (escapedChar.trim().length <= 0) return;
-          addClass(this.searchId.parentNode, this.isLoading);
-          this.searchItem(escapedChar.trim());
-        } else {
-          this.searchId.classList.remove('expanded');
-          this.setDefaultAriaLabel();
-          removeClass(this.matchList, this.isActive);
-        }
-      }, this.delay);
-
-      removeClass(this.searchId, this.errorClass);
-    });
+    this.createOutputSearch();
   }
 
   // default aria
-  setDefaultAriaLabel() {
+  setDefault = () => {
     this.searchId.setAttribute('aria-owns', 'autocomplete-list');
     this.searchId.setAttribute('aria-expanded', false);
     this.searchId.setAttribute('aria-describedby', 'initInstruction');
     this.searchId.setAttribute('aria-autocomplete', 'both');
     this.searchId.setAttribute('aria-activedescendant', '');
+    this.ariaActivedescendant = document.querySelector(
+      '[aria-activedescendant]',
+    );
+    this.searchId.classList.remove('expanded');
+  }
+
+  initialize = () => {
+    this.createClearButton();
+
+    let timeout = null;
+
+    this.searchId.addEventListener('input', ({ target }) => {
+      this.valueFromSearch = target.value;
+      this.classSearch = target.parentNode;
+
+      this.escapedChar = this.valueFromSearch.replace(
+        // eslint-disable-next-line no-useless-escape
+        /[`~!@#$%^&*()_|+\-=÷¿?;:'",.<>\{\}\[\]\\\/]/g,
+        '',
+      );
+
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        this.searchItem(this.escapedChar.trim());
+      }, this.delay);
+    });
   }
 
   // create output-list and put after search input
-  createOutputSearch() {
-    this.outputAfterSearch = `${this.search}-auto`;
-    this.outputSearch = document.createElement('div');
-    this.outputSearch.id = this.outputAfterSearch;
+  createOutputSearch = () => {
+    this.outputSearch = document.createElement('ul');
+    this.outputSearch.id = this.searchOutputUl;
     this.outputSearch.className = 'auto-output-search';
+    this.outputSearch.tabIndex = 0;
+    this.outputSearch.setAttribute('role', 'listbox');
     this.searchId.parentNode.insertBefore(
       this.outputSearch,
-      this.searchId.nextSibling
+      this.searchId.nextSibling,
     );
-    this.outputSearch.insertAdjacentElement('afterend', this.initInstruction());
-    this.matchList = document.getElementById(this.outputAfterSearch);
-  }
-
-  // hide output div when click on li or press escape
-  closeOutputMatchesList() {
-    document.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const itemActive = document.querySelector(`.${this.isActive}`);
-      if (e.target.id !== this.search) {
-        if (itemActive) {
-          removeClass(itemActive, this.isActive);
-          this.searchId.setAttribute('aria-expanded', false);
-          this.searchId.classList.remove('expanded');
-          this.ariaActivedescendant.setAttribute('aria-activedescendant', '');
-        }
-      }
-    });
-    // close outpu list when press ESC
-    document.addEventListener('keyup', (e) => {
-      if (e.keyCode === this.keyCode.esc) {
-        const itemActive = document.querySelector(`.${this.isActive}`);
-        if (itemActive) {
-          removeClass(itemActive, this.isActive);
-          this.searchId.setAttribute('aria-expanded', false);
-          this.searchId.classList.remove('expanded');
-          this.ariaActivedescendant.setAttribute('aria-activedescendant', '');
-        }
-      }
-    });
-  }
-
-  // preparation of the list
-  outputHtml(matches) {
-    const html = this.htmlTemplate(matches);
-    if (html !== '') {
-      this.searchId.setAttribute('aria-expanded', true);
-      this.searchId.classList.add('expanded');
-      this.matchList.innerHTML = `<ul id="${this.searchOutputUl}" role="listbox" tabindex="0">${html}</ul>`;
-      addClass(this.matchList, this.isActive);
-
-      this.addTextFromLiToSearchInput();
-      this.mouseActiveListItem();
-      this.closeOutputMatchesList();
-      this.keyUpInsideUl();
-    } else if (html === '' && this.noResult) {
-      this.searchId.setAttribute('aria-expanded', true);
-      this.searchId.classList.add('expanded');
-      this.matchList.innerHTML = `<ul id="${this.searchOutputUl}" role="listbox" tabindex="0"><li class="loupe no-result">${this.noResult}</li></ul>`;
-      addClass(this.matchList, this.isActive);
-      this.closeOutputMatchesList();
-    }
-  }
-
-  // instruction aria-describedby
-  initInstruction() {
-    const describedby = document.createElement('span');
-    describedby.id = 'initInstruction';
-    describedby.className = 'init-instruction';
-    const textContent = document.createTextNode(
-      'When autocomplete results are available use up and down arrows to review and enter to select.  Touch device users, explore by touch or with swipe gestures.'
-    );
-    describedby.appendChild(textContent);
-    return describedby;
-  }
-
-  // adding text from list when enter
-  addTextFromLiToSearchInput() {
-    document.addEventListener('keyup', (e) => {
-      e.preventDefault();
-      if (this.valueFromSearch.length) {
-        const itemActive = document.querySelector(`li.${this.activeList} > *`);
-        if (e.keyCode === this.keyCode.enter && itemActive != null) {
-          const item = e.target;
-          this.dataElements(itemActive.parentElement);
-          document.getElementById(item.id).value = itemActive.innerText.trim();
-
-          // onSubmit
-          this.onSubmit(itemActive.innerText.trim());
-
-          removeClass(item.nextSibling, this.isActive);
-          removeClass(itemActive, this.activeList);
-          removeClass(this.outputSearch, this.isActive);
-
-          // set default
-          this.searchId.setAttribute('aria-expanded', false);
-          this.searchId.classList.remove('expanded');
-          this.ariaActivedescendant.setAttribute('aria-activedescendant', '');
-        }
-      }
-    });
-  }
-
-  // the part responsible for appending json to the search
-  // field use - https://github.com/tomik23/Leaflet.Autocomplete
-  dataElements(item) {
-    const checkIfDataElementsExist = item.getAttribute('data-elements');
-    if (checkIfDataElementsExist !== null) {
-      this.searchId.setAttribute(
-        'data-elements',
-        item.getAttribute('data-elements')
-      );
-    }
-  }
-
-  // setting the active list with the mouse
-  mouseActiveListItem() {
-    const searchOutputUlLi = document.querySelectorAll(
-      `#${this.searchOutputUl} > li`
-    );
-    for (let i = 0; i < searchOutputUlLi.length; i++) {
-      searchOutputUlLi[i].addEventListener('mouseenter', (e) => {
-        const itemActive = document.querySelector(`li.${this.activeList}`);
-        if (itemActive) {
-          removeClass(itemActive, this.activeList);
-          itemActive.id = '';
-          itemActive.setAttribute('aria-selected', false);
-          this.ariaactivedescendant(this.ariaActivedescendant);
-        }
-        addClass(e.target, this.activeList);
-        e.target.id = this.selectedOption;
-        e.target.setAttribute('aria-selected', true);
-        this.ariaactivedescendant(
-          this.ariaActivedescendant,
-          this.selectedOption
-        );
-      });
-    }
-    this.mouseAddListItemToSearchInput();
-  }
-
-  // add text from list when click mouse
-  mouseAddListItemToSearchInput() {
-    const searchOutpuli = document.getElementById(this.searchOutputUl);
-    searchOutpuli.addEventListener('click', (e) => {
-      e.preventDefault();
-      const item = document.querySelector(`li.${this.activeList} > *`);
-      this.searchId.value = item.innerText.trim();
-
-      // onSubmit
-      this.onSubmit(item.innerText.trim());
-
-      this.dataElements(item.parentNode);
-      // searchOutpuli.outerHTML = '';
-    });
-  }
-
-  // show items when items.length >= 1 and is not empty
-  showLiItems() {
-    this.searchId.addEventListener('click', () => {
-      const countCharInSearchId = this.searchId.value.length;
-      const itemsLi = document.querySelectorAll(`#${this.searchOutputUl} > li`);
-
-      if (countCharInSearchId >= this.howManyCharacters && itemsLi.length > 0) {
-        this.searchId.setAttribute('aria-expanded', true);
-        this.searchId.classList.add('expanded');
-        addClass(this.outputSearch, this.isActive);
-      }
-    });
-  }
-
-  // navigating the elements li
-  keyUpInsideUl() {
-    let selected = 0;
-    const itemsLi = document.querySelectorAll(
-      `.${this.isActive} > #${this.searchOutputUl} > li`
-    );
-
-    if (itemsLi.length >= 1) {
-      this.showLiItems(itemsLi);
-      this.searchId.addEventListener('keydown', (e) => {
-        const { keyCode } = e;
-        const ariaExpanded = this.searchId.getAttribute('aria-expanded');
-        const itemActive = document.querySelector(`li.${this.activeList}`);
-
-        // preventing keydown when 'aria-expanded=false` is set
-        if (ariaExpanded === 'false') return;
-
-        if (keyCode === this.keyCode.keyUp) {
-          selected += 1;
-          if (selected > itemsLi.length) {
-            selected = 1;
-          }
-        }
-
-        if (keyCode === this.keyCode.keyDown) {
-          selected -= 1;
-          if (selected <= 0) {
-            selected = itemsLi.length;
-          }
-        }
-
-        if (
-          keyCode === this.keyCode.keyUp ||
-          keyCode === this.keyCode.keyDown
-        ) {
-          if (itemActive) {
-            removeClass(itemActive, this.activeList);
-            itemActive.id = '';
-            itemActive.setAttribute('aria-selected', false);
-            this.ariaactivedescendant(this.ariaActivedescendant);
-          }
-          addClass(itemsLi[selected - 1], this.activeList);
-          itemsLi[selected - 1].id = this.selectedOption;
-          itemsLi[selected - 1].setAttribute('aria-selected', true);
-
-          this.ariaactivedescendant(
-            this.ariaActivedescendant,
-            this.selectedOption
-          );
-        }
-      });
-    }
-  }
-
-  // Set aria-activedescendant
-  ariaactivedescendant(element, type) {
-    element.setAttribute('aria-activedescendant', type || '');
-  }
-
-  // Removing text from the input field
-  clearSearchInput() {
-    const autoClear = document.querySelector(`#auto-clear-${this.search}`);
-
-    if (autoClear) {
-      this.removeClearButton(this.searchId);
-    }
-
-    const clear = document.createElement('button');
-    clear.id = `auto-clear-${this.search}`;
-    clear.classList.add('auto-clear');
-    clear.setAttribute('type', 'button');
-    const clearSpan = document.createElement('span');
-    clearSpan.textContent = 'clear text';
-    clear.insertAdjacentElement('beforeend', clearSpan);
-    this.searchId.parentNode.insertBefore(clear, this.searchId.nextSibling);
-
-    clear.addEventListener('click', () => {
-      this.searchId.value = '';
-      this.searchId.focus();
-      this.removeClearButton(this.searchId);
-    });
-  }
-
-  // clear button
-  removeClearButton(id) {
-    id.nextElementSibling.remove();
-    this.ariaactivedescendant(this.ariaActivedescendant);
-
-    const selectedOption = document.getElementById(this.selectedOption);
-    if (selectedOption) selectedOption.classList.remove(this.activeList);
+    this.matchList = document.getElementById(this.searchOutputUl);
+    // set instruction
+    this.initInstruction();
   }
 
   // The async function gets the text from the search
   // and returns the matching array
-  async searchItem(searchText) {
-    try {
-      const dataResponse =
-        this.searchLike === true ? this.path + searchText : this.path;
+  searchItem = (input) => {
+    this.searchId.parentNode.classList.add(this.isLoading);
 
-      const res = await fetch(dataResponse);
-      const jsonData = await res.json();
+    this.onSearch(input).then((result) => {
+      const matches = Array.isArray(result)
+        ? [...result]
+        : JSON.parse(JSON.stringify(result));
 
-      if (searchText.length === 0) {
-        this.matchList.innerHTML = '';
+      this.classSearch.classList.remove(this.isLoading);
+
+      if (result.length === 0) {
+        this.hiddenButtonHide();
+
+        this.outputSearch.classList.remove(this.isActive);
+        this.setDefault();
       }
 
-      const matches = Array.isArray(jsonData)
-        ? [searchText, ...jsonData]
-        : { searchText, ...jsonData };
+      if (result.length > 0 || isObject(result)) {
+        this.outputHtml(matches, input);
+      }
+    });
+  }
 
-      removeClass(this.classSearch, this.isLoading);
-      // clear input
-      // console.log('matches', matches);
-      this.outputHtml(matches);
-      if (this.clearButton) this.clearSearchInput();
-    } catch (err) {
-      // console.log(err);
-      removeClass(this.classSearch, this.isLoading);
-      this.searchId.value = '';
+  // instruction aria-describedby
+  initInstruction = () => {
+    const describedby = document.createElement('span');
+    describedby.id = 'initInstruction';
+    describedby.className = 'init-instruction';
+    const textContent = document.createTextNode(this.instruction);
+    this.outputSearch.insertAdjacentElement('afterend', describedby);
+    describedby.appendChild(textContent);
+  }
 
-      addClass(this.searchId, this.errorClass);
-      this.searchId.placeholder = this.placeholderError;
+  // hide output div when click on li or press escape
+  closeOutputMatchesList = ({ target }) => {
+    if (target.id === this.search) return;
+
+    this.outputSearch.classList.remove(this.isActive);
+
+    // set default settings
+    this.setDefault();
+  }
+
+  // preparation of the list
+  outputHtml(matches, input) {
+    this.selected = 0;
+
+    this.searchId.setAttribute('aria-expanded', true);
+    this.searchId.classList.add('expanded');
+    this.matchList.innerHTML = this.onResults(matches, input);
+
+    this.searchOutpuli = document.getElementById(this.searchOutputUl);
+    this.itemsLi = document.querySelectorAll(`#${this.searchOutputUl} > li`);
+
+    this.matchList.classList.add(this.isActive);
+
+    this.hiddenButtonHide();
+
+    // move with the up / down arrows
+    this.searchId.addEventListener('keydown', this.handelEvent);
+
+    // showing results on clicking on the input field
+    // if these results exist
+    this.searchId.addEventListener('click', this.showLiItems);
+
+    // clicking will add the text from the first
+    // element to the input field
+    this.matchList.addEventListener('click', this.addTextFromLiToSearchInput);
+
+    // adding aria-selected on mouse event
+    for (let i = 0; i < this.itemsLi.length; i++) {
+      this.itemsLi[i].addEventListener(
+        'mouseenter',
+        this.addTextFromLiToSearchInput,
+      );
+      this.itemsLi[i].addEventListener(
+        'mouseleave',
+        this.addTextFromLiToSearchInput,
+      );
     }
+
+    // close expanded items
+    document.addEventListener('click', this.closeOutputMatchesList);
+  }
+
+  hiddenButtonHide = () => {
+    if (!this.clearButton) return;
+    this.clearButton.classList.remove('hidden');
+  }
+
+  // show items when items.length >= 1 and is not empty
+  showLiItems = () => {
+    if (this.matchList.innerText.length > 0) {
+      this.searchId.setAttribute('aria-expanded', true);
+      this.searchId.classList.add('expanded');
+      this.outputSearch.classList.add(this.isActive);
+    }
+  }
+
+  // adding text from the list when li is clicking
+  // or adding aria-selected to li elements
+  addTextFromLiToSearchInput = ({ type, target }) => {
+    const activeList = document.querySelector(`.${this.activeList}`);
+
+    switch (type) {
+      case 'click':
+        this.selected = 0;
+
+        this.firstElementFromLi = target.closest('li');
+
+        if (!this.firstElementFromLi) return;
+
+        this.searchId.value = this.firstElementFromLi.firstElementChild.innerText.trim();
+
+        this.outputSearch.classList.remove(this.isActive);
+
+        this.dataElements(this.firstElementFromLi.getAttribute('data-elements'));
+
+        // set default settings
+        this.setDefault();
+
+        // onSubmit
+        this.onSubmit(
+          this.firstElementFromLi.firstElementChild.innerText.trim(),
+        );
+        break;
+
+      case 'mouseenter':
+        this.selected = 0;
+        if (activeList) activeList.classList.remove(this.activeList);
+        target.id = this.selectedOption;
+        target.setAttribute('aria-selected', true);
+        target.classList.add(this.activeList);
+        this.ariaactivedescendant(
+          this.ariaActivedescendant,
+          this.selectedOption,
+        );
+        break;
+
+      case 'mouseleave':
+        this.selected = 0;
+        if (activeList) activeList.classList.remove(this.activeList);
+        target.id = '';
+        target.setAttribute('aria-selected', false);
+        target.classList.remove(this.activeList);
+        this.ariaactivedescendant(this.ariaActivedescendant);
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  // the part responsible for appending json to the search
+  // field use - https://github.com/tomik23/Leaflet.Autocomplete
+  dataElements = (item) => {
+    if (!item) return;
+    this.searchId.setAttribute('data-elements', item);
+  }
+
+  // navigating the elements li and enter
+  handelEvent = ({ keyCode }) => {
+    this.selectedLi = document.querySelector(`.${this.activeList}`);
+
+    if (this.searchId.getAttribute('aria-expanded') === 'false') return;
+
+    switch (keyCode) {
+      case this.keyCodes.UP:
+        this.selected += 1;
+        if (this.selected > this.itemsLi.length) {
+          this.selected = 1;
+        }
+        this.setAriaSelectedItem(this.selected - 1);
+
+        break;
+      case this.keyCodes.DOWN:
+        this.selected -= 1;
+        if (this.selected <= 0) {
+          this.selected = this.itemsLi.length;
+        }
+        this.setAriaSelectedItem(this.selected - 1);
+
+        break;
+      case this.keyCodes.ENTER:
+        this.searchId.value = this.selectedLi.firstElementChild.innerText.trim();
+
+        this.dataElements(this.selectedLi.getAttribute('data-elements'));
+
+        this.outputSearch.classList.remove(this.isActive);
+
+        this.setDefault();
+
+        // onSubmit
+        this.onSubmit(this.selectedLi.firstElementChild.innerText.trim());
+        break;
+      case this.keyCodes.ESC:
+        this.outputSearch.classList.remove(this.isActive);
+
+        this.setDefault();
+        break;
+      default:
+        break;
+    }
+
+    if (this.selectedLi) this.removeAriaSelectedItem();
+  }
+
+  // set aria label on item li
+  setAriaSelectedItem = (number) => {
+    this.itemsLi[number].id = this.selectedOption;
+    this.itemsLi[number].setAttribute('aria-selected', true);
+    this.itemsLi[number].classList.add(this.activeList);
+
+    this.ariaactivedescendant(this.ariaActivedescendant, this.selectedOption);
+  }
+
+  // remove aria label from item li
+  removeAriaSelectedItem = () => {
+    this.selectedLi.id = '';
+    this.selectedLi.setAttribute('aria-selected', false);
+    this.selectedLi.classList.remove(this.activeList);
+
+    this.ariaactivedescendant(this.ariaActivedescendant);
+  }
+
+  // Set aria-activedescendant
+  ariaactivedescendant = (element, type) => {
+    element.setAttribute('aria-activedescendant', type || '');
+  }
+
+  // create clear button and
+  // removing text from the input field
+  createClearButton = () => {
+    if (!this.clearButton) return;
+
+    this.clearButton = document.createElement('button');
+    this.clearButton.id = `auto-clear-${this.search}`;
+    this.clearButton.classList.add('auto-clear', 'hidden');
+    this.clearButton.setAttribute('type', 'button');
+    this.clearButton.setAttribute('aria-label', 'claar text from input');
+
+    this.searchId.insertAdjacentElement('afterend', this.clearButton);
+
+    this.clearButton.addEventListener('click', this.handleClearButton);
+  }
+
+  // clicking on the clear button
+  handleClearButton = ({ target }) => {
+    // hides clear button
+    target.classList.add('hidden');
+    // clear value searchId
+    this.searchId.value = '';
+    // set focus
+    this.searchId.focus();
+    // remove li from ul
+    this.outputSearch.innerHTML = '';
+    // set default aria
+    this.setDefault();
   }
 }
 

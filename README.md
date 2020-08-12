@@ -128,8 +128,8 @@ const options = {
   // the appearance of li elements and it really depends
   // on you how it will look
   onResults: (matches, input) => {
-    const regex = new RegExp(`${matches[0]}`, 'gi');
-    const html = matches.slice(1)
+    const regex = new RegExp(input, 'gi');
+    const html = matches
       .filter((element, index) => {
         return element.name.match(regex);
       })
@@ -172,9 +172,9 @@ In fact, we can work on dynamic data or static files. Data can be in the form of
 
 ```js
 ...
-onResults: (matches) => {
-  const regex = new RegExp(`${matches[0]}`, 'gi');
-  const html = matches.slice(1)
+onResults: (matches, input) => {
+  const regex = new RegExp(input, 'gi');
+  const html = matches
     .filter((element, index) => {
       return element.name.match(regex);
     })
@@ -216,10 +216,6 @@ window.addEventListener('DOMContentLoaded', function () {
       const api = `https://your-api.com?name=${encodeURI(input)}`;
 
       return new Promise((resolve) => {
-        if (input.length < 2) {
-          return resolve([])
-        }
-
         fetch(api)
           .then((response) => response.json())
           .then((data) => {
@@ -227,9 +223,9 @@ window.addEventListener('DOMContentLoaded', function () {
           })
       })
     },
-    onResults: (matches) => {
-      const regex = new RegExp(`${matches[0]}`, 'gi');
-      const html = matches.slice(1)
+    onResults: (matches, input) => {
+      const regex = new RegExp(input, 'gi');
+      const html = matches
         .filter((element, index) => {
           return element.name.match(regex);
         })
@@ -280,11 +276,6 @@ import 'promise-polyfill/src/polyfill';
 ```
 
 ## More appearance examples
-
-<div align="center">No result</div>
-<p align="center">
-  <img src="static/02.png">
-</p>
 
 <div align="center">More complicated results</div>
 <p align="center">

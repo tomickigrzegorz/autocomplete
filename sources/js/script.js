@@ -19,7 +19,6 @@ class Autosuggest {
   ) {
     this.search = element;
     this.searchId = document.getElementById(this.search);
-    this.placeholderError = placeholderError || 'something went wrong...';
     this.instruction = instruction
       || 'When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.';
     this.onResults = onResults;
@@ -34,7 +33,6 @@ class Autosuggest {
     this.searchOutputUl = 'autocomplete-list';
     this.isLoading = 'auto-is-loading';
     this.isActive = 'auto-is-active';
-    this.errorClass = 'auto-error';
     this.activeList = 'selected';
     this.selectedOption = 'selectedOption';
 

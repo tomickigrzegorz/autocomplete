@@ -6,9 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Autosuggest</title>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"
-      integrity="sha512-VZ6m0F78+yo3sbu48gElK4irv2dzPoep8oo9LEjxviigcnnnNvnTOJRSrIhuFk68FMLOpiNz+T77nNY89rnWDg=="
-      crossorigin="anonymous"></script> -->
     <link rel="stylesheet" href="./global.min.css">
   <link href="autosuggest.min.css" rel="stylesheet"></head>
 
@@ -32,6 +29,26 @@
             // You can also use static files
             // const api = '../static/users.json'
             const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(input)}`;
+
+            /**
+             * jquery
+             * If you want to use jquery you have to add the
+             * jquery library to head html
+             * https://cdnjs.com/libraries/jquery
+             */
+            // return $.ajax({
+            //   url: api,
+            //   method: 'GET',
+            // })
+            //   .done(function (data) {
+            //     return data
+            //   })
+            //   .fail(function (xhr) {
+            //     console.error(xhr);
+            //   });
+
+            // OR ----------------------------------
+
             /**
              * axios
              * If you want to use axios you have to add the
@@ -45,6 +62,8 @@
             //   .catch(error => {
             //     console.log(error);
             //   });
+
+            // OR ----------------------------------
 
             /**
              * Promise

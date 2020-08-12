@@ -59,9 +59,12 @@
               }
 
               fetch(api)
-                .then((response) => response.json())
-                .then((data) => {
+                .then(response => response.json())
+                .then(data => {
                   resolve(data)
+                })
+                .catch(error => {
+                  console.error(error);
                 })
             })
           },
@@ -71,10 +74,10 @@
             const regex = new RegExp(input, 'gi')
             return matches
               .sort((a, b) => a.name.localeCompare(b.name))
-              .filter((element) => {
+              .filter(element => {
                 return element.name.match(regex)
               })
-              .map((el) => {
+              .map(el => {
                 return `
                   <li class="autocomplete-item" role="option" aria-selected="false" tabindex="-1">
                     <h2 style="margin-bottom: 10px;">${el.portrayed.replace(regex, (str) => `<b>${str}</b>`)}</h2>

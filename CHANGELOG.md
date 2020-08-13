@@ -9,7 +9,7 @@ All notable changes to this project will be documented in this file.
 - .prettierrc
 
 ### Changed
-- update changelog
+- update aria
 - update dependencies
 - update readme
 
@@ -26,7 +26,6 @@ All notable changes to this project will be documented in this file.
 - reducing library size by removing babel-runtime
 - remove noResult (temporarily?)
 - remove prettier
-- update changelog
 - update dependencies
 - update readme
 - update eslintrc

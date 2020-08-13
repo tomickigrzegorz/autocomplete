@@ -63,6 +63,7 @@ class Autosuggest {
     this.searchId.setAttribute('aria-describedby', 'initInstruction');
     this.searchId.setAttribute('aria-autocomplete', 'both');
     this.searchId.setAttribute('aria-activedescendant', '');
+    this.searchId.setAttribute('role', 'combobox');
     this.ariaActivedescendant = document.querySelector(
       '[aria-activedescendant]',
     );

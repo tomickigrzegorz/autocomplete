@@ -59,6 +59,7 @@ element | String |  | ✔ | Input field id
 onSearch | Function |  | ✔ | Function for user input. It can be a synchronous function or a promise
 onResults | Function |  | ✔ | Function that creates the appearance of the result
 onSubmit | Function |  |  | Executed on input submission
+selectFirst | Boolean | `false` |  | Default selects the first item in the list of results
 howManyCharacters | Number | `2` |  | The number of characters entered should start searching
 clearButton | Boolean | `false` |  | A parameter set to 'true' adds a button to remove text from the input field
 delay | Number | `1000` |  | Time in milliseconds that the component should wait after last keystroke before calling search function 1000 = 1s
@@ -87,6 +88,10 @@ const options = {
   // the input filed
   clearButton: true,
   
+  // default selects the first item in
+  // the list of results
+  selectFirst: true,
+
   // the number of characters entered
   // should start searching
   howManyCharacters: 2,
@@ -266,7 +271,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
 ### IE10, IE11
 
-Will work if you use polyfill for promise.
+Will work if you use polyfill for promise and closest.
 There are three ways to add this polyfill:
 
 1. Add the following script to your html
@@ -274,7 +279,7 @@ There are three ways to add this polyfill:
 <script type="text/javascript">
   if (!('Promise' in window)) {
     var script = document.createElement("script");
-    script.src = "https://polyfill.io/v3/polyfill.min.js?features=Promise";
+    script.src = "https://polyfill.io/v3/polyfill.min.js?features=Promise%2CElement.prototype.closest";
     document.getElementsByTagName('head')[0].appendChild(script);
   }
 </script>
@@ -288,6 +293,7 @@ There are three ways to add this polyfill:
 3. Add pollyfill to Autosuggest.js and build the script again 
 ```javascript
 import 'promise-polyfill/src/polyfill';
+import './helpers/element-closest-polyfill.js';
 ```
 
 ## More appearance examples

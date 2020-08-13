@@ -98,7 +98,7 @@ const options = {
 
   // Function for user input. It can be a synchronous function or a promise
   // you can fetch data with jquery, axios, fetch, etc.
-  onSearch: () => {
+  onSearch: (input) => {
     
     // controlling the way data is downloaded
     const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(input)}`;

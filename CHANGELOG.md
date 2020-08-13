@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2020-08-13
+### Added
+- selectFirst - default selects the first item in the list of results
+- rollup
+- .prettierrc
+
+### Changed
+- update changelog
+- update dependencies
+- update readme
+
 ## 2020-08-12
 ### Added
 - adding an example of using jquery

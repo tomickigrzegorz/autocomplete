@@ -1,2 +1,3 @@
 .vscode
+*.map
 node_modules/

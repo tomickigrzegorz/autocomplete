@@ -60,8 +60,9 @@ onSearch | Function |  | ✔ | Function for user input. It can be a synchronous 
 onResults | Function |  | ✔ | Function that creates the appearance of the result
 onSubmit | Function |  |  | Executed on input submission
 selectFirst | Boolean | `false` |  | Default selects the first item in the list of results
-howManyCharacters | Number | `2` |  | The number of characters entered should start searching
+scrollIntoView | Boolean | `false` |  | The scroll of the results follows the selected item when using the up/down arrows
 clearButton | Boolean | `false` |  | A parameter set to 'true' adds a button to remove text from the input field
+howManyCharacters | Number | `2` |  | The number of characters entered should start searching
 delay | Number | `1000` |  | Time in milliseconds that the component should wait after last keystroke before calling search function 1000 = 1s
 instruction | String | `When autocomplete results ...` |  | aria-describedby [attribute](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-describedby_attribute)
 
@@ -91,6 +92,8 @@ const options = {
   // default selects the first item in
   // the list of results
   selectFirst: true,
+
+  scrollIntoView: true,
 
   // the number of characters entered
   // should start searching

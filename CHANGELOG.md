@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2020-08-15
+### Added
+- scrollIntoView [#12](https://github.com/tomik23/autosuggest/issues/12)
+
+### Changed
+- update example
+- update readme
+
 ## 2020-08-13
 ### Added
 - selectFirst - default selects the first item in the list of results

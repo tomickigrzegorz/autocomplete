@@ -31,8 +31,41 @@ body {
 h1 {
   letter-spacing: 1px;
 }
+
 .container {
   width: 100%;
   max-width: 400px;
   margin: 20px auto;
+}
+
+#autocomplete-list {
+  &::-webkit-scrollbar {
+    background-color: red;
+    width: 16px
+  }
+
+  /* background of the scrollbar except button or resizer */
+  &::-webkit-scrollbar-track {
+    background-color: #fff
+  }
+
+  &::-webkit-scrollbar-track:hover {
+    background-color: #f4f4f4
+  }
+
+  /* scrollbar itself */
+  &::-webkit-scrollbar-thumb {
+    background-color: #dcdce6;
+    border-radius: 16px;
+    border: 2px solid #fff
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #a0a0a5;
+  }
+
+  /* set button(top and bottom of the scrollbar) */
+  &::-webkit-scrollbar-button {
+    display: none
+  }
 }

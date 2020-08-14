@@ -12,6 +12,7 @@ class Autosuggest {
       delay,
       clearButton,
       howManyCharacters,
+      scrollIntoView,
       instruction,
       onResults,
       selectFirst,
@@ -32,6 +33,7 @@ class Autosuggest {
     this.howManyCharacters = howManyCharacters || 2;
     this.clearButton = clearButton || false;
     this.selectFirst = selectFirst || false;
+    this.scrollIntoView = scrollIntoView || false;
 
     // default config
     this.searchOutputUl = 'autocomplete-list';
@@ -358,6 +360,15 @@ class Autosuggest {
     target.classList.add(this.activeList);
 
     this.ariaactivedescendant(this.ariaActivedescendant, `${this.selectedOption}-${this.indexLiSelected(target)}`);
+
+    // scrollIntoView when press up/down arrows
+    if (this.scrollIntoView) {
+      setTimeout(() => {
+        target.scrollIntoView({
+          behavior: 'smooth'
+        });
+      }, 0);
+    }
   }
 
   // remove aria label from item li

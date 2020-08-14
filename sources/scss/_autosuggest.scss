@@ -14,11 +14,12 @@
   }
 
   ul {
+    max-height: 420px;
     list-style: none;
     border: 1px solid #858585;
     border-top: none;
     border-radius: 0 0 8px 8px;
-    overflow: hidden;
+    overflow: auto;
     box-shadow:
       0 2.8px 2.2px rgba(223, 223, 223, 0.034),
       0 6.7px 5.3px rgba(192, 192, 192, 0.048),

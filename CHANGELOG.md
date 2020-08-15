@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## 2020-08-15
 ### Added
+- github corner
 - scrollIntoView [#12](https://github.com/tomik23/autosuggest/issues/12)
 
 ### Changed

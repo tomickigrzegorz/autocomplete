@@ -36,7 +36,7 @@ class Autosuggest {
     this.scrollIntoView = scrollIntoView || false;
 
     // default config
-    this.searchOutputUl = 'autocomplete-list';
+    this.searchOutputUl = `${this.search}-list`;
     this.isLoading = 'auto-is-loading';
     this.isActive = 'auto-is-active';
     this.activeList = 'selected';
@@ -56,24 +56,27 @@ class Autosuggest {
 
     // set default aria
     this.setDefault();
+
   }
 
   // default aria
   setDefault = () => {
-    this.searchId.setAttribute('aria-owns', 'autocomplete-list');
+    this.searchId.setAttribute('aria-owns', `${this.search}-list`);
     this.searchId.setAttribute('aria-expanded', false);
-    this.searchId.setAttribute('aria-describedby', 'initInstruction');
+    this.searchId.setAttribute('aria-describedby', `${this.search}-initInstruction`);
     this.searchId.setAttribute('aria-autocomplete', 'both');
     this.searchId.setAttribute('aria-activedescendant', '');
     this.searchId.setAttribute('role', 'combobox');
-    this.ariaActivedescendant = document.querySelector(
-      '[aria-activedescendant]',
-    );
+
     this.searchId.classList.remove('expanded');
 
     if (hasClass(this.matchList, this.isActive)) {
       this.outputSearch.classList.remove(this.isActive);
     }
+
+    this.activeElement = document.querySelector(`.${this.activeList}`);
+
+    if (this.activeElement) this.actionsOnTheElementLi(this.activeElement, '');
   }
 
   initialize = () => {
@@ -152,7 +155,7 @@ class Autosuggest {
   // instruction aria-describedby
   initInstruction = () => {
     this.describedby = document.createElement('span');
-    this.describedby.id = 'initInstruction';
+    this.describedby.id = `${this.search}-initInstruction`;
     this.describedby.className = 'init-instruction';
     this.textContent = document.createTextNode(this.instruction);
     this.outputSearch.insertAdjacentElement('afterend', this.describedby);
@@ -194,6 +197,9 @@ class Autosuggest {
     // element to the input field
     this.matchList.addEventListener('click', this.addTextFromLiToSearchInput);
 
+    // clear all elements when pressing on 'x' button
+    this.clearButton.addEventListener('click', this.handleClearButton);
+
     // adding aria-selected on mouse event
     for (let i = 0; i < this.itemsLi.length; i++) {
       this.itemsLi[i].addEventListener(
@@ -223,7 +229,7 @@ class Autosuggest {
     firstElementChild.classList.add(this.activeList);
 
     this.ariaactivedescendant(
-      this.ariaActivedescendant,
+      this.searchId,
       `${this.selectedOption}-1`,
     );
 
@@ -257,7 +263,7 @@ class Autosuggest {
 
       case 'mouseenter':
       case 'mouseleave':
-        this.mouseentermouseleave(target, type === 'mouseenter');
+        this.actionsOnTheElementLi(target, type === 'mouseenter');
         break;
 
       default:
@@ -266,7 +272,7 @@ class Autosuggest {
   }
 
   // event on mouse
-  mouseentermouseleave = (target, type) => {
+  actionsOnTheElementLi = (target, type) => {
     this.checkActiveListExist = document.querySelector(`.${this.activeList}`);
     if (this.checkActiveListExist) this.checkActiveListExist.classList.remove(this.activeList);
 
@@ -277,7 +283,7 @@ class Autosuggest {
     target.classList[type ? 'add' : 'remove'](this.activeList);
 
     this.ariaactivedescendant(
-      this.ariaActivedescendant,
+      this.searchId,
       type ? `${this.selectedOption}-${this.indexLiSelected(target)}` : null,
     );
 
@@ -359,7 +365,7 @@ class Autosuggest {
     target.setAttribute('aria-selected', true);
     target.classList.add(this.activeList);
 
-    this.ariaactivedescendant(this.ariaActivedescendant, `${this.selectedOption}-${this.indexLiSelected(target)}`);
+    this.ariaactivedescendant(this.searchId, `${this.selectedOption}-${this.indexLiSelected(target)}`);
 
     // scrollIntoView when press up/down arrows
     if (this.scrollIntoView) {
@@ -394,8 +400,6 @@ class Autosuggest {
     this.clearButton.setAttribute('aria-label', 'claar text from input');
 
     this.searchId.insertAdjacentElement('afterend', this.clearButton);
-
-    this.clearButton.addEventListener('click', this.handleClearButton);
   }
 
   // clicking on the clear button

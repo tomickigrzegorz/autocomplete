@@ -30,15 +30,26 @@ body {
 
 h1 {
   letter-spacing: 1px;
+  text-align: center;
 }
 
 .container {
   width: 100%;
-  max-width: 400px;
+  max-width: 800px;
   margin: 20px auto;
 }
 
-#autocomplete-list {
+.flex {
+  display: flex;
+}
+
+@media (max-width: 770px) {
+  .flex {
+    display: block;
+  }
+}
+
+.search ul {
   &::-webkit-scrollbar {
     background-color: red;
     width: 16px

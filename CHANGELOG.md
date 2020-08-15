@@ -1,6 +1,8 @@
-# Change Log
-
-All notable changes to this project will be documented in this file.
+## 2020-08-16
+### Changed
+- fixed [#13](https://github.com/tomik23/autosuggest/issues/13)
+- adding two fields to the example
+- update readme
 
 ## 2020-08-15
 ### Added

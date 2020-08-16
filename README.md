@@ -165,7 +165,7 @@ const options = {
         // into the input field, in this case the text
         // from the <p> element
         return `
-          <li class="autocomplete-item loupe" role="option" aria-selected="false" tabindex="-1">
+          <li class="autocomplete-item loupe" role="option" aria-selected="false">
             <p>${el.name.replace(regex, (str) => `<b>${str}</b>`)}</p>
           </li>`;
       });
@@ -204,7 +204,7 @@ onResults: (matches, input) => {
     .sort((a, b) => a.name.localeCompare(b.name))
     .map(el => {
       return `
-        <li class="autocomplete-item loupe" role="option" aria-selected="false" tabindex="-1">
+        <li class="autocomplete-item loupe" role="option" aria-selected="false">
           <p>${el.name.replace(regex, (str) => `<b>${str}</b>`)}</p>
         </li>`;
     });
@@ -255,7 +255,7 @@ window.addEventListener('DOMContentLoaded', function () {
         .sort((a, b) => a.name.localeCompare(b.name))
         .map(el => {
           return `
-            <li class="autocomplete-item loupe" role="option" aria-selected="false" tabindex="-1">
+            <li class="autocomplete-item loupe" role="option" aria-selected="false">
               <p>${el.name.replace(regex, (str) => `<b>${str}</b>`)}</p>
             </li>`;
         }).join('');

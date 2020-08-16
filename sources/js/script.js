@@ -105,7 +105,7 @@ class Autosuggest {
     this.outputSearch = document.createElement('ul');
     this.outputSearch.id = this.searchOutputUl;
     this.outputSearch.className = 'auto-output-search';
-    this.outputSearch.tabIndex = 0;
+    this.outputSearch.tabIndex = -1;
     this.outputSearch.setAttribute('role', 'listbox');
 
     this.searchId.parentNode.insertBefore(
@@ -347,6 +347,7 @@ class Autosuggest {
 
         break;
 
+      case this.keyCodes.TAB:
       case this.keyCodes.ESC:
 
         this.setDefault();

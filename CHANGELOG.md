@@ -1,6 +1,7 @@
 ## 2020-08-16
 ### Changed
-- fixed [#13](https://github.com/tomik23/autosuggest/issues/13)
+- errors if we have more than one autocomplete field [#13](https://github.com/tomik23/autosuggest/issues/13)
+- Non-closing list of results [#15](https://github.com/tomik23/autosuggest/issues/15)
 - adding two fields to the example
 - update readme
 

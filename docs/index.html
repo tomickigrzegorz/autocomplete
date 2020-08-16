@@ -102,7 +102,7 @@
               })
               .map(el => {
                 return `
-                  <li class="autocomplete-item" role="option" aria-selected="false" tabindex="-1">
+                  <li class="autocomplete-item" role="option" aria-selected="false">
                     <p>${el.name.replace(regex, (str) => `<b>${str}</b>`)}</p>
                   </li>`
               }).join('')
@@ -188,7 +188,7 @@
               })
               .map(el => {
                 return `
-                  <li class="autocomplete-item" role="option" aria-selected="false" tabindex="-1">
+                  <li class="autocomplete-item" role="option" aria-selected="false">
                     <h2 style="margin-bottom: 10px;">${el.name.replace(regex, (str) => `<b style="color: red;">${str}</b>`)}</h2>
                     <div style="display: flex;">
                       <div style="margin-right: 10px;">

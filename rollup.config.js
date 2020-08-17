@@ -21,7 +21,7 @@ export default {
     terser(),
     copy({
       targets: [
-        { src: './static/characters.json', dest: 'docs/' },
+        { src: './static/users.json', dest: 'docs/' },
       ],
     }),
     (!PRODUCTION && serve({ open: true, contentBase: ['docs', 'sources'] })),

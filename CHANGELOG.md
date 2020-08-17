@@ -1,3 +1,10 @@
+## 2020-08-17
+### Added
+- an example of using a static file
+
+### Changed
+- update dependencies
+
 ## 2020-08-16
 ### Changed
 - errors if we have more than one autocomplete field [#13](https://github.com/tomik23/autosuggest/issues/13)

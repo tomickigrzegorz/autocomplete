@@ -31,6 +31,14 @@ body {
 h1 {
   letter-spacing: 1px;
   text-align: center;
+  margin-bottom: 50px;
+}
+
+label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: bold;
 }
 
 .container {
@@ -41,11 +49,16 @@ h1 {
 
 .flex {
   display: flex;
+  justify-content: space-between;
 }
 
 @media (max-width: 770px) {
   .flex {
     display: block;
+  }
+
+  .search-element {
+    margin: auto;
   }
 }
 

@@ -1,4 +1,4 @@
-// import 'promise-polyfill/src/polyfill'; // enable if you want to support IE11
+// import 'promise-polyfill/src/polyfill'; // first install and enable if you want to support IE11
 // import './helpers/element-closest-polyfill.js'; // enable if you want to support IE11
 
 import isPromise from './helpers/isPromise';
@@ -45,8 +45,8 @@ class Autosuggest {
     this.keyCodes = {
       ESC: 27,
       ENTER: 13,
-      UP: 40,
-      DOWN: 38,
+      UP: 38,
+      DOWN: 40,
       TAB: 9,
     };
 
@@ -123,7 +123,6 @@ class Autosuggest {
   searchItem = (input) => {
     this.searchId.parentNode.classList.add(this.isLoading);
 
-    // console.log(this.howManny, input.length);
     if (this.howManyCharacters > input.length) {
       this.classSearch.classList.remove(this.isLoading);
       this.hiddenButtonHide();
@@ -165,6 +164,9 @@ class Autosuggest {
   // hide output div when click on li or press escape
   closeOutputMatchesList = ({ target }) => {
     if (target.id === this.search) return;
+
+    // move the view item to the first item
+    this.outputSearch.scrollTop = 0;
 
     // set default settings
     this.setDefault();
@@ -302,6 +304,9 @@ class Autosuggest {
     // add text to input
     this.searchId.value = this.getText.textContent.trim();
 
+    // move the view item to the first item
+    this.outputSearch.scrollTop = 0;
+
     // set default settings
     this.setDefault();
 
@@ -322,28 +327,41 @@ class Autosuggest {
   // navigating the elements li and enter
   handelEvent = ({ keyCode }) => {
     this.selectedLi = document.querySelector(`.${this.activeList}`);
-
     if (this.searchId.getAttribute('aria-expanded') === 'false') return;
 
     switch (keyCode) {
       case this.keyCodes.UP:
-        this.selected += 1;
-        if (this.selected > this.itemsLi.length) {
-          this.selected = 1;
-        }
-        this.setAriaSelectedItem(this.itemsLi[this.selected - 1]);
-        break;
-      case this.keyCodes.DOWN:
+        if (this.itemsLi.length <= 1 && this.selectFirst) return;
+
         this.selected -= 1;
         if (this.selected <= 0) {
           this.selected = this.itemsLi.length;
         }
+
         this.setAriaSelectedItem(this.itemsLi[this.selected - 1]);
+        this.removeAriaSelectedItem();
+
+        break;
+
+      case this.keyCodes.DOWN:
+        if (this.itemsLi.length <= 1 && this.selectFirst) return;
+
+        this.selected += 1;
+        if (this.selected > this.itemsLi.length) {
+          this.selected = 1;
+        }
+
+        this.setAriaSelectedItem(this.itemsLi[this.selected - 1]);
+        this.removeAriaSelectedItem();
 
         break;
       case this.keyCodes.ENTER:
 
-        this.getTextFromLi(this.selectedLi);
+        if (this.selectedLi) {
+          this.getTextFromLi(this.selectedLi);
+        } else {
+          this.setDefault();
+        }
 
         break;
 
@@ -356,8 +374,6 @@ class Autosuggest {
       default:
         break;
     }
-
-    this.removeAriaSelectedItem();
   }
 
   // set aria label on item li
@@ -370,12 +386,16 @@ class Autosuggest {
 
     // scrollIntoView when press up/down arrows
     if (this.scrollIntoView) {
-      setTimeout(() => {
-        target.scrollIntoView({
-          behavior: 'smooth'
-        });
-      }, 0);
+      this.setTopView(target);
     }
+  }
+
+  setTopView = (target) => {
+    setTimeout(() => {
+      target.scrollIntoView({
+        behavior: 'smooth'
+      });
+    }, 0);
   }
 
   // remove aria label from item li

@@ -24,7 +24,7 @@ export default {
         { src: './static/characters.json', dest: 'docs/' },
       ],
     }),
-    (!PRODUCTION && serve({ open: true, contentBase: ['docs', 'sources'] })),
+    (!PRODUCTION && serve({ open: true, contentBase: 'docs' })),
     (!PRODUCTION && livereload()),
   ],
 };

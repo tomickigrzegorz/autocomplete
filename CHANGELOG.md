@@ -1,3 +1,16 @@
+## 2020-08-19
+### Changed
+- remove promise-polyfill
+- update dependencies
+- fix: Up-down arrows item selection [#17](https://github.com/tomik23/autosuggest/issues/17)
+
+## 2020-08-18
+### Added
+- an example of using a static file
+
+### Changed
+- update dependencies
+
 ## 2020-08-17
 ### Added
 - an example of using a static file
@@ -7,15 +20,15 @@
 
 ## 2020-08-16
 ### Changed
-- errors if we have more than one autocomplete field [#13](https://github.com/tomik23/autosuggest/issues/13)
-- Non-closing list of results [#15](https://github.com/tomik23/autosuggest/issues/15)
+- fix: errors if we have more than one autocomplete field [#13](https://github.com/tomik23/autosuggest/issues/13)
+- fix: Non-closing list of results [#15](https://github.com/tomik23/autosuggest/issues/15)
 - adding two fields to the example
 - update readme
 
 ## 2020-08-15
 ### Added
 - github corner
-- scrollIntoView [#12](https://github.com/tomik23/autosuggest/issues/12)
+- fix: scrollIntoView [#12](https://github.com/tomik23/autosuggest/issues/12)
 
 ### Changed
 - update example

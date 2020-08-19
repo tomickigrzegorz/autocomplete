@@ -22,6 +22,7 @@ export default {
     copy({
       targets: [
         { src: './static/characters.json', dest: 'docs/' },
+        { src: './static/github-corner.js', dest: 'docs/' },
       ],
     }),
     (!PRODUCTION && serve({ open: true, contentBase: 'docs' })),

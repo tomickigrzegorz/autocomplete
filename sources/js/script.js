@@ -386,16 +386,12 @@ class Autosuggest {
 
     // scrollIntoView when press up/down arrows
     if (this.scrollIntoView) {
-      this.setTopView(target);
+      setTimeout(() => {
+        target.scrollIntoView({
+          behavior: 'smooth'
+        });
+      }, 0);
     }
-  }
-
-  setTopView = (target) => {
-    setTimeout(() => {
-      target.scrollIntoView({
-        behavior: 'smooth'
-      });
-    }, 0);
   }
 
   // remove aria label from item li

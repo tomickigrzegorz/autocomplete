@@ -1,8 +1,13 @@
 ## 2020-08-19
+### Added
+- adding an additional example using data-elements
+
 ### Changed
+- fix: Up-down arrows item selection [#17](https://github.com/tomik23/autosuggest/issues/17)
 - remove promise-polyfill
 - update dependencies
-- fix: Up-down arrows item selection [#17](https://github.com/tomik23/autosuggest/issues/17)
+- update readme
+- github-corner separate file
 
 ## 2020-08-18
 ### Added

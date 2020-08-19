@@ -64,10 +64,44 @@ scrollIntoView | Boolean | `false` |  | The scroll of the results follows the se
 clearButton | Boolean | `false` |  | A parameter set to 'true' adds a button to remove text from the input field
 howManyCharacters | Number | `2` |  | The number of characters entered should start searching
 delay | Number | `1000` |  | Time in milliseconds that the component should wait after last keystroke before calling search function 1000 = 1s
-instruction | String | `When autocomplete results ...` |  | aria-describedby [attribute](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-describedby_attribute)
+instruction | String | `When autocomplete results ...` |  | aria-describedby [attribute](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-describedby_attribute) A full text below
+data-elements | String |  |  | This parameter is used to provide additional data that can be used in the **onSubmit** function. A full explanation below
 
-The entire text of the instructions 
-> When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures
+### instructions
+"When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures"
+
+### data-elements
+Add an additional parameter to the li element.
+
+```js
+onResults: (matches, input) => {
+  return matches
+    .map(({ name, birthday, img, portrayed }) => {
+      // add data to the data-elements attribute
+      const data = { birthday, img, portrayed };
+      return `
+        <li data-elements='${JSON.stringify(data)}' class="autocomplete-item" role="option" aria-selected="false">
+          <p>${name.replace(new RegExp(input, 'gi'), (str) => `<b>${str}</b>`)}</p>
+        </li>`
+    }).join('')
+},
+```
+Clicking li will add this data to the input data-elements json search field. Now we can use this data in the **onSubmit** function.
+```js
+onSubmit: (matches) => {
+  setTimeout(() => {
+    // get data from input
+    const dataElements = document.querySelector('#search-d').getAttribute('data-elements');
+
+    const { name, nickname, birthday, img, portrayed } = JSON.parse(dataElements);
+
+    console.log(name, nickname, birthday, img, portrayed);
+
+  }, 500);
+},
+```
+See usage example [STATIC FILE + DATA-ELEMENTS](https://tomik23.github.io/autosuggest/)  
+This solution was used to geocode the streets in this [example](https://github.com/tomik23/Leaflet.Autocomplete)
 
 ## Usage
 

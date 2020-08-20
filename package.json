@@ -4,6 +4,7 @@
   "description": "Simple autocomplete component in vanilla JS",
   "author": "Grzegorz Tomicki",
   "main": "docs/autosuggest.min.js",
+  "browser": "dist/autosuggest.min.js",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -16,7 +17,8 @@
     "watch": "rollup --config --watch",
     "sass:dev": "node-sass ./sources/scss/style.scss ./docs/autosuggest.min.css -w",
     "sass:prod": "node-sass ./sources/scss/style.scss ./docs/autosuggest.min.css --output-style compressed",
-    "sass:global": "node-sass ./sources/scss/global.scss ./docs/global.min.css --output-style compressed",
+    "sass:global:w": "node-sass ./sources/scss/main.scss ./docs/main.min.css -w",
+    "sass:global": "node-sass ./sources/scss/main.scss ./docs/main.min.css --output-style compressed",
     "postcss": "postcss ./docs/style.min.css -r"
   },
   "keywords": [

@@ -26,6 +26,7 @@ See the demo - [example](https://tomik23.github.io/autosuggest/)
 - Support for asynchronous data fetching.
 - Move between the records using the arrows <kbd>↓</kbd> <kbd>↑</kbd>, and confirm by <kbd>Enter</kbd>
 - No dependencies
+- Small size library ~9.2KB (gzip ~2.78KB)
 
 ## Initialization
 Before the first use, clone this repository and install node dependencies:
@@ -49,6 +50,62 @@ The final code:
 
 ```js
 yarn prod
+// or
+npm run prod
+```
+
+## Installation
+Download from `docs` folder:
+- autosuggest.min.css
+- autosuggest.min.js
+- global.min.css
+
+CSS
+```html
+<link rel="stylesheet" href="global.min.css">
+<link rel="stylesheet" href="autosuggest.min.css">
+```
+
+HTML
+```html
+<div class="search">
+  <input type="text" id="search" autocomplete="off" placeholder="Enter letter">
+</div>
+```
+JavaScript
+```html
+<script>
+  window.addEventListener('DOMContentLoaded', function () {
+    new Autosuggest('search', {
+      onSearch: (input) => {
+        const api = `https://your-api.com?name=${encodeURI(input)}`;
+
+        return new Promise((resolve) => {
+          fetch(api)
+            .then((response) => response.json())
+            .then((data) => {
+              resolve(data)
+            })
+        })
+      },
+      onResults: (matches, input) => {
+        const regex = new RegExp(input, 'gi');
+        const html = matches
+          .filter((element, index) => {
+            return element.name.match(regex);
+          })
+          .sort((a, b) => a.name.localeCompare(b.name))
+          .map((el) => {
+            return `
+              <li class="autocomplete-item loupe" role="option" aria-selected="false">
+                <p>${el.name.replace(regex, (str) => `<b>${str}</b>`)}</p>
+              </li>`;
+          }).join('');
+      }
+    });
+  });
+</script>
+<script src="autosuggest.min.js"></script>
 ```
 
 ## Configuration of the plugin
@@ -103,14 +160,7 @@ onSubmit: (matches) => {
 See usage example [STATIC FILE + DATA-ELEMENTS](https://tomik23.github.io/autosuggest/)  
 This solution was used to geocode the streets in this [example](https://github.com/tomik23/Leaflet.Autocomplete)
 
-## Usage
-
-HMTL
-```html
-<div class="search">
-  <input type="text" id="search" class="full-width" autocomplete="off" placeholder="Enter letter">
-</div>
-```
+## Usage jquery || axios || promise + fetch
 
 JAVASCRIPT
 ```js
@@ -127,6 +177,8 @@ const options = {
   // the list of results
   selectFirst: true,
 
+  // the scroll of the results follows the
+  // selected item when using the up/down arrows
   scrollIntoView: true,
 
   // the number of characters entered
@@ -137,9 +189,14 @@ const options = {
   // you can fetch data with jquery, axios, fetch, etc.
   onSearch: (input) => {
     
+    // static file
+    const api = './characters.json';
+
+    // OR -------------------------------
+
     // controlling the way data is downloaded
     const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(input)}`;
-  
+
     /**
      * jquery
      */
@@ -154,7 +211,7 @@ const options = {
         console.error(xhr);
       });
 
-// OR -------------------------------
+    // OR -------------------------------
 
     /**
      * axios
@@ -167,7 +224,7 @@ const options = {
         console.log(error);
       });
 
-// OR -------------------------------
+    // OR -------------------------------
 
     /**
      * Promise + fetch
@@ -220,86 +277,6 @@ const options = {
 new Autosuggest('element', options);
 ```
 
-## Add your own result template `onResults`
-
-In fact, we can work on dynamic data or static files. Data can be in the form of an array or json. It's up to you what the results list will look like. You can configure everything yourself using the `htmlTemplate` method
-
-
-## onResults example
-
-```js
-...
-onResults: (matches, input) => {
-  const regex = new RegExp(input, 'gi');
-  const html = matches
-    .filter((element, index) => {
-      return element.name.match(regex);
-    })
-    .sort((a, b) => a.name.localeCompare(b.name))
-    .map(el => {
-      return `
-        <li class="autocomplete-item loupe" role="option" aria-selected="false">
-          <p>${el.name.replace(regex, (str) => `<b>${str}</b>`)}</p>
-        </li>`;
-    });
-  return html.join('');
-}
-
-```
-
-## Minimal config
-Download from `docs` folder:
-- autosuggest.min.css
-- autosuggest.min.js
-- global.min.css
-
-CSS
-```html
-<link rel="stylesheet" href="global.min.css">
-<link rel="stylesheet" href="autosuggest.min.css">
-```
-
-HTML
-```html
-<div class="search">
-  <input type="text" id="search" class="full-width" autocomplete="off" placeholder="Enter letter">
-</div>
-```
-JavaScript
-```js
-window.addEventListener('DOMContentLoaded', function () {
-  new Autosuggest('search', {
-    onSearch: (input) => {
-      const api = `https://your-api.com?name=${encodeURI(input)}`;
-
-      return new Promise((resolve) => {
-        fetch(api)
-          .then((response) => response.json())
-          .then((data) => {
-            resolve(data)
-          })
-      })
-    },
-    onResults: (matches, input) => {
-      const regex = new RegExp(input, 'gi');
-      const html = matches
-        .filter((element, index) => {
-          return element.name.match(regex);
-        })
-        .sort((a, b) => a.name.localeCompare(b.name))
-        .map(el => {
-          return `
-            <li class="autocomplete-item loupe" role="option" aria-selected="false">
-              <p>${el.name.replace(regex, (str) => `<b>${str}</b>`)}</p>
-            </li>`;
-        }).join('');
-    }
-  });
-});
-
-<script src="autosuggest.min.js"></script>
-
-```
 ## Browsers support
 
 | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>IE / Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png" alt="Opera" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Opera | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/vivaldi/vivaldi_48x48.png" alt="Vivaldi" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Vivaldi |

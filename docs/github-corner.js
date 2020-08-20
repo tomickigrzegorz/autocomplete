@@ -12,4 +12,53 @@ const githubConrner = `
 </svg></a>
 `;
 
-document.body.insertAdjacentHTML('beforeend', githubConrner);
+document.addEventListener('DOMContentLoaded', (event) => {
+  // console.log(event);
+
+  // adding github-corner
+  document.body.insertAdjacentHTML('beforeend', githubConrner);
+
+  // toggle-button
+  const buttonToggleMenu = document.querySelector('.toggle-menu');
+  buttonToggleMenu.addEventListener('click', () => {
+    document.body.classList.toggle('close');
+  })
+
+  // active menu elements
+  const menuItems = document.querySelectorAll('.menu > li');
+  menuItems.forEach(menuItem => {
+    menuItem.addEventListener('click', (event) => {
+      let current = document.querySelector('.active');
+      current.classList.remove('active');
+
+      event.target.parentNode.classList.add('active');
+      document.body.classList.remove('close');
+    })
+  })
+
+  const sections = document.querySelectorAll('section');
+
+  sections.forEach((section, index) => {
+    const element = sections[index];
+    const htmlCode = sections[index].children[0].children[1].cloneNode(true).outerHTML.replace(/^\s{1,12}/gm, '');
+
+    const htmlConverter = htmlCode.replace(/[\u00A0-\u9999<>\\&]/gim, function (i) {
+      return `&#${i.charCodeAt(0)};`;
+    });
+
+    const preElement = document.createElement('pre');
+    const codeElement = document.createElement('code');
+    codeElement.className = 'language-html';
+
+    codeElement.insertAdjacentHTML('beforeend', htmlConverter);
+    preElement.appendChild(codeElement);
+
+    element.children[1].insertAdjacentElement('beforeend', preElement);
+  })
+
+
+  document.querySelectorAll('pre code').forEach((block) => {
+    hljs.highlightBlock(block);
+  });
+
+});

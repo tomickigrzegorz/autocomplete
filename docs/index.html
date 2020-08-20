@@ -6,59 +6,285 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Autosuggest</title>
-    <link rel="stylesheet" href="./global.min.css">
+    <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/atom-one-dark.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js"></script>
+    <link rel="stylesheet" href="./main.min.css">
     <link rel="stylesheet" href="./autosuggest.min.css">
-    <script async src="./github-corner.js"></script>
+    <script src="./github-corner.js"></script>
   </head>
 
   <body>
-    <!-- search container -->
-    <div class="container">
-      <h1>The Breaking Bad API</h1>
-
-      <div class="flex">
-        <div class="search-element">
-          <label for="search-a">simple result</label>
-          <div class="search loupe">
-            <input type="text" id="search-a" aria-label="Search for a name" class="full-width" autocomplete="off"
-              placeholder="type w">
-          </div>
+    <main class="container">
+      <aside>
+        <h1 class="loupe">autosuggest</h1>
+        <div class="shields">
+          <img src="https://img.shields.io/github/package-json/v/tomik23/autosuggest">
+          <img src="https://img.shields.io/badge/License-MIT-green.svg">
         </div>
+        <ul class="menu">
+          <li class="active"><a href="#simple">simple result</a></li>
+          <li><a href="#complex">complex result</a></li>
+          <li><a href="#static">static file</a></li>
+          <li><a href="#data-elements">static file + data-elelemts</a></li>
+        </ul>
+        <div class="based">based on: <small><a href="https://breakingbadapi.com/" target="_blank">The breaking bad
+              api</a></small></div>
+      </aside>
 
-        <div class="search-element">
-          <label for="search-b">complex result</label>
-          <div class="search max-height loupe">
-            <input type="text" id="search-b" aria-label="Search for a name" class="full-width" autocomplete="off"
-              placeholder="type wh">
+      <div class="search-elements">
+
+        <section id="simple">
+          <div class="search-element">
+            <label for="search-a">simple result</label>
+            <div class="search loupe">
+              <input type="text" id="search-a" aria-label="Search for a name" autocomplete="off" placeholder="type w">
+            </div>
           </div>
-        </div>
+          <div class="highlight html">
+            <h4>html</h4>
+          </div>
+          <div class="highlight javascript">
+            <h4>javascript</h4>
+            <pre>
+              <code class="language-js">new Autosuggest('search-a', {
+  selectFirst: true,
+  scrollIntoView: true,
+  howManyCharacters: 1,
+  onSearch: (input) => {
+    const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(input)}`;
+    return new Promise((resolve) => {
+      fetch(api)
+        .then(response => response.json())
+        .then(data => {
+          resolve(data)
+        })
+        .catch(error => {
+          console.error(error);
+        })
+    })
+  },
+  onResults: (matches, input) => {
+    const regex = new RegExp(input, 'gi')
+    return matches
+      .map(el => {
+        return `
+        &lt;li class=&quot;autocomplete-item&quot; role=&quot;option&quot; aria-selected=&quot;false&quot;&gt;
+          &lt;p&gt;${el.name.replace(regex, (str) =&gt; &grave;&lt;b&gt;${str}&lt;/b&gt;&grave;)}&lt;/p&gt;
+        &lt;/li&gt;&grave;
+      }).join('')
+  },
+  onSubmit: (matches) => {
+    console.log(matches);
+  },
+})</code>
+            </pre>
+          </div>
+        </section>
+
+        <section id="complex">
+          <div class="search-element">
+            <label for="search-b">complex result</label>
+            <div class="search max-height loupe">
+              <input type="text" id="search-b" aria-label="Search for a name" autocomplete="off" placeholder="type wh">
+            </div>
+          </div>
+          <div class="highlight html">
+            <h4>html</h4>
+          </div>
+          <div class="highlight javascript">
+            <h4>javascript</h4>
+            <pre>
+              <code class="language-js">new Autosuggest('search-b', {
+  delay: 1000,
+  clearButton: true,
+  selectFirst: true,
+  scrollIntoView: true,
+  howManyCharacters: 2,
+  onSearch: (input) => {
+    const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(input)}`;
+    return new Promise((resolve) => {
+      fetch(api)
+        .then(response => response.json())
+        .then(data => {
+          resolve(data)
+        })
+        .catch(error => {
+          console.error(error);
+        })
+    })
+  },
+  onResults: (matches, input) => {
+    const regex = new RegExp(input, 'gi')
+    return matches
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .filter(element => {
+        return element.name.match(regex)
+      })
+      .map(el => {
+        return `
+        &lt;li class=&quot;autocomplete-item&quot; role=&quot;option&quot; aria-selected=&quot;false&quot;&gt;
+          &lt;h2 style=&quot;margin-bottom: 10px;&quot;&gt;
+            ${el.name.replace(regex, (str) =&gt; `&lt;b style=&quot;color: red;&quot;&gt;${str}&lt;/b&gt;`)}
+          &lt;/h2&gt;
+          &lt;div style=&quot;display: flex;&quot;&gt;
+            &lt;div style=&quot;margin-right: 10px;&quot;&gt;
+              &lt;img src=&quot;${el.img}&quot; style=&quot;max-width: 100px;&quot;&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;info&quot;&gt;
+              &lt;h4&gt;${el.name}&lt;/h4&gt;
+              &lt;div&gt;&lt;b&gt;nickname:&lt;/b&gt; - ${el.nickname}&lt;/div&gt;
+              &lt;div&gt;&lt;b&gt;birthday:&lt;/b&gt; - ${el.birthday}&lt;/div&gt;
+              &lt;div&gt;&lt;b&gt;status:&lt;/b&gt; - ${el.status}&lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;`
+      }).join('')
+  },
+  onSubmit: (matches) => {
+    console.log(matches);
+  },
+})</code>
+            </pre>
+          </div>
+        </section>
+
+        <section id="static">
+          <div class="search-element">
+            <label for="search-c">static file</label>
+            <div class="search max-height loupe">
+              <input type="text" id="search-c" aria-label="Search for a name" autocomplete="off" placeholder="type c">
+            </div>
+          </div>
+          <div class="highlight html">
+            <h4>html</h4>
+          </div>
+          <div class="highlight javascript">
+            <h4>javascript</h4>
+            <pre>
+              <code class="language-js">new Autosuggest('search-c', {
+  delay: 1000,
+  clearButton: true,
+  selectFirst: true,
+  scrollIntoView: true,
+  howManyCharacters: 1,
+  onSearch: (input) => {
+    const api = './characters.json'
+    return new Promise((resolve) => {
+      fetch(api)
+        .then(response => response.json())
+        .then(data => {
+          const result = data.sort((a, b) => a.name.localeCompare(b.name))
+            .filter(element => {
+              return element.name.match(new RegExp(input, 'gi'))
+            })
+          resolve(result)
+        })
+        .catch(error => {
+          console.error(error);
+        })
+    })
+  },
+  onResults: (matches, input) => {
+    return matches
+      .map(el => {
+        return `
+        &lt;li class=&quot;autocomplete-item&quot; role=&quot;option&quot; aria-selected=&quot;false&quot;&gt;
+          &lt;p&gt;${el.name.replace(new RegExp(input, 'gi'), (str) =&gt; `&lt;b&gt;${str}&lt;/b&gt;`)}&lt;/p&gt;
+        &lt;/li&gt;`
+      }).join('')
+  },
+  onSubmit: (matches) => {
+    console.log('static: ', matches);
+  },
+})</code>
+            </pre>
+          </div>
+        </section>
+
+        <section id="data-elements">
+          <div class="search-element">
+            <label for="search-d">static file + data-elements</label>
+            <div class="search max-height loupe">
+              <input type="text" id="search-d" aria-label="Search for a name" autocomplete="off" placeholder="type w">
+            </div>
+            <div class="info-d"></div>
+          </div>
+          <div class="highlight html">
+            <h4>html</h4>
+          </div>
+          <div class="highlight javascript">
+            <h4>javascript</h4>
+            <pre>
+              <code class="language-js">new Autosuggest('search-d', {
+  delay: 1000,
+  clearButton: true,
+  selectFirst: true,
+  scrollIntoView: true,
+  howManyCharacters: 1,
+  onSearch: (input) => {
+    const api = './characters.json'
+    return new Promise((resolve) => {
+      fetch(api)
+        .then(response => response.json())
+        .then(data => {
+          const result = data.sort((a, b) => a.name.localeCompare(b.name))
+            .filter(element => {
+              return element.name.match(new RegExp(input, 'gi'))
+            })
+          resolve(result)
+        })
+        .catch(error => {
+          console.error(error);
+        })
+    })
+  },
+  onResults: (matches, input) => {
+    return matches
+      .map(({ name, birthday, img, portrayed }) => {
+        return `
+          &lt;li class=&quot;autocomplete-item&quot; role=&quot;option&quot; aria-selected=&quot;false&quot; data-elements='${JSON.stringify({ birthday, img, portrayed })}'&gt;
+            &lt;p&gt;${name.replace(new RegExp(input, 'gi'), (str) =&gt; `&lt;b&gt;${str}&lt;/b&gt;`)}&lt;/p&gt;
+          &lt;/li&gt;`
+      }).join('')
+  },
+  onSubmit: (matches) => {
+    setTimeout(() => {
+      const dataElements = document
+        .querySelector('#search-d')
+        .getAttribute('data-elements');
+
+      const { name, nickname, birthday, img, portrayed } = JSON.parse(dataElements);
+
+      const template = `
+        &lt;h2&gt;
+          &lt;a href=&quot;https://www.imdb.com/find?q=${encodeURI(portrayed)}&quot; target=&quot;_blank&quot;&gt;${portrayed}&lt;/a&gt;
+        &lt;/h2&gt;
+        &lt;div&gt;name - ${name}&lt;/div&gt;
+        &lt;div&gt;nickname - ${nickname}&lt;/div&gt;
+        &lt;div&gt;birthday - ${birthday}&lt;/div&gt;
+        &lt;div&gt;
+          &lt;img src=&quot;${img}&quot; style=&quot;width: 100%; max-width: 350px;&quot;&gt;
+        &lt;/div&gt;`;
+      const info = document.querySelector('.info-d');
+      info.innerHTML = template;
+
+    }, 500);
+  },
+})</code>
+            </pre>
+          </div>
+        </section>
+
       </div>
+      <button class="toggle-menu" arial-label="toogle menu" title="tootle menu"></button>
+    </main>
 
-      <div class="flex">
-        <div class="search-element">
-          <label for="search-c">static file</label>
-          <div class="search max-height loupe">
-            <input type="text" id="search-c" aria-label="Search for a name" class="full-width" autocomplete="off"
-              placeholder="type c">
-          </div>
-        </div>
-
-        <div class="search-element">
-          <label for="search-d">static file + data-elements</label>
-          <div class="search max-height loupe">
-            <input type="text" id="search-d" aria-label="Search for a name" class="full-width" autocomplete="off"
-              placeholder="type w">
-          </div>
-          <div class="info-d"></div>
-        </div>
-      </div>
-    </div>
     <script type="text/javascript">
       window.addEventListener('DOMContentLoaded', () => {
 
         // first example
         new Autosuggest('search-a', {
-          delay: 1000,
           clearButton: true,
           selectFirst: true,
           howManyCharacters: 1,
@@ -123,7 +349,7 @@
             return matches
               .map(el => {
                 return `
-                  <li class="autocomplete-item" role="option" aria-selected="false">
+                  <li class="autocomplete-item" role="option" aria-selected="false" tabIndex="-1">
                     <p>${el.name.replace(regex, (str) => `<b>${str}</b>`)}</p>
                   </li>`
               }).join('')
@@ -313,6 +539,7 @@
       })
     </script>
     <script src="./autosuggest.min.js"></script>
+
 
   </body>
 

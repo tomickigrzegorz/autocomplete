@@ -17,9 +17,9 @@
     "watch": "rollup --config --watch",
     "sass:dev": "node-sass ./sources/scss/style.scss ./docs/autosuggest.min.css -w",
     "sass:prod": "node-sass ./sources/scss/style.scss ./docs/autosuggest.min.css --output-style compressed",
-    "sass:global:w": "node-sass ./sources/scss/main.scss ./docs/main.min.css -w",
     "sass:global": "node-sass ./sources/scss/main.scss ./docs/main.min.css --output-style compressed",
-    "postcss": "postcss ./docs/style.min.css -r"
+    "sass:global-watch": "node-sass ./sources/scss/main.scss ./docs/main.min.css -w",
+    "postcss": "postcss ./docs/main.min.css -r"
   },
   "keywords": [
     "autosuggest",
@@ -54,9 +54,7 @@
     "prettier": "^2.0.5",
     "rollup": "^2.26.3",
     "rollup-plugin-copy": "^3.3.0",
-    "rollup-plugin-livereload": "^1.3.0",
     "rollup-plugin-postcss": "^3.1.5",
-    "rollup-plugin-serve": "^1.0.3",
     "rollup-plugin-terser": "^7.0.0"
   }
 }

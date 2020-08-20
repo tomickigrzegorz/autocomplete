@@ -2,6 +2,7 @@ import copy from 'rollup-plugin-copy';
 import babel from '@rollup/plugin-babel';
 import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
+import pkg from "./package.json";
 import { terser } from 'rollup-plugin-terser';
 
 const { PRODUCTION } = process.env;
@@ -9,7 +10,7 @@ const { PRODUCTION } = process.env;
 export default {
   input: 'sources/js/script.js',
   output: {
-    file: 'docs/autosuggest.min.js',
+    file: pkg.main,
     format: 'iife',
     name: 'Autosuggest',
     sourcemap: !PRODUCTION,

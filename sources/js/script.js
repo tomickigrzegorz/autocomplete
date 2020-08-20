@@ -281,8 +281,13 @@ class Autosuggest {
 
   // event on mouse
   actionsOnTheElementLi = (target, type) => {
+    // reset previous active li
     this.checkActiveListExist = document.querySelector(`.${this.activeList}`);
-    if (this.checkActiveListExist) this.checkActiveListExist.classList.remove(this.activeList);
+    if (this.checkActiveListExist) {
+      this.checkActiveListExist.classList.remove(this.activeList);
+      this.checkActiveListExist.setAttribute('aria-selected', 'fasle');
+      this.checkActiveListExist.id = '';
+    }
 
     target.id = type ? `${this.selectedOption}-${this.indexLiSelected(target)}` : '';
     target.setAttribute('aria-selected', !!type);

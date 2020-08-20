@@ -4,14 +4,13 @@
   "description": "Simple autocomplete component in vanilla JS",
   "author": "Grzegorz Tomicki",
   "main": "docs/autosuggest.min.js",
-  "browser": "dist/autosuggest.min.js",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/tomik23/autosuggest.git"
   },
   "scripts": {
-    "dev": "concurrently \"yarn sass:global\" \"yarn sass:prod\" \"yarn sass:dev\" \"yarn watch\"",
+    "dev": "concurrently \"yarn sass:global-watch\" \"yarn sass:dev\" \"yarn watch\"",
     "prod": "yarn build && yarn sass:prod",
     "build": "rollup --config --environment PRODUCTION",
     "watch": "rollup --config --watch",

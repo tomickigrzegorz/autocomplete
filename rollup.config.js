@@ -1,7 +1,5 @@
 import copy from 'rollup-plugin-copy';
 import babel from '@rollup/plugin-babel';
-import serve from 'rollup-plugin-serve';
-import livereload from 'rollup-plugin-livereload';
 import pkg from "./package.json";
 import { terser } from 'rollup-plugin-terser';
 
@@ -25,8 +23,6 @@ export default {
         { src: './static/characters.json', dest: 'docs/' },
         { src: './static/github-corner.js', dest: 'docs/' },
       ],
-    }),
-    (!PRODUCTION && serve({ open: true, contentBase: 'docs' })),
-    (!PRODUCTION && livereload()),
+    })
   ],
 };

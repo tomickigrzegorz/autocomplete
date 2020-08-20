@@ -1,3 +1,11 @@
+## 2020-08-20
+### Changed
+- fix: Bad behavior of the scrollIntoView parameter [#20](https://github.com/tomik23/autosuggest/issues/20)
+- update examples, new UI
+- adding global styles
+- update reademe
+- refactoring rollup
+
 ## 2020-08-19
 ### Added
 - adding an additional example using data-elements

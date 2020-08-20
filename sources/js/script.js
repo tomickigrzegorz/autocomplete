@@ -17,13 +17,14 @@ class Autosuggest {
       onResults,
       selectFirst,
       onSearch,
-      onSubmit = () => { },
-    },
+      onSubmit = () => {},
+    }
   ) {
     this.search = element;
     this.searchId = document.getElementById(this.search);
-    this.instruction = instruction
-      || 'When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.';
+    this.instruction =
+      instruction ||
+      'When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.';
     this.onResults = onResults;
     this.onSubmit = onSubmit;
     this.onSearch = isPromise(onSearch)
@@ -56,7 +57,6 @@ class Autosuggest {
 
     // set default aria
     this.setDefault();
-
   }
 
   initialize = () => {
@@ -70,7 +70,7 @@ class Autosuggest {
       this.escapedChar = this.valueFromSearch.replace(
         // eslint-disable-next-line no-useless-escape
         /[`~!@#$%^&*()_|+\-=÷¿?;:'",.<>\{\}\[\]\\\/]/g,
-        '',
+        ''
       );
 
       clearTimeout(timeout);
@@ -78,7 +78,7 @@ class Autosuggest {
         this.searchItem(this.escapedChar.trim());
       }, this.delay);
     });
-  }
+  };
 
   // create output-list and put after search input
   createOutputSearch = () => {
@@ -90,19 +90,22 @@ class Autosuggest {
 
     this.searchId.parentNode.insertBefore(
       this.outputSearch,
-      this.searchId.nextSibling,
+      this.searchId.nextSibling
     );
 
     this.matchList = document.getElementById(this.searchOutputUl);
     // set instruction
     this.initInstruction();
-  }
+  };
 
   // default aria
   setDefault = () => {
     this.searchId.setAttribute('aria-owns', `${this.search}-list`);
     this.searchId.setAttribute('aria-expanded', false);
-    this.searchId.setAttribute('aria-describedby', `${this.search}-initInstruction`);
+    this.searchId.setAttribute(
+      'aria-describedby',
+      `${this.search}-initInstruction`
+    );
     this.searchId.setAttribute('aria-autocomplete', 'both');
     this.searchId.setAttribute('aria-activedescendant', '');
     this.searchId.setAttribute('role', 'combobox');
@@ -116,11 +119,11 @@ class Autosuggest {
     this.activeElement = document.querySelector(`.${this.activeList}`);
 
     if (this.activeElement) this.actionsOnTheElementLi(this.activeElement, '');
-  }
+  };
 
   // The async function gets the text from the search
   // and returns the matching array
-  searchItem = input => {
+  searchItem = (input) => {
     this.searchId.parentNode.classList.add(this.isLoading);
 
     if (this.howManyCharacters > input.length) {
@@ -149,7 +152,7 @@ class Autosuggest {
         this.outputHtml(matches, input);
       }
     });
-  }
+  };
 
   // instruction aria-describedby
   initInstruction = () => {
@@ -160,7 +163,7 @@ class Autosuggest {
     this.textContent = document.createTextNode(this.instruction);
     this.outputSearch.insertAdjacentElement('afterend', this.describedby);
     this.describedby.appendChild(this.textContent);
-  }
+  };
 
   // hide output div when click on li or press escape
   closeOutputMatchesList = ({ target }) => {
@@ -171,7 +174,7 @@ class Autosuggest {
 
     // set default settings
     this.setDefault();
-  }
+  };
 
   // preparation of the list
   outputHtml = (matches, input) => {
@@ -208,11 +211,11 @@ class Autosuggest {
     for (let i = 0; i < this.itemsLi.length; i++) {
       this.itemsLi[i].addEventListener(
         'mouseenter',
-        this.addTextFromLiToSearchInput,
+        this.addTextFromLiToSearchInput
       );
       this.itemsLi[i].addEventListener(
         'mouseleave',
-        this.addTextFromLiToSearchInput,
+        this.addTextFromLiToSearchInput
       );
       // }
     }
@@ -220,11 +223,11 @@ class Autosuggest {
     // select first li element
     if (this.selectFirst) {
       this.selectFirstItem();
-    };
+    }
 
     // hide button clear
     this.hiddenButtonHide();
-  }
+  };
 
   // select first element
   selectFirstItem = () => {
@@ -233,21 +236,18 @@ class Autosuggest {
     firstElementChild.setAttribute('aria-selected', true);
     firstElementChild.classList.add(this.activeList);
 
-    this.ariaactivedescendant(
-      this.searchId,
-      `${this.selectedOption}-1`,
-    );
+    this.ariaactivedescendant(this.searchId, `${this.selectedOption}-1`);
 
     // set default index
     this.selected = 1;
-  }
+  };
 
   hiddenButtonHide = () => {
     if (this.clearButton) {
       this.clearButton.classList.remove('hidden');
       this.clearButton.addEventListener('click', this.handleClearButton);
     }
-  }
+  };
 
   // show items when items.length >= 1 and is not empty
   showLiItems = () => {
@@ -257,7 +257,7 @@ class Autosuggest {
       this.outputSearch.classList.add(this.isActive);
       this.selectFirstItem();
     }
-  }
+  };
 
   // adding text from the list when li is clicking
   // or adding aria-selected to li elements
@@ -277,14 +277,17 @@ class Autosuggest {
       default:
         break;
     }
-  }
+  };
 
   // event on mouse
   actionsOnTheElementLi = (target, type) => {
     this.checkActiveListExist = document.querySelector(`.${this.activeList}`);
-    if (this.checkActiveListExist) this.checkActiveListExist.classList.remove(this.activeList);
+    if (this.checkActiveListExist)
+      this.checkActiveListExist.classList.remove(this.activeList);
 
-    target.id = type ? `${this.selectedOption}-${this.indexLiSelected(target)}` : '';
+    target.id = type
+      ? `${this.selectedOption}-${this.indexLiSelected(target)}`
+      : '';
     target.setAttribute('aria-selected', !!type);
 
     // add or remove class from selected menu
@@ -292,16 +295,16 @@ class Autosuggest {
 
     this.ariaactivedescendant(
       this.searchId,
-      type ? `${this.selectedOption}-${this.indexLiSelected(target)}` : null,
+      type ? `${this.selectedOption}-${this.indexLiSelected(target)}` : null
     );
 
     // return which li element
     // was selected and set
     this.selected = type ? this.indexLiSelected(target) : 0;
-  }
+  };
 
   // get text from li on enter or mouseenter
-  getTextFromLi = element => {
+  getTextFromLi = (element) => {
     // check if li have children elements
     this.getText = element.firstElementChild
       ? element.firstElementChild
@@ -324,14 +327,15 @@ class Autosuggest {
     if (element.hasAttribute('data-elements')) {
       this.dataElements(element.getAttribute('data-elements'));
     }
-  }
+  };
 
   // return which li element was selected
   // by hovering the mouse over
-  indexLiSelected = target => Array.prototype.indexOf.call(this.itemsLi, target) + 1;
+  indexLiSelected = (target) =>
+    Array.prototype.indexOf.call(this.itemsLi, target) + 1;
 
   // navigating the elements li and enter
-  handelEvent = event => {
+  handelEvent = (event) => {
     const { keyCode } = event;
     this.selectedLi = document.querySelector(`.${this.activeList}`);
 
@@ -358,7 +362,6 @@ class Autosuggest {
 
         break;
       case this.keyCodes.ENTER:
-
         if (this.selectedLi) {
           this.getTextFromLi(this.selectedLi);
         } else {
@@ -369,29 +372,30 @@ class Autosuggest {
 
       case this.keyCodes.TAB:
       case this.keyCodes.ESC:
-
         this.setDefault();
 
         break;
       default:
         break;
     }
-  }
+  };
 
   // set aria label on item li
-  setAriaSelectedItem = target => {
-
+  setAriaSelectedItem = (target) => {
     target.id = `${this.selectedOption}-${this.indexLiSelected(target)}`;
     target.setAttribute('aria-selected', true);
     target.classList.add(this.activeList);
 
-    this.ariaactivedescendant(this.searchId, `${this.selectedOption}-${this.indexLiSelected(target)}`);
+    this.ariaactivedescendant(
+      this.searchId,
+      `${this.selectedOption}-${this.indexLiSelected(target)}`
+    );
 
     // scrollIntoView when press up/down arrows
     if (this.scrollIntoView) {
       this.followActiveElement(target, this.outputSearch);
     }
-  }
+  };
 
   // follow active element
   followActiveElement = (element, container) => {
@@ -404,7 +408,7 @@ class Autosuggest {
         container.scrollTop = offsetBottom - container.offsetHeight;
       }
     }
-  }
+  };
 
   // remove aria label from item li
   removeAriaSelectedItem = () => {
@@ -412,12 +416,12 @@ class Autosuggest {
     this.selectedLi.id = '';
     this.selectedLi.classList.remove(this.activeList);
     this.selectedLi.setAttribute('aria-selected', false);
-  }
+  };
 
   // Set aria-activedescendant
   ariaactivedescendant = (element, type) => {
     element.setAttribute('aria-activedescendant', type || '');
-  }
+  };
 
   // create clear button and
   // removing text from the input field
@@ -429,7 +433,7 @@ class Autosuggest {
     this.clearButton.setAttribute('aria-label', 'claar text from input');
 
     this.searchId.insertAdjacentElement('afterend', this.clearButton);
-  }
+  };
 
   // clicking on the clear button
   handleClearButton = ({ target }) => {
@@ -443,13 +447,13 @@ class Autosuggest {
     this.outputSearch.textContent = '';
     // set default aria
     this.setDefault();
-  }
+  };
 
   // the part responsible for appending json to the search
   // field use - https://github.com/tomik23/Leaflet.Autocomplete
-  dataElements = item => {
+  dataElements = (item) => {
     this.searchId.setAttribute('data-elements', item);
-  }
+  };
 }
 
 export default Autosuggest;

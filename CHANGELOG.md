@@ -1,16 +1,24 @@
 ## 2020-08-20
+
 ### Changed
+
+- fix: mouseenter is not reset previous selected li [#22](https://github.com/tomik23/autosuggest/issues/22)
 - fix: Bad behavior of the scrollIntoView parameter [#20](https://github.com/tomik23/autosuggest/issues/20)
 - update examples, new UI
 - adding global styles
 - update reademe
 - refactoring rollup
+- highlight to prism
+- Live Server instead [rollup-plugin-serve, rollup-plugin-livereload]
 
 ## 2020-08-19
+
 ### Added
+
 - adding an additional example using data-elements
 
 ### Changed
+
 - fix: Up-down arrows item selection [#17](https://github.com/tomik23/autosuggest/issues/17)
 - remove promise-polyfill
 - update dependencies
@@ -18,48 +26,64 @@
 - github-corner separate file
 
 ## 2020-08-18
+
 ### Added
+
 - an example of using a static file
 
 ### Changed
+
 - update dependencies
 
 ## 2020-08-17
+
 ### Added
+
 - an example of using a static file
 
 ### Changed
+
 - update dependencies
 
 ## 2020-08-16
+
 ### Changed
+
 - fix: errors if we have more than one autocomplete field [#13](https://github.com/tomik23/autosuggest/issues/13)
 - fix: Non-closing list of results [#15](https://github.com/tomik23/autosuggest/issues/15)
 - adding two fields to the example
 - update readme
 
 ## 2020-08-15
+
 ### Added
+
 - github corner
 - fix: scrollIntoView [#12](https://github.com/tomik23/autosuggest/issues/12)
 
 ### Changed
+
 - update example
 - update readme
 
 ## 2020-08-13
+
 ### Added
+
 - selectFirst - default selects the first item in the list of results
 - rollup
 - .prettierrc
 
 ### Changed
+
 - update aria
 - update dependencies
 - update readme
 
 ## 2020-08-12
+
 ### Added
+
 - adding an example of using jquery
 - use Promises instead of async/await to avoid @babel/runtime
 - adding a new 'onSearch' function where you can decide for yourself how the data will be downloaded [jquery, axios, fetch, ...]
@@ -67,6 +91,7 @@
 - new API for testing -> [breakingbadapi](https://breakingbadapi.com/documentation)
 
 ### Changed
+
 - restoration of functionality 'howManyCharacters'
 - reducing library size by removing babel-runtime
 - remove noResult (temporarily?)
@@ -77,12 +102,15 @@
 - update webpack.config.js
 
 ## 2020-08-04
+
 ### Added
+
 - changelog
 - noResult
 - accessible for ARIA attributes and keyboard interactions
 
 ### Changed
+
 - fix the 'x' button is not hidden fixed
 - fix no reset of settings
 - update dependencies
@@ -90,100 +118,140 @@
 - update webpack.config.js
 
 ## 2020-08-01
+
 ### Changed
+
 - update dependencies
 - update example wikipedia
 
 ## 2020-06-22
+
 ### Changed
+
 - fix: many spaces
 
 ## 2020-06-20
+
 ### Changed
+
 - simplification of configuration
 
 ## 2020-06-19
+
 ### Added
+
 - improved sorting
 
 ## 2020-06-18
+
 ### Changed
+
 - update example
 
 ## 2020-05-21
+
 ### Added
+
 - Button 'x' removes text from the input field
 - improving the position of the 'x' button
 
 ### Changed
+
 - update devDependencies
 
 ## 2020-05-10
+
 ### Added
+
 - adding the option of choosing a search method
 
 ## 2020-05-09
+
 ### Added
+
 - improve bundle size
 
 ## 2019-12-06
+
 ### Added
+
 - adding BundleAnalyzerPlugin
 
 ### Changed
+
 - removal @babel/polyfill
 
 ## 2019-11-07
+
 ### Added
+
 - adding the ability to download data locally/API
 
 ### Changed
+
 - correction of errors with the number of characters
 - update devDependencies
 
 ## 2019-06-29
+
 ### Changed
+
 - upgrade to core-js 3
 
 ## 2019-06-07
+
 ### Added
+
 - adding license
 - the appearance of the error
 
-
 ## 2019-05-27
+
 ### Changed
+
 - update dependencies
 - changing libraryTarget to umd
 
 ## 2019-05-14
+
 ### Changed
+
 - fixing issue with fast typing
 - a small change that improves the look
 
 ## 2019-05-07
+
 ### Added
+
 - adding license
 - the appearance of the error
 
 ### Changed
+
 - fixing a problem with several elements of inputs
 - changing class name
 
 ## 2019-05-06
+
 ### Added
+
 - specific output template
 
 ### Changed
+
 - fixed IE10/11
 - update specificOutput compatible IE10/11
 
 ## 2019-05-05
+
 ### Added
+
 - remove special characters from input
 - searchBy - searching by element
 
 ## 2019-05-04
+
 ### Added
+
 - eslint and prettier adding
 - source-map dev/prod

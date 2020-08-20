@@ -1,3 +1,4 @@
-const isObject = (value) => value && typeof value === 'object' && value.constructor === Object;
+const isObject = (value) =>
+  value && typeof value === 'object' && value.constructor === Object;
 
 export default isObject;

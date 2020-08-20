@@ -131,7 +131,7 @@ aside {
 
   &:before {
     position: absolute;
-    content: "";
+    content: '';
     top: 0;
     left: 0;
     width: 100%;
@@ -151,10 +151,10 @@ aside {
 }
 
 section {
-  padding-top: 50px;
+  padding: 50px 0;
   margin-top: -50px;
   margin: auto;
-  max-width: 700px;
+  max-width: 850px;
 }
 
 @media (max-width: 950px) {

@@ -1,16 +1,16 @@
-import hasClass from './hasClass'
-import classListSupport from './classListSupport'
+import hasClass from './hasClass';
+import classListSupport from './classListSupport';
 
 const addClass = classListSupport
   ? (el, str) => {
-    if (!hasClass(el, str)) {
-      el.classList.add(str)
+      if (!hasClass(el, str)) {
+        el.classList.add(str);
+      }
     }
-  }
   : (el, str) => {
-    if (!hasClass(el, str)) {
-      el.className += ` ${str}`
-    }
-  }
+      if (!hasClass(el, str)) {
+        el.className += ` ${str}`;
+      }
+    };
 
-export default addClass
+export default addClass;

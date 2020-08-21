@@ -105,7 +105,7 @@ aside {
   cursor: pointer; }
   .toggle-menu:before {
     position: absolute;
-    content: '';
+    content: "";
     top: 0;
     left: 0;
     width: 100%;

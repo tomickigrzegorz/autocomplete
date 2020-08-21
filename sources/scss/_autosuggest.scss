@@ -32,10 +32,8 @@
     border-top: none;
     border-radius: 0 0 8px 8px;
     overflow: hidden;
-    box-shadow: 0 2.8px 2.2px rgba(223, 223, 223, 0.034),
-      0 6.7px 5.3px rgba(192, 192, 192, 0.048),
-      0 1.5px 1px rgba(144, 144, 144, 0.06),
-      0 2.3px 1.9px rgba(92, 92, 92, 0.072), 0 2.8px 1px rgba(63, 63, 63, 0.086);
+    box-shadow: 0 2.8px 2.2px rgba(223, 223, 223, 0.034), 0 6.7px 5.3px rgba(192, 192, 192, 0.048),
+      0 1.5px 1px rgba(144, 144, 144, 0.06), 0 2.3px 1.9px rgba(92, 92, 92, 0.072), 0 2.8px 1px rgba(63, 63, 63, 0.086);
 
     li {
       position: relative;
@@ -59,9 +57,13 @@
     filter: invert(20%);
   }
 
+  .auto-output-search > .loupe {
+    padding-left: 40px;
+  }
+
   &.auto-is-loading {
     &:after {
-      content: '';
+      content: "";
       box-sizing: border-box;
       position: absolute;
       top: 0px;
@@ -107,7 +109,7 @@
 
   &:before {
     position: absolute;
-    content: '';
+    content: "";
     width: 20px;
     height: 20px;
     top: 0;

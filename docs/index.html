@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Autosuggest</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.21.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.21.0/themes/prism-tomorrow.min.css"
+      rel="stylesheet"
+    />
     <script src="./github-corner.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.21.0/components/prism-core.min.js"></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.21.0/plugins/autoloader/prism-autoloader.min.js"></script>
-    <link rel="stylesheet" href="./main.min.css">
-    <link rel="stylesheet" href="./autosuggest.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.21.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <link rel="stylesheet" href="./main.min.css" />
+    <link rel="stylesheet" href="./autosuggest.min.css" />
   </head>
 
   <body>
@@ -20,8 +21,10 @@
       <aside>
         <h1 class="loupe">autosuggest</h1>
         <div class="shields">
-          <img src="https://img.shields.io/github/package-json/v/tomik23/autosuggest">
-          <img src="https://img.shields.io/badge/License-MIT-green.svg">
+          <img
+            src="https://img.shields.io/github/package-json/v/tomik23/autosuggest"
+          />
+          <img src="https://img.shields.io/badge/License-MIT-green.svg" />
         </div>
         <ul class="menu">
           <li class="active"><a href="#simple">simple result</a></li>
@@ -29,17 +32,34 @@
           <li><a href="#static">static file</a></li>
           <li><a href="#data-elements">static file + data-elelemts</a></li>
         </ul>
-        <div class="based">based on: <small><a href="https://breakingbadapi.com/" target="_blank">The breaking bad
-              api</a></small></div>
+        <div class="based">
+          based on:
+          <small
+            ><a href="https://breakingbadapi.com/" target="_blank"
+              >The breaking bad api</a
+            ></small
+          >
+        </div>
       </aside>
 
       <div class="search-elements">
-
         <section id="simple">
           <div class="search-element">
             <label for="search-a">simple result</label>
             <div class="search loupe">
-              <input type="text" id="search-a" aria-label="Search for a name" autocomplete="off" placeholder="type w">
+              <input
+                type="text"
+                id="search-a"
+                autocomplete="off"
+                placeholder="type w"
+                aria-describedby="instruction"
+                aria-label="Search for a name"
+              />
+              <div id="instruction" class="hidden">
+                When autocomplete results are available use up and down arrows
+                to review and enter to select. Touch device users, explore by
+                touch or with swipe gestures.
+              </div>
             </div>
           </div>
           <div class="highlight html">
@@ -51,7 +71,6 @@
               <code class="language-js">new Autosuggest('search-a', {
   clearButton: true,
   selectFirst: true,
-  scrollIntoView: true,
   howManyCharacters: 1,
   onSearch: (input) => {
     const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(input)}`;
@@ -71,7 +90,7 @@
     return matches
       .map(el => {
         return `
-        &lt;li class=&quot;autocomplete-item&quot; role=&quot;option&quot; aria-selected=&quot;false&quot;&gt;
+        &lt;li class=&quot;autocomplete-item loupe&quot; role=&quot;option&quot; aria-selected=&quot;false&quot;&gt;
           &lt;p&gt;${el.name.replace(regex, (str) =&gt; &grave;&lt;b&gt;${str}&lt;/b&gt;&grave;)}&lt;/p&gt;
         &lt;/li&gt;&grave;
       }).join('')
@@ -88,7 +107,13 @@
           <div class="search-element">
             <label for="search-b">complex result</label>
             <div class="search max-height loupe">
-              <input type="text" id="search-b" aria-label="Search for a name" autocomplete="off" placeholder="type wh">
+              <input
+                type="text"
+                id="search-b"
+                aria-label="Search for a name"
+                autocomplete="off"
+                placeholder="type wh"
+              />
             </div>
           </div>
           <div class="highlight html">
@@ -98,10 +123,8 @@
             <h4>javascript</h4>
             <pre>
               <code class="language-js">new Autosuggest('search-b', {
-  delay: 1000,
   clearButton: true,
   selectFirst: true,
-  scrollIntoView: true,
   howManyCharacters: 2,
   onSearch: (input) => {
     const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(input)}`;
@@ -155,7 +178,13 @@
           <div class="search-element">
             <label for="search-c">static file</label>
             <div class="search max-height loupe">
-              <input type="text" id="search-c" aria-label="Search for a name" autocomplete="off" placeholder="type c">
+              <input
+                type="text"
+                id="search-c"
+                aria-label="Search for a name"
+                autocomplete="off"
+                placeholder="type c"
+              />
             </div>
           </div>
           <div class="highlight html">
@@ -165,10 +194,8 @@
             <h4>javascript</h4>
             <pre>
               <code class="language-js">new Autosuggest('search-c', {
-  delay: 1000,
   clearButton: true,
   selectFirst: true,
-  scrollIntoView: true,
   howManyCharacters: 1,
   onSearch: (input) => {
     const api = './characters.json'
@@ -208,7 +235,13 @@
           <div class="search-element">
             <label for="search-d">static file + data-elements</label>
             <div class="search max-height loupe">
-              <input type="text" id="search-d" aria-label="Search for a name" autocomplete="off" placeholder="type w">
+              <input
+                type="text"
+                id="search-d"
+                aria-label="Search for a name"
+                autocomplete="off"
+                placeholder="type w"
+              />
             </div>
             <div class="info-d"></div>
           </div>
@@ -219,10 +252,8 @@
             <h4>javascript</h4>
             <pre>
               <code class="language-js">new Autosuggest('search-d', {
-  delay: 1000,
   clearButton: true,
   selectFirst: true,
-  scrollIntoView: true,
   howManyCharacters: 1,
   onSearch: (input) => {
     const api = './characters.json'
@@ -245,7 +276,7 @@
     return matches
       .map(({ name, birthday, img, portrayed }) => {
         return `
-          &lt;li class=&quot;autocomplete-item&quot; role=&quot;option&quot; aria-selected=&quot;false&quot; data-elements='${JSON.stringify({ birthday, img, portrayed })}'&gt;
+          &lt;li class=&quot;autocomplete-item loupe&quot; role=&quot;option&quot; aria-selected=&quot;false&quot; data-elements='${JSON.stringify({ birthday, img, portrayed })}'&gt;
             &lt;p&gt;${name.replace(new RegExp(input, 'gi'), (str) =&gt; `&lt;b&gt;${str}&lt;/b&gt;`)}&lt;/p&gt;
           &lt;/li&gt;`
       }).join('')
@@ -279,14 +310,16 @@
             </pre>
           </div>
         </section>
-
       </div>
-      <button class="toggle-menu" arial-label="toogle menu" title="tootle menu"></button>
+      <button
+        class="toggle-menu"
+        arial-label="toogle menu"
+        title="tootle menu"
+      ></button>
     </main>
 
     <script type="text/javascript">
       window.addEventListener('DOMContentLoaded', () => {
-
         // first example
         new Autosuggest('search-a', {
           clearButton: true,
@@ -295,7 +328,9 @@
           // onSearch
           onSearch: (input) => {
             // const api = '../static/users.json'
-            const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(input)}`;
+            const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(
+              input
+            )}`;
 
             /**
              * jquery
@@ -337,72 +372,76 @@
              */
             return new Promise((resolve) => {
               fetch(api)
-                .then(response => response.json())
-                .then(data => {
-                  resolve(data)
+                .then((response) => response.json())
+                .then((data) => {
+                  resolve(data);
                 })
-                .catch(error => {
+                .catch((error) => {
                   console.error(error);
-                })
-            })
+                });
+            });
           },
 
           onResults: (matches, input) => {
             // const regex = new RegExp(^${input}`, 'gi'); // start with
-            const regex = new RegExp(input, 'gi')
+            const regex = new RegExp(input, 'gi');
             return matches
-              .map(el => {
+              .map((el) => {
                 return `
-                  <li class="autocomplete-item" role="option" aria-selected="false" tabIndex="-1">
+                  <li class="autocomplete-item loupe" role="option" aria-selected="false">
                     <p>${el.name.replace(regex, (str) => `<b>${str}</b>`)}</p>
-                  </li>`
-              }).join('')
+                  </li>`;
+              })
+              .join('');
           },
           // event onsubmit
           onSubmit: (matches) => {
             console.log(matches);
             // window.open(`https://www.imdb.com/find?q=${encodeURI(matches)}`)
           },
-        })
+        });
 
         // second example
         new Autosuggest('search-b', {
-          delay: 1000,
           clearButton: true,
           selectFirst: true,
-          scrollIntoView: true,
           howManyCharacters: 2,
           // onSearch
           onSearch: (input) => {
-            const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(input)}`;
+            const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(
+              input
+            )}`;
 
             /**
              * Promise
              */
             return new Promise((resolve) => {
               fetch(api)
-                .then(response => response.json())
-                .then(data => {
-                  resolve(data)
+                .then((response) => response.json())
+                .then((data) => {
+                  resolve(data);
                 })
-                .catch(error => {
+                .catch((error) => {
                   console.error(error);
-                })
-            })
+                });
+            });
           },
 
           onResults: (matches, input) => {
             // const regex = new RegExp(^${input}`, 'gi'); // start with
-            const regex = new RegExp(input, 'gi')
+            const regex = new RegExp(input, 'gi');
             return matches
               .sort((a, b) => a.name.localeCompare(b.name))
-              .filter(element => {
-                return element.name.match(regex)
+              .filter((element) => {
+                return element.name.match(regex);
               })
-              .map(el => {
+              .map((el) => {
                 return `
                   <li class="autocomplete-item" role="option" aria-selected="false">
-                    <h2 style="margin-bottom: 10px;">${el.name.replace(regex, (str) => `<b style="color: red;">${str}</b>`)}</h2>
+                    <h2 style="margin-bottom: 10px;">${el.name.replace(
+                      regex,
+                      (str) => `<b style="color: red;">${str}</b>`
+                    )}</h2>
                     <div style="display: flex;">
                       <div style="margin-right: 10px;">
                         <img src="${el.img}" style="max-width: 100px;">
@@ -414,116 +453,127 @@
                         <div><b>status:</b> - ${el.status}</div>
                       </div>
                     </div>
-                  </li>`
-              }).join('')
+                  </li>`;
+              })
+              .join('');
           },
           // event onsubmit
           onSubmit: (matches) => {
             console.log(matches);
             // window.open(`https://www.imdb.com/find?q=${encodeURI(matches)}`)
           },
-        })
-
+        });
 
         // static file
         new Autosuggest('search-c', {
-          delay: 1000,
           clearButton: true,
           selectFirst: true,
-          scrollIntoView: true,
           howManyCharacters: 1,
           // onSearch
           onSearch: (input) => {
             // static file
-            const api = './characters.json'
+            const api = './characters.json';
 
             /**
              * Promise
              */
             return new Promise((resolve) => {
               fetch(api)
-                .then(response => response.json())
-                .then(data => {
-                  const result = data.sort((a, b) => a.name.localeCompare(b.name))
-                    .filter(element => {
-                      return element.name.match(new RegExp(input, 'gi'))
-                    })
-                  resolve(result)
+                .then((response) => response.json())
+                .then((data) => {
+                  const result = data
+                    .sort((a, b) => a.name.localeCompare(b.name))
+                    .filter((element) => {
+                      return element.name.match(new RegExp(input, 'gi'));
+                    });
+                  resolve(result);
                 })
-                .catch(error => {
+                .catch((error) => {
                   console.error(error);
-                })
-            })
+                });
+            });
           },
 
           onResults: (matches, input) => {
             return matches
-              .map(el => {
+              .map((el) => {
                 return `
                   <li class="autocomplete-item" role="option" aria-selected="false">
-                    <p>${el.name.replace(new RegExp(input, 'gi'), (str) => `<b>${str}</b>`)}</p>
-                  </li>`
-              }).join('')
+                    <p>${el.name.replace(
+                      new RegExp(input, 'gi'),
+                      (str) => `<b>${str}</b>`
+                    )}</p>
+                  </li>`;
+              })
+              .join('');
           },
           // event onsubmit
           onSubmit: (matches) => {
             console.log('static: ', matches);
             // window.open(`https://www.imdb.com/find?q=${encodeURI(matches)}`)
           },
-        })
+        });
 
         // static file
         new Autosuggest('search-d', {
-          delay: 1000,
           clearButton: true,
           selectFirst: true,
-          scrollIntoView: true,
           howManyCharacters: 1,
           // onSearch
           onSearch: (input) => {
             // static file
-            const api = './characters.json'
+            const api = './characters.json';
 
             /**
              * Promise
              */
             return new Promise((resolve) => {
               fetch(api)
-                .then(response => response.json())
-                .then(data => {
-                  const result = data.sort((a, b) => a.name.localeCompare(b.name))
-                    .filter(element => {
-                      return element.name.match(new RegExp(input, 'gi'))
-                    })
-                  resolve(result)
+                .then((response) => response.json())
+                .then((data) => {
+                  const result = data
+                    .sort((a, b) => a.name.localeCompare(b.name))
+                    .filter((element) => {
+                      return element.name.match(new RegExp(input, 'gi'));
+                    });
+                  resolve(result);
                 })
-                .catch(error => {
+                .catch((error) => {
                   console.error(error);
-                })
-            })
+                });
+            });
           },
 
           onResults: (matches, input) => {
             return matches
               .map(({ name, birthday, img, portrayed }) => {
                 return `
-                  <li class="autocomplete-item" role="option" aria-selected="false" data-elements='${JSON.stringify({ birthday, img, portrayed })}'>
-                    <p>${name.replace(new RegExp(input, 'gi'), (str) => `<b>${str}</b>`)}</p>
-                  </li>`
-              }).join('')
+                  <li class="autocomplete-item loupe" role="option" aria-selected="false" data-elements='${JSON.stringify(
+                    { birthday, img, portrayed }
+                  )}'>
+                    <p>${name.replace(
+                      new RegExp(input, 'gi'),
+                      (str) => `<b>${str}</b>`
+                    )}</p>
+                  </li>`;
+              })
+              .join('');
           },
           // event onsubmit
           onSubmit: (matches) => {
-
             setTimeout(() => {
               const dataElements = document
                 .querySelector('#search-d')
                 .getAttribute('data-elements');
 
-              const { name, nickname, birthday, img, portrayed } = JSON.parse(dataElements);
+              const { name, nickname, birthday, img, portrayed } = JSON.parse(
+                dataElements
+              );
 
               const template = `
-                <h2><a href="https://www.imdb.com/find?q=${encodeURI(portrayed)}" target="_blank">${portrayed}</a></h2>
+                <h2><a href="https://www.imdb.com/find?q=${encodeURI(
+                  portrayed
+                )}" target="_blank">${portrayed}</a></h2>
                 <div>name - ${name}</div>
                 <div>nickname - ${nickname}</div>
                 <div>birthday - ${birthday}</div>
@@ -531,20 +581,14 @@
               `;
               const info = document.querySelector('.info-d');
               info.innerHTML = template;
-
             }, 500);
 
             // console.log('static: ', matches);
             // window.open(`https://www.imdb.com/find?q=${encodeURI(matches)}`)
           },
-        })
-
-
-      })
+        });
+      });
     </script>
     <script src="./autosuggest.min.js"></script>
-
-
   </body>
-
 </html>

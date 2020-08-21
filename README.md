@@ -78,12 +78,7 @@ HTML
 
 ```html
 <div class="search">
-  <input
-    type="text"
-    id="search"
-    autocomplete="off"
-    placeholder="Enter letter"
-  />
+  <input type="text" id="search" autocomplete="off" placeholder="Enter letter">
 </div>
 ```
 
@@ -127,23 +122,21 @@ JavaScript
 
 ## Configuration of the plugin
 
-| props             |   type   |             default             | require | description                                                                                                                                                          |
-| ----------------- | :------: | :-----------------------------: | :-----: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| element           |  String  |                                 |    ✔    | Input field id                                                                                                                                                       |
-| onSearch          | Function |                                 |    ✔    | Function for user input. It can be a synchronous function or a promise                                                                                               |
-| onResults         | Function |                                 |    ✔    | Function that creates the appearance of the result                                                                                                                   |
-| onSubmit          | Function |                                 |         | Executed on input submission                                                                                                                                         |
-| selectFirst       | Boolean  |             `false`             |         | Default selects the first item in the list of results                                                                                                                |
-| scrollIntoView    | Boolean  |             `false`             |         | The scroll of the results follows the selected item when using the up/down arrows                                                                                    |
-| clearButton       | Boolean  |             `false`             |         | A parameter set to 'true' adds a button to remove text from the input field                                                                                          |
-| howManyCharacters |  Number  |               `2`               |         | The number of characters entered should start searching                                                                                                              |
-| delay             |  Number  |             `1000`              |         | Time in milliseconds that the component should wait after last keystroke before calling search function 1000 = 1s                                                    |
-| instruction       |  String  | `When autocomplete results ...` |         | aria-describedby [attribute](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-describedby_attribute) A full text below |
-| data-elements     |  String  |                                 |         | This parameter is used to provide additional data that can be used in the **onSubmit** function. A full explanation below                                            |
+| props             |    type    |               default               | require | description                                                                                                                                                              |
+| ----------------- | :--------: | :---------------------------------: | :-----: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| element           |   String   |                                     |    ✔    | Input field id                                                                                                                                                           |
+| onSearch          |  Function  |                                     |    ✔    | Function for user input. It can be a synchronous function or a promise                                                                                                   |
+| onResults         |  Function  |                                     |    ✔    | Function that creates the appearance of the result                                                                                                                       |
+| onSubmit          |  Function  |                                     |         | Executed on input submission                                                                                                                                             |
+| selectFirst       |  Boolean   |               `false`               |         | Default selects the first item in the list of results                                                                                                                    |
+| scrollIntoView    |  Boolean   |               `true`               |         | The scroll of the results follows the selected item when using the up/down arrows                                                                                        |
+| clearButton       |  Boolean   |               `false`               |         | A parameter set to 'true' adds a button to remove text from the input field                                                                                              |
+| howManyCharacters |   Number   |                 `2`                 |         | The number of characters entered should start searching                                                                                                                  |
+| delay             |   Number   |                `500`                |         | Time in milliseconds that the component should wait after last keystroke before calling search function 1000 = 1s                                                        |
+| ~~instruction~~   | ~~String~~ | ~~`When autocomplete results ...`~~ |         | ~~aria-describedby [attribute](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-describedby_attribute) A full text below~~ |
+| data-elements     |   String   |                                     |         | This parameter is used to provide additional data that can be used in the **onSubmit** function. A full explanation below                                                |
 
-### instructions
-
-"When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures"
+**instructions** - has been removed from the library, [see how to add to html](https://tomik23.github.io/autosuggest/)
 
 ### data-elements
 
@@ -198,10 +191,6 @@ const options = {
   // default selects the first item in
   // the list of results
   selectFirst: true,
-
-  // the scroll of the results follows the
-  // selected item when using the up/down arrows
-  scrollIntoView: true,
 
   // the number of characters entered
   // should start searching

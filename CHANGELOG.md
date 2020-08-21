@@ -1,4 +1,10 @@
-## 2020-08-20
+## 2020-08-21 (v.1.0.13)
+
+### Changed
+
+- improve UI [#26](https://github.com/tomik23/autosuggest/issues/26)
+
+## 2020-08-20 (v.1.0.12)
 
 ### Changed
 

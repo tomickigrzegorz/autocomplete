@@ -12,8 +12,6 @@ class Autosuggest {
       delay,
       clearButton,
       howManyCharacters,
-      scrollIntoView,
-      instruction,
       onResults,
       selectFirst,
       onSearch,
@@ -22,19 +20,15 @@ class Autosuggest {
   ) {
     this.search = element;
     this.searchId = document.getElementById(this.search);
-    this.instruction =
-      instruction ||
-      'When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.';
     this.onResults = onResults;
     this.onSubmit = onSubmit;
     this.onSearch = isPromise(onSearch)
       ? onSearch
       : (value) => Promise.resolve(onSearch(value));
-    this.delay = delay || 1000;
+    this.delay = delay || 500;
     this.howManyCharacters = howManyCharacters || 2;
     this.clearButton = clearButton || false;
     this.selectFirst = selectFirst || false;
-    this.scrollIntoView = scrollIntoView || false;
 
     // default config
     this.searchOutputUl = `${this.search}-list`;
@@ -94,18 +88,12 @@ class Autosuggest {
     );
 
     this.matchList = document.getElementById(this.searchOutputUl);
-    // set instruction
-    this.initInstruction();
   };
 
   // default aria
   setDefault = () => {
     this.searchId.setAttribute('aria-owns', `${this.search}-list`);
     this.searchId.setAttribute('aria-expanded', false);
-    this.searchId.setAttribute(
-      'aria-describedby',
-      `${this.search}-initInstruction`
-    );
     this.searchId.setAttribute('aria-autocomplete', 'both');
     this.searchId.setAttribute('aria-activedescendant', '');
     this.searchId.setAttribute('role', 'combobox');
@@ -152,17 +140,6 @@ class Autosuggest {
         this.outputHtml(matches, input);
       }
     });
-  };
-
-  // instruction aria-describedby
-  initInstruction = () => {
-    this.describedby = document.createElement('span');
-    this.describedby.id = `${this.search}-initInstruction`;
-    this.describedby.className = 'init-instruction';
-
-    this.textContent = document.createTextNode(this.instruction);
-    this.outputSearch.insertAdjacentElement('afterend', this.describedby);
-    this.describedby.appendChild(this.textContent);
   };
 
   // hide output div when click on li or press escape
@@ -232,14 +209,14 @@ class Autosuggest {
   // select first element
   selectFirstItem = () => {
     const { firstElementChild } = document.getElementById(this.searchOutputUl);
+
+    console.log(document.getElementById(this.searchOutputUl));
+
     firstElementChild.id = `${this.selectedOption}-1`;
     firstElementChild.setAttribute('aria-selected', true);
     firstElementChild.classList.add(this.activeList);
 
     this.ariaactivedescendant(this.searchId, `${this.selectedOption}-1`);
-
-    // set default index
-    this.selected = 1;
   };
 
   hiddenButtonHide = () => {
@@ -396,9 +373,7 @@ class Autosuggest {
     );
 
     // scrollIntoView when press up/down arrows
-    if (this.scrollIntoView) {
-      this.followActiveElement(target, this.outputSearch);
-    }
+    this.followActiveElement(target, this.outputSearch);
   };
 
   // follow active element

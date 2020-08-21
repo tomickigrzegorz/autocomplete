@@ -1,6 +1,6 @@
 {
   "name": "autosuggest",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "Simple autocomplete component in vanilla JS",
   "author": "Grzegorz Tomicki",
   "main": "docs/autosuggest.min.js",

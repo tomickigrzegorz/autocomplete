@@ -1,6 +1,6 @@
 {
   "name": "autosuggest",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "Simple autocomplete component in vanilla JS",
   "author": "Grzegorz Tomicki",
   "main": "docs/autosuggest.min.js",
@@ -10,15 +10,12 @@
     "url": "https://github.com/tomik23/autosuggest.git"
   },
   "scripts": {
-    "dev": "concurrently \"yarn sass:global-watch\" \"yarn sass:dev\" \"yarn watch\"",
+    "dev": "concurrently \"yarn sass:dev\" \"yarn sass:prod\" \"yarn watch\"",
     "prod": "yarn build && yarn sass:prod",
     "build": "rollup --config --environment PRODUCTION",
     "watch": "rollup --config --watch",
-    "sass:dev": "node-sass ./sources/scss/style.scss ./docs/autosuggest.min.css -w",
-    "sass:prod": "node-sass ./sources/scss/style.scss ./docs/autosuggest.min.css --output-style compressed",
-    "sass:global": "node-sass ./sources/scss/main.scss ./docs/main.min.css --output-style compressed",
-    "sass:global-watch": "node-sass ./sources/scss/main.scss ./docs/main.min.css -w",
-    "postcss": "postcss ./docs/main.min.css -r"
+    "sass:prod": "node-sass sources/scss -o docs --output-style compressed",
+    "sass:dev": "node-sass -w sources/scss -o docs"
   },
   "keywords": [
     "autosuggest",

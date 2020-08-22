@@ -16,6 +16,7 @@ export default {
   plugins: [
     babel({
       exclude: 'node_modules/**',
+      babelHelpers: 'bundled'
     }),
     terser(),
     copy({

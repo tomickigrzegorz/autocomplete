@@ -1,19 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Autosuggest</title>
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.21.0/themes/prism-tomorrow.min.css"
-      rel="stylesheet"
-    />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.21.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <script src="./github-corner.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.21.0/components/prism-core.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.21.0/plugins/autoloader/prism-autoloader.min.js"></script>
-    <link rel="stylesheet" href="./main.min.css" />
-    <link rel="stylesheet" href="./autosuggest.min.css" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.21.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <link rel="stylesheet" href="./main.css" />
+    <link rel="stylesheet" href="./autosuggest.css" />
   </head>
 
   <body>
@@ -21,9 +20,7 @@
       <aside>
         <h1 class="loupe">autosuggest</h1>
         <div class="shields">
-          <img
-            src="https://img.shields.io/github/package-json/v/tomik23/autosuggest"
-          />
+          <img src="https://img.shields.io/github/package-json/v/tomik23/autosuggest" />
           <img src="https://img.shields.io/badge/License-MIT-green.svg" />
         </div>
         <ul class="menu">
@@ -34,11 +31,7 @@
         </ul>
         <div class="based">
           based on:
-          <small
-            ><a href="https://breakingbadapi.com/" target="_blank"
-              >The breaking bad api</a
-            ></small
-          >
+          <small><a href="https://breakingbadapi.com/" target="_blank">The breaking bad api</a></small>
         </div>
       </aside>
 
@@ -47,14 +40,8 @@
           <div class="search-element">
             <label for="search-a">simple result</label>
             <div class="search loupe">
-              <input
-                type="text"
-                id="search-a"
-                autocomplete="off"
-                placeholder="type w"
-                aria-describedby="instruction"
-                aria-label="Search for a name"
-              />
+              <input type="text" id="search-a" autocomplete="off" placeholder="type w" aria-describedby="instruction"
+                aria-label="Search for a name" />
               <div id="instruction" class="hidden">
                 When autocomplete results are available use up and down arrows
                 to review and enter to select. Touch device users, explore by
@@ -107,13 +94,8 @@
           <div class="search-element">
             <label for="search-b">complex result</label>
             <div class="search max-height loupe">
-              <input
-                type="text"
-                id="search-b"
-                aria-label="Search for a name"
-                autocomplete="off"
-                placeholder="type wh"
-              />
+              <input type="text" id="search-b" aria-label="Search for a name" autocomplete="off"
+                placeholder="type wh" />
             </div>
           </div>
           <div class="highlight html">
@@ -178,13 +160,7 @@
           <div class="search-element">
             <label for="search-c">static file</label>
             <div class="search max-height loupe">
-              <input
-                type="text"
-                id="search-c"
-                aria-label="Search for a name"
-                autocomplete="off"
-                placeholder="type c"
-              />
+              <input type="text" id="search-c" aria-label="Search for a name" autocomplete="off" placeholder="type c" />
             </div>
           </div>
           <div class="highlight html">
@@ -235,13 +211,7 @@
           <div class="search-element">
             <label for="search-d">static file + data-elements</label>
             <div class="search max-height loupe">
-              <input
-                type="text"
-                id="search-d"
-                aria-label="Search for a name"
-                autocomplete="off"
-                placeholder="type w"
-              />
+              <input type="text" id="search-d" aria-label="Search for a name" autocomplete="off" placeholder="type w" />
             </div>
             <div class="info-d"></div>
           </div>
@@ -311,11 +281,7 @@
           </div>
         </section>
       </div>
-      <button
-        class="toggle-menu"
-        arial-label="toogle menu"
-        title="tootle menu"
-      ></button>
+      <button class="toggle-menu" arial-label="toogle menu" title="tootle menu"></button>
     </main>
 
     <script type="text/javascript">
@@ -439,9 +405,9 @@
                 return `
                   <li class="autocomplete-item" role="option" aria-selected="false">
                     <h2 style="margin-bottom: 10px;">${el.name.replace(
-                      regex,
-                      (str) => `<b style="color: red;">${str}</b>`
-                    )}</h2>
+                  regex,
+                  (str) => `<b style="color: red;">${str}</b>`
+                )}</h2>
                     <div style="display: flex;">
                       <div style="margin-right: 10px;">
                         <img src="${el.img}" style="max-width: 100px;">
@@ -500,9 +466,9 @@
                 return `
                   <li class="autocomplete-item" role="option" aria-selected="false">
                     <p>${el.name.replace(
-                      new RegExp(input, 'gi'),
-                      (str) => `<b>${str}</b>`
-                    )}</p>
+                  new RegExp(input, 'gi'),
+                  (str) => `<b>${str}</b>`
+                )}</p>
                   </li>`;
               })
               .join('');
@@ -549,12 +515,12 @@
               .map(({ name, birthday, img, portrayed }) => {
                 return `
                   <li class="autocomplete-item loupe" role="option" aria-selected="false" data-elements='${JSON.stringify(
-                    { birthday, img, portrayed }
-                  )}'>
+                  { birthday, img, portrayed }
+                )}'>
                     <p>${name.replace(
-                      new RegExp(input, 'gi'),
-                      (str) => `<b>${str}</b>`
-                    )}</p>
+                  new RegExp(input, 'gi'),
+                  (str) => `<b>${str}</b>`
+                )}</p>
                   </li>`;
               })
               .join('');
@@ -572,8 +538,8 @@
 
               const template = `
                 <h2><a href="https://www.imdb.com/find?q=${encodeURI(
-                  portrayed
-                )}" target="_blank">${portrayed}</a></h2>
+                portrayed
+              )}" target="_blank">${portrayed}</a></h2>
                 <div>name - ${name}</div>
                 <div>nickname - ${nickname}</div>
                 <div>birthday - ${birthday}</div>
@@ -591,4 +557,5 @@
     </script>
     <script src="./autosuggest.min.js"></script>
   </body>
+
 </html>

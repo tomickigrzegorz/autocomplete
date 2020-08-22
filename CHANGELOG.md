@@ -1,3 +1,13 @@
+## 2020-08-22 (v.1.0.14)
+### Added
+- `babelHelpers: 'bundled'` to rollup
+- `margin-left=20px` to `search-elements` when `media 950px`
+
+### Changed
+- up/down arrow [#28](https://github.com/tomik23/autosuggest/issues/28)
+- reorganization of the scss structure
+- changed dev and prod for sass in package.json
+
 ## 2020-08-21 (v.1.0.13)
 
 ### Changed

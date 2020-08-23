@@ -24,6 +24,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
   const sections = document.querySelectorAll('section');
 
+  // active menu elements
+  const menuItems = document.querySelectorAll('.menu > li');
+  menuItems.forEach((menuItem) => {
+    menuItem.addEventListener('click', (event) => {
+      document.body.classList.remove('close');
+    });
+  });
+
   sections.forEach((section, index) => {
     const element = sections[index];
     const htmlCode = sections[index].children[0].children[1]

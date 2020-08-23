@@ -44,17 +44,14 @@ h1 {
 a {
   text-decoration: none;
   color: #414141;
-  padding: 5px 0;
-  &:hover {
-    border-bottom: 2px solid #fd9898;
-    padding-bottom: 3px;
-  }
+  padding: 7px 0;
 }
 
 .active {
   a {
-    border-bottom: 2px solid #ff0000;
-    padding-bottom: 3px;
+    border-right: 3px solid #ff0000;
+    margin-right: -30px;
+    font-weight: bold;
   }
 }
 
@@ -79,7 +76,7 @@ aside {
   ul {
     list-style: none;
     a {
-      display: inline-block;
+      display: block;
     }
   }
 }

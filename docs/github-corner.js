@@ -16,25 +16,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
   // adding github-corner
   document.body.insertAdjacentHTML('beforeend', githubConrner);
 
+  const sections = document.querySelectorAll('section');
+
   // toggle-button
   const buttonToggleMenu = document.querySelector('.toggle-menu');
   buttonToggleMenu.addEventListener('click', () => {
     document.body.classList.toggle('close');
   });
 
-  // active menu elements
-  const menuItems = document.querySelectorAll('.menu > li');
-  menuItems.forEach((menuItem) => {
-    menuItem.addEventListener('click', (event) => {
-      let current = document.querySelector('.active');
-      current.classList.remove('active');
-
-      event.target.parentNode.classList.add('active');
-      document.body.classList.remove('close');
-    });
-  });
-
-  const sections = document.querySelectorAll('section');
 
   sections.forEach((section, index) => {
     const element = sections[index];
@@ -57,4 +46,30 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     element.children[1].insertAdjacentElement('beforeend', preElement);
   });
+
+
+  // IntersectionObserver section
+  const options = {
+    threshold: 0.25
+  }
+
+  const changeNav = (entries, observer) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting && entry.intersectionRatio >= 0.25) {
+
+        document.querySelector('.active').classList.remove('active');
+
+        var id = entry.target.getAttribute('id');
+
+        document.querySelector(`[href="#${id}"]`).parentNode.classList.add('active');
+      }
+    });
+  }
+
+  const observer = new IntersectionObserver(changeNav, options);
+
+  sections.forEach((section) => {
+    observer.observe(section);
+  });
+
 });

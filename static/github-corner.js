@@ -57,4 +57,30 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     element.children[1].insertAdjacentElement('beforeend', preElement);
   });
+
+
+  // IntersectionObserver section
+  const options = {
+    threshold: 0.25
+  }
+
+  const changeNav = (entries, observer) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting && entry.intersectionRatio >= 0.25) {
+
+        document.querySelector('.active').classList.remove('active');
+
+        var id = entry.target.getAttribute('id');
+
+        document.querySelector(`[href="#${id}"]`).parentNode.classList.add('active');
+      }
+    });
+  }
+
+  const observer = new IntersectionObserver(changeNav, options);
+
+  sections.forEach((section) => {
+    observer.observe(section);
+  });
+
 });

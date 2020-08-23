@@ -16,14 +16,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
   // adding github-corner
   document.body.insertAdjacentHTML('beforeend', githubConrner);
 
-  const sections = document.querySelectorAll('section');
-
   // toggle-button
   const buttonToggleMenu = document.querySelector('.toggle-menu');
   buttonToggleMenu.addEventListener('click', () => {
     document.body.classList.toggle('close');
   });
 
+  const sections = document.querySelectorAll('section');
 
   sections.forEach((section, index) => {
     const element = sections[index];

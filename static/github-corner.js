@@ -22,18 +22,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     document.body.classList.toggle('close');
   });
 
-  // active menu elements
-  const menuItems = document.querySelectorAll('.menu > li');
-  menuItems.forEach((menuItem) => {
-    menuItem.addEventListener('click', (event) => {
-      let current = document.querySelector('.active');
-      current.classList.remove('active');
-
-      event.target.parentNode.classList.add('active');
-      document.body.classList.remove('close');
-    });
-  });
-
   const sections = document.querySelectorAll('section');
 
   sections.forEach((section, index) => {

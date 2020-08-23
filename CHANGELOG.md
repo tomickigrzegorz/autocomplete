@@ -1,3 +1,7 @@
+## 2020-08-23
+### Added
+- active menu on scroll [#30](https://github.com/tomik23/autosuggest/pull/30)
+
 ## 2020-08-22 (v.1.0.14)
 ### Added
 - `babelHelpers: 'bundled'` to rollup

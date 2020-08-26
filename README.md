@@ -29,7 +29,6 @@ See the demo - [example](https://tomik23.github.io/autosuggest/)
 - Support for asynchronous data fetching.
 - Move between the records using the arrows <kbd>↓</kbd> <kbd>↑</kbd>, and confirm by <kbd>Enter</kbd>
 - No dependencies
-- Small size library ~9.2KB (gzip ~2.78KB)
 
 ## Initialization
 
@@ -134,46 +133,8 @@ JavaScript
 | howManyCharacters |   Number   |                 `2`                 |         | The number of characters entered should start searching                                                                                                                  |
 | delay             |   Number   |                `500`                |         | Time in milliseconds that the component should wait after last keystroke before calling search function 1000 = 1s                                                        |
 | ~~instruction~~   | ~~String~~ | ~~`When autocomplete results ...`~~ |         | ~~aria-describedby [attribute](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-describedby_attribute) A full text below~~ |
-| data-elements     |   String   |                                     |         | This parameter is used to provide additional data that can be used in the **onSubmit** function. A full explanation below                                                |
 
 **instructions** - has been removed from the library, [see how to add to html](https://tomik23.github.io/autosuggest/)
-
-### data-elements
-
-Add an additional parameter to the li element.
-
-```js
-onResults: (matches, input) => {
-  return matches
-    .map(({ name, birthday, img, portrayed }) => {
-      // add data to the data-elements attribute
-      const data = { birthday, img, portrayed };
-      return `
-        <li data-elements='${JSON.stringify(data)}' class="autocomplete-item" role="option" aria-selected="false">
-          <p>${name.replace(new RegExp(input, 'gi'), (str) => `<b>${str}</b>`)}</p>
-        </li>`
-    }).join('')
-},
-```
-
-Clicking li will add this data to the input data-elements json search field. Now we can use this data in the **onSubmit** function.
-
-```js
-onSubmit: (matches) => {
-  setTimeout(() => {
-    // get data from input
-    const dataElements = document.querySelector('#search-d').getAttribute('data-elements');
-
-    const { name, nickname, birthday, img, portrayed } = JSON.parse(dataElements);
-
-    console.log(name, nickname, birthday, img, portrayed);
-
-  }, 500);
-},
-```
-
-See usage example [STATIC FILE + DATA-ELEMENTS](https://tomik23.github.io/autosuggest/)  
-This solution was used to geocode the streets in this [example](https://github.com/tomik23/Leaflet.Autocomplete)
 
 ## Usage jquery || axios || promise + fetch
 
@@ -278,10 +239,10 @@ const options = {
   // the onSubmit function is executed when the user
   // submits their result by either selecting a result
   // from the list, or pressing enter or mouse button
-  onSubmit: (matches) => {
-    console.log(`You selected ${matches}`);
+  onSubmit: (matches, input) => {
+    console.log(`You selected ${input}`);
     // you can open a window or do a redirect
-    window.open(`https://www.imdb.com/find?q=${encodeURI(matches)}`);
+    window.open(`https://www.imdb.com/find?q=${encodeURI(input)}`);
   },
 };
 

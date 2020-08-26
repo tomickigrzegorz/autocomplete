@@ -243,38 +243,30 @@
     })
   },
   onResults: (matches, input) => {
-    return matches
-      .map(({ name, birthday, img, portrayed }) => {
-        return `
-          &lt;li class=&quot;autocomplete-item loupe&quot; role=&quot;option&quot; aria-selected=&quot;false&quot; data-elements='${JSON.stringify({ birthday, img, portrayed })}'&gt;
-            &lt;p&gt;${name.replace(new RegExp(input, 'gi'), (str) =&gt; `&lt;b&gt;${str}&lt;/b&gt;`)}&lt;/p&gt;
-          &lt;/li&gt;`
-      }).join('')
+    return matches.map(({ name }) => {
+      return `
+        &lt;li class=&quot;autocomplete-item loupe&quot; role=&quot;option&quot; aria-selected=&quot;false&quot;&gt;
+          &lt;p&gt;${name.replace(new RegExp(input, 'gi'), (str) =&gt; `&lt;b&gt;${str}&lt;/b&gt;`)}&lt;/p&gt;
+        &lt;/li&gt;`
+    }).join('')
   },
-  onSubmit: (matches) => {
-    setTimeout(() => {
-      const dataElements = document
-        .querySelector('#search-d')
-        .getAttribute('data-elements');
+  onSubmit: (matches, input) => {
+    const { name, nickname, birthday, img, portrayed } = matches;
 
-      const { name, nickname, birthday, img, portrayed } = JSON.parse(dataElements);
-
-      const template = `
-        &lt;h2&gt;
-          &lt;a href=&quot;https://www.imdb.com/find?q=${encodeURI(portrayed)}&quot; target=&quot;_blank&quot;&gt;
-            ${portrayed}
-          &lt;/a&gt;
-        &lt;/h2&gt;
-        &lt;div&gt;name - ${name}&lt;/div&gt;
-        &lt;div&gt;nickname - ${nickname}&lt;/div&gt;
-        &lt;div&gt;birthday - ${birthday}&lt;/div&gt;
-        &lt;div&gt;
-          &lt;img src=&quot;${img}&quot; style=&quot;width: 100%; max-width: 350px;&quot;&gt;
-        &lt;/div&gt;`;
-      const info = document.querySelector('.info-d');
-      info.innerHTML = template;
-
-    }, 500);
+    const template = `
+      &lt;h2&gt;
+        &lt;a href=&quot;https://www.imdb.com/find?q=${encodeURI(portrayed)}&quot; target=&quot;_blank&quot;&gt;
+          ${portrayed}
+        &lt;/a&gt;
+      &lt;/h2&gt;
+      &lt;div&gt;name - ${name}&lt;/div&gt;
+      &lt;div&gt;nickname - ${nickname}&lt;/div&gt;
+      &lt;div&gt;birthday - ${birthday}&lt;/div&gt;
+      &lt;div&gt;
+        &lt;img src=&quot;${img}&quot; style=&quot;width: 100%; max-width: 350px;&quot;&gt;
+      &lt;/div&gt;`;
+    const info = document.querySelector('.info-d');
+    info.innerHTML = template;
   },
 })</code>
             </pre>
@@ -289,7 +281,7 @@
         // first example
         new Autosuggest('search-a', {
           clearButton: true,
-          selectFirst: true,
+          // selectFirst: true,
           howManyCharacters: 1,
           // onSearch
           onSearch: (input) => {
@@ -424,9 +416,9 @@
               .join('');
           },
           // event onsubmit
-          onSubmit: (matches) => {
-            console.log(matches);
-            // window.open(`https://www.imdb.com/find?q=${encodeURI(matches)}`)
+          onSubmit: (matches, input) => {
+            console.log(matches, input);
+            // window.open(`https://www.imdb.com/find?q=${encodeURI(input)}`)
           },
         });
 
@@ -474,9 +466,9 @@
               .join('');
           },
           // event onsubmit
-          onSubmit: (matches) => {
-            console.log('static: ', matches);
-            // window.open(`https://www.imdb.com/find?q=${encodeURI(matches)}`)
+          onSubmit: (matches, input) => {
+            console.log('static: ', input);
+            // window.open(`https://www.imdb.com/find?q=${encodeURI(input)}`)
           },
         });
 
@@ -511,46 +503,33 @@
           },
 
           onResults: (matches, input) => {
-            return matches
-              .map(({ name, birthday, img, portrayed }) => {
-                return `
-                  <li class="autocomplete-item loupe" role="option" aria-selected="false" data-elements='${JSON.stringify(
-                  { birthday, img, portrayed }
-                )}'>
-                    <p>${name.replace(
-                  new RegExp(input, 'gi'),
-                  (str) => `<b>${str}</b>`
-                )}</p>
-                  </li>`;
-              })
-              .join('');
+            return matches.map(({ name }) => {
+              return `
+                <li class="autocomplete-item loupe" role="option" aria-selected="false"'>
+                  <p>${name.replace(new RegExp(input, 'gi'), (str) => `<b>${str}</b>`)}</p>
+                </li>`;
+            }).join('');
           },
           // event onsubmit
-          onSubmit: (matches) => {
-            setTimeout(() => {
-              const dataElements = document
-                .querySelector('#search-d')
-                .getAttribute('data-elements');
+          onSubmit: (matches, input) => {
+            const { name, nickname, birthday, img, portrayed } = matches;
 
-              const { name, nickname, birthday, img, portrayed } = JSON.parse(
-                dataElements
-              );
+            const template = `
+              <h2>
+                <a href="https://www.imdb.com/find?q=${encodeURI(portrayed)}" target="_blank">${portrayed}</a>
+              </h2>
+              <div>name - ${name}</div>
+              <div>nickname - ${nickname}</div>
+              <div>birthday - ${birthday}</div>
+              <div>
+                <img src="${img}" style="width: 100%; max-width: 350px;">
+              </div>
+            `;
+            const info = document.querySelector('.info-d');
+            info.innerHTML = template;
 
-              const template = `
-                <h2><a href="https://www.imdb.com/find?q=${encodeURI(
-                portrayed
-              )}" target="_blank">${portrayed}</a></h2>
-                <div>name - ${name}</div>
-                <div>nickname - ${nickname}</div>
-                <div>birthday - ${birthday}</div>
-                <div><img src="${img}" style="width: 100%; max-width: 350px;"></div>
-              `;
-              const info = document.querySelector('.info-d');
-              info.innerHTML = template;
-            }, 500);
-
-            // console.log('static: ', matches);
-            // window.open(`https://www.imdb.com/find?q=${encodeURI(matches)}`)
+            // console.log('static: ', matches, input);
+            // window.open(`https://www.imdb.com/find?q=${encodeURI(input)}`)
           },
         });
       });

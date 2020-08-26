@@ -1,3 +1,10 @@
+## 2020-08-26 (v.1.0.15)
+### Changed
+- the function `onSubmit` returns the object `matches`, and the text clicked `input`
+- removing `dataElements`, all can now be obtained with the `onSubmit` function
+- small improvements
+- update readme
+
 ## 2020-08-23
 ### Added
 - active menu on scroll [#30](https://github.com/tomik23/autosuggest/pull/30)
@@ -26,7 +33,7 @@
 - fix: Bad behavior of the scrollIntoView parameter [#20](https://github.com/tomik23/autosuggest/issues/20)
 - update examples, new UI
 - adding global styles
-- update reademe
+- update readme
 - refactoring rollup
 - highlight to prism
 - Live Server instead [rollup-plugin-serve, rollup-plugin-livereload]

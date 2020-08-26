@@ -1,6 +1,3 @@
-// import 'promise-polyfill/src/polyfill'; // first install and enable if you want to support IE11
-// import './helpers/element-closest-polyfill.js'; // enable if you want to support IE11
-
 import isPromise from './helpers/isPromise';
 import isObject from './helpers/isObject';
 import hasClass from './helpers/hasClass';
@@ -46,14 +43,14 @@ class Autosuggest {
     };
 
     this.initialize();
-
-    this.createOutputSearch();
-
-    // set default aria
-    this.setDefault();
   }
 
   initialize = () => {
+    this.createOutputSearch();
+
+    // default aria
+    this.setDefault();
+
     if (this.clearButton) this.createClearButton();
     let timeout = null;
 
@@ -66,7 +63,6 @@ class Autosuggest {
         /[`~!@#$%^&*()_|+\-=÷¿?;:'",.<>\{\}\[\]\\\/]/g,
         ''
       );
-
       clearTimeout(timeout);
       timeout = setTimeout(() => {
         this.searchItem(this.escapedChar.trim());
@@ -140,8 +136,6 @@ class Autosuggest {
 
   // hide output div when click on li or press escape
   closeOutputMatchesList = ({ target }) => {
-    this.selected = 1;
-
     if (target.id === this.search) return;
     // move the view item to the first item
     this.outputSearch.scrollTop = 0;
@@ -155,33 +149,26 @@ class Autosuggest {
     // set default index
     this.selected = 0;
 
+    this.matches = matches;
+
     this.searchId.setAttribute('aria-expanded', true);
     this.searchId.classList.add('expanded');
 
     // add all found records to otput ul
-    this.matchList.innerHTML = this.onResults(matches, input);
-
-    // get all li
-    this.itemsLi = document.querySelectorAll(`#${this.searchOutputUl} > li`);
-
+    this.matchList.innerHTML = this.onResults(this.matches, input);
     this.matchList.classList.add(this.isActive);
+    this.matchList.addEventListener('click', this.addTextFromLiToSearchInput);
+
+    this.searchId.addEventListener('keydown', this.handleEvent);
+    this.searchId.addEventListener('click', this.showLiItems);
 
     // close expanded items
     document.addEventListener('click', this.closeOutputMatchesList);
 
-    // move with the up / down arrows
-    this.searchId.addEventListener('keydown', this.handelEvent);
-
-    // showing results on clicking on the input field
-    // if these results exist
-    this.searchId.addEventListener('click', this.showLiItems);
-
-    // clicking will add the text from the first
-    // element to the input field
-    this.matchList.addEventListener('click', this.addTextFromLiToSearchInput);
+    // get all li
+    this.itemsLi = document.querySelectorAll(`#${this.searchOutputUl} > li`);
 
     // adding aria-selected on mouse event
-    // if (this.itemsLi.length >= 1) {
     for (let i = 0; i < this.itemsLi.length; i++) {
       this.itemsLi[i].addEventListener(
         'mouseenter',
@@ -191,10 +178,8 @@ class Autosuggest {
         'mouseleave',
         this.addTextFromLiToSearchInput
       );
-      // }
     }
 
-    // // select first li element
     if (this.selectFirst) {
       this.selectFirstItem();
     }
@@ -220,7 +205,6 @@ class Autosuggest {
 
     // scrollIntoView when press up/down arrows
     this.followActiveElement(firstElementChild, this.outputSearch);
-
   };
 
   hiddenButtonHide = () => {
@@ -231,7 +215,7 @@ class Autosuggest {
   };
 
   // show items when items.length >= 1 and is not empty
-  showLiItems = () => {
+  showLiItems = (event) => {
     if (this.matchList.textContent.length > 0) {
       this.searchId.setAttribute('aria-expanded', true);
       this.searchId.classList.add('expanded');
@@ -281,9 +265,11 @@ class Autosuggest {
       type ? `${this.selectedOption}-${this.indexLiSelected(target)}` : null
     );
 
+    this.selected = 1;
+
     // return which li element
     // was selected and set
-    this.selected = type ? this.indexLiSelected(target) : 0;
+    this.selected = type ? this.indexLiSelected(target) + 1 : 1;
   };
 
   // get text from li on enter or mouseenter
@@ -302,23 +288,19 @@ class Autosuggest {
     // set default settings
     this.setDefault();
 
-    // onSubmit passing text to function
-    this.onSubmit(this.getText.textContent.trim());
+    const matches = this.matches[this.selected - 1];
 
-    // the part responsible for appending json to the search
-    // field use - https://github.com/tomik23/Leaflet.Autocomplete
-    if (element.hasAttribute('data-elements')) {
-      this.dataElements(element.getAttribute('data-elements'));
-    }
+    // onSubmit passing text to function
+    this.onSubmit(matches, this.getText.textContent.trim());
   };
 
   // return which li element was selected
   // by hovering the mouse over
   indexLiSelected = (target) =>
-    Array.prototype.indexOf.call(this.itemsLi, target) + 1;
+    Array.prototype.indexOf.call(this.itemsLi, target);
 
   // navigating the elements li and enter
-  handelEvent = (event) => {
+  handleEvent = (event) => {
     const { keyCode } = event;
     this.selectedLi = document.querySelector(`.${this.activeList}`);
 
@@ -345,11 +327,7 @@ class Autosuggest {
 
         break;
       case this.keyCodes.ENTER:
-        if (this.selectedLi) {
-          this.getTextFromLi(this.selectedLi);
-        } else {
-          this.setDefault();
-        }
+        this.getTextFromLi(this.selectedLi);
 
         break;
 
@@ -430,11 +408,6 @@ class Autosuggest {
     this.setDefault();
   };
 
-  // the part responsible for appending json to the search
-  // field use - https://github.com/tomik23/Leaflet.Autocomplete
-  dataElements = (item) => {
-    this.searchId.setAttribute('data-elements', item);
-  };
 }
 
 export default Autosuggest;

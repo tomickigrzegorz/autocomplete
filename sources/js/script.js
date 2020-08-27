@@ -33,6 +33,7 @@ class Autosuggest {
     this.isActive = 'auto-is-active';
     this.activeList = 'selected';
     this.selectedOption = 'selectedOption';
+    this.error = 'auto-error';
 
     this.keyCodes = {
       ESC: 27,
@@ -131,6 +132,14 @@ class Autosuggest {
       if (result.length > 0 || isObject(result)) {
         this.outputHtml(matches, input);
       }
+
+      this.searchId.classList.remove(this.error);
+
+    }).catch(error => {
+      this.searchId.parentNode.classList.remove(this.isLoading);
+      this.searchId.classList.add(this.error);
+      this.hiddenButtonHide();
+      this.setDefault();
     });
   };
 
@@ -406,6 +415,9 @@ class Autosuggest {
     this.outputSearch.textContent = '';
     // set default aria
     this.setDefault();
+    // remove error if exist
+    this.searchId.classList.remove(this.error);
+
   };
 
 }

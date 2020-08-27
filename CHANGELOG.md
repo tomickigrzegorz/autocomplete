@@ -1,15 +1,19 @@
-## 2020-08-26 (v.1.0.15)
+## 2020-08-27 (v1.0.16)
+### Added
+- A simple error handling [#32](https://github.com/tomik23/autosuggest/issues/32)
+
+## 2020-08-26 (v1.0.15)
 ### Changed
 - the function `onSubmit` returns the object `matches`, and the text clicked `input`
 - removing `dataElements`, all can now be obtained with the `onSubmit` function
 - small improvements
 - update readme
 
-## 2020-08-23
+## 2020-08-23 (v1.0.14.1)
 ### Added
 - active menu on scroll [#30](https://github.com/tomik23/autosuggest/pull/30)
 
-## 2020-08-22 (v.1.0.14)
+## 2020-08-22 (v1.0.14)
 ### Added
 - `babelHelpers: 'bundled'` to rollup
 - `margin-left=20px` to `search-elements` when `media 950px`
@@ -19,13 +23,13 @@
 - reorganization of the scss structure
 - changed dev and prod for sass in package.json
 
-## 2020-08-21 (v.1.0.13)
+## 2020-08-21 (v1.0.13)
 
 ### Changed
 
 - improve UI [#26](https://github.com/tomik23/autosuggest/issues/26)
 
-## 2020-08-20 (v.1.0.12)
+## 2020-08-20 (v1.0.12)
 
 ### Changed
 

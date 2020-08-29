@@ -100,6 +100,9 @@ class Autosuggest {
     if (hasClass(this.matchList, this.isActive)) {
       this.outputSearch.classList.remove(this.isActive);
     }
+
+    // move the view item to the first item
+    this.outputSearch.scrollTop = 0;
   };
 
   // The async function gets the text from the search
@@ -143,15 +146,6 @@ class Autosuggest {
     });
   };
 
-  // hide output div when click on li or press escape
-  closeOutputMatchesList = ({ target }) => {
-    if (target.id === this.search) return;
-    // move the view item to the first item
-    this.outputSearch.scrollTop = 0;
-
-    // set default settings
-    this.setDefault();
-  };
 
   // preparation of the list
   outputHtml = (matches, input) => {
@@ -171,24 +165,31 @@ class Autosuggest {
     this.searchId.addEventListener('keydown', this.handleEvent);
     this.searchId.addEventListener('click', this.showLiItems);
 
-    // close expanded items
-    document.addEventListener('click', this.closeOutputMatchesList);
-
     // get all li
     this.itemsLi = document.querySelectorAll(`#${this.searchOutputUl} > li`);
 
+    // close expanded items
+    document.addEventListener('click', (event) => {
+      if (event.target.id !== this.search) {
+        this.setDefault();
+      }
+    });
+
     // adding aria-selected on mouse event
-    for (let i = 0; i < this.itemsLi.length; i++) {
-      this.itemsLi[i].addEventListener(
-        'mouseenter',
-        this.addTextFromLiToSearchInput
-      );
-      this.itemsLi[i].addEventListener(
-        'mouseleave',
-        this.addTextFromLiToSearchInput
-      );
+    if (this.itemsLi.length > 1) {
+      for (let i = 0; i < this.itemsLi.length; i++) {
+        this.itemsLi[i].addEventListener(
+          'mouseenter',
+          this.addTextFromLiToSearchInput
+        );
+        this.itemsLi[i].addEventListener(
+          'mouseleave',
+          this.addTextFromLiToSearchInput
+        );
+      }
     }
 
+    // select first element
     if (this.selectFirst) {
       this.selectFirstItem();
     }
@@ -206,11 +207,11 @@ class Autosuggest {
 
     const { firstElementChild } = this.outputSearch;
 
-    firstElementChild.id = `${this.selectedOption}-1`;
+    firstElementChild.id = `${this.selectedOption}-0`;
     firstElementChild.classList.add(this.activeList);
-    firstElementChild.setAttribute('aria-selected', 'true');
+    firstElementChild.setAttribute('aria-selected', true);
 
-    this.ariaactivedescendant(this.searchId, `${this.selectedOption}-1`);
+    this.ariaactivedescendant(this.searchId, `${this.selectedOption}-0`);
 
     // scrollIntoView when press up/down arrows
     this.followActiveElement(firstElementChild, this.outputSearch);
@@ -251,15 +252,19 @@ class Autosuggest {
     }
   };
 
-  // event on mouse
-  actionsOnTheElementLi = (target, type) => {
+  resetAllActiveLiItem = () => {
     // reset previous active li
     this.checkActiveListExist = document.querySelector(`.${this.activeList}`);
     if (this.checkActiveListExist) {
       this.checkActiveListExist.classList.remove(this.activeList);
-      this.checkActiveListExist.setAttribute('aria-selected', 'false');
+      this.checkActiveListExist.setAttribute('aria-selected', false);
       this.checkActiveListExist.id = '';
     }
+  }
+
+  // event on mouse
+  actionsOnTheElementLi = (target, type) => {
+    this.resetAllActiveLiItem();
 
     target.id = type
       ? `${this.selectedOption}-${this.indexLiSelected(target)}`
@@ -274,8 +279,6 @@ class Autosuggest {
       type ? `${this.selectedOption}-${this.indexLiSelected(target)}` : null
     );
 
-    this.selected = 1;
-
     // return which li element
     // was selected and set
     this.selected = type ? this.indexLiSelected(target) + 1 : 1;
@@ -283,6 +286,9 @@ class Autosuggest {
 
   // get text from li on enter or mouseenter
   getTextFromLi = (element) => {
+    if (!element) return;
+
+    // console.log('element', element);
     // check if li have children elements
     this.getText = element.firstElementChild
       ? element.firstElementChild
@@ -291,16 +297,11 @@ class Autosuggest {
     // add text to input
     this.searchId.value = this.getText.textContent.trim();
 
-    // move the view item to the first item
-    this.outputSearch.scrollTop = 0;
+    // onSubmit passing text to function
+    this.onSubmit(this.matches[this.selected - 1], this.searchId.value);
 
     // set default settings
     this.setDefault();
-
-    const matches = this.matches[this.selected - 1];
-
-    // onSubmit passing text to function
-    this.onSubmit(matches, this.getText.textContent.trim());
   };
 
   // return which li element was selected
@@ -317,7 +318,7 @@ class Autosuggest {
       case this.keyCodes.UP:
       case this.keyCodes.DOWN:
         if (this.itemsLi.length <= 1 && this.selectFirst) return;
-
+        // this.resetAllActiveLiItem();
         if (keyCode === this.keyCodes.UP) {
           this.selected -= 1;
           if (this.selected <= 0) {
@@ -336,6 +337,7 @@ class Autosuggest {
 
         break;
       case this.keyCodes.ENTER:
+        this.resetAllActiveLiItem();
         this.getTextFromLi(this.selectedLi);
 
         break;
@@ -353,7 +355,7 @@ class Autosuggest {
   // set aria label on item li
   setAriaSelectedItem = (target) => {
     target.id = `${this.selectedOption}-${this.indexLiSelected(target)}`;
-    target.setAttribute('aria-selected', 'true');
+    target.setAttribute('aria-selected', true);
     target.classList.add(this.activeList);
 
     this.ariaactivedescendant(
@@ -383,7 +385,7 @@ class Autosuggest {
     if (!this.selectedLi) return;
     this.selectedLi.id = '';
     this.selectedLi.classList.remove(this.activeList);
-    this.selectedLi.setAttribute('aria-selected', 'false');
+    this.selectedLi.setAttribute('aria-selected', false);
   };
 
   // Set aria-activedescendant

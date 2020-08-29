@@ -354,7 +354,7 @@
           },
           // event onsubmit
           onSubmit: (matches, input) => {
-            console.log(matches);
+            console.table('search-a', input, matches);
             // window.open(`https://www.imdb.com/find?q=${encodeURI(matches)}`)
           },
         });
@@ -417,7 +417,7 @@
           },
           // event onsubmit
           onSubmit: (matches, input) => {
-            console.log(matches, input);
+            console.table('search-b', input, matches);
             // window.open(`https://www.imdb.com/find?q=${encodeURI(input)}`)
           },
         });
@@ -425,7 +425,7 @@
         // static file
         new Autosuggest('search-c', {
           clearButton: true,
-          selectFirst: true,
+          // selectFirst: true,
           howManyCharacters: 1,
           // onSearch
           onSearch: (input) => {
@@ -467,7 +467,7 @@
           },
           // event onsubmit
           onSubmit: (matches, input) => {
-            console.log('static: ', input);
+            console.table('search-c', input, matches);
             // window.open(`https://www.imdb.com/find?q=${encodeURI(input)}`)
           },
         });
@@ -505,13 +505,16 @@
           onResults: (matches, input) => {
             return matches.map(({ name }) => {
               return `
-                <li class="autocomplete-item loupe" role="option" aria-selected="false"'>
+                <li class="autocomplete-item loupe" role="option" aria-selected="false">
                   <p>${name.replace(new RegExp(input, 'gi'), (str) => `<b>${str}</b>`)}</p>
                 </li>`;
             }).join('');
           },
           // event onsubmit
           onSubmit: (matches, input) => {
+
+            console.table('search-d', input, matches);
+
             const { name, nickname, birthday, img, portrayed } = matches;
 
             const template = `

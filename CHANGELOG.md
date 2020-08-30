@@ -1,3 +1,8 @@
+## 2020-08-29 (v1.0.17)
+### Change
+- fix: aria-activedescendant
+- update dependencies
+
 ## 2020-08-27 (v1.0.16)
 ### Added
 - A simple error handling [#32](https://github.com/tomik23/autosuggest/issues/32)

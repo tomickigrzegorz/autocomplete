@@ -3,7 +3,8 @@
 - fix: Bad behavior when scrolling through the results with the up / down arrows [#35](https://github.com/tomik23/autosuggest/issues/35)
 - refactoring
 
-### Change
+## 2020-08-28 (v1.0.17)
+### Changed
 - fix: aria-activedescendant
 - update dependencies
 

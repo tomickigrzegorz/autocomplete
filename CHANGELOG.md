@@ -1,3 +1,8 @@
+## 2020-08-30 (v1.0.18)
+### Changed
+- fix: Bad behavior when scrolling through the results with the up / down arrows [#35](https://github.com/tomik23/autosuggest/issues/35)
+- refactoring
+
 ## 2020-08-27 (v1.0.16)
 ### Added
 - A simple error handling [#32](https://github.com/tomik23/autosuggest/issues/32)

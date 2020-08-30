@@ -1,7 +1,9 @@
 import copy from 'rollup-plugin-copy';
 import babel from '@rollup/plugin-babel';
-import pkg from "./package.json";
+import serve from 'rollup-plugin-serve';
+import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
+import pkg from './package.json';
 
 const { PRODUCTION } = process.env;
 
@@ -16,7 +18,7 @@ export default {
   plugins: [
     babel({
       exclude: 'node_modules/**',
-      babelHelpers: 'bundled'
+      babelHelpers: 'bundled',
     }),
     terser(),
     copy({
@@ -24,6 +26,8 @@ export default {
         { src: './static/characters.json', dest: 'docs/' },
         { src: './static/github-corner.js', dest: 'docs/' },
       ],
-    })
+    }),
+    !PRODUCTION && serve({ open: true, contentBase: 'docs' }),
+    !PRODUCTION && livereload(),
   ],
 };

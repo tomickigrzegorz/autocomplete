@@ -76,7 +76,7 @@
     return matches
       .map(el => {
         return `
-        &lt;li class=&quot;autocomplete-item loupe&quot; role=&quot;option&quot; aria-selected=&quot;false&quot;&gt;
+        &lt;li class=&quot;loupe&quot;&gt;
           &lt;p&gt;${el.name.replace(regex, (str) =&gt; &grave;&lt;b&gt;${str}&lt;/b&gt;&grave;)}&lt;/p&gt;
         &lt;/li&gt;&grave;
       }).join('')
@@ -129,7 +129,7 @@
       })
       .map(el => {
         return `
-        &lt;li class=&quot;autocomplete-item&quot; role=&quot;option&quot; aria-selected=&quot;false&quot;&gt;
+        &lt;li&gt;
           &lt;h2 style=&quot;margin-bottom: 10px;&quot;&gt;
             ${el.name.replace(regex, (str) =&gt; `&lt;b style=&quot;color: red;&quot;&gt;${str}&lt;/b&gt;`)}
           &lt;/h2&gt;
@@ -192,7 +192,7 @@
     return matches
       .map(el => {
         return `
-        &lt;li class=&quot;autocomplete-item&quot; role=&quot;option&quot; aria-selected=&quot;false&quot;&gt;
+        &lt;li&gt;
           &lt;p&gt;${el.name.replace(new RegExp(input, 'gi'), (str) =&gt; `&lt;b&gt;${str}&lt;/b&gt;`)}&lt;/p&gt;
         &lt;/li&gt;`
       }).join('')
@@ -243,7 +243,7 @@
   onResults: (matches, input) => {
     return matches.map(({ name }) => {
       return `
-        &lt;li class=&quot;autocomplete-item loupe&quot; role=&quot;option&quot; aria-selected=&quot;false&quot;&gt;
+        &lt;li class=&quot;loupe&quot;&gt;
           &lt;p&gt;${name.replace(new RegExp(input, 'gi'), (str) =&gt; `&lt;b&gt;${str}&lt;/b&gt;`)}&lt;/p&gt;
         &lt;/li&gt;`
     }).join('')
@@ -342,7 +342,7 @@
             return matches
               .map((el) => {
                 return `
-                  <li class="autocomplete-item loupe" role="option" aria-selected="false">
+                  <li class="loupe">
                     <p>${el.name.replace(regex, (str) => `<b>${str}</b>`)}</p>
                   </li>`;
               })
@@ -391,7 +391,7 @@
               })
               .map((el) => {
                 return `
-                  <li class="autocomplete-item" role="option" aria-selected="false">
+                  <li>
                     <h2 style="margin-bottom: 10px;">${el.name.replace(
                   regex,
                   (str) => `<b style="color: red;">${str}</b>`
@@ -452,7 +452,7 @@
             return matches
               .map((el) => {
                 return `
-                  <li class="autocomplete-item" role="option" aria-selected="false">
+                  <li>
                     <p>${el.name.replace(
                   new RegExp(input, 'gi'),
                   (str) => `<b>${str}</b>`
@@ -501,7 +501,7 @@
           onResults: (matches, input) => {
             return matches.map(({ name }) => {
               return `
-                <li class="autocomplete-item loupe" role="option" aria-selected="false">
+                <li class="loupe">
                   <p>${name.replace(new RegExp(input, 'gi'), (str) => `<b>${str}</b>`)}</p>
                 </li>`;
             }).join('');

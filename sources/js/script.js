@@ -30,7 +30,7 @@ class Autosuggest {
     this.searchOutputUl = `${this.search}-list`;
     this.isLoading = 'auto-is-loading';
     this.isActive = 'auto-is-active';
-    this.activeList = 'selected';
+    this.activeList = 'auto-selected';
     this.selectedOption = 'selectedOption';
     this.error = 'auto-error';
 
@@ -51,7 +51,7 @@ class Autosuggest {
     // default aria
     this.setDefault();
 
-    if (this.clearButton) this.createClear();
+    if (this.clearButton) this.createClearButton();
 
     let timeout = null;
 
@@ -156,7 +156,7 @@ class Autosuggest {
   // preparation of the list
   outputHtml = (matches, input) => {
     // set default index
-    this.selected = 0;
+    this.selectedIndex = 0;
 
     this.matches = matches;
 
@@ -173,7 +173,6 @@ class Autosuggest {
     this.searchId.addEventListener('keydown', this.handleEvent);
     this.searchId.addEventListener('click', this.showLiItems);
 
-    // get all li
     this.itemsLi = document.querySelectorAll(`#${this.searchOutputUl} > li`);
 
     // close expanded items
@@ -183,16 +182,8 @@ class Autosuggest {
       }
     });
 
-    // adding aria-selected on mouse event
-    if (this.itemsLi.length > 1) {
-      for (let i = 0; i < this.itemsLi.length; i++) {
-        this.itemsLi[i].tabIndex = -1;
-        this.itemsLi[i].addEventListener('mouseleave', this.textToInput);
-        this.itemsLi[i].addEventListener('mousemove', this.textToInput);
-      }
-    } else {
-      this.itemsLi[0].tabIndex = -1;
-    }
+    // adding role, tabindex and aria
+    this.mouseEvent();
 
     // select first element
     if (this.selectFirst) {
@@ -200,12 +191,22 @@ class Autosuggest {
     }
   };
 
+  // adding role, tabindex, aria and call textToInput
+  mouseEvent = () => {
+    for (let i = 0; i < this.itemsLi.length; i++) {
+      this.setAttribute(this.itemsLi[i], {
+        role: 'option',
+        tabindex: -1,
+        'aria-selected': 'false',
+      });
+      this.itemsLi[i].addEventListener('mousemove', this.textToInput);
+    }
+  };
+
   // select first element
   selectFirstEl = () => {
-    this.selected = 1;
-
-    this.activeElement = document.querySelector(`.${this.activeList}`);
-    if (this.activeElement) this.actionsOnLi(this.activeElement, '');
+    this.selectedIndex = 1;
+    this.removeAriaSelected(document.querySelector(`.${this.activeList}`));
 
     const { firstElementChild } = this.outputSearch;
 
@@ -222,10 +223,9 @@ class Autosuggest {
   };
 
   showHiddenButton = () => {
-    if (this.clearButton) {
-      this.clearButton.classList.remove('hidden');
-      this.clearButton.addEventListener('click', this.handleClearButton);
-    }
+    if (!this.clearButton) return;
+    this.clearButton.classList.remove('hidden');
+    this.clearButton.addEventListener('click', this.handleClearButton);
   };
 
   setAttribute = (el, object) => {
@@ -254,19 +254,19 @@ class Autosuggest {
 
   // adding text from the list when li is clicking
   // or adding aria-selected to li elements
-  textToInput = (event) => {
+  textToInput = ({ screenX, screenY, target, type }) => {
+    const targeClosest = target.closest('li');
     let lastCursorPos = {
       x: 0,
       y: 0,
     };
 
-    if (event.type === 'click') {
-      this.getTextFromLi(event.target.closest('li'));
-    }
-    if (event.type === 'mousemove') {
+    if (type === 'click') {
+      this.getTextFromLi(targeClosest);
+    } else if (type === 'mousemove') {
       const currentCursorPos = {
-        x: event.screenX,
-        y: event.screenY,
+        x: screenX,
+        y: screenY,
       };
 
       if (
@@ -275,36 +275,15 @@ class Autosuggest {
       ) {
         return;
       }
-      lastCursorPos = { x: event.screenX, y: event.screenY };
+      lastCursorPos = { x: screenX, y: screenY };
       this.removeAriaSelected(document.querySelector(`.${this.activeList}`));
-      this.actionsOnLi(event.target.closest('li'), event.type === 'mousemove');
-    }
-    if (event.type === 'mouseleave') {
-      lastCursorPos = { x: event.screenX, y: event.screenY };
+
+      this.setAriaSelectedItem(targeClosest);
+      this.selectedIndex = this.indexLiSelected(targeClosest) + 1;
     }
   };
 
-  // event on mouse
-  actionsOnLi = (target, type) => {
-    target.id = type
-      ? `${this.selectedOption}-${this.indexLiSelected(target)}`
-      : '';
-    target.setAttribute('aria-selected', !!type);
-
-    // add or remove class from selected menu
-    target.classList[type ? 'add' : 'remove'](this.activeList);
-
-    this.ariaDescendant(
-      this.searchId,
-      type ? `${this.selectedOption}-${this.indexLiSelected(target)}` : null
-    );
-
-    // return which li element
-    // was selected and set
-    this.selected = type ? this.indexLiSelected(target) + 1 : 1;
-  };
-
-  // get text from li on enter or mouseenter
+  // get text from li on enter or click
   getTextFromLi = (element) => {
     if (!element) return;
 
@@ -319,7 +298,7 @@ class Autosuggest {
     this.removeAriaSelected(element);
 
     // onSubmit passing text to function
-    this.onSubmit(this.matches[this.selected - 1], this.searchId.value);
+    this.onSubmit(this.matches[this.selectedIndex - 1], this.searchId.value);
 
     // set default settings
     this.setDefault();
@@ -338,21 +317,21 @@ class Autosuggest {
     switch (keyCode) {
       case this.keyCodes.UP:
       case this.keyCodes.DOWN:
-        if (this.itemsLi.length <= 1 && this.selectFirst) return;
+        if (this.matches.length <= 1 && this.selectFirst) return;
         if (keyCode === this.keyCodes.UP) {
-          this.selected -= 1;
-          if (this.selected <= 0) {
-            this.selected = this.itemsLi.length;
+          this.selectedIndex -= 1;
+          if (this.selectedIndex <= 0) {
+            this.selectedIndex = this.matches.length;
           }
         } else {
-          this.selected += 1;
-          if (this.selected > this.itemsLi.length) {
-            this.selected = 1;
+          this.selectedIndex += 1;
+          if (this.selectedIndex > this.matches.length) {
+            this.selectedIndex = 1;
           }
         }
 
         this.removeAriaSelected(this.selectedLi);
-        this.setAriaSelectedItem(this.itemsLi[this.selected - 1]);
+        this.setAriaSelectedItem(this.itemsLi[this.selectedIndex - 1]);
 
         break;
       case this.keyCodes.ENTER:
@@ -363,6 +342,7 @@ class Autosuggest {
 
       case this.keyCodes.TAB:
       case this.keyCodes.ESC:
+        this.removeAriaSelected(this.selectedLi);
         this.setDefault();
 
         break;
@@ -418,7 +398,7 @@ class Autosuggest {
 
   // create clear button and
   // removing text from the input field
-  createClear = () => {
+  createClearButton = () => {
     this.clearButton = document.createElement('button');
 
     this.setAttribute(this.clearButton, {
@@ -428,7 +408,6 @@ class Autosuggest {
       'aria-label': 'claar text from input',
     });
 
-    // this.clearButton.classList.add('hidden');
     this.searchId.insertAdjacentElement('afterend', this.clearButton);
   };
 

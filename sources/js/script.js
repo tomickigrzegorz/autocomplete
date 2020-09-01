@@ -15,7 +15,7 @@ class Autosuggest {
     }
   ) {
     this.search = element;
-    this.searchId = document.getElementById(this.search);
+    this.input = document.getElementById(this.search);
     this.onResults = onResults;
     this.onSubmit = onSubmit;
     this.onSearch = isPromise(onSearch)
@@ -33,6 +33,7 @@ class Autosuggest {
     this.activeList = 'auto-selected';
     this.selectedOption = 'selectedOption';
     this.error = 'auto-error';
+    this.regex = /[`~!@#$%^&*()_|+\-=÷¿?;:'",.<>{}[\]\\/]/g;
 
     this.keyCodes = {
       ESC: 27,
@@ -46,53 +47,45 @@ class Autosuggest {
   }
 
   initialize = () => {
+    // set default index
+    this.selectedIndex = this.selectFirst ? 0 : -1;
+
+    this.createClearButton();
+
     this.outputSearch();
 
     // default aria
     this.setDefault();
 
-    if (this.clearButton) this.createClearButton();
+    this.input.addEventListener('input', this.handleInput);
+  };
 
+  handleInput = ({ target }) => {
     let timeout = null;
-
-    this.searchId.addEventListener('input', ({ target }) => {
-      this.valueFromSearch = target.value;
-      this.classSearch = target.parentNode;
-
-      this.escapedChar = this.valueFromSearch.replace(
-        // eslint-disable-next-line no-useless-escape
-        /[`~!@#$%^&*()_|+\-=÷¿?;:'",.<>\{\}\[\]\\\/]/g,
-        ''
-      );
-      clearTimeout(timeout);
-      timeout = setTimeout(() => {
-        this.searchItem(this.escapedChar.trim());
-      }, this.delay);
-    });
+    target.value.replace(this.regex, '');
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      this.searchItem(target.value.trim());
+    }, this.delay);
   };
 
   // create output-list and put after search input
   outputSearch = () => {
-    this.outputSearch = document.createElement('ul');
+    this.resultList = document.createElement('ul');
 
-    this.setAttribute(this.outputSearch, {
+    this.setAttribute(this.resultList, {
       id: this.searchOutputUl,
       addClass: 'auto-output-search',
       tabIndex: 0,
       role: 'listbox',
     });
 
-    this.searchId.parentNode.insertBefore(
-      this.outputSearch,
-      this.searchId.nextSibling
-    );
-
-    this.matchList = document.getElementById(this.searchOutputUl);
+    this.input.parentNode.insertBefore(this.resultList, this.input.nextSibling);
   };
 
   // default aria
   setDefault = () => {
-    this.setAttribute(this.searchId, {
+    this.setAttribute(this.input, {
       'aria-owns': `${this.search}-list`,
       'aria-expanded': false,
       'aria-autocomplete': 'both',
@@ -101,129 +94,135 @@ class Autosuggest {
       removeClass: 'expanded',
     });
 
-    if (this.matchList.classList.contains(this.isActive)) {
-      this.outputSearch.classList.remove(this.isActive);
-    }
+    this.resultList.classList.remove(this.isActive);
 
     // move the view item to the first item
-    this.outputSearch.scrollTop = 0;
+    this.resultList.scrollTop = 0;
+
+    this.selectedIndex = this.selectFirst ? 0 : -1;
   };
 
   // The async function gets the text from the search
   // and returns the matching array
   searchItem = (input) => {
-    this.searchId.parentNode.classList.add(this.isLoading);
+    this.value = input;
+
+    this.onLoading(true);
 
     // hide button clear
     this.showHiddenButton();
 
     if (this.howManyCharacters > input.length) {
-      this.classSearch.classList.remove(this.isLoading);
-      this.showHiddenButton();
-      this.setDefault();
+      this.onLoading();
       return;
     }
 
     this.onSearch(input)
       .then((result) => {
         // set no result
-        const matches = Array.isArray(result)
+        this.matches = Array.isArray(result)
           ? [...result]
           : JSON.parse(JSON.stringify(result));
 
-        this.classSearch.classList.remove(this.isLoading);
+        this.onLoading();
+        this.onError();
 
-        if (result.length === 0) {
-          this.searchId.classList.remove('expanded');
-          this.showHiddenButton();
+        if (result.length == 0) {
+          this.input.classList.remove('expanded');
           this.setDefault();
+        } else if (result.length > 0 || isObject(result)) {
+          this.renderResults();
+          this.handleEvents();
         }
-
-        if (result.length > 0 || isObject(result)) {
-          this.outputHtml(matches, input);
-        }
-
-        this.searchId.classList.remove(this.error);
       })
       .catch(() => {
-        this.searchId.parentNode.classList.remove(this.isLoading);
-        this.searchId.classList.add(this.error);
-        this.showHiddenButton();
+        this.onLoading();
         this.setDefault();
       });
   };
 
+  onLoading = (type) => {
+    this.input.parentNode.classList[type ? 'add' : 'remove'](this.isLoading);
+  };
+
+  onError = (type) => {
+    this.input.classList[type ? 'add' : 'remove'](this.error);
+  };
+
   // preparation of the list
-  outputHtml = (matches, input) => {
-    // set default index
-    this.selectedIndex = 0;
+  handleEvents = () => {
+    this.input.addEventListener('keydown', this.handleKeys);
+    this.input.addEventListener('click', this.handleShowItems);
 
-    this.matches = matches;
+    this.resultList.addEventListener('click', this.handleMouse);
+    this.resultList.addEventListener('mousemove', this.handleMouse);
 
-    this.setAttribute(this.searchId, {
+    // close expanded items
+    document.addEventListener('click', this.handleDocumentClick);
+  };
+
+  renderResults = () => {
+    this.setAttribute(this.input, {
       'aria-expanded': true,
       addClass: 'expanded',
     });
 
     // add all found records to otput ul
-    this.matchList.innerHTML = this.onResults(this.matches, input);
-    this.matchList.classList.add(this.isActive);
-    this.matchList.addEventListener('click', this.textToInput);
-
-    this.searchId.addEventListener('keydown', this.handleEvent);
-    this.searchId.addEventListener('click', this.showLiItems);
+    this.resultList.innerHTML = this.onResults(this.matches, this.value);
+    this.resultList.classList.add(this.isActive);
 
     this.itemsLi = document.querySelectorAll(`#${this.searchOutputUl} > li`);
 
-    // close expanded items
-    document.addEventListener('click', (event) => {
-      if (event.target.id !== this.search) {
-        this.setDefault();
-      }
-    });
+    // select first element
+    this.selectFirstEl();
 
     // adding role, tabindex and aria
-    this.mouseEvent();
+    this.addAriaLabelToLi();
+  };
 
-    // select first element
-    if (this.selectFirst) {
-      this.selectFirstEl();
+  handleDocumentClick = (event) => {
+    if (event.target.id !== this.search) {
+      this.setDefault();
+      return;
     }
   };
 
-  // adding role, tabindex, aria and call textToInput
-  mouseEvent = () => {
+  // adding role, tabindex, aria and call handleMouse
+  addAriaLabelToLi = () => {
     for (let i = 0; i < this.itemsLi.length; i++) {
       this.setAttribute(this.itemsLi[i], {
         role: 'option',
         tabindex: -1,
         'aria-selected': 'false',
       });
-      this.itemsLi[i].addEventListener('mousemove', this.textToInput);
     }
   };
 
   // select first element
   selectFirstEl = () => {
-    this.selectedIndex = 1;
     this.removeAriaSelected(document.querySelector(`.${this.activeList}`));
 
-    const { firstElementChild } = this.outputSearch;
+    if (!this.selectFirst) {
+      return;
+    }
+
+    const { firstElementChild } = this.resultList;
 
     this.setAttribute(firstElementChild, {
       id: `${this.selectedOption}-0`,
       addClass: this.activeList,
       'aria-selected': true,
     });
+    this.setAriaDescendant(this.input, `${this.selectedOption}-0`);
 
-    this.ariaDescendant(this.searchId, `${this.selectedOption}-0`);
-
-    // scrollIntoView when press up/down arrows
-    this.followElement(firstElementChild, this.outputSearch);
+    // // scrollIntoView when press up/down arrows
+    this.followElement(firstElementChild, this.resultList);
   };
 
   showHiddenButton = () => {
-    if (!this.clearButton) return;
+    if (!this.clearButton) {
+      return;
+    }
     this.clearButton.classList.remove('hidden');
     this.clearButton.addEventListener('click', this.handleClearButton);
   };
@@ -241,51 +240,56 @@ class Autosuggest {
   };
 
   // show items when items.length >= 1 and is not empty
-  showLiItems = () => {
-    if (this.matchList.textContent.length > 0) {
-      this.setAttribute(this.searchId, {
+  handleShowItems = () => {
+    if (this.resultList.textContent.length > 0) {
+      this.setAttribute(this.input, {
         'aria-expanded': true,
         addClass: 'expanded',
       });
-      this.outputSearch.classList.add(this.isActive);
+      this.resultList.classList.add(this.isActive);
+      // select first element
       this.selectFirstEl();
     }
   };
 
   // adding text from the list when li is clicking
   // or adding aria-selected to li elements
-  textToInput = ({ screenX, screenY, target, type }) => {
+  handleMouse = ({ screenX, screenY, target, type }) => {
     const targeClosest = target.closest('li');
-    let lastCursorPos = {
+
+    if (!targeClosest) return;
+
+    let lastCurPos = {
       x: 0,
       y: 0,
     };
 
     if (type === 'click') {
       this.getTextFromLi(targeClosest);
-    } else if (type === 'mousemove') {
-      const currentCursorPos = {
+    }
+    if (type === 'mousemove') {
+      const curCurPos = {
         x: screenX,
         y: screenY,
       };
 
-      if (
-        currentCursorPos.x === lastCursorPos.x &&
-        currentCursorPos.y === lastCursorPos.y
-      ) {
+      if (curCurPos.x === lastCurPos.x && curCurPos.y === lastCurPos.y) {
         return;
       }
-      lastCursorPos = { x: screenX, y: screenY };
+
+      lastCurPos = { x: screenX, y: screenY };
       this.removeAriaSelected(document.querySelector(`.${this.activeList}`));
 
       this.setAriaSelectedItem(targeClosest);
-      this.selectedIndex = this.indexLiSelected(targeClosest) + 1;
+      this.selectedIndex = this.indexLiSelected(targeClosest);
     }
   };
 
   // get text from li on enter or click
   getTextFromLi = (element) => {
-    if (!element) return;
+    if (!element) {
+      return;
+    }
 
     // check if li have children elements
     this.getText = element.firstElementChild
@@ -293,12 +297,12 @@ class Autosuggest {
       : element;
 
     // add text to input
-    this.searchId.value = this.getText.textContent.trim();
+    this.input.value = this.getText.textContent.trim();
 
     this.removeAriaSelected(element);
 
     // onSubmit passing text to function
-    this.onSubmit(this.matches[this.selectedIndex - 1], this.searchId.value);
+    this.onSubmit(this.matches[this.selectedIndex], this.input.value);
 
     // set default settings
     this.setDefault();
@@ -310,28 +314,29 @@ class Autosuggest {
     Array.prototype.indexOf.call(this.itemsLi, target);
 
   // navigating the elements li and enter
-  handleEvent = (event) => {
+  handleKeys = (event) => {
     const { keyCode } = event;
     this.selectedLi = document.querySelector(`.${this.activeList}`);
-
     switch (keyCode) {
       case this.keyCodes.UP:
       case this.keyCodes.DOWN:
-        if (this.matches.length <= 1 && this.selectFirst) return;
+        if (this.matches.length <= 1 && this.selectFirst) {
+          return;
+        }
+
         if (keyCode === this.keyCodes.UP) {
           this.selectedIndex -= 1;
-          if (this.selectedIndex <= 0) {
-            this.selectedIndex = this.matches.length;
+          if (this.selectedIndex < 0) {
+            this.selectedIndex = this.matches.length - 1;
           }
         } else {
           this.selectedIndex += 1;
-          if (this.selectedIndex > this.matches.length) {
-            this.selectedIndex = 1;
+          if (this.selectedIndex >= this.matches.length) {
+            this.selectedIndex = 0;
           }
         }
-
         this.removeAriaSelected(this.selectedLi);
-        this.setAriaSelectedItem(this.itemsLi[this.selectedIndex - 1]);
+        this.setAriaSelectedItem(this.itemsLi[this.selectedIndex]);
 
         break;
       case this.keyCodes.ENTER:
@@ -342,7 +347,7 @@ class Autosuggest {
 
       case this.keyCodes.TAB:
       case this.keyCodes.ESC:
-        this.removeAriaSelected(this.selectedLi);
+        // this.removeAriaSelected(this.selectedLi);
         this.setDefault();
 
         break;
@@ -359,13 +364,13 @@ class Autosuggest {
       addClass: this.activeList,
     });
 
-    this.ariaDescendant(
-      this.searchId,
+    this.setAriaDescendant(
+      this.input,
       `${this.selectedOption}-${this.indexLiSelected(target)}`
     );
 
     // scrollIntoView when press up/down arrows
-    this.followElement(target, this.outputSearch);
+    this.followElement(target, this.resultList);
   };
 
   // follow active element
@@ -383,7 +388,9 @@ class Autosuggest {
 
   // remove aria label from item li
   removeAriaSelected = (element) => {
-    if (!element) return;
+    if (!element) {
+      return;
+    }
     this.setAttribute(element, {
       id: '',
       removeClass: this.activeList,
@@ -392,13 +399,15 @@ class Autosuggest {
   };
 
   // Set aria-activedescendant
-  ariaDescendant = (element, type) => {
+  setAriaDescendant = (element, type) => {
     element.setAttribute('aria-activedescendant', type || '');
   };
 
   // create clear button and
   // removing text from the input field
   createClearButton = () => {
+    if (!this.clearButton) return;
+
     this.clearButton = document.createElement('button');
 
     this.setAttribute(this.clearButton, {
@@ -408,7 +417,7 @@ class Autosuggest {
       'aria-label': 'claar text from input',
     });
 
-    this.searchId.insertAdjacentElement('afterend', this.clearButton);
+    this.input.insertAdjacentElement('afterend', this.clearButton);
   };
 
   // clicking on the clear button
@@ -416,15 +425,15 @@ class Autosuggest {
     // hides clear button
     target.classList.add('hidden');
     // clear value searchId
-    this.searchId.value = '';
+    this.input.value = '';
     // set focus
-    this.searchId.focus();
+    this.input.focus();
     // remove li from ul
-    this.outputSearch.textContent = '';
+    this.resultList.textContent = '';
     // set default aria
     this.setDefault();
     // remove error if exist
-    this.searchId.classList.remove(this.error);
+    this.onError();
   };
 }
 

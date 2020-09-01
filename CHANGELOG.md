@@ -1,6 +1,7 @@
 ## 2020-09-01 (v1.0.20)
 ### Changed
--  fix: selectFirst [#38](https://github.com/tomik23/autosuggest/issues/38)
+- fix: debouncing issue [#40](https://github.com/tomik23/autosuggest/issues/40)
+- fix: selectFirst [#38](https://github.com/tomik23/autosuggest/issues/38)
 
 ## 2020-08-31 (v1.0.19)
 ### Changed

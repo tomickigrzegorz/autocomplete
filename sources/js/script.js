@@ -34,6 +34,7 @@ class Autosuggest {
     this.selectedOption = 'selectedOption';
     this.error = 'auto-error';
     this.regex = /[`~!@#$%^&*()_|+\-=÷¿?;:'",.<>{}[\]\\/]/g;
+    this.timeout = null;
 
     this.keyCodes = {
       ESC: 27,
@@ -61,10 +62,9 @@ class Autosuggest {
   };
 
   handleInput = ({ target }) => {
-    let timeout = null;
     target.value.replace(this.regex, '');
-    clearTimeout(timeout);
-    timeout = setTimeout(() => {
+    clearTimeout(this.timeout);
+    this.timeout = setTimeout(() => {
       this.searchItem(target.value.trim());
     }, this.delay);
   };

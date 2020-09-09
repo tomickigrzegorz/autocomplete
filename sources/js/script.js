@@ -215,7 +215,7 @@ class Autosuggest {
     });
     this.setAriaDescendant(this.input, `${this.selectedOption}-0`);
 
-    // // scrollIntoView when press up/down arrows
+    // scrollIntoView when press up/down arrows
     this.followElement(firstElementChild, this.resultList);
   };
 

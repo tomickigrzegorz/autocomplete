@@ -1,3 +1,9 @@
+## 2020-09-10 (v1.0.21)
+### Changed
+- callback functions
+- fix: [#43](https://github.com/tomik23/autosuggest/issues/42)
+- fix: remove typo
+
 ## 2020-09-01 (v1.0.20)
 ### Changed
 - fix: debouncing issue [#40](https://github.com/tomik23/autosuggest/issues/40)

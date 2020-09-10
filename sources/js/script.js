@@ -8,9 +8,9 @@ class Autosuggest {
       delay,
       clearButton,
       howManyCharacters,
-      onResults,
       selectFirst,
-      onSearch,
+      onResults = () => { },
+      onSearch = () => { },
       onSubmit = () => { },
     }
   ) {
@@ -180,8 +180,8 @@ class Autosuggest {
     this.addAriaLabelToLi();
   };
 
-  handleDocumentClick = (event) => {
-    if (event.target.id !== this.search) {
+  handleDocumentClick = ({ target }) => {
+    if (target.id !== this.search) {
       this.setDefault();
       return;
     }
@@ -268,12 +268,12 @@ class Autosuggest {
       this.getTextFromLi(targeClosest);
     }
     if (type === 'mousemove') {
-      const curCurPos = {
+      const curPos = {
         x: screenX,
         y: screenY,
       };
 
-      if (curCurPos.x === lastCurPos.x && curCurPos.y === lastCurPos.y) {
+      if (curPos.x === lastCurPos.x && curPos.y === lastCurPos.y) {
         return;
       }
 

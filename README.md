@@ -62,15 +62,15 @@ npm run prod
 
 Download from `docs` folder:
 
-- autosuggest.min.css
+- main.css
+- autosuggest.css
 - autosuggest.min.js
-- global.min.css
 
 CSS
 
 ```html
-<link rel="stylesheet" href="global.min.css" />
-<link rel="stylesheet" href="autosuggest.min.css" />
+<link rel="stylesheet" href="main.css" />
+<link rel="stylesheet" href="autosuggest.css" />
 ```
 
 HTML

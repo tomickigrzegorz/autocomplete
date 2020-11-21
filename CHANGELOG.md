@@ -1,3 +1,10 @@
+## 2020-11-21 (v1.0.22)
+### Added
+- UMD version, polyfill.js [closet, promise]
+### Changed
+- order in docs, move js and css to appropriate folders
+- update dependencies
+
 ## 2020-09-10 (v1.0.21)
 ### Changed
 - callback functions

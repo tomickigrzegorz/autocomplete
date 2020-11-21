@@ -286,6 +286,8 @@ import 'promise-polyfill/src/polyfill';
 import './helpers/element-closest-polyfill.js';
 ```
 
+4. You can download all polyfills from `docs/js/polyfill.js` and put in head html
+
 ## More appearance examples
 
 <div align="center">More complicated results</div>

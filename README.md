@@ -8,7 +8,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/github/package-json/v/tomik23/autosuggest">
-  <img src="https://img.shields.io/github/size/tomik23/autosuggest/docs/autosuggest.min.js">
+  <img src="https://img.shields.io/github/size/tomik23/autosuggest/docs/js/autosuggest.min.js">
   <a href="LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-green.svg">
   </a>

@@ -28,7 +28,7 @@ const configs = [
     output: {
       format: 'iife',
       file: pkg.main,
-      name: 'Autosuggest'
+      name: 'Autocomplete'
     },
     plugins: plugins({ module: false }),
   },
@@ -38,7 +38,7 @@ const configs = [
     output: {
       format: 'umd',
       file: pkg.browser,
-      name: 'Autosuggest'
+      name: 'Autocomplete'
     },
     plugins: plugins({ module: true }),
   },

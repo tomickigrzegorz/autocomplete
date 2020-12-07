@@ -8,7 +8,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/github/package-json/v/tomik23/autocomplete">
-  <img src="https://img.shields.io/github/size/tomik23/autocomplete/docs/js/autosuggest.min.js">
+  <img src="https://img.shields.io/github/size/tomik23/autocomplete/docs/js/autocomplete.min.js">
   <a href="LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-green.svg">
   </a>

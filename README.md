@@ -1,14 +1,14 @@
 <h1 align="center">
-  autosuggest/autocomplete
+  autocomplete
 </h1>
 
 <p align="center">
-  Simple autosuggest/autocomplete with asynchronous data fetch
+  Simple autocomplete with asynchronous data fetch
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/github/package-json/v/tomik23/autosuggest">
-  <img src="https://img.shields.io/github/size/tomik23/autosuggest/docs/js/autosuggest.min.js">
+  <img src="https://img.shields.io/github/package-json/v/tomik23/autocomplete">
+  <img src="https://img.shields.io/github/size/tomik23/autocomplete/docs/js/autosuggest.min.js">
   <a href="LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-green.svg">
   </a>
@@ -20,7 +20,7 @@
 
 ## Demo
 
-See the demo - [example](https://tomik23.github.io/autosuggest/)
+See the demo - [example](https://tomik23.github.io/autocomplete/)
 
 ## Features
 
@@ -63,14 +63,14 @@ npm run prod
 Download from `docs` folder:
 
 - main.css
-- autosuggest.css
-- autosuggest.min.js
+- autocomplete.css
+- autocomplete.min.js
 
 CSS
 
 ```html
 <link rel="stylesheet" href="main.css" />
-<link rel="stylesheet" href="autosuggest.css" />
+<link rel="stylesheet" href="autocomplete.css" />
 ```
 
 HTML
@@ -86,7 +86,7 @@ JavaScript
 ```html
 <script>
   window.addEventListener('DOMContentLoaded', function () {
-    new Autosuggest('search', {
+    new Autocomplete('search', {
       onSearch: (input) => {
         const api = `https://your-api.com?name=${encodeURI(input)}`;
 
@@ -116,24 +116,24 @@ JavaScript
     });
   });
 </script>
-<script src="autosuggest.min.js"></script>
+<script src="autocomplete.min.js"></script>
 ```
 
 ## Configuration of the plugin
 
-| props             |    type    |               default               | require | description                                                                                                                                                              |
-| ----------------- | :--------: | :---------------------------------: | :-----: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| element           |   String   |                                     |    ✔    | Input field id                                                                                                                                                           |
-| onSearch          |  Function  |                                     |    ✔    | Function for user input. It can be a synchronous function or a promise                                                                                                   |
-| onResults         |  Function  |                                     |    ✔    | Function that creates the appearance of the result                                                                                                                       |
-| onSubmit          |  Function  |                                     |         | Executed on input submission                                                                                                                                             |
-| selectFirst       |  Boolean   |               `false`               |         | Default selects the first item in the list of results                                                                                                                    |
-| clearButton       |  Boolean   |               `false`               |         | A parameter set to 'true' adds a button to remove text from the input field                                                                                              |
-| howManyCharacters |   Number   |                 `2`                 |         | The number of characters entered should start searching                                                                                                                  |
-| delay             |   Number   |                `500`                |         | Time in milliseconds that the component should wait after last keystroke before calling search function 1000 = 1s                                                        |
+| props | type | default | require | description |
+| ----------------- | :--------: | :---------: | :-----: | --------------------------------------------- |
+| element           |   String   |         | ✔ | Input field id |
+| onSearch          |  Function  |         | ✔ | Function for user input. It can be a synchronous function or a promise |
+| onResults         |  Function  |         | ✔ | Function that creates the appearance of the result |
+| onSubmit          |  Function  |         |   | Executed on input submission   |
+| selectFirst       |  Boolean   | `false` |   | Default selects the first item in the list of results |
+| clearButton       |  Boolean   | `false` |   | A parameter set to 'true' adds a button to remove text from the input field |
+| howManyCharacters |   Number   |   `2`   |   | The number of characters entered should start searching |
+| delay             |   Number   |  `500`  |         | Time in milliseconds that the component should wait after last keystroke before calling search function 1000 = 1s |
 | ~~instruction~~   | ~~String~~ | ~~`When autocomplete results ...`~~ |         | ~~aria-describedby [attribute](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-describedby_attribute) A full text below~~ |
 
-**instructions** - has been removed from the library, [see how to add to html](https://tomik23.github.io/autosuggest/)
+**instructions** - has been removed from the library, [see how to add to html](https://tomik23.github.io/autocomplete/)
 
 ## Usage jquery || axios || promise + fetch
 
@@ -246,7 +246,7 @@ const options = {
 };
 
 // `element` this is the id of the input field
-new Autosuggest('element', options);
+new Autocomplete('element', options);
 ```
 
 ## Browsers support
@@ -260,7 +260,7 @@ new Autosuggest('element', options);
 Will work if you use polyfill for promise and closest.
 There are three ways to add this polyfill:
 
-1. Add the following script to your html
+1. Add the following script to your html in head
 
 ```html
 <script type="text/javascript">
@@ -277,9 +277,10 @@ There are three ways to add this polyfill:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/element-closest@3.0.2/browser.min.js"></script>
 ```
 
-3. Add pollyfill to Autosuggest.js and build the script again
+3. Add pollyfill to Autocomplete.js and build the script again
 
 ```javascript
 import 'promise-polyfill/src/polyfill';
@@ -287,6 +288,9 @@ import './helpers/element-closest-polyfill.js';
 ```
 
 4. You can download all polyfills from `docs/js/polyfill.js` and put in head html
+```html
+<script src="./polyfill.js"></script>
+```
 
 ## More appearance examples
 

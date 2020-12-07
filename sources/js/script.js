@@ -1,7 +1,7 @@
 import isPromise from './helpers/isPromise';
 import isObject from './helpers/isObject';
 
-class Autosuggest {
+class Autocomplete {
   constructor(
     element,
     {
@@ -437,4 +437,4 @@ class Autosuggest {
   };
 }
 
-export default Autosuggest;
+export default Autocomplete;

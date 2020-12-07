@@ -1,3 +1,7 @@
+## 2020-12-07 (v1.0.23)
+### Changed
+- renaming the repository to autocomplete
+
 ## 2020-11-21 (v1.0.22)
 ### Added
 - UMD version, polyfill.js [closet, promise]

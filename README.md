@@ -15,7 +15,7 @@
 </p>
 
 <p align="center">
-  <img src="static/02.png">
+  <img src="static/01.png">
 </p>
 
 ## Demo

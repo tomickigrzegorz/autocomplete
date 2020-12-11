@@ -15,7 +15,7 @@
 </p>
 
 <p align="center">
-  <img src="static/01.png">
+  <img src="static/02.png">
 </p>
 
 ## Demo
@@ -296,7 +296,7 @@ import './helpers/element-closest-polyfill.js';
 
 <div align="center">More complicated results</div>
 <p align="center">
-  <img src="static/03.png">
+  <img src="static/examples.png">
 </p>
 
 ## License

@@ -24,7 +24,7 @@
           <img src="https://img.shields.io/badge/License-MIT-green.svg" />
         </div>
         <ul class="menu">
-          <li class="active"><a href="#simple">simple result</a></li>
+          <li class="active"><a href="#simple">simple result + no results</a></li>
           <li><a href="#complex">complex result</a></li>
           <li><a href="#static">static file</a></li>
           <li><a href="#data-elements">static file + data-elelemts</a></li>
@@ -38,7 +38,7 @@
       <div class="search-elements">
         <section id="simple">
           <div class="search-element">
-            <label for="search-a">simple result</label>
+            <label for="search-a">simple result + no results</label>
             <div class="search loupe">
               <input type="text" id="search-a" autocomplete="off" placeholder="type w" aria-describedby="instruction"
                 aria-label="Search for a name" />
@@ -336,10 +336,17 @@
             });
           },
 
+          // no results
+          noResults: (input, resultRender) => resultRender(`<li>No results found: "${input}"</li>`),
+
+          // show results
           onResults: (matches, input) => {
             // const regex = new RegExp(^${input}`, 'gi'); // start with
             const regex = new RegExp(input, 'gi');
-            return matches
+
+            // we check if we have any results
+            // if we don't return input
+            return matches === 0 ? input : matches
               .map((el) => {
                 return `
                   <li class="loupe">
@@ -384,6 +391,7 @@
           onResults: (matches, input) => {
             // const regex = new RegExp(^${input}`, 'gi'); // start with
             const regex = new RegExp(input, 'gi');
+
             return matches
               .sort((a, b) => a.name.localeCompare(b.name))
               .filter((element) => {
@@ -408,8 +416,7 @@
                       </div>
                     </div>
                   </li>`;
-              })
-              .join('');
+              }).join('');
           },
           // event onsubmit
           onSubmit: (matches, input) => {

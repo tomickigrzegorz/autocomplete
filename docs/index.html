@@ -71,6 +71,7 @@
         })
     })
   },
+  noResults: (input, resultRender) => resultRender(`<li>No results found: "${input}"</li>`),
   onResults: (matches, input) => {
     const regex = new RegExp(input, 'gi')
     return matches

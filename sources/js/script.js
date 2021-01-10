@@ -12,12 +12,14 @@ class Autocomplete {
       onResults = () => { },
       onSearch = () => { },
       onSubmit = () => { },
+      noResults = () => { },
     }
   ) {
     this.search = element;
     this.input = document.getElementById(this.search);
     this.onResults = onResults;
     this.onSubmit = onSubmit;
+    this.noResults = noResults;
     this.onSearch = isPromise(onSearch)
       ? onSearch
       : (value) => Promise.resolve(onSearch(value));
@@ -130,6 +132,8 @@ class Autocomplete {
         if (result.length == 0) {
           this.input.classList.remove('expanded');
           this.setDefault();
+          this.noResults(input, this.renderResults);
+          this.handleEvents();
         } else if (result.length > 0 || isObject(result)) {
           this.renderResults();
           this.handleEvents();
@@ -161,14 +165,17 @@ class Autocomplete {
     document.addEventListener('click', this.handleDocumentClick);
   };
 
-  renderResults = () => {
+  renderResults = (template) => {
     this.setAttribute(this.input, {
       'aria-expanded': true,
       addClass: 'expanded',
     });
 
     // add all found records to otput ul
-    this.resultList.innerHTML = this.onResults(this.matches, this.value);
+    this.resultList.innerHTML =
+      this.matches.length === 0
+        ? this.onResults(0, template)
+        : this.onResults(this.matches, this.value);
     this.resultList.classList.add(this.isActive);
 
     this.itemsLi = document.querySelectorAll(`#${this.searchOutputUl} > li`);
@@ -287,7 +294,7 @@ class Autocomplete {
 
   // get text from li on enter or click
   getTextFromLi = (element) => {
-    if (!element) {
+    if (!element || this.matches.length === 0) {
       return;
     }
 

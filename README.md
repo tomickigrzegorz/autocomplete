@@ -127,6 +127,7 @@ JavaScript
 | onSearch          |  Function  |         | ✔ | Function for user input. It can be a synchronous function or a promise |
 | onResults         |  Function  |         | ✔ | Function that creates the appearance of the result |
 | onSubmit          |  Function  |         |   | Executed on input submission   |
+| noResults         |  Function  |         |   | showing information: "no results"   |
 | selectFirst       |  Boolean   | `false` |   | Default selects the first item in the list of results |
 | clearButton       |  Boolean   | `false` |   | A parameter set to 'true' adds a button to remove text from the input field |
 | howManyCharacters |   Number   |   `2`   |   | The number of characters entered should start searching |
@@ -211,12 +212,17 @@ const options = {
     });
   },
 
+  noResults: (input, resultRender) => resultRender(`<li>No results found: "${input}"</li>`),
+
   // this part is responsible for the number of records,
   // the appearance of li elements and it really depends
   // on you how it will look
   onResults: (matches, input) => {
     const regex = new RegExp(input, 'gi');
-    const html = matches
+
+    // checking if we have results if we don't
+    // take data from the noResults method
+    return matches === 0 ? input : matches
       .filter((element, index) => {
         return element.name.match(regex);
       })
@@ -231,8 +237,8 @@ const options = {
           <li class="loupe">
             <p>${el.name.replace(regex, (str) => `<b>${str}</b>`)}</p>
           </li>`;
-      });
-    return html.join('');
+      })
+      .join('');
   },
 
   // the onSubmit function is executed when the user

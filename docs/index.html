@@ -74,7 +74,7 @@
   noResults: (input, resultRender) => resultRender(`<li>No results found: "${input}"</li>`),
   onResults: (matches, input) => {
     const regex = new RegExp(input, 'gi')
-    return matches
+    return matches === 0 ? input : matches
       .map(el => {
         return `
         &lt;li class=&quot;loupe&quot;&gt;

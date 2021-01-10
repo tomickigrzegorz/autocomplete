@@ -1,3 +1,7 @@
+## 2021-01-10 (v1.0.24)
+### Added
+- showing information: "no results"
+
 ## 2020-12-07 (v1.0.23)
 ### Changed
 - renaming the repository to autocomplete

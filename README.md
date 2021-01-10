@@ -100,7 +100,7 @@ JavaScript
       },
       onResults: (matches, input) => {
         const regex = new RegExp(input, 'gi');
-        const html = matches
+        return matches
           .filter((element, index) => {
             return element.name.match(regex);
           })

@@ -130,6 +130,7 @@ JavaScript
 | noResults         |  Function  |         |   | showing information: "no results"   |
 | selectFirst       |  Boolean   | `false` |   | Default selects the first item in the list of results |
 | clearButton       |  Boolean   | `false` |   | A parameter set to 'true' adds a button to remove text from the input field |
+| insertToInput     |  Boolean   | `false` |   | Adding an element selected with arrows to the input field |
 | howManyCharacters |   Number   |   `2`   |   | The number of characters entered should start searching |
 | delay             |   Number   |  `500`  |         | Time in milliseconds that the component should wait after last keystroke before calling search function 1000 = 1s |
 | ~~instruction~~   | ~~String~~ | ~~`When autocomplete results ...`~~ |         | ~~aria-describedby [attribute](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-describedby_attribute) A full text below~~ |
@@ -152,6 +153,10 @@ const options = {
   // default selects the first item in
   // the list of results
   selectFirst: true,
+
+  // add text to the input field as you move through
+  // the results with the up/down cursors
+  insertToInput: true,
 
   // the number of characters entered
   // should start searching
@@ -212,6 +217,7 @@ const options = {
     });
   },
 
+  // the method presents no results
   noResults: (input, resultRender) => resultRender(`<li>No results found: "${input}"</li>`),
 
   // this part is responsible for the number of records,

@@ -9,6 +9,7 @@ class Autocomplete {
       clearButton,
       howManyCharacters,
       selectFirst,
+      insertToInput,
       onResults = () => { },
       onSearch = () => { },
       onSubmit = () => { },
@@ -27,6 +28,7 @@ class Autocomplete {
     this.howManyCharacters = howManyCharacters || 2;
     this.clearButton = clearButton || false;
     this.selectFirst = selectFirst || false;
+    this.insertToInput = insertToInput || false;
 
     // default config
     this.searchOutputUl = `${this.search}-list`;
@@ -133,7 +135,6 @@ class Autocomplete {
           this.input.classList.remove('expanded');
           this.setDefault();
           this.noResults(input, this.renderResults);
-          this.handleEvents();
         } else if (result.length > 0 || isObject(result)) {
           this.renderResults();
           this.handleEvents();
@@ -176,6 +177,7 @@ class Autocomplete {
       this.matches.length === 0
         ? this.onResults(0, template)
         : this.onResults(this.matches, this.value);
+
     this.resultList.classList.add(this.isActive);
 
     this.itemsLi = document.querySelectorAll(`#${this.searchOutputUl} > li`);
@@ -298,13 +300,7 @@ class Autocomplete {
       return;
     }
 
-    // check if li have children elements
-    this.getText = element.firstElementChild
-      ? element.firstElementChild
-      : element;
-
-    // add text to input
-    this.input.value = this.getText.textContent.trim();
+    this.addDataToInput(element);
 
     this.removeAriaSelected(element);
 
@@ -315,6 +311,15 @@ class Autocomplete {
     this.setDefault();
   };
 
+  // get first element from child
+  getFirstElement = (element) => element.firstElementChild || element;
+
+  // set data from li to input
+  addDataToInput = (element) => {
+    // add text to input
+    this.input.value = this.getFirstElement(element).textContent.trim();
+  };
+
   // return which li element was selected
   // by hovering the mouse over
   indexLiSelected = (target) =>
@@ -323,27 +328,36 @@ class Autocomplete {
   // navigating the elements li and enter
   handleKeys = (event) => {
     const { keyCode } = event;
+    const resultList = this.resultList.classList.contains(this.isActive);
+    const matchesLength = this.matches.length;
     this.selectedLi = document.querySelector(`.${this.activeList}`);
+
     switch (keyCode) {
       case this.keyCodes.UP:
       case this.keyCodes.DOWN:
-        if (this.matches.length <= 1 && this.selectFirst) {
+        if ((matchesLength <= 1 && this.selectFirst) || !resultList) {
           return;
         }
 
         if (keyCode === this.keyCodes.UP) {
           this.selectedIndex -= 1;
           if (this.selectedIndex < 0) {
-            this.selectedIndex = this.matches.length - 1;
+            this.selectedIndex = matchesLength - 1;
           }
         } else {
           this.selectedIndex += 1;
-          if (this.selectedIndex >= this.matches.length) {
+          if (this.selectedIndex >= matchesLength) {
             this.selectedIndex = 0;
           }
         }
+
         this.removeAriaSelected(this.selectedLi);
-        this.setAriaSelectedItem(this.itemsLi[this.selectedIndex]);
+        if (matchesLength > 0) {
+          this.setAriaSelectedItem(this.itemsLi[this.selectedIndex]);
+          if (this.insertToInput && resultList) {
+            this.addDataToInput(this.itemsLi[this.selectedIndex]);
+          }
+        }
 
         break;
       case this.keyCodes.ENTER:

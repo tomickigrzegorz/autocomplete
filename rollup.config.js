@@ -28,7 +28,8 @@ const configs = [
     output: {
       format: 'iife',
       file: pkg.main,
-      name: 'Autocomplete'
+      name: 'Autocomplete',
+      sourcemap: !PRODUCTION
     },
     plugins: plugins({ module: false }),
   },

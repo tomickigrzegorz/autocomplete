@@ -55,7 +55,9 @@ class Autocomplete {
     // set default index
     this.selectedIndex = this.selectFirst ? 0 : -1;
 
-    this.createClearButton();
+    if (this.clearButton) {
+      this.createClearButton();
+    }
 
     this.outputSearch();
 
@@ -66,10 +68,10 @@ class Autocomplete {
   };
 
   handleInput = ({ target }) => {
-    target.value.replace(this.regex, '');
+    const regex = target.value.replace(this.regex, '');
     clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
-      this.searchItem(target.value.trim());
+      this.searchItem(regex.trim());
     }, this.delay);
   };
 
@@ -248,7 +250,7 @@ class Autocomplete {
     }
   };
 
-  // show items when items.length >= 1 and is not empty
+  // show items when items.length > 0 and is not empty
   handleShowItems = () => {
     if (this.resultList.textContent.length > 0) {
       this.setAttribute(this.input, {
@@ -368,7 +370,6 @@ class Autocomplete {
 
       case this.keyCodes.TAB:
       case this.keyCodes.ESC:
-        // this.removeAriaSelected(this.selectedLi);
         this.setDefault();
 
         break;
@@ -379,16 +380,16 @@ class Autocomplete {
 
   // set aria label on item li
   setAriaSelectedItem = (target) => {
+    // eslint-disable-next-line prettier/prettier
+    const selectedOptionElement = `${this.selectedOption}-${this.indexLiSelected(target)}`;
+
     this.setAttribute(target, {
-      id: `${this.selectedOption}-${this.indexLiSelected(target)}`,
+      id: selectedOptionElement,
       'aria-selected': true,
       addClass: this.activeList,
     });
 
-    this.setAriaDescendant(
-      this.input,
-      `${this.selectedOption}-${this.indexLiSelected(target)}`
-    );
+    this.setAriaDescendant(this.input, selectedOptionElement);
 
     // scrollIntoView when press up/down arrows
     this.followElement(target, this.resultList);
@@ -427,8 +428,6 @@ class Autocomplete {
   // create clear button and
   // removing text from the input field
   createClearButton = () => {
-    if (!this.clearButton) return;
-
     this.clearButton = document.createElement('button');
 
     this.setAttribute(this.clearButton, {

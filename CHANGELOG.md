@@ -1,3 +1,7 @@
+## 2021-01-13 (v1.0.26)
+### Changed
+- fix: [#49](https://github.com/tomik23/autocomplete/issues/49)
+
 ## 2021-01-13 (v1.0.25)
 ### Added
 - data to the input field [#47](https://github.com/tomik23/autocomplete/issues/47)

@@ -58,6 +58,7 @@
               <code class="language-js">new Autocomplete('search-a', {
   clearButton: true,
   howManyCharacters: 1,
+  insertToInput: true,
   onSearch: (input) => {
     const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(input)}`;
     return new Promise((resolve) => {
@@ -85,6 +86,9 @@
   onSubmit: (matches) => {
     console.log(matches);
   },
+  onSelectedItem: (index, matches) => {
+    console.log('onSelectedItem:', index, matches);
+  }
 })</code>
             </pre>
           </div>
@@ -280,10 +284,13 @@
         // first example
         new Autocomplete('search-a', {
           clearButton: true,
+
           // selectFirst: true,
           howManyCharacters: 1,
+
           // adding data to the input field
           insertToInput: true,
+
           // onSearch
           onSearch: (input) => {
             // const api = '../static/users.json'
@@ -350,19 +357,29 @@
             // we check if we have any results
             // if we don't return input
             return matches === 0 ? input : matches
-              .map((el) => {
+              .sort((a, b) => a.status.localeCompare(b.status))
+              .map((el, index) => {
                 return `
                   <li class="loupe">
                     <p>${el.name.replace(regex, (str) => `<b>${str}</b>`)}</p>
                   </li>`;
-              })
-              .join('');
+              }).join('');
+
           },
+
           // event onsubmit
-          onSubmit: (matches, input) => {
+          onSubmit: (input, matches) => {
             console.table('search-a', input, matches);
             // window.open(`https://www.imdb.com/find?q=${encodeURI(matches)}`)
           },
+
+          // get index and data from li element after
+          // hovering over li with the mouse or using
+          // arrow keys ↓ | ↑
+          onSelectedItem: (index, matches) => {
+            console.log('onSelectedItem:', index, matches);
+          }
+
         });
 
         // second example
@@ -370,6 +387,7 @@
           clearButton: true,
           selectFirst: true,
           howManyCharacters: 2,
+
           // onSearch
           onSearch: (input) => {
             const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(
@@ -540,6 +558,7 @@
             // console.log('static: ', matches, input);
             // window.open(`https://www.imdb.com/find?q=${encodeURI(input)}`)
           },
+
         });
       });
     </script>

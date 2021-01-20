@@ -14,13 +14,15 @@ class Autocomplete {
       onSearch = () => { },
       onSubmit = () => { },
       noResults = () => { },
+      onSelectedItem = () => { },
     }
   ) {
     this.search = element;
-    this.input = document.getElementById(this.search);
+    this.root = document.getElementById(this.search);
     this.onResults = onResults;
     this.onSubmit = onSubmit;
     this.noResults = noResults;
+    this.onSelectedItem = onSelectedItem;
     this.onSearch = isPromise(onSearch)
       ? onSearch
       : (value) => Promise.resolve(onSearch(value));
@@ -64,7 +66,7 @@ class Autocomplete {
     // default aria
     this.setDefault();
 
-    this.input.addEventListener('input', this.handleInput);
+    this.root.addEventListener('input', this.handleInput);
   };
 
   handleInput = ({ target }) => {
@@ -86,12 +88,12 @@ class Autocomplete {
       role: 'listbox',
     });
 
-    this.input.parentNode.insertBefore(this.resultList, this.input.nextSibling);
+    this.root.parentNode.insertBefore(this.resultList, this.root.nextSibling);
   };
 
   // default aria
   setDefault = () => {
-    this.setAttribute(this.input, {
+    this.setAttribute(this.root, {
       'aria-owns': `${this.search}-list`,
       'aria-expanded': false,
       'aria-autocomplete': 'both',
@@ -104,6 +106,11 @@ class Autocomplete {
 
     // move the view item to the first item
     this.resultList.scrollTop = 0;
+
+    // remove result when lengh = 0 and insertToInput is false
+    if (this.matches?.length == 0 && !this.insertToInput) {
+      this.resultList.innerHTML = '';
+    }
 
     this.selectedIndex = this.selectFirst ? 0 : -1;
   };
@@ -134,7 +141,7 @@ class Autocomplete {
         this.onError();
 
         if (result.length == 0) {
-          this.input.classList.remove('expanded');
+          this.root.classList.remove('expanded');
           this.setDefault();
           this.noResults(input, this.renderResults);
         } else if (result.length > 0 || isObject(result)) {
@@ -149,27 +156,31 @@ class Autocomplete {
   };
 
   onLoading = (type) => {
-    this.input.parentNode.classList[type ? 'add' : 'remove'](this.isLoading);
+    this.root.parentNode.classList[type ? 'add' : 'remove'](this.isLoading);
   };
 
   onError = (type) => {
-    this.input.classList[type ? 'add' : 'remove'](this.error);
+    this.root.classList[type ? 'add' : 'remove'](this.error);
   };
 
   // preparation of the list
   handleEvents = () => {
-    this.input.addEventListener('keydown', this.handleKeys);
-    this.input.addEventListener('click', this.handleShowItems);
+    const liElement = [].slice.call(this.resultList.children);
 
-    this.resultList.addEventListener('click', this.handleMouse);
-    this.resultList.addEventListener('mousemove', this.handleMouse);
+    this.root.addEventListener('keydown', this.handleKeys);
+    this.root.addEventListener('click', this.handleShowItems);
+
+    for (let i = 0; i < liElement.length; i++) {
+      liElement[i].addEventListener('mouseenter', this.handleMouse);
+      liElement[i].addEventListener('click', this.handleMouse);
+    }
 
     // close expanded items
     document.addEventListener('click', this.handleDocumentClick);
   };
 
   renderResults = (template) => {
-    this.setAttribute(this.input, {
+    this.setAttribute(this.root, {
       'aria-expanded': true,
       addClass: 'expanded',
     });
@@ -224,7 +235,7 @@ class Autocomplete {
       addClass: this.activeList,
       'aria-selected': true,
     });
-    this.setAriaDescendant(this.input, `${this.selectedOption}-0`);
+    this.setAriaDescendant(this.root, `${this.selectedOption}-0`);
 
     // scrollIntoView when press up/down arrows
     this.followElement(firstElementChild, this.resultList);
@@ -253,7 +264,7 @@ class Autocomplete {
   // show items when items.length > 0 and is not empty
   handleShowItems = () => {
     if (this.resultList.textContent.length > 0) {
-      this.setAttribute(this.input, {
+      this.setAttribute(this.root, {
         'aria-expanded': true,
         addClass: 'expanded',
       });
@@ -268,8 +279,6 @@ class Autocomplete {
   handleMouse = ({ screenX, screenY, target, type }) => {
     const targeClosest = target.closest('li');
 
-    if (!targeClosest) return;
-
     let lastCurPos = {
       x: 0,
       y: 0,
@@ -278,7 +287,8 @@ class Autocomplete {
     if (type === 'click') {
       this.getTextFromLi(targeClosest);
     }
-    if (type === 'mousemove') {
+
+    if (type === 'mouseenter') {
       const curPos = {
         x: screenX,
         y: screenY,
@@ -293,6 +303,8 @@ class Autocomplete {
 
       this.setAriaSelectedItem(targeClosest);
       this.selectedIndex = this.indexLiSelected(targeClosest);
+
+      this.onSelectedItem(this.selectedIndex, this.matches[this.selectedIndex]);
     }
   };
 
@@ -307,7 +319,7 @@ class Autocomplete {
     this.removeAriaSelected(element);
 
     // onSubmit passing text to function
-    this.onSubmit(this.matches[this.selectedIndex], this.input.value);
+    this.onSubmit(this.matches[this.selectedIndex], this.root.value);
 
     // set default settings
     this.setDefault();
@@ -319,7 +331,7 @@ class Autocomplete {
   // set data from li to input
   addDataToInput = (element) => {
     // add text to input
-    this.input.value = this.getFirstElement(element).textContent.trim();
+    this.root.value = this.getFirstElement(element).textContent.trim();
   };
 
   // return which li element was selected
@@ -355,6 +367,11 @@ class Autocomplete {
 
         this.removeAriaSelected(this.selectedLi);
         if (matchesLength > 0) {
+          this.onSelectedItem(
+            this.selectedIndex,
+            this.matches[this.selectedIndex]
+          );
+
           this.setAriaSelectedItem(this.itemsLi[this.selectedIndex]);
           if (this.insertToInput && resultList) {
             this.addDataToInput(this.itemsLi[this.selectedIndex]);
@@ -365,7 +382,6 @@ class Autocomplete {
       case this.keyCodes.ENTER:
         this.removeAriaSelected(this.selectedLi);
         this.getTextFromLi(this.selectedLi);
-
         break;
 
       case this.keyCodes.TAB:
@@ -389,7 +405,7 @@ class Autocomplete {
       addClass: this.activeList,
     });
 
-    this.setAriaDescendant(this.input, selectedOptionElement);
+    this.setAriaDescendant(this.root, selectedOptionElement);
 
     // scrollIntoView when press up/down arrows
     this.followElement(target, this.resultList);
@@ -437,7 +453,7 @@ class Autocomplete {
       'aria-label': 'claar text from input',
     });
 
-    this.input.insertAdjacentElement('afterend', this.clearButton);
+    this.root.insertAdjacentElement('afterend', this.clearButton);
   };
 
   // clicking on the clear button
@@ -445,9 +461,9 @@ class Autocomplete {
     // hides clear button
     target.classList.add('hidden');
     // clear value searchId
-    this.input.value = '';
+    this.root.value = '';
     // set focus
-    this.input.focus();
+    this.root.focus();
     // remove li from ul
     this.resultList.textContent = '';
     // set default aria

@@ -218,9 +218,6 @@ const options = {
     });
   },
 
-  // the method presents no results
-  noResults: (input, resultRender) => resultRender(`<li>No results found: "${input}"</li>`),
-
   // this part is responsible for the number of records,
   // the appearance of li elements and it really depends
   // on you how it will look
@@ -230,9 +227,6 @@ const options = {
     // checking if we have results if we don't
     // take data from the noResults method
     return matches === 0 ? input : matches
-      .filter((element, index) => {
-        return element.name.match(regex);
-      })
       .sort((a, b) => a.name.localeCompare(b.name))
       .map((el) => {
         // this part is responsible for the appearance
@@ -256,6 +250,17 @@ const options = {
     // you can open a window or do a redirect
     window.open(`https://www.imdb.com/find?q=${encodeURI(input)}`);
   },
+
+  // get index and data from li element after
+  // hovering over li with the mouse or using
+  // arrow keys ↓ | ↑
+  onSelectedItem: (index, matches) => {
+    console.log('onSelectedItem:', index, matches);
+  },
+
+  // the method presents no results
+  noResults: (input, resultRender) => resultRender(`<li>No results found: "${input}"</li>`)
+
 };
 
 // `element` this is the id of the input field

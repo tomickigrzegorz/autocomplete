@@ -1,3 +1,4 @@
 docs/
 index.html
 rollup.config.js
+.eslintrc.js

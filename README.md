@@ -127,7 +127,8 @@ JavaScript
 | onSearch          |  Function  |         | ✔ | Function for user input. It can be a synchronous function or a promise |
 | onResults         |  Function  |         | ✔ | Function that creates the appearance of the result |
 | onSubmit          |  Function  |         |   | Executed on input submission   |
-| noResults         |  Function  |         |   | showing information: "no results"   |
+| noResults         |  Function  |         |   | Showing information: "no results"   |
+| onSelectedItem    |  Function  |         |   | Get index and data from li element after hovering over li with the mouse or using arrow keys ↓/↑   |
 | selectFirst       |  Boolean   | `false` |   | Default selects the first item in the list of results |
 | clearButton       |  Boolean   | `false` |   | A parameter set to 'true' adds a button to remove text from the input field |
 | insertToInput     |  Boolean   | `false` |   | Adding an element selected with arrows to the input field |

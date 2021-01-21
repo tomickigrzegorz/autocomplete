@@ -139,6 +139,7 @@ class Autocomplete {
 
         this.onLoading();
         this.onError();
+        this.handleEvents();
 
         if (result.length == 0) {
           this.root.classList.remove('expanded');
@@ -146,7 +147,6 @@ class Autocomplete {
           this.noResults(input, this.renderResults);
         } else if (result.length > 0 || isObject(result)) {
           this.renderResults();
-          this.handleEvents();
         }
       })
       .catch(() => {
@@ -171,7 +171,7 @@ class Autocomplete {
     this.root.addEventListener('click', this.handleShowItems);
 
     for (let i = 0; i < liElement.length; i++) {
-      liElement[i].addEventListener('mouseenter', this.handleMouse);
+      liElement[i].addEventListener('mousemove', this.handleMouse);
       liElement[i].addEventListener('click', this.handleMouse);
     }
 
@@ -276,33 +276,22 @@ class Autocomplete {
 
   // adding text from the list when li is clicking
   // or adding aria-selected to li elements
-  handleMouse = ({ screenX, screenY, target, type }) => {
-    const targeClosest = target.closest('li');
-
-    let lastCurPos = {
-      x: 0,
-      y: 0,
-    };
+  handleMouse = ({ target, type }) => {
+    const targetClosest = target.closest('li');
 
     if (type === 'click') {
-      this.getTextFromLi(targeClosest);
+      this.getTextFromLi(targetClosest);
     }
 
-    if (type === 'mouseenter') {
-      const curPos = {
-        x: screenX,
-        y: screenY,
-      };
+    if (targetClosest.classList.contains(this.activeList)) {
+      return;
+    }
 
-      if (curPos.x === lastCurPos.x && curPos.y === lastCurPos.y) {
-        return;
-      }
-
-      lastCurPos = { x: screenX, y: screenY };
+    if (type === 'mousemove') {
       this.removeAriaSelected(document.querySelector(`.${this.activeList}`));
 
-      this.setAriaSelectedItem(targeClosest);
-      this.selectedIndex = this.indexLiSelected(targeClosest);
+      this.setAriaSelectedItem(targetClosest);
+      this.selectedIndex = this.indexLiSelected(targetClosest);
 
       this.onSelectedItem(this.selectedIndex, this.matches[this.selectedIndex]);
     }

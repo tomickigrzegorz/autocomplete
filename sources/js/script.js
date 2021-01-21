@@ -139,14 +139,15 @@ class Autocomplete {
 
         this.onLoading();
         this.onError();
-        this.handleEvents();
 
         if (result.length == 0) {
           this.root.classList.remove('expanded');
           this.setDefault();
           this.noResults(input, this.renderResults);
+          this.handleEvents();
         } else if (result.length > 0 || isObject(result)) {
           this.renderResults();
+          this.handleEvents();
         }
       })
       .catch(() => {

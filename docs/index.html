@@ -24,10 +24,10 @@
           <img src="https://img.shields.io/badge/License-MIT-green.svg" />
         </div>
         <ul class="menu">
-          <li class="active"><a href="#simple">simple result + no results</a></li>
-          <li><a href="#complex">complex result</a></li>
-          <li><a href="#static">static file</a></li>
-          <li><a href="#data-elements">static file + data-elelemts</a></li>
+          <li class="active"><a href="#simple">Simple result + no results</a></li>
+          <li><a href="#complex">Complex result</a></li>
+          <li><a href="#static">Static file</a></li>
+          <li><a href="#data-elements">Static file + data-elelemts</a></li>
         </ul>
         <div class="based">
           based on:
@@ -38,7 +38,7 @@
       <div class="search-elements">
         <section id="simple">
           <div class="search-element">
-            <label for="search-a">simple result + no results</label>
+            <h2>Simple result + no results</h2>
             <div class="search loupe">
               <input type="text" id="search-a" autocomplete="off" placeholder="type w" aria-describedby="instruction"
                 aria-label="Search for a name" />
@@ -96,7 +96,7 @@
 
         <section id="complex">
           <div class="search-element">
-            <label for="search-b">complex result</label>
+            <h2>Complex result</h2>
             <div class="search max-height loupe">
               <input type="text" id="search-b" aria-label="Search for a name" autocomplete="off"
                 placeholder="type wh" />
@@ -162,7 +162,7 @@
 
         <section id="static">
           <div class="search-element">
-            <label for="search-c">static file</label>
+            <h2>Static file</h2>
             <div class="search max-height loupe">
               <input type="text" id="search-c" aria-label="Search for a name" autocomplete="off" placeholder="type c" />
             </div>
@@ -212,7 +212,7 @@
 
         <section id="data-elements">
           <div class="search-element">
-            <label for="search-d">static file + data-elements</label>
+            <h2>Static file + data-elements</h2>
             <div class="search max-height loupe">
               <input type="text" id="search-d" aria-label="Search for a name" autocomplete="off" placeholder="type w" />
             </div>
@@ -494,6 +494,13 @@
             console.table('search-c', input, matches);
             // window.open(`https://www.imdb.com/find?q=${encodeURI(input)}`)
           },
+
+          // get index and data from li element after
+          // hovering over li with the mouse or using
+          // arrow keys ↓ | ↑
+          onSelectedItem: (index, matches) => {
+            console.log('onSelectedItem:', index, matches);
+          }
         });
 
         // static file
@@ -536,7 +543,6 @@
           },
           // event onsubmit
           onSubmit: (matches, input) => {
-
             console.table('search-d', input, matches);
 
             const { name, nickname, birthday, img, portrayed } = matches;
@@ -557,7 +563,7 @@
 
             // console.log('static: ', matches, input);
             // window.open(`https://www.imdb.com/find?q=${encodeURI(input)}`)
-          },
+          }
 
         });
       });

@@ -1,10 +1,14 @@
+## 2021-01-21 (v1.0.28)
+### Changed
+- fix: 'no results' does not hidden [#52](https://github.com/tomik23/autocomplete/issues/52)
+
 ## 2021-01-20 (v1.0.27)
 ### Added
 - new method `onSelectedItem`, get index and data from li element after hovering over li with the mouse or using arrow keys ↓ | ↑
 
 ## 2021-01-13 (v1.0.26)
 ### Changed
-- fix: [#49](https://github.com/tomik23/autocomplete/issues/49)
+- fix: special characters are not removed [#49](https://github.com/tomik23/autocomplete/issues/49)
 
 ## 2021-01-13 (v1.0.25)
 ### Added

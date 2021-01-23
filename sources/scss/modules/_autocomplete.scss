@@ -6,7 +6,8 @@ $loupe-icon: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewB
 .search {
   position: relative;
   display: block;
-  margin: 10px auto;
+  max-width: 350px;
+  margin: 20px 0;
 
   input {
     font-size: 16px;
@@ -35,12 +36,8 @@ $loupe-icon: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewB
     border-top: none;
     border-radius: 0 0 8px 8px;
     overflow: hidden;
-    box-shadow:
-      0 2.8px 2.2px rgba(223, 223, 223, 0.034),
-      0 6.7px 5.3px rgba(192, 192, 192, 0.048),
-      0 1.5px 1px rgba(144, 144, 144, 0.06),
-      0 2.3px 1.9px rgba(92, 92, 92, 0.072),
-      0 2.8px 1px rgba(63, 63, 63, 0.086);
+    box-shadow: 0 2.8px 2.2px rgba(223, 223, 223, 0.034), 0 6.7px 5.3px rgba(192, 192, 192, 0.048),
+      0 1.5px 1px rgba(144, 144, 144, 0.06), 0 2.3px 1.9px rgba(92, 92, 92, 0.072), 0 2.8px 1px rgba(63, 63, 63, 0.086);
 
     li {
       position: relative;
@@ -148,7 +145,7 @@ $loupe-icon: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewB
   display: none;
   background-color: $color-white;
 
-  &>.loupe {
+  & > .loupe {
     padding-left: 40px;
   }
 
@@ -165,7 +162,7 @@ $loupe-icon: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewB
   background-color: lighten($color-gray, 40%);
   transition: background-color 0.2s ease-out;
 
-  +li:before {
+  + li:before {
     border-top: none;
   }
 }

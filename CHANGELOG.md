@@ -1,3 +1,7 @@
+## 2021-01-23 (v1.0.29)
+### Changed
+- expanding demo examples
+
 ## 2021-01-21 (v1.0.28)
 ### Changed
 - fix: 'no results' does not hidden [#52](https://github.com/tomik23/autocomplete/issues/52)

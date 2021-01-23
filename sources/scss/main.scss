@@ -38,7 +38,7 @@ h1 {
   margin-bottom: 30px;
   padding-left: 50px;
 
-  &.loupe:before {
+  &.search:before {
     width: 30px;
     height: 30px;
     filter: invert(25%);
@@ -109,12 +109,8 @@ aside {
 .search-elements {
   margin-right: 20px;
   margin-left: 340px;
+  padding-bottom: 150px;
   transition: transform 100ms ease;
-}
-
-.search-element {
-  max-width: 350px;
-  // margin: auto;
 }
 
 .github-corner {
@@ -155,6 +151,7 @@ aside {
 }
 
 section,
+article,
 .section {
   padding: 50px 0 0;
   margin-top: -50px;
@@ -162,16 +159,14 @@ section,
   max-width: 850px;
 }
 
-.section {
-  h2 {
-    margin-bottom: 10px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid rgba(128, 128, 128, 0.4);
-  }
-  h3 {
-    margin-bottom: 10px;
-    font-weight: 400;
-  }
+h2 {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.4);
+}
+h3 {
+  margin-bottom: 10px;
+  font-weight: 400;
 }
 
 @media (max-width: 950px) {
@@ -202,21 +197,50 @@ section,
     text-transform: uppercase;
     margin-bottom: 10px;
   }
-
   margin-top: 20px;
   font-size: 18px;
   line-height: 130%;
+}
 
-  pre {
-    display: flex;
-    margin: 0;
-    padding: 0;
+pre {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  &::before {
+    position: absolute;
+    content: "1\A 2\A 3\A 4\A 5\A 6\A 7\A 8\A 9\A 10\A 11\A 12\A 13\A 14\A 15\A 16\A 17\A 18\A 19\A 20\A 21\A 22\A 23\A 24\A 25\A 26\A 27\A 28\A 29\A 30\A 31\A 32\A 33\A 34\A 35\A 36\A 37\A 38\A 39\A 40\A 41\A 42\A 43\A 44\A 45\A 46\A 47\A 48\A 49\A 50\A 51\A 52\A 53\A 54\A 55\A 56\A 57\A 58\A 59\A 60\A 61\A 62\A 63\A 64\A 65\A 66\A 67\A 68\A 69\A 70\A 71\A 72\A 73\A 74\A 75\A 76\A 77\A 78\A 79\A 80\A 81\A 82\A 83\A 84\A 85\A 86\A 87\A 88\A 89\A 90\A 91\A 92\A 93\A 94\A 95\A 96\A 97\A 98\A 99\A 100\A 101\A 102\A 103\A 104\A 105\A 106\A 107\A 108\A 109\A 110\A 111\A 112\A 113\A 114\A 115\A 116\A 117\A 118\A 119\A 120\A 121\A 122\A 123\A 124\A 125\A 126\A 127\A 128\A 129\A 130\A 131\A 132\A 133\A 134\A 135\A 136\A 137\A 138\A 139\A 140\A 141\A 142\A 143\A 144\A 145\A 146\A 147\A 148\A 149\A 150\A 151\A 152\A 153\A 154\A 155\A 156\A 157\A 158\A 159\A 160\A 161\A 162\A 163\A 164\A 165\A 166\A 167\A 168\A 169\A 170\A 171\A 172\A 173\A 174\A 175\A 176\A 177\A 178\A 179\A 180\A 181\A 182\A 183\A 184\A 185\A 186\A 187\A 188\A 189\A 190\A 191\A 192\A 193\A 194\A 195\A 196\A 197\A 198\A 199\A 200\A";
+    left: 0;
+    top: 20px;
+    bottom: 25px;
+    width: 45px;
+    padding-right: 15px;
+    overflow: hidden;
+    text-align: right;
+    color: #666;
+    white-space: pre;
+    letter-spacing: -1px;
+    background-color: #282c34;
   }
+  &::after {
+    position: absolute;
+    content: attr(rel);
+    top: 0;
+    right: 0;
+    z-index: 0;
+    color: #fff;
+    font-size: 50%;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 0 15px;
+    background: #000;
+    border-radius: 0 0 0 5px;
+    line-height: 200%;
+  }
+}
 
-  code {
-    padding: 30px 15px;
-    border-radius: 5px;
-  }
+code {
+  padding: 3px 20px 3px 25px;
 }
 
 body,
@@ -280,5 +304,40 @@ body,
   40%,
   80% {
     transform: rotate(10deg);
+  }
+}
+
+.iframe {
+  margin-top: 20px;
+  width: 100%;
+  height: 400px;
+  border: 1px solid #a3a3a3;
+}
+
+.info-section {
+  code,
+  a {
+    padding: 2px 4px;
+    font-size: 90%;
+    color: #c7254e;
+    background-color: #f9f2f4;
+    border-radius: 4px;
+  }
+  a {
+    border-bottom: 1px solid #c7254e;
+  }
+}
+
+.top {
+  position: relative;
+  padding-top: 40px;
+  font-size: 0.8em;
+  padding-left: 10px;
+  text-transform: uppercase;
+  &::before {
+    position: absolute;
+    content: "\2191";
+    margin-top: -2px;
+    left: 0;
   }
 }

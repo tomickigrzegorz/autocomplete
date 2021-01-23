@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   });
 
   const sections = document.querySelectorAll('section');
+  const sectionClass = document.querySelectorAll('.section');
 
   // active menu elements
   const menuItems = document.querySelectorAll('.menu > li');
@@ -45,6 +46,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 
     const preElement = document.createElement('pre');
+    preElement.setAttribute('rel', 'html');
     const codeElement = document.createElement('code');
     codeElement.className = 'language-html';
 
@@ -57,17 +59,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
   // IntersectionObserver section
   const options = {
-    threshold: 0.25
+    root: null,
+    rootMargin: '0px',
+    threshold: 0
   }
 
-  const changeNav = (entries, observer) => {
+  const changeNav = (entries) => {
     entries.forEach((entry) => {
-      if (entry.isIntersecting && entry.intersectionRatio >= 0.25) {
-
+      if (entry.isIntersecting) {
         document.querySelector('.active').classList.remove('active');
 
         var id = entry.target.getAttribute('id');
-
         document.querySelector(`[href="#${id}"]`).parentNode.classList.add('active');
       }
     });
@@ -75,7 +77,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
   const observer = new IntersectionObserver(changeNav, options);
 
-  sections.forEach((section) => {
+  sectionClass.forEach((section) => {
     observer.observe(section);
   });
 

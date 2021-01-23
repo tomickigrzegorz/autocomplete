@@ -309,13 +309,13 @@
               <h2>No results</h2>
               <p>Adding no-result is a bit more complicated so it shows up in the examples. First, add the
                 <code>noResults</code> method, then in the <code>onResults</code> method we check whether maches
-                returns zero results, if so, it is enough to make a comparison of <code>return matches === 0? input:
+                returns zero results, if so, it is enough to make a comparison of <code>return matches === 0 ? input:
                   matches</code>
                 Now just type some non-existent text and <code>no-results</code> will be displayed.
               </p>
             </div>
             <div class="search">
-              <input type="text" id="no-results" placeholder="type wa" />
+              <input type="text" id="no-results" placeholder="type xx" />
             </div>
           </div>
           <div class="highlight html">
@@ -672,7 +672,7 @@
           // submits their result by either selecting a result
           // from the list, or pressing enter or mouse button
           onSubmit: (matches, input) => {
-            console.table('search-b', input, matches);
+            console.table('complex', input, matches);
             // window.open(`https://www.imdb.com/find?q=${encodeURI(input)}`)
           },
 
@@ -806,14 +806,13 @@
               <h4>
                 <a href="https://www.imdb.com/find?q=${encodeURI(portrayed)}" target="_blank">${portrayed}</a>
               </h4>
-              <div>name - ${name}</div>
-              <div>nickname - ${nickname}</div>
-              <div>birthday - ${birthday}</div>
-              <div>
-                <img src="${img}" style="width: 100%; max-width: 350px;">
-              </div>
+              <p>name - ${name}</p>
+              <p>nickname - ${nickname}</p>
+              <p>birthday - ${birthday}</p>
+              <div class="image"><img src="${img}"></div>
             `;
             const info = document.querySelector('.info-d');
+            info.classList.add('active-data');
             info.innerHTML = template;
 
             // console.log('static: ', matches, input);

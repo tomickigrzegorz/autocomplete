@@ -326,6 +326,9 @@ body,
   a {
     border-bottom: 1px solid #c7254e;
   }
+  p + p {
+    margin-top: 20px;
+  }
 }
 
 .top {
@@ -368,4 +371,15 @@ body,
       filter: brightness(150%);
     }
   }
+}
+
+.group-by {
+  padding: 8px 12px;
+  background: #000;
+  font-size: 0.85em;
+  border-top: 1px solid #c5d8ff;
+  border-bottom: 1px solid #c5d8ff;
+  color: #fff;
+  letter-spacing: 1px;
+  cursor: none;
 }

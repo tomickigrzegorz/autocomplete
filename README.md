@@ -27,8 +27,11 @@ See the demo - [example](https://tomik23.github.io/autocomplete/)
 - Accessible, with full support for ARIA attributes and keyboard interactions.
 - Customize your own CSS.
 - Support for asynchronous data fetching.
-- Move between the records using the arrows <kbd>↓</kbd> <kbd>↑</kbd>, and confirm by <kbd>Enter</kbd>
+- Move between the records using the arrows <kbd>↓</kbd> <kbd>↑</kbd>, and confirm by <kbd>Enter</kbd> or mouse
+- Grouping of record results
+- Showing 'no results'
 - No dependencies
+- Very light library, packed gzip **only ~3KB**
 
 ## Initialization
 
@@ -134,6 +137,7 @@ JavaScript
 | insertToInput     |  Boolean   | `false` |   | Adding an element selected with arrows to the input field |
 | howManyCharacters |   Number   |   `2`   |   | The number of characters entered should start searching |
 | delay             |   Number   |  `500`  |         | Time in milliseconds that the component should wait after last keystroke before calling search function 1000 = 1s |
+| classGroup        |   String   |         |   | Enter a class name, this class will be added to the group name elements
 | ~~instruction~~   | ~~String~~ | ~~`When autocomplete results ...`~~ |         | ~~aria-describedby [attribute](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-describedby_attribute) A full text below~~ |
 
 **instructions** - has been removed from the library, [see how to add to html](https://tomik23.github.io/autocomplete/)
@@ -162,6 +166,10 @@ const options = {
   // the number of characters entered
   // should start searching
   howManyCharacters: 2,
+
+  // enter the name of the class by
+  // which you will name the 'group by' element
+  classGroup: 'group-by',
 
   // Function for user input. It can be a synchronous function or a promise
   // you can fetch data with jquery, axios, fetch, etc.

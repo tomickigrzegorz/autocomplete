@@ -10,6 +10,7 @@ class Autocomplete {
       howManyCharacters,
       selectFirst,
       insertToInput,
+      classGroup,
       onResults = () => { },
       onSearch = () => { },
       onSubmit = () => { },
@@ -31,6 +32,7 @@ class Autocomplete {
     this.clearButton = clearButton || false;
     this.selectFirst = selectFirst || false;
     this.insertToInput = insertToInput || false;
+    this.classGroup = classGroup;
 
     // default config
     this.searchOutputUl = `${this.search}-list`;
@@ -190,11 +192,16 @@ class Autocomplete {
     this.resultList.innerHTML =
       this.matches.length === 0
         ? this.onResults(0, template)
-        : this.onResults(this.matches, this.value);
+        : this.onResults(this.matches, this.value, this.classGroup);
 
     this.resultList.classList.add(this.isActive);
 
-    this.itemsLi = document.querySelectorAll(`#${this.searchOutputUl} > li`);
+    const checkIfClassGroupExist = this.classGroup
+      ? `:not(.${this.classGroup})`
+      : '';
+    this.itemsLi = document.querySelectorAll(
+      `#${this.searchOutputUl} > li${checkIfClassGroupExist}`
+    );
 
     // select first element
     this.selectFirstEl();
@@ -231,7 +238,12 @@ class Autocomplete {
 
     const { firstElementChild } = this.resultList;
 
-    this.setAttribute(firstElementChild, {
+    const classSelectFirst =
+      this.classGroup && this.matches.length > 0 && this.selectFirst
+        ? firstElementChild.nextElementSibling
+        : firstElementChild;
+
+    this.setAttribute(classSelectFirst, {
       id: `${this.selectedOption}-0`,
       addClass: this.activeList,
       'aria-selected': true,
@@ -279,6 +291,13 @@ class Autocomplete {
   // or adding aria-selected to li elements
   handleMouse = ({ target, type }) => {
     const targetClosest = target.closest('li');
+    const targetClosestRole = targetClosest?.hasAttribute('role');
+
+    if (!targetClosest || !targetClosestRole) {
+      return;
+    }
+
+    // console.log(targetClosest);
 
     if (type === 'click') {
       this.getTextFromLi(targetClosest);

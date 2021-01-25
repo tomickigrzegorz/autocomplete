@@ -60,8 +60,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   // IntersectionObserver section
   const options = {
     root: null,
-    rootMargin: '0px',
-    threshold: 0
+    rootMargin: '0px'
   }
 
   const changeNav = (entries) => {

@@ -31,7 +31,9 @@
           <li><a href="#no-results-example">No results</a></li>
           <li><a href="#static-file">Static file</a></li>
           <li><a href="#data-elements">Static file + data-elelemts</a></li>
-          <li><a href="#other-usage-ideas">Other usage ideas</a></li>
+          <li><a href="#groups">Data grouping</a></li>
+          <li><a href="#local-data">Local data</a></li>
+          <li><a href="#address-geocoding">Address geocoding</a></li>
           <li><a href="#top" class="top">Back to top</a></li>
         </ul>
         <div class="based">
@@ -94,8 +96,9 @@
                 the appearance of this field and also the appearance of the <code>"loupe"</code> icons and the
                 button with which we
                 can clear the <code>"x"</code> field, as well as the possibility of an animation waiting for the
-                results before our
-                <code>REST API</code> returns us. See <a href="#complex-example">complex-example.</a>
+                results before our <code>REST API</code> returns us.
+              </p>
+              <p>See <a href="#complex-example">complex-example.</a>
               </p>
             </div>
             <div class="search">
@@ -147,7 +150,7 @@
                 the left</p>
             </div>
             <div class="search max-height loupe">
-              <input type="text" id="complex" autocomplete="off" placeholder="type p" aria-describedby="instruction"
+              <input type="text" id="complex" autocomplete="off" placeholder="type w" aria-describedby="instruction"
                 aria-label="Search for a name" />
               <div id="instruction" class="hidden">
                 When autocomplete results are available use up and down arrows
@@ -181,6 +184,10 @@
   // the number of characters entered
   // should start searching
   howManyCharacters: 1,
+
+  // enter the name of the class by
+  // which you will name the group element
+  classGroup: 'group-by',
 
   // Function for user input. It can be a synchronous function or a promise
   // you can fetch data with jquery, axios, fetch, etc.
@@ -245,21 +252,28 @@
   // this part is responsible for the number of records,
   // the appearance of li elements and it really depends
   // on you how it will look
-  onResults: (matches, input) =&gt; {
+  onResults: (matches, input, className) =&gt; {
     // const regex = new RegExp(`^${input}`, 'gi'); // start with
     const regex = new RegExp(input, 'gi');
 
     // checking if we have results if we don't
     // take data from the noResults method
     return matches === 0 ? input : matches
-      .sort((a, b) =&gt; a.name.localeCompare(b.name))
-      .map((el) =&gt; {
+      .sort((a, b) => a.status.localeCompare(b.status) || a.name.localeCompare(b.name))
+      .map((el, index, array) =&gt; {
+
+        // we create an element of the group
+        let group = el.status !== array[index - 1]?.status
+          ? `&lt;li class="${className}">&lt;smalll&gt;STATUS:&lt;/small&gt; ${el.status}&lt;/li&gt;`
+          : '';
+
         // this part is responsible for the appearance
         // in the drop-down list - see the example in index.html
         // remember only the first element from &lt;li&gt; is put
         // into the input field, in this case the text
         // from the &lt;p&gt; element
         return `
+          ${group}
           &lt;li&gt;
             &lt;h2 style=&quot;margin-bottom: 10px;&quot;&gt;
               ${el.name.replace(regex, (str) =&gt; `&lt;b style=&quot;color: red;&quot;&gt;${str}&lt;/b&gt;`)}
@@ -307,11 +321,13 @@
           <div class="search-element">
             <div class="info-section">
               <h2>No results</h2>
-              <p>Adding no-result is a bit more complicated so it shows up in the examples. First, add the
-                <code>noResults</code> method, then in the <code>onResults</code> method we check whether maches
-                returns zero results, if so, it is enough to make a comparison of <code>return matches === 0 ? input:
-                  matches</code>
-                Now just type some non-existent text and <code>no-results</code> will be displayed.
+              <p>Adding no result is a bit more complicated, so it is included in the examples. First, add the
+                <code>noResults</code> method, then in the <code>onResults</code> method we check whether
+                <code>maches</code> returns zero results, if so, it is enough to make a comparison of <code>return matches === 0 ? input:
+                  matches</code>.
+              </p>
+              <p>Now you just need to type in non-existent text, and <code>no results</code> will be displayed, only "no
+                results" information.
               </p>
             </div>
             <div class="search">
@@ -363,9 +379,11 @@
           <div class="search-element">
             <div class="info-section">
               <h2>Static file</h2>
-              <p>Instead of the REST API, you can use a static
+              <p>Instead of the REST API, you can use a static files
                 <code>const api='./characters.json'</code>Due to the fact that we
-                download the entire json file locally, we should add sorting and filtering the results. We can add
+                download the entire json file locally, we should add sorting and filtering the results.
+              </p>
+              <p>We can add
                 sorting and filtering in two ways. In the <code>onSearch</code> or <code>onResults</code>
                 method.
               </p>
@@ -430,13 +448,15 @@
               <h2>Static file + data-elements</h2>
               <p>You want to download all the data, nothing easier. You can do it in the <code>onSubmit</code>
                 method by clicking the mouse on the element, or by pressing enter when the element is selected, but also
-                in the <code>onSelectedItem</code> method. That is, selecting an element, either with the mouse or
-                by jumping on the elements with the arrows. Open the console and see what happens during these
+                in the <code>onSelectedItem</code> method.</p>
+              <p>That is, selecting an element, either with the mouse or
+                by jumping on the elements with the arrows.</p>
+              <p>Open the console and see what happens during these
                 events.
               </p>
             </div>
             <div class="search max-height loupe">
-              <input type="text" id="search-complex" aria-label="Search for a name" autocomplete="off"
+              <input type="text" id="static-file-data" aria-label="Search for a name" autocomplete="off"
                 placeholder="type w" />
             </div>
             <div class="info-d"></div>
@@ -447,7 +467,7 @@
           <div class="highlight javascript">
             <h4>javascript</h4>
             <pre rel="js">
-              <code class="language-js">new Autocomplete('search-complex', {
+              <code class="language-js">new Autocomplete('static-file-data', {
   clearButton: true,
   selectFirst: true,
   howManyCharacters: 1,
@@ -481,15 +501,10 @@
     const { name, nickname, birthday, img, portrayed } = matches;
 
     const template = `
-      &lt;h2&gt;
-        &lt;a href=&quot;https://www.imdb.com/find?q=${encodeURI(portrayed)}&quot; target=&quot;_blank&quot;&gt;
-          ${portrayed}
-        &lt;/a&gt;
-      &lt;/h2&gt;
       &lt;p&gt;name - ${name}&lt;/p&gt;
-      &lt;p&gt;nickname - ${nickname}&lt;/p&gt;
       &lt;p&gt;birthday - ${birthday}&lt;/p&gt;
       &lt;div class="image"&gt;&lt;img src=&quot;${img}&quot;&gt;&lt;/div&gt;`;
+      
     const info = document.querySelector('.info-d');
     info.classList.add('active-data');
     info.innerHTML = template;
@@ -504,10 +519,149 @@
         </section>
         <!-- Static file + data-elements end -->
 
+        <!-- Group start -->
+        <section id="groups" class="section">
+          <div class="search-element">
+            <div class="info-section">
+              <h2>Data grouping</h2>
+              <p>First, we declare the class of group members <code>classGroup: 'group-by'</code></p>
+              <p>
+                Then we sort by our group, in our case it will be <code>status ['Alive', 'Deceased', 'Presumed
+                  dead', 'Unknown']</code>,
+                then we
+                sort by
+                <code>name</code>.
+                Of course, it is not always needed, because we should get such soroting from our
+                <code>api 'REST API'</code>
+              </p>
+              <p>
+                The next thing is the <code>onResults</code> method which returns the third element of the group class
+                name which
+                will prevent moving between result records with the arrow and with the mouse.
+                This class should be added to the group items.</p>
+            </div>
+            <div class="search max-height loupe">
+              <input type="text" id="group" placeholder="type w" />
+            </div>
+          </div>
+          <div class="highlight html">
+            <h4>html</h4>
+          </div>
+          <div class="highlight javascript">
+            <h4>javascript</h4>
+            <pre rel="js">
+      <code class="language-js">new Autocomplete('group', {
+  clearButton: true,
+  howManyCharacters: 1,
+
+  // enter the name of the class by
+  // which you will name the group element
+  classGroup: 'group-by',
+
+  onSearch: (input) =&gt; {
+    const api = './characters.json';
+    return new Promise((resolve) =&gt; {
+      fetch(api)
+        .then((response) =&gt; response.json())
+        .then((data) =&gt; {
+
+          // First, we sort by our group, in our case
+          // it will be the status, then we sort by name.
+          // Of course, it is not always necessary because
+          // such soroting may be obtained from REST API
+          const result = data
+            .sort((a, b) =&gt; a.status.localeCompare(b.status) || a.name.localeCompare(b.name))
+            .filter(element =&gt; {
+              return element.name.match(new RegExp(input, 'gi'))
+            })
+          resolve(result);
+        })
+        .catch((error) =&gt; {
+          console.error(error);
+        });
+    });
+  },
+  onResults: (matches, input, className) =&gt; {
+    return matches === 0 ? input : matches
+      .map((el, index, array) =&gt; {
+
+        // we create an element of the group
+        let group = el.status !== array[index - 1]?.status
+          ? `&lt;li class=&quot;${className}&quot;&gt;GROUP: ${el.status}&lt;/div&gt;`
+          : '';
+
+        return `
+          ${group}
+          &lt;li class=&quot;loupe&quot;&gt;
+            &lt;p&gt;${el.name.replace(new RegExp(input, 'gi'), (str) =&gt; `&lt;b&gt;${str}&lt;/b&gt;`)}&lt;/p&gt;
+          &lt;/li&gt;`;
+      }).join('');
+  },
+  onSubmit: (matches, input) =&gt; {
+    console.log(`You selected ${input}`);
+  },
+  onSelectedItem: (index, matches) =&gt; {
+    console.log('onSelectedItem:', index, matches);
+  },
+  noResults: (input, resultRender) =&gt; resultRender(`&lt;li&gt;No results found: &quot;${input}&quot;&lt;/li&gt;`),
+});</code>
+    </pre>
+          </div>
+        </section>
+        <!-- Group end -->
+
+        <!-- Local data start -->
+        <section id="local-data" class="section">
+          <div class="search-element">
+            <div class="info-section">
+              <h2>Local data</h2>
+              <p>Not only <code>json</code> or <code>rest api</code> file, but also data can be downloaded locally.</p>
+              <p>Also in this case, you need to sort and filter the data.</p>
+            </div>
+            <div class="search">
+              <input type="text" id="local" placeholder="type w" />
+            </div>
+          </div>
+          <div class="highlight html">
+            <h4>html</h4>
+          </div>
+          <div class="highlight javascript">
+            <h4>javascript</h4>
+            <pre rel="js">
+      <code class="language-js">new Autocomplete('local', {
+  howManyCharacters: 1,
+
+  onSearch: (input) =&gt; {
+    
+    // local data
+    const data = [
+      { &quot;name&quot;: &quot;Walter White&quot; },
+      { &quot;name&quot;: &quot;Jesse Pinkman&quot; },
+      { &quot;name&quot;: &quot;Skyler White&quot; },
+      { &quot;name&quot;: &quot;Walter White Jr.&quot; }
+    ];
+    return data.sort((a, b) =&gt; a.name.localeCompare(b.name))
+      .filter(element =&gt; {
+        return element.name.match(new RegExp(input, 'gi'))
+      })
+  },
+  onResults: (matches) =&gt; {
+    return matches
+      .map((el) =&gt; {
+        return `
+          &lt;li&gt;${el.name}&lt;/li&gt;`;
+      }).join('');
+  },
+});</code>
+    </pre>
+          </div>
+        </section>
+        <!-- Local data end -->
+
         <!-- Other usage ideas start -->
-        <article id="other-usage-ideas" class="section">
+        <article id="address-geocoding" class="section">
           <div class="info-section">
-            <h2>Other usage ideas</h2>
+            <h2>Address geocoding</h2>
             <p>Below is an example of how to combine city geocoding with the <code>AUTOCOMPLETE</code> library. In
               fact, there are many ideas for using it ;)</p>
           </div>
@@ -520,314 +674,7 @@
       <button class="toggle-menu" arial-label="toogle menu" title="tootle menu"></button>
     </main>
 
-    <script type="text/javascript">
-      window.addEventListener('DOMContentLoaded', () => {
-
-        // basic
-        new Autocomplete('basic', {
-          onSearch: (input) => {
-            const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(input)}`;
-            return new Promise((resolve) => {
-              fetch(api)
-                .then((response) => response.json())
-                .then((data) => {
-                  resolve(data);
-                })
-                .catch((error) => {
-                  console.error(error);
-                });
-            });
-          },
-          onResults: (matches, input) => {
-            return matches
-              .map((el, index) => {
-                return `
-                  <li>${el.name}</li>`;
-              }).join('');
-          },
-        });
-
-
-
-        // complex example example
-        new Autocomplete('complex', {
-          // search delay
-          delay: 1000,
-
-          // add button 'x' to clear the text from
-          // the input filed
-          clearButton: true,
-
-          // default selects the first item in
-          // the list of results
-          selectFirst: true,
-
-          // add text to the input field as you move through
-          // the results with the up/down cursors
-          insertToInput: true,
-
-          // the number of characters entered
-          // should start searching
-          howManyCharacters: 1,
-
-          // Function for user input. It can be a synchronous function or a promise
-          // you can fetch data with jquery, axios, fetch, etc.
-          onSearch: (input) => {
-            // static file
-            // const api = './characters.json';
-
-            // OR -------------------------------
-
-            // your REST API
-            const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(input)}`;
-            /**
-              * jquery
-              * If you want to use jquery you have to add the
-              * jquery library to head html
-              * https://cdnjs.com/libraries/jquery
-              */
-            // return $.ajax({
-            //   url: api,
-            //   method: 'GET',
-            // })
-            //   .done(function (data) {
-            //     return data
-            //   })
-            //   .fail(function (xhr) {
-            //     console.error(xhr);
-            //   });
-
-            // OR ----------------------------------
-
-            /**
-              * axios
-              * If you want to use axios you have to add the
-              * axios library to head html
-              * https://cdnjs.com/libraries/axios
-              */
-            // return axios.get(api)
-            //   .then((response) => {
-            //     return response.data;
-            //   })
-            //   .catch(error => {
-            //     console.log(error);
-            //   });
-
-            // OR ----------------------------------
-
-            /**
-              * Promise
-              */
-            return new Promise((resolve) => {
-              fetch(api)
-                .then((response) => response.json())
-                .then((data) => {
-                  resolve(data);
-                })
-                .catch((error) => {
-                  console.error(error);
-                });
-            });
-          },
-
-          // this part is responsible for the number of records,
-          // the appearance of li elements and it really depends
-          // on you how it will look
-          onResults: (matches, input) => {
-            // const regex = new RegExp(^${input}`, 'gi'); // start with
-            const regex = new RegExp(input, 'gi');
-
-            // checking if we have results if we don't
-            // take data from the noResults method
-            return matches === 0 ? input : matches
-              .sort((a, b) => a.name.localeCompare(b.name))
-              .map((el) => {
-                // this part is responsible for the appearance
-                // in the drop-down list - see the example in index.html
-                // remember only the first element from <li> is put
-                // into the input field, in this case the text
-                // from the <p> element
-                return `
-          <li>
-            <h2 style="margin-bottom: 10px;">
-              ${el.name.replace(regex, (str) => `<b style="color: red;">${str}</b>`)}
-            </h2>
-            <div style="display: flex;">
-              <div style="margin-right: 10px;">
-                <img src="${el.img}" style="max-width: 100px;">
-              </div>
-              <div class="info">
-                <h4>${el.name}</h4>
-                <div><b>nickname:</b> - ${el.nickname}</div>
-                <div><b>birthday:</b> - ${el.birthday}</div>
-                <div><b>status:</b> - ${el.status}</div>
-              </div>
-            </div>
-          </li>`;
-              }).join('');
-          },
-
-          // the onSubmit function is executed when the user
-          // submits their result by either selecting a result
-          // from the list, or pressing enter or mouse button
-          onSubmit: (matches, input) => {
-            console.table('complex', input, matches);
-            // window.open(`https://www.imdb.com/find?q=${encodeURI(input)}`)
-          },
-
-          // get index and data from li element after
-          // hovering over li with the mouse or using
-          // arrow keys ↓ | ↑
-          onSelectedItem: (index, matches) => {
-            console.log('onSelectedItem:', index, matches);
-          },
-
-          // the method presents no results
-          noResults: (input, resultRender) => resultRender(`<li>No results found: "${input}"</li>`)
-        });
-
-
-
-        // no-results
-        new Autocomplete('no-results', {
-          onSearch: (input) => {
-            const api = './characters.json';
-            return new Promise((resolve) => {
-              fetch(api)
-                .then((response) => response.json())
-                .then((data) => {
-                  const result = data.sort((a, b) => a.name.localeCompare(b.name))
-                    .filter(element => {
-                      return element.name.match(new RegExp(input, 'gi'))
-                    })
-                  resolve(result);
-                })
-                .catch((error) => {
-                  console.error(error);
-                });
-            });
-          },
-          onResults: (matches, input) => {
-            // checking if we have results if we don't
-            // take data from the noResults method
-            return matches === 0 ? input : matches
-              .map((el, index) => {
-                return `
-                  <li>${el.name}</li>`;
-              }).join('');
-          },
-          noResults: (input, resultRender) => resultRender(`<li>No results found: "${input}"</li>`)
-        });
-
-
-        // static file
-        new Autocomplete('static', {
-          clearButton: true,
-          // selectFirst: true,
-          howManyCharacters: 1,
-          // onSearch
-          onSearch: (input) => {
-            // static file
-            const api = './characters.json';
-
-            return new Promise((resolve) => {
-              fetch(api)
-                .then((response) => response.json())
-                .then((data) => {
-                  const result = data.sort((a, b) => a.name.localeCompare(b.name))
-                    .filter(element => {
-                      return element.name.match(new RegExp(input, 'gi'))
-                    })
-                  resolve(result);
-                })
-                .catch((error) => {
-                  console.error(error);
-                });
-            });
-          },
-
-          onResults: (matches, input) => {
-            return matches
-              .sort((a, b) => a.name.localeCompare(b.name))
-              .map((el) => {
-                return `
-                  <li class="loupe">
-                    <p>${el.name.replace(new RegExp(input, 'gi'), (str) => `<b>${str}</b>`)}</p>
-                  </li>`;
-              })
-              .join('');
-          }
-        });
-
-        // static file
-        new Autocomplete('search-complex', {
-          clearButton: true,
-          selectFirst: true,
-          howManyCharacters: 1,
-          // onSearch
-          onSearch: (input) => {
-            // static file
-            const api = './characters.json';
-
-            return new Promise((resolve) => {
-              fetch(api)
-                .then((response) => response.json())
-                .then((data) => {
-                  const result = data
-                    .sort((a, b) => a.name.localeCompare(b.name))
-                    .filter((element) => {
-                      return element.name.match(new RegExp(input, 'gi'));
-                    });
-                  resolve(result);
-                })
-                .catch((error) => {
-                  console.error(error);
-                });
-            });
-          },
-
-          onResults: (matches, input) => {
-            return matches.map(({ name, portrayed }) => {
-              return `
-                <li class="loupe">
-                  <p>${name.replace(new RegExp(input, 'gi'), (str) => `<b>${str}</b>`)}</p>
-                  <small>portrayed - ${portrayed}</small>
-                </li>`;
-            }).join('');
-          },
-          // event onsubmit
-          onSubmit: (matches, input) => {
-            console.table('search-complex', input, matches);
-
-            const { name, nickname, birthday, img, portrayed } = matches;
-
-            const template = `
-              <h4>
-                <a href="https://www.imdb.com/find?q=${encodeURI(portrayed)}" target="_blank">${portrayed}</a>
-              </h4>
-              <p>name - ${name}</p>
-              <p>nickname - ${nickname}</p>
-              <p>birthday - ${birthday}</p>
-              <div class="image"><img src="${img}"></div>
-            `;
-            const info = document.querySelector('.info-d');
-            info.classList.add('active-data');
-            info.innerHTML = template;
-
-            // console.log('static: ', matches, input);
-            // window.open(`https://www.imdb.com/find?q=${encodeURI(input)}`)
-          },
-
-          // get index and data from li element after
-          // hovering over li with the mouse or using
-          // arrow keys  ↓ | ↑
-          onSelectedItem: (index, matches) => {
-            console.log('onSelectedItem:', index, matches);
-          },
-
-        });
-      });
-    </script>
+    <script src="./js/examples.js"></script>
     <script src="./js/autocomplete.min.js"></script>
   </body>
 

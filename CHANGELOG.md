@@ -1,3 +1,7 @@
+## 2021-01-26 (v1.0.30)
+### Added
+- grouping the results
+
 ## 2021-01-23 (v1.0.29)
 ### Changed
 - expanding demo examples

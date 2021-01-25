@@ -1,6 +1,6 @@
 ## 2021-01-26 (v1.0.30)
 ### Added
-- grouping the results
+- grouping the results [#55](https://github.com/tomik23/autocomplete/issues/55)
 
 ## 2021-01-23 (v1.0.29)
 ### Changed

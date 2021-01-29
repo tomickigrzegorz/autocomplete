@@ -80,7 +80,7 @@ HTML
 
 ```html
 <div class="search">
-  <input type="text" id="search" autocomplete="off" placeholder="Enter letter">
+  <input type="text" id="local" autocomplete="off" placeholder="Enter letter">
 </div>
 ```
 
@@ -89,33 +89,30 @@ JavaScript
 ```html
 <script>
   window.addEventListener('DOMContentLoaded', function () {
-    new Autocomplete('search', {
-      onSearch: (input) => {
-        const api = `https://your-api.com?name=${encodeURI(input)}`;
+    new Autocomplete('local', {
+      howManyCharacters: 1,
 
-        return new Promise((resolve) => {
-          fetch(api)
-            .then((response) => response.json())
-            .then((data) => {
-              resolve(data);
-            });
-        });
-      },
-      onResults: (matches, input) => {
-        const regex = new RegExp(input, 'gi');
-        return matches
-          .filter((element, index) => {
-            return element.name.match(regex);
+      onSearch: (input) => {
+
+        // local data
+        const data = [
+          { "name": "Walter White" },
+          { "name": "Jesse Pinkman" },
+          { "name": "Skyler White" },
+          { "name": "Walter White Jr." }
+        ];
+        return data.sort((a, b) => a.name.localeCompare(b.name))
+          .filter(element => {
+            return element.name.match(new RegExp(input, 'i'))
           })
-          .sort((a, b) => a.name.localeCompare(b.name))
+      },
+      onResults: (matches) => {
+        return matches
           .map((el) => {
             return `
-              <li class="loupe">
-                <p>${el.name.replace(regex, (str) => `<b>${str}</b>`)}</p>
-              </li>`;
-          })
-          .join('');
-      },
+              <li>${el.name}</li>`;
+          }).join('');
+      }
     });
   });
 </script>
@@ -222,6 +219,9 @@ const options = {
         .then((response) => response.json())
         .then((data) => {
           resolve(data);
+        })
+        .catch((error) => {
+          console.error(error);
         });
     });
   },
@@ -229,20 +229,35 @@ const options = {
   // this part is responsible for the number of records,
   // the appearance of li elements and it really depends
   // on you how it will look
-  onResults: (matches, input) => {
+  onResults: (matches, input, className) => {
     const regex = new RegExp(input, 'gi');
+
+    // counting status elements
+    function count(status) {
+      let count = {};
+      matches.map(el => {
+        count[el.status] = (count[el.status] || 0) + 1;
+      });
+      return `<small>${count[status]} items</small>`;
+    }
 
     // checking if we have results if we don't
     // take data from the noResults method
     return matches === 0 ? input : matches
-      .sort((a, b) => a.name.localeCompare(b.name))
-      .map((el) => {
+      .sort((a, b) => a.status.localeCompare(b.status) || a.name.localeCompare(b.name))
+      .map((el, index, array) => {
+        // we create an element of the group
+        let group = el.status !== array[index - 1]?.status
+          ? `<li class="${className}">${el.status} ${count(el.status)}</li>`
+          : '';
+
         // this part is responsible for the appearance
         // in the drop-down list - see the example in index.html
         // remember only the first element from <li> is put
         // into the input field, in this case the text
         // from the <p> element
         return `
+          ${group}
           <li class="loupe">
             <p>${el.name.replace(regex, (str) => `<b>${str}</b>`)}</p>
           </li>`;
@@ -256,7 +271,7 @@ const options = {
   onSubmit: (matches, input) => {
     console.log(`You selected ${input}`);
     // you can open a window or do a redirect
-    window.open(`https://www.imdb.com/find?q=${encodeURI(input)}`);
+    // window.open(`https://www.imdb.com/find?q=${encodeURI(input)}`);
   },
 
   // get index and data from li element after

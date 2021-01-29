@@ -1,6 +1,6 @@
 window.addEventListener('DOMContentLoaded', () => {
 
-  basic
+  // basic
   new Autocomplete('basic', {
     onSearch: (input) => {
       const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(input)}`;
@@ -117,15 +117,23 @@ window.addEventListener('DOMContentLoaded', () => {
       // const regex = new RegExp(^${input}`, 'gi'); // start with
       const regex = new RegExp(input, 'gi');
 
+      // counting status elements
+      function count(status) {
+        let count = {};
+        matches.map(el => {
+          count[el.status] = (count[el.status] || 0) + 1;
+        });
+        return `<small>${count[status]} items</small>`;
+      }
+
       // checking if we have results if we don't
       // take data from the noResults method
       return matches === 0 ? input : matches
         .sort((a, b) => a.status.localeCompare(b.status) || a.name.localeCompare(b.name))
         .map((el, index, array) => {
-
           // we create an element of the group
           let group = el.status !== array[index - 1]?.status
-            ? `<li class="${className}"><small>STATUS</small>: ${el.status}</li>`
+            ? `<li class="${className}">${el.status} ${count(el.status)}</li>`
             : '';
 
           // this part is responsible for the appearance
@@ -200,7 +208,7 @@ window.addEventListener('DOMContentLoaded', () => {
       return matches === 0 ? input : matches
         .map((el, index) => {
           return `
-                  <li>${el.name}</li>`;
+                <li>${el.name}</li>`;
         }).join('');
     },
     noResults: (input, resultRender) => resultRender(`<li>No results found: "${input}"</li>`)
@@ -275,23 +283,23 @@ window.addEventListener('DOMContentLoaded', () => {
     },
 
     onResults: (matches, input) => {
-      return matches.map(({ name, portrayed }) => {
+      return matches.map(({ name, status }) => {
         return `
-                <li class="loupe">
-                  <p>${name.replace(new RegExp(input, 'gi'), (str) => `<b>${str}</b>`)}</p>
-                  <small>portrayed - ${portrayed}</small>
-                </li>`;
+          <li class="loupe">
+            <p>${name.replace(new RegExp(input, 'gi'), (str) => `<b>${str}</b>`)}</p>
+            <small>status - ${status}</small>
+          </li>`;
       }).join('');
     },
     // event onsubmit
     onSubmit: (matches, input) => {
       console.table('static-file-data', input, matches);
 
-      const { name, birthday, img } = matches;
+      const { name, status, img } = matches;
 
       const template = `
         <p>name - ${name}</p>
-        <p>birthday - ${birthday}</p>
+        <p>status - ${status}</p>
         <div class="image"><img src="${img}"></div>`;
 
       const info = document.querySelector('.info-d');
@@ -316,7 +324,6 @@ window.addEventListener('DOMContentLoaded', () => {
   new Autocomplete('group', {
     clearButton: true,
     howManyCharacters: 1,
-    selectFirst: true,
 
     // enter a class name, this class will
     // be added to the group name elements
@@ -346,19 +353,29 @@ window.addEventListener('DOMContentLoaded', () => {
       });
     },
     onResults: (matches, input, className) => {
+
+      // counting status elements
+      function count(status) {
+        let count = {};
+        matches.map(el => {
+          count[el.status] = (count[el.status] || 0) + 1;
+        });
+        return `<small>${count[status]} items</small>`;
+      }
+
       return matches === 0 ? input : matches
         .map((el, index, array) => {
 
           // we create an element of the group
           let group = el.status !== array[index - 1]?.status
-            ? `<li class="${className}">GROUP: ${el.status}</li>`
+            ? `<li class="${className}">${el.status} ${count(el.status)}</li>`
             : '';
 
           return `
-          ${group}
-          <li class="loupe">
-            <p>${el.name.replace(new RegExp(input, 'gi'), (str) => `<b>${str}</b>`)}</p>
-          </li>`;
+            ${group}
+            <li class="loupe">
+              <p>${el.name.replace(new RegExp(input, 'gi'), (str) => `<b>${str}</b>`)}</p>
+            </li>`;
         }).join('');
     },
     onSubmit: (matches, input) => {
@@ -393,7 +410,7 @@ window.addEventListener('DOMContentLoaded', () => {
       return matches
         .map((el) => {
           return `
-            <li>${el.name}</li>`;
+        <li>${el.name}</li>`;
         }).join('');
     }
   });

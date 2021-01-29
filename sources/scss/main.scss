@@ -38,6 +38,11 @@ h1 {
   margin-bottom: 30px;
   padding-left: 50px;
 
+  &.loupe:before {
+    transform: scale(1.5);
+    filter: brightness(0.5);
+  }
+
   &.search:before {
     width: 30px;
     height: 30px;
@@ -48,7 +53,7 @@ h1 {
 a {
   text-decoration: none;
   color: #414141;
-  padding: 7px 0;
+  padding: 7px 0 0;
 }
 
 .active {
@@ -374,12 +379,24 @@ body,
 }
 
 .group-by {
-  padding: 8px 12px;
   background: #000;
   font-size: 0.85em;
-  border-top: 1px solid #c5d8ff;
-  border-bottom: 1px solid #c5d8ff;
   color: #fff;
   letter-spacing: 1px;
-  cursor: none;
+
+  small {
+    background: red;
+    position: absolute;
+    line-height: 22px;
+    letter-spacing: normal;
+    padding: 0 5px 0 14px;
+    border-radius: 2px;
+    right: 12px;
+    &::before {
+      position: absolute;
+      margin-top: -2px;
+      margin-left: -10px;
+      content: "\2193";
+    }
+  }
 }

@@ -65,14 +65,12 @@ npm run prod
 
 Download from `docs` folder:
 
-- main.css
 - autocomplete.css
 - autocomplete.min.js
 
 CSS
 
 ```html
-<link rel="stylesheet" href="main.css" />
 <link rel="stylesheet" href="autocomplete.css" />
 ```
 
@@ -90,9 +88,7 @@ JavaScript
 <script>
   window.addEventListener('DOMContentLoaded', function () {
     new Autocomplete('local', {
-      howManyCharacters: 1,
-
-      onSearch: (input) => {
+      onSearch: ({ currentValue }) => {
 
         // local data
         const data = [
@@ -103,12 +99,13 @@ JavaScript
         ];
         return data.sort((a, b) => a.name.localeCompare(b.name))
           .filter(element => {
-            return element.name.match(new RegExp(input, 'i'))
+            return element.name.match(new RegExp(currentValue, 'i'))
           })
       },
-      onResults: (matches) => {
+
+      onResults: ({ matches }) => {
         return matches
-          .map((el) => {
+          .map(el => {
             return `
               <li>${el.name}</li>`;
           }).join('');
@@ -128,11 +125,13 @@ JavaScript
 | onResults         |  Function  |         | ✔ | Function that creates the appearance of the result |
 | onSubmit          |  Function  |         |   | Executed on input submission   |
 | noResults         |  Function  |         |   | Showing information: "no results"   |
+| onOpened          |  Function  |         |   | returns two variables 'results' and 'showItems', 'resutls' first rendering of the results 'showItems' only showing the results when clicking on the input field   |
+| onReset           |  Function  |         |   | After clicking the 'x' button |
 | onSelectedItem    |  Function  |         |   | Get index and data from li element after hovering over li with the mouse or using arrow keys ↓/↑   |
 | selectFirst       |  Boolean   | `false` |   | Default selects the first item in the list of results |
 | clearButton       |  Boolean   | `false` |   | A parameter set to 'true' adds a button to remove text from the input field |
 | insertToInput     |  Boolean   | `false` |   | Adding an element selected with arrows to the input field |
-| howManyCharacters |   Number   |   `2`   |   | The number of characters entered should start searching |
+| howManyCharacters |   Number   |   `1`   |   | The number of characters entered should start searching |
 | delay             |   Number   |  `500`  |         | Time in milliseconds that the component should wait after last keystroke before calling search function 1000 = 1s |
 | classGroup        |   String   |         |   | Enter a class name, this class will be added to the group name elements
 | ~~instruction~~   | ~~String~~ | ~~`When autocomplete results ...`~~ |         | ~~aria-describedby [attribute](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-describedby_attribute) A full text below~~ |
@@ -144,7 +143,7 @@ JavaScript
 JAVASCRIPT
 
 ```js
-const options = {
+new Autocomplete('complex', {
   // search delay
   delay: 1000,
 
@@ -165,55 +164,57 @@ const options = {
   howManyCharacters: 2,
 
   // enter the name of the class by
-  // which you will name the 'group by' element
+  // which you will name the group element
   classGroup: 'group-by',
 
   // Function for user input. It can be a synchronous function or a promise
   // you can fetch data with jquery, axios, fetch, etc.
-  onSearch: (input) => {
+  onSearch: ({ currentValue }) => {
     // static file
-    const api = './characters.json';
+    // const api = './characters.json';
 
     // OR -------------------------------
 
-    // controlling the way data is downloaded
-    const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(
-      input
-    )}`;
-
+    // your REST API
+    const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(currentValue)}`;
     /**
-     * jquery
-     */
+      * jquery
+      * If you want to use jquery you have to add the
+      * jquery library to head html
+      * https://cdnjs.com/libraries/jquery
+      */
     return $.ajax({
       url: api,
       method: 'GET',
     })
       .done(function (data) {
-        return data;
+        return data
       })
       .fail(function (xhr) {
         console.error(xhr);
       });
 
-    // OR -------------------------------
+    // OR ----------------------------------
 
     /**
-     * axios
-     */
-    return axios
-      .get(api)
+      * axios
+      * If you want to use axios you have to add the
+      * axios library to head html
+      * https://cdnjs.com/libraries/axios
+      */
+    return axios.get(api)
       .then((response) => {
         return response.data;
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
 
-    // OR -------------------------------
+    // OR ----------------------------------
 
     /**
-     * Promise + fetch
-     */
+      * Promise
+      */
     return new Promise((resolve) => {
       fetch(api)
         .then((response) => response.json())
@@ -229,8 +230,9 @@ const options = {
   // this part is responsible for the number of records,
   // the appearance of li elements and it really depends
   // on you how it will look
-  onResults: (matches, input, className) => {
-    const regex = new RegExp(input, 'gi');
+  onResults: ({ currentValue, matches, template, classGroup }) => {
+    // const regex = new RegExp(^${input}`, 'gi'); // start with
+    const regex = new RegExp(currentValue, 'gi');
 
     // counting status elements
     function count(status) {
@@ -243,12 +245,12 @@ const options = {
 
     // checking if we have results if we don't
     // take data from the noResults method
-    return matches === 0 ? input : matches
+    return matches === 0 ? template : matches
       .sort((a, b) => a.status.localeCompare(b.status) || a.name.localeCompare(b.name))
       .map((el, index, array) => {
         // we create an element of the group
         let group = el.status !== array[index - 1]?.status
-          ? `<li class="${className}">${el.status} ${count(el.status)}</li>`
+          ? `<li class="${classGroup}">${el.status} ${count(el.status)}</li>`
           : '';
 
         // this part is responsible for the appearance
@@ -258,36 +260,43 @@ const options = {
         // from the <p> element
         return `
           ${group}
-          <li class="loupe">
-            <p>${el.name.replace(regex, (str) => `<b>${str}</b>`)}</p>
+          <li>
+            <h2 style="margin-bottom: 10px;">
+              ${el.name.replace(regex, (str) => `<b style="color: red;">${str}</b>`)}
+            </h2>
+            <div style="display: flex;">
+              <div style="margin-right: 10px;">
+                <img src="${el.img}" style="max-width: 67px;max-height:95px">
+              </div>
+              <div class="info">
+                <h4>${el.name}</h4>
+                <div><b>nickname:</b> - ${el.nickname}</div>
+                <div><b>birthday:</b> - ${el.birthday}</div>
+                <div><b>status:</b> - ${el.status}</div>
+              </div>
+            </div>
           </li>`;
-      })
-      .join('');
+      }).join('');
   },
 
   // the onSubmit function is executed when the user
   // submits their result by either selecting a result
   // from the list, or pressing enter or mouse button
-  onSubmit: (matches, input) => {
-    console.log(`You selected ${input}`);
-    // you can open a window or do a redirect
-    // window.open(`https://www.imdb.com/find?q=${encodeURI(input)}`);
+  onSubmit: ({ index, element, object, results }) => {
+    console.log('complex: ', index, element, object, results);
+    // window.open(`https://www.imdb.com/find?q=${encodeURI(input)}`)
   },
 
   // get index and data from li element after
   // hovering over li with the mouse or using
   // arrow keys ↓ | ↑
-  onSelectedItem: (index, matches) => {
-    console.log('onSelectedItem:', index, matches);
+  onSelectedItem: ({ index, element, object }) => {
+    console.log('onSelectedItem:', index, element.value, object);
   },
 
   // the method presents no results
-  noResults: (input, resultRender) => resultRender(`<li>No results found: "${input}"</li>`)
-
-};
-
-// `element` this is the id of the input field
-new Autocomplete('element', options);
+  noResults: ({ currentValue, template }) => template(`<li>No results found: "${currentValue}"</li>`)
+});
 ```
 
 ## Browsers support

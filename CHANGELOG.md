@@ -1,3 +1,11 @@
+## 2021-02-05 (v1.0.31)
+### Added
+- select multiple values
+- callback functions: `onReset`, `onOpened`
+
+### Changed
+- `howManyCharacters` changed from 2 over 1
+
 ## 2021-01-26 (v1.0.30)
 ### Added
 - grouping the results [#55](https://github.com/tomik23/autocomplete/issues/55)

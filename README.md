@@ -113,7 +113,6 @@ JavaScript
     });
   });
 </script>
-<script src="autocomplete.min.js"></script>
 ```
 
 ## Configuration of the plugin

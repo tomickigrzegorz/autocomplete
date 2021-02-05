@@ -49,6 +49,12 @@ $loupe-icon: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewB
         border-top: none;
       }
     }
+
+    li[disabled] {
+      pointer-events: none;
+      opacity: 0.5;
+      background: #ececec;
+    }
   }
 
   .expanded {
@@ -182,4 +188,9 @@ $loupe-icon: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewB
 
 .hidden {
   display: none;
+}
+
+.selected {
+  background: #ffe9e9;
+  pointer-events: none;
 }

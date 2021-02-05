@@ -65,7 +65,6 @@ npm run prod
 
 Download from `docs` folder:
 
-- main.css
 - autocomplete.css
 - autocomplete.min.js
 

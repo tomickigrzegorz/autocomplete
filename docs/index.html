@@ -33,6 +33,8 @@
           <li><a href="#data-elements">Static file + data-elelemts</a></li>
           <li><a href="#groups">Data grouping</a></li>
           <li><a href="#local-data">Local data</a></li>
+          <li><a href="#select-item">Select multiple values ver 1</a></li>
+          <li><a href="#select-multiple-values">Select multiple values ver 2</a></li>
           <li><a href="#address-geocoding">Address geocoding</a></li>
           <li><a href="#top" class="top">Back to top</a></li>
         </ul>
@@ -83,6 +85,49 @@
         </article>
         <!-- Geting started end -->
 
+        <article class="info-section">
+          <h2>Configuration of the plugin</h2>
+          <div class="callback">
+            <p><small><b>required</b></small></p>
+            <code><b>onSearch</b>: ({ currentValue, element }) => {}</code>
+          </div>
+          <div class="callback">
+            <p><small><b>required</b></small></p>
+            <code><b>onResults</b>: ({ currentValue, matches, template, classGroup }) => {}</code>
+            <p>when we want to add the information 'No results found:' we need to do a comparison, check the matches is
+              0 then set the template <code>return matches === 0 ? template : matches</code> </p>
+          </div>
+          <div class="callback">
+            <code><b>onSubmit</b>: ({ index, element, object, results }) => {}</code>
+          </div>
+          <div class="callback">
+            <code><b>onSelectedItem</b>: ({ index, element, object }) => {}</code>
+          </div>
+          <div class="callback">
+            <code><b>onOpened</b>: ({ type, element, results }) => {}</code>
+          </div>
+          <div class="callback">
+            <code><b>onReset</b>: (element) => {}</code>
+          </div>
+          <div class="callback">
+            <code><b>noResults</b>: ({ currentValue, template }) => {}</code>
+          </div>
+          <br>
+          <h2>Explanation of the variables</h2>
+          <div class="callback"><code>index</code> record number in the results</div>
+          <div class="callback"><code>currentValue</code> data entered into the input field</div>
+          <div class="callback"><code>element</code> input field for data entry</div>
+          <div class="callback"><code>matches</code> an array of elements matching the entered word</div>
+          <div class="callback"><code>classGroup</code> class name needed for grouping results</div>
+          <div class="callback"><code>object</code> object from the query</div>
+          <div class="callback"><code>type</code> can return two results 'results' or 'showItems'. 'results'
+            occurs each time a new result appears, 'showItems' occurs when we click on the input element and the result
+            reappears</div>
+          <div class="callback"><code>results</code> the entire ul + li html element is returned</div>
+          <div class="callback"><code>template</code> create an element to display information about 'no
+            results'</div>
+        </article>
+
         <!-- Basic start -->
         <section id="basics" class="section">
           <div class="search-element">
@@ -102,7 +147,7 @@
               </p>
             </div>
             <div class="search">
-              <input type="text" id="basic" placeholder="type wa" />
+              <input type="text" id="basic" placeholder="type w" />
             </div>
           </div>
           <div class="highlight html">
@@ -112,27 +157,28 @@
             <h4>javascript</h4>
             <pre rel="js">
               <code class="language-js">new Autocomplete('basic', {
-  onSearch: (input) => {
-    const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(input)}`;
-    return new Promise((resolve) => {
+  onSearch: ({ currentValue }) =&gt; {
+    const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(currentValue)}`;
+    return new Promise((resolve) =&gt; {
       fetch(api)
-        .then(response => response.json())
-        .then(data => {
-          resolve(data)
+        .then((response) =&gt; response.json())
+        .then((data) =&gt; {
+          resolve(data);
         })
-        .catch(error => {
+        .catch((error) =&gt; {
           console.error(error);
-        })
-    })
+        });
+    });
   },
-  onResults: (matches, input) => {
+
+  onResults: ({ matches }) =&gt; {
     return matches
-      .map(el => {
+      .map(el =&gt; {
         return `
-          &lt;li&gt;${el.name}&lt;/li&gt;&grave;
-      }).join('')
+          &lt;li&gt;${el.name}&lt;/li&gt;`;
+      }).join('');
   }
-})</code>
+});</code>
             </pre>
           </div>
         </section>
@@ -191,14 +237,14 @@
 
   // Function for user input. It can be a synchronous function or a promise
   // you can fetch data with jquery, axios, fetch, etc.
-  onSearch: (input) =&gt; {
+  onSearch: ({ currentValue }) => {
     // static file
     // const api = './characters.json';
 
     // OR -------------------------------
 
     // your REST API
-    const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(input)}`;
+    const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(currentValue)}`;
     /**
       * jquery
       * If you want to use jquery you have to add the
@@ -225,10 +271,10 @@
       * https://cdnjs.com/libraries/axios
       */
     // return axios.get(api)
-    //   .then((response) =&gt; {
+    //   .then((response) => {
     //     return response.data;
     //   })
-    //   .catch(error =&gt; {
+    //   .catch(error => {
     //     console.log(error);
     //   });
 
@@ -237,13 +283,13 @@
     /**
       * Promise
       */
-    return new Promise((resolve) =&gt; {
+    return new Promise((resolve) => {
       fetch(api)
-        .then((response) =&gt; response.json())
-        .then((data) =&gt; {
+        .then((response) => response.json())
+        .then((data) => {
           resolve(data);
         })
-        .catch((error) =&gt; {
+        .catch((error) => {
           console.error(error);
         });
     });
@@ -252,39 +298,34 @@
   // this part is responsible for the number of records,
   // the appearance of li elements and it really depends
   // on you how it will look
-  onResults: (matches, input, className) =&gt; {
-
+  onResults: ({ currentValue, matches, template, classGroup, }) => {
     // const regex = new RegExp(^${input}`, 'gi'); // start with
-    const regex = new RegExp(input, 'gi');
+    const regex = new RegExp(currentValue, 'gi');
 
     // counting status elements
     function count(status) {
       let count = {};
-      matches.map(el =&gt; {
+      matches.map(el => {
         count[el.status] = (count[el.status] || 0) + 1;
       });
-      return `&lt;small&gt;${count[status]} items&lt;/small&gt;`;
+      return `<small>${count[status]} items</small>`;
     }
 
     // checking if we have results if we don't
     // take data from the noResults method
-    return matches === 0 ? input : matches
-
-      // sort first by 'status' then sort each group by 'name'
-      .sort((a, b) =&gt; a.status.localeCompare(b.status) || a.name.localeCompare(b.name))
-
-      .map((el, index, array) =&gt; {
-
+    return matches === 0 ? template : matches
+      .sort((a, b) => a.status.localeCompare(b.status) || a.name.localeCompare(b.name))
+      .map((el, index, array) => {
         // we create an element of the group
         let group = el.status !== array[index - 1]?.status
-          ? `&lt;li class=&quot;${className}&quot;&gt;${el.status} ${count(el.status)}&lt;/li&gt;`
+          ? `<li class="${classGroup}">${el.status} ${count(el.status)}</li>`
           : '';
 
         // this part is responsible for the appearance
         // in the drop-down list - see the example in index.html
-        // remember only the first element from &lt;li&gt; is put
+        // remember only the first element from <li> is put
         // into the input field, in this case the text
-        // from the &lt;p&gt; element
+        // from the <p> element
         return `
           ${group}
           &lt;li&gt;
@@ -309,20 +350,20 @@
   // the onSubmit function is executed when the user
   // submits their result by either selecting a result
   // from the list, or pressing enter or mouse button
-  onSubmit: (matches, input) =&gt; {
-    console.table('complex', input, matches);
-    // window.open(`https://www.imdb.com/find?q=${encodeURI(input)}`)
+  onSubmit: ({ index, element, object, results }) => {
+    console.log('complex: ', index, element, object, results);
+    // window.open(`https://www.imdb.com/find?q=${encodeURI(element.value)}`)
   },
 
   // get index and data from li element after
   // hovering over li with the mouse or using
-  // arrow keys &darr; | &uarr;
-  onSelectedItem: (index, matches) =&gt; {
-    console.log('onSelectedItem:', index, matches);
+  // arrow keys ↓ | ↑
+  onSelectedItem: ({ index, element, object }) => {
+    console.log('onSelectedItem:', index, element.value, object);
   },
 
   // the method presents no results
-  noResults: (input, resultRender) =&gt; resultRender(`&lt;li&gt;No results found: &quot;${input}&quot;&lt;/li&gt;`)
+  noResults: ({ currentValue, renderTemplate }) => renderTemplate(`<li>No results found: "${currentValue}"</li>`)
 });</code>
             </pre>
           </div>
@@ -354,34 +395,36 @@
             <h4>javascript</h4>
             <pre rel="js">
       <code class="language-js">new Autocomplete('no-results', {
-  onSearch: (input) => {
+  onSearch: ({ currentValue }) =&gt; {
     const api = './characters.json';
-    return new Promise((resolve) => {
+    return new Promise((resolve) =&gt; {
       fetch(api)
-        .then(response => response.json())
-        .then(data => {
-          const result = data.sort((a, b) => a.name.localeCompare(b.name))
-            .filter(element => {
-              return element.name.match(new RegExp(input, 'gi'))
+        .then((response) =&gt; response.json())
+        .then((data) =&gt; {
+          const result = data.sort((a, b) =&gt; a.name.localeCompare(b.name))
+            .filter(element =&gt; {
+              return element.name.match(new RegExp(currentValue, 'gi'))
             })
-          resolve(result)
+          resolve(result);
         })
-        .catch(error => {
+        .catch((error) =&gt; {
           console.error(error);
-        })
-    })
+        });
+    });
   },
-  onResults: (matches, input) => {
+
+  onResults: ({ matches, template }) =&gt; {
     // checking if we have results if we don't
     // take data from the noResults method
-    return matches === 0 ? input : matches
-      .map(el => {
+    return matches === 0 ? template : matches
+      .map(el =&gt; {
         return `
-          &lt;li&gt;${el.name}&lt;/li&gt;&grave;
-      }).join('')
+          &lt;li&gt;${el.name}&lt;/li&gt;`;
+      }).join('');
   },
-  noResults: (input, resultRender) => resultRender(`<li>No results found: "${input}"</li>`)
-})</code>
+
+  noResults: ({ currentValue, renderTemplate }) =&gt; renderTemplate(`&lt;li&gt;No results found: &quot;${currentValue}&quot;&lt;/li&gt;`)
+});</code>
     </pre>
           </div>
         </section>
@@ -413,41 +456,39 @@
             <pre rel="js">
               <code class="language-js">new Autocomplete('static', {
   clearButton: true,
-  howManyCharacters: 1,
 
-  onSearch: (input) => {
+  // onSearch
+  onSearch: ({ currentValue }) =&gt; {
     // static file
-    const api = './characters.json'
-  
-    return new Promise((resolve) => {
+    const api = './characters.json';
+
+    return new Promise((resolve) =&gt; {
       fetch(api)
-        .then(response => response.json())
-        .then(data => {
-          
-          // filtering and sorting
-          const result = data.sort((a, b) => a.name.localeCompare(b.name))
-            .filter(element => {
-              return element.name.match(new RegExp(input, 'gi'))
+        .then((response) =&gt; response.json())
+        .then((data) =&gt; {
+          const result = data.sort((a, b) =&gt; a.name.localeCompare(b.name))
+            .filter(element =&gt; {
+              return element.name.match(new RegExp(currentValue, 'gi'))
             })
-          resolve(result)
+          resolve(result);
         })
-        .catch(error => {
+        .catch((error) =&gt; {
           console.error(error);
-        })
-    })
+        });
+    });
   },
-  
-  onResults: (matches, input) => {
+
+  onResults: ({ currentValue, matches }) =&gt; {
     return matches
-      .sort((a, b) => a.name.localeCompare(b.name))
-      .map(el => {
+      .map(el =&gt; {
         return `
           &lt;li class=&quot;loupe&quot;&gt;
-            &lt;p&gt;${el.name.replace(new RegExp(input, 'gi'), (str) =&gt; `&lt;b&gt;${str}&lt;/b&gt;`)}&lt;/p&gt;
-          &lt;/li&gt;`
-      }).join('')
+            &lt;p&gt;${el.name.replace(new RegExp(currentValue, 'gi'), (str) =&gt; `&lt;b&gt;${str}&lt;/b&gt;`)}&lt;/p&gt;
+          &lt;/li&gt;`;
+      })
+      .join('');
   }
-})</code>
+});</code>
             </pre>
           </div>
         </section>
@@ -482,50 +523,62 @@
               <code class="language-js">new Autocomplete('static-file-data', {
   clearButton: true,
   selectFirst: true,
-  howManyCharacters: 1,
-  onSearch: (input) => {
-    const api = './characters.json'
-    return new Promise((resolve) => {
+
+  // onSearch
+  onSearch: ({ currentValue }) =&gt; {
+    // static file
+    const api = './characters.json';
+
+    return new Promise((resolve) =&gt; {
       fetch(api)
-        .then(response => response.json())
-        .then(data => {
-          const result = data.sort((a, b) => a.name.localeCompare(b.name))
-            .filter(element => {
-              return element.name.match(new RegExp(input, 'gi'))
-            })
-          resolve(result)
+        .then((response) =&gt; response.json())
+        .then((data) =&gt; {
+          const result = data
+            .sort((a, b) =&gt; a.name.localeCompare(b.name))
+            .filter((element) =&gt; {
+              return element.name.match(new RegExp(currentValue, 'gi'));
+            });
+          resolve(result);
         })
-        .catch(error => {
+        .catch((error) =&gt; {
           console.error(error);
-        })
-    })
+        });
+    });
   },
-  onResults: (matches, input) => {
-    return matches.map(({ name, status }) => {
+
+  onResults: ({ currentValue, matches }) =&gt; {
+    return matches.map(({ name, status }) =&gt; {
       return `
         &lt;li class=&quot;loupe&quot;&gt;
-          &lt;p&gt;${name.replace(new RegExp(input, 'gi'), (str) =&gt; `&lt;b&gt;${str}&lt;/b&gt;`)}&lt;/p&gt;
+          &lt;p&gt;${name.replace(new RegExp(currentValue, 'gi'), (str) =&gt; `&lt;b&gt;${str}&lt;/b&gt;`)}&lt;/p&gt;
           &lt;small&gt;status - ${status}&lt;/small&gt;
-        &lt;/li&gt;`
-    }).join('')
+        &lt;/li&gt;`;
+    }).join('');
   },
-  onSubmit: (matches, input) => {
-    const { name, status, img } = matches;
+
+  // event onsubmit
+  onSubmit: ({ index, element, object }) =&gt; {
+    const { name, status, img } = object;
+
+    console.table('static-file-data', index, element, object);
 
     const template = `
       &lt;p&gt;name - ${name}&lt;/p&gt;
       &lt;p&gt;status - ${status}&lt;/p&gt;
-      &lt;div class="image"&gt;&lt;img src=&quot;${img}&quot;&gt;&lt;/div&gt;`;
-      
+      &lt;div class=&quot;image&quot;&gt;&lt;img src=&quot;${img}&quot;&gt;&lt;/div&gt;`;
+
     const info = document.querySelector('.info-d');
     info.classList.add('active-data');
     info.innerHTML = template;
   },
 
-  onSelectedItem: (index, matches) => {
-    console.log('onSelectedItem:', index, matches);
-  }
-})</code>
+  // get index and data from li element after
+  // hovering over li with the mouse
+  onSelectedItem: ({ index, element, object }) =&gt; {
+    console.log('onSelectedItem:', index, element.value, object);
+  },
+
+});</code>
             </pre>
           </div>
         </section>
@@ -564,13 +617,12 @@
             <pre rel="js">
       <code class="language-js">new Autocomplete('group', {
   clearButton: true,
-  howManyCharacters: 1,
 
   // enter a class name, this class will
   // be added to the group name elements
   classGroup: 'group-by',
 
-  onSearch: (input) =&gt; {
+  onSearch: ({ currentValue }) =&gt; {
     const api = './characters.json';
     return new Promise((resolve) =&gt; {
       fetch(api)
@@ -584,7 +636,7 @@
           const result = data
             .sort((a, b) =&gt; a.status.localeCompare(b.status) || a.name.localeCompare(b.name))
             .filter(element =&gt; {
-              return element.name.match(new RegExp(input, 'gi'))
+              return element.name.match(new RegExp(currentValue, 'gi'))
             })
           resolve(result);
         })
@@ -593,7 +645,8 @@
         });
     });
   },
-  onResults: (matches, input, className) =&gt; {
+
+  onResults: ({ currentValue, matches, template, classGroup }) =&gt; {
 
     // counting status elements
     function count(status) {
@@ -604,28 +657,23 @@
       return `&lt;small&gt;${count[status]} items&lt;/small&gt;`;
     }
 
-    return matches === 0 ? input : matches
+    return matches === 0 ? template : matches
       .map((el, index, array) =&gt; {
 
         // we create an element of the group
         let group = el.status !== array[index - 1]?.status
-          ? `&lt;li class=&quot;${className}&quot;&gt;${el.status} ${count(el.status)}&lt;/li&gt;`
+          ? `&lt;li class=&quot;${classGroup}&quot;&gt;${el.status} ${count(el.status)}&lt;/li&gt;`
           : '';
 
         return `
           ${group}
           &lt;li class=&quot;loupe&quot;&gt;
-            &lt;p&gt;${el.name.replace(new RegExp(input, 'gi'), (str) =&gt; `&lt;b&gt;${str}&lt;/b&gt;`)}&lt;/p&gt;
+            &lt;p&gt;${el.name.replace(new RegExp(currentValue, 'gi'), (str) =&gt; `&lt;b&gt;${str}&lt;/b&gt;`)}&lt;/p&gt;
           &lt;/li&gt;`;
       }).join('');
   },
-  onSubmit: (matches, input) =&gt; {
-    console.log(`You selected ${input}`);
-  },
-  onSelectedItem: (index, matches) =&gt; {
-    console.log('onSelectedItem:', index, matches);
-  },
-  noResults: (input, resultRender) =&gt; resultRender(`&lt;li&gt;No results found: &quot;${input}&quot;&lt;/li&gt;`),
+
+  noResults: ({ currentValue, template }) =&gt; template(`&lt;li&gt;No results found: &quot;${currentValue}&quot;&lt;/li&gt;`),
 });</code>
     </pre>
           </div>
@@ -651,10 +699,8 @@
             <h4>javascript</h4>
             <pre rel="js">
       <code class="language-js">new Autocomplete('local', {
-  howManyCharacters: 1,
+  onSearch: ({ currentValue }) =&gt; {
 
-  onSearch: (input) =&gt; {
-    
     // local data
     const data = [
       { &quot;name&quot;: &quot;Walter White&quot; },
@@ -664,21 +710,277 @@
     ];
     return data.sort((a, b) =&gt; a.name.localeCompare(b.name))
       .filter(element =&gt; {
-        return element.name.match(new RegExp(input, 'gi'))
+        return element.name.match(new RegExp(currentValue, 'i'))
       })
   },
-  onResults: (matches) =&gt; {
+
+  onResults: ({ matches }) =&gt; {
     return matches
-      .map((el) =&gt; {
+      .map(el =&gt; {
         return `
           &lt;li&gt;${el.name}&lt;/li&gt;`;
       }).join('');
-  },
+  }
 });</code>
     </pre>
           </div>
         </section>
         <!-- Local data end -->
+
+
+        <!-- Local data start -->
+        <section id="select-item" class="section">
+          <div class="search-element">
+            <div class="info-section">
+              <h2>Select multiple values ver 1</h2>
+              <p>This example allows you to select multiple elements that are added below the input field. To remove all
+                elements just click button clear 'x' or delete elements one by one by clicking the button 'x' which are
+                next to the name of the taken elements.</p>
+            </div>
+            <div class="search max-height">
+              <input type="text" id="select" placeholder="type w" />
+            </div>
+            <div class="selected-item"></div>
+          </div>
+          <div class="highlight html">
+            <h4>html</h4>
+          </div>
+          <div class="highlight javascript">
+            <h4>javascript</h4>
+            <pre rel="js">
+              <code class="language-js">let firstArray = [];
+new Autocomplete('select', {
+  clearButton: true,
+
+  onSearch: ({ currentValue }) =&gt; {
+    const api = './characters.json';
+    return new Promise((resolve) =&gt; {
+      fetch(api)
+        .then((response) =&gt; response.json())
+        .then((data) =&gt; {
+          // first, we sort by our group, in our case
+          // it will be the status, then we sort by name
+          // of course, it is not always necessary because
+          // such soroting may be obtained from REST API
+          const result = data
+            .sort((a, b) =&gt; a.name.localeCompare(b.name))
+            .filter(element =&gt; {
+              return element.name.match(new RegExp(currentValue, 'gi'))
+            })
+          resolve(result);
+        })
+        .catch((error) =&gt; {
+          console.error(error);
+        });
+    });
+  },
+
+  onResults: ({ matches }) =&gt; {
+    return matches
+      .map(el =&gt; {
+        return `
+          &lt;li&gt;${el.name}&lt;/li&gt;`;
+      }).join('');
+  },
+
+  onOpened: ({ results }) =&gt; {
+    // if the elements from the 'array' are identical to those
+    // from the rendered elements add the 'selected' class
+    [].slice.call(results.children).map(item =&gt; {
+      if (firstArray.includes(item.textContent)) {
+        item.classList.add('selected');
+      }
+    });
+  },
+
+  onSubmit: ({ element, results }) =&gt; {
+    if (firstArray.includes(element.value)) {
+      return;
+    };
+
+    // add the selected item to the array
+    firstArray.push(element.value);
+
+    // the place where we will add selected elements
+    const selectedItem = document.querySelector('.selected-item');
+
+    // create elements with names and buttons
+    const button = document.createElement('button');
+    button.type = 'button'
+    button.className = 'remove-item';
+    button.insertAdjacentHTML('beforeend', '&lt;svg aria-label=&quot;Remove name&quot; height=&quot;16&quot; viewBox=&quot;0 0 16 16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z&quot;/&gt;&lt;/svg&gt;');
+
+    const item = document.createElement('div');
+    item.className = 'item';
+
+    // add each item in the array to the div selectedItem
+    firstArray.map(itemText =&gt; {
+      item.textContent = itemText;
+      item.insertAdjacentElement('beforeend', button);
+      selectedItem.appendChild(item);
+    });
+
+    function setAttributeType(type) {
+      [].slice.call(results.children).map(item =&gt; {
+        if (item.textContent === button.parentNode.textContent) {
+          item.classList[type === 'remove' ? 'remove' : 'add']('selected')
+        }
+      });
+    }
+
+    // remove selected element
+    button.addEventListener('click', (e) =&gt; {
+      e.stopPropagation();
+      const parentElement = button.parentNode;
+
+      // remove element from array
+      firstArray.splice(firstArray.indexOf(parentElement.textContent), 1);
+
+      // remove disabled attr
+      setAttributeType('remove');
+
+      // remove element from div
+      parentElement.parentNode.removeChild(parentElement);
+    });
+
+    / add disabled attr
+    setAttributeType();
+  },
+
+  onReset: (element) =&gt; {
+    const selectedItem = document.querySelector('.selected-item');
+    selectedItem.innerHTML = '';
+    // after clicking the 'x' button,
+    // clear the table
+    firstArray = [];
+  }
+});</code>
+            </pre>
+          </div>
+        </section>
+        <!-- Local data end -->
+
+
+        <!-- Local data start -->
+        <section id="select-multiple-values" class="section">
+          <div class="search-element">
+            <div class="info-section">
+              <h2>Select multiple values ver 2</h2>
+              <p>This example allows you to select multiple elements that are added to the input field, to remove the
+                selected fields, clear them by pressing the clear 'x' button or by removing the element or elements from
+                the input field.</p>
+            </div>
+            <div class="search max-height loupe">
+              <input type="text" id="multiple-values" placeholder="type w" />
+            </div>
+          </div>
+          <div class="highlight html">
+            <h4>html</h4>
+          </div>
+          <div class="highlight javascript">
+            <h4>javascript</h4>
+            <pre rel="js">
+              <code class="language-js">// array initialization
+let secondArray = [];
+new Autocomplete('multiple-values', {
+  clearButton: true,
+
+  onSearch: ({ element }) => {
+    // first get all the items and split with a comma
+    const lastElement = element.value.split(',').pop().trim();
+    // if the last item is 0 then we don't do a search
+    if (lastElement.length === 0) return;
+
+    const data = [
+      { "name": "Grzesiek" },
+      { "name": "Andrzej" },
+      { "name": "Monika" },
+      { "name": "Wiesława" },
+      { "name": "Waldemar" },
+      { "name": "Włodzimierz" },
+      { "name": "Adam" },
+      { "name": "Agnieszka" },
+      { "name": "Paweł" },
+      { "name": "Tadeusz" },
+      { "name": "Tymoteusz" },
+      { "name": "Łucja" },
+      { "name": "Nela" }
+    ];
+    return data.sort((a, b) => a.name.localeCompare(b.name))
+      .filter(element => {
+        return element.name.match(new RegExp(lastElement, 'gi'))
+      })
+  },
+
+  onResults: ({ matches }) => {
+    return matches
+      .map(el => {
+        return `
+          &lt;li&gt;${el.name}&lt;/li&gt;`;
+      }).join('');
+  },
+
+  onOpened: ({ element, results }) => {
+    // type - two values 'results' and 'showItems',
+    // 'resutls' first rendering of the results
+    // 'showItems' only showing the results when clicking on the input field
+    // resultList all results rendered containing ul and li
+    // input - root input
+
+    // get the data from the input field and divide by the
+    // decimal point, then remove the empty last element
+    const currentValue = element.value.split(', ').splice(0, element.value.length - 1);
+
+    // leave in the array only those elements that are in the input field
+    secondArray = secondArray.filter(el => currentValue.includes(el));
+
+    // check if the table 'secondArray' contains selected elements from 
+    // the input field, if so we add the 'selected' class to the 'li' element,
+    // if not, remove the 'selected' class from the li element
+    [].slice.call(results.children).map(item => {
+      item.classList[secondArray.includes(item.textContent) ? 'add' : 'remove']('selected')
+    });
+
+  },
+
+  onSubmit: ({ index, element, object, results }) => {
+    if (secondArray.includes(element.value)) {
+      return;
+    };
+
+    console.log('index: ', index, 'object: ', object, 'results: ', results);
+
+    // each click on the li element adds data to the array
+    secondArray.push(element.value.trim());
+
+    // check if the table includes selected items from
+    // the list, if so, add the 'selected' class
+    [].slice.call(results.children).map(item => {
+      if (secondArray.includes(item.textContent)) {
+        item.classList.add('selected');
+      }
+    });
+
+    // add the elements from the array separated by commas
+    // to the 'input' field, also add a comma to the last element
+    element.value = `${secondArray.join(', ')}${secondArray > 2 ? secondArray.pop()[secondArray.length - 1] : ', '}`;
+
+    // after selecting an item, set the
+    // focus to the input field
+    element.focus();
+  },
+
+  onReset: (element) => {
+    // after clicking the 'x' button,
+    // clear the table
+    secondArray = [];
+  }
+});</code>
+            </pre>
+          </div>
+        </section>
+        <!-- Local data end -->
+
 
         <!-- Other usage ideas start -->
         <article id="address-geocoding" class="section">

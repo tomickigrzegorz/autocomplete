@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   const changeNav = (entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting && entry.intersectionRatio > 0.1) {
-        console.log(entry);
+
         document.querySelector('.active').classList.remove('active');
 
         var id = entry.target.getAttribute('id');

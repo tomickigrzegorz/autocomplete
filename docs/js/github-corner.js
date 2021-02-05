@@ -60,12 +60,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
   // IntersectionObserver section
   const options = {
     root: null,
-    rootMargin: '0px'
+    rootMargin: '0px',
+    threshold: 0.1,
   }
 
   const changeNav = (entries) => {
     entries.forEach((entry) => {
-      if (entry.isIntersecting) {
+      if (entry.isIntersecting && entry.intersectionRatio > 0.1) {
+        console.log(entry);
         document.querySelector('.active').classList.remove('active');
 
         var id = entry.target.getAttribute('id');

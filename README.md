@@ -72,7 +72,6 @@ Download from `docs` folder:
 CSS
 
 ```html
-<link rel="stylesheet" href="main.css" />
 <link rel="stylesheet" href="autocomplete.css" />
 ```
 

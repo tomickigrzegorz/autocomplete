@@ -2,14 +2,6 @@
 
 $toggle-menu: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z'/%3E%3C/svg%3E%0A";
 
-*,
-:after,
-:before {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
 html {
   scroll-behavior: smooth;
   height: 100%;
@@ -380,66 +372,6 @@ body,
     &:hover {
       transform: scale(1.2);
       filter: brightness(150%);
-    }
-  }
-}
-
-.group-by {
-  background: #000;
-  font-size: 0.85em;
-  color: #fff;
-  letter-spacing: 1px;
-
-  small {
-    background: red;
-    position: absolute;
-    line-height: 22px;
-    letter-spacing: normal;
-    padding: 0 5px 0 14px;
-    border-radius: 2px;
-    right: 12px;
-    &::before {
-      position: absolute;
-      margin-top: -2px;
-      margin-left: -10px;
-      content: "\2193";
-    }
-  }
-}
-
-.selected-item {
-  display: flex;
-  flex-wrap: wrap;
-  font-size: 0.8em;
-  .item {
-    display: flex;
-    align-items: center;
-    position: relative;
-    padding: 5px 35px 5px 10px;
-    margin: 2px 0;
-    color: #00425c;
-    // border: 1px solid #00b7ff;
-    background: #d1f2ff;
-    border-radius: 15px;
-    margin-right: 5px;
-    &:hover {
-      background: #93e0ff;
-    }
-  }
-  button {
-    position: absolute;
-    background: #d1f2ff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    border: 0;
-    width: 25px;
-    height: 25px;
-    right: 3px;
-    border-radius: 50%;
-    &:hover {
-      background: #93e0ff;
     }
   }
 }

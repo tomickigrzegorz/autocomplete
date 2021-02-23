@@ -1,3 +1,8 @@
+## 2021-02-23 (v1.0.32)
+### Added
+- to the example `Select multiple values ver 1` counting the selected elements
+- `element` to noResults callback function
+
 ## 2021-02-05 (v1.0.31)
 ### Added
 - select multiple values

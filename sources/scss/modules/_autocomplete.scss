@@ -3,6 +3,12 @@ $close-button: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' vie
 
 $loupe-icon: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"%3E%3Cpath fill="lightgrey" d="M31.008 27.231l-7.58-6.447c-.784-.705-1.622-1.029-2.299-.998a11.954 11.954 0 002.87-7.787c0-6.627-5.373-12-12-12s-12 5.373-12 12 5.373 12 12 12c2.972 0 5.691-1.081 7.787-2.87-.031.677.293 1.515.998 2.299l6.447 7.58c1.104 1.226 2.907 1.33 4.007.23s.997-2.903-.23-4.007zM12 20a8 8 0 110-16 8 8 0 010 16z"/%3E%3C/svg%3E%0A';
 
+$heart-icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23e91e63' viewBox='0 0 32 32'%3E%3Cpath d='M23.6 2c-3.363 0-6.258 2.736-7.599 5.594C14.659 4.736 11.764 2 8.4 2 3.763 2 0 5.764 0 10.401c0 9.433 9.516 11.906 16.001 21.232C22.131 22.365 32 19.533 32 10.401 32 5.764 28.237 2 23.6 2z'/%3E%3C/svg%3E";
+
+$heart-broken-icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23e91e63' viewBox='0 0 32 32'%3E%3Cpath d='M23.6 2c4.637 0 8.4 3.764 8.4 8.401 0 9.132-9.87 11.964-15.999 21.232C9.516 22.307 0 19.834 0 10.401 0 5.764 3.763 2 8.4 2c1.886 0 3.625.86 5.025 2.12L11 8l7 4-4 10 11-12-7-4 1.934-2.901C21.041 2.419 22.284 2 23.599 2z'/%3E%3C/svg%3E";
+
+$frustrated-icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23e91e63' viewBox='0 0 32 32'%3E%3Cpath d='M8 20.5v3c0 .271.229.5.5.5H12v-4H8.5c-.271 0-.5.229-.5.5zM14 20h4v4h-4v-4zM23.5 20H20v4h3.5c.271 0 .5-.229.5-.5v-3c0-.271-.229-.5-.5-.5z'/%3E%3Cpath d='M16 0C7.163 0 0 7.163 0 16s7.163 16 16 16 16-7.163 16-16S24.837 0 16 0zm2.003 11.891c.064-1.483 1.413-2.467 2.55-3.036 1.086-.543 2.159-.814 2.205-.826a1 1 0 11.485 1.941 9.195 9.195 0 00-1.779.667 2 2 0 11-3.46 1.254zM8.03 8.758a1 1 0 011.213-.728c.045.011 1.119.283 2.205.826 1.137.569 2.486 1.553 2.55 3.036a2 2 0 11-3.46-1.254 9.195 9.195 0 00-1.779-.667 1.001 1.001 0 01-.728-1.213zM26 23.5c0 1.378-1.122 2.5-2.5 2.5h-15A2.503 2.503 0 016 23.5v-3C6 19.122 7.122 18 8.5 18h15c1.378 0 2.5 1.122 2.5 2.5v3z'/%3E%3C/svg%3E";
+
 *,
 :after,
 :before {
@@ -53,6 +59,7 @@ $loupe-icon: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewB
       cursor: pointer;
       margin: 0;
       padding: 10px;
+      overflow: hidden;
 
       &:not(:last-child) {
         border-top: none;
@@ -111,6 +118,37 @@ $loupe-icon: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewB
   }
 }
 
+.count {
+  input {
+    padding: 6px 45px 6px 40px;
+  }
+
+  &:before {
+    position: absolute;
+    content: "";
+    width: 1px;
+    background: #bbbbbb;
+    height: 25px;
+    top: 0;
+    bottom: 0;
+    left: 32px;
+    margin: auto;
+  }
+}
+
+.count-number {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 25px;
+  height: 25px;
+  left: 5px;
+  margin: auto;
+  text-align: center;
+  line-height: 24px;
+  font-size: 0.8rem;
+}
+
 .loupe {
   input {
     padding: 6px 45px 6px 40px;
@@ -126,6 +164,48 @@ $loupe-icon: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewB
     left: 10px;
     margin: auto;
     background-image: url($loupe-icon);
+  }
+}
+
+.alive,
+.deceased,
+.presumed-dead {
+  padding-left: 40px !important;
+
+  &:before {
+    position: absolute;
+    content: "";
+    width: 20px;
+    height: 20px;
+    top: -2px;
+    bottom: 0;
+    left: 10px;
+    margin: auto;
+    opacity: 0.3;
+  }
+}
+
+.auto-selected {
+  &:before {
+    opacity: 1;
+  }
+}
+
+.alive {
+  &:before {
+    background-image: url($heart-icon);
+  }
+}
+
+.deceased {
+  &:before {
+    background-image: url($heart-broken-icon);
+  }
+}
+
+.presumed-dead {
+  &:before {
+    background-image: url($frustrated-icon);
   }
 }
 
@@ -160,7 +240,7 @@ $loupe-icon: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewB
   display: none;
   background-color: $color-white;
 
-  & > .loupe {
+  &>.loupe {
     padding-left: 40px;
   }
 
@@ -177,7 +257,7 @@ $loupe-icon: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewB
   background-color: lighten($color-gray, 40%);
   transition: background-color 0.2s ease-out;
 
-  + li:before {
+  +li:before {
     border-top: none;
   }
 }
@@ -205,22 +285,40 @@ $loupe-icon: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewB
 }
 
 .group-by {
-  background: #000;
   font-size: 0.85em;
-  color: #fff;
   letter-spacing: 1px;
+  background: #ff5722;
+  color: #fff;
+  line-height: 1;
+
+  &:before {
+    position: absolute;
+    content: ".............................................................................................................................................................";
+    top: 6px;
+  }
+
+  span {
+    padding: 0 5px 0 0px;
+    background: #ff5722;
+    z-index: 1;
+    position: relative;
+    font-weight: 600;
+    letter-spacing: 0;
+  }
 
   small {
-    background: red;
+    background: #ff5722;
     position: absolute;
     line-height: 22px;
     letter-spacing: normal;
-    padding: 0 5px 0 14px;
+    padding: 0 12px 0 20px;
     border-radius: 2px;
-    right: 12px;
+    right: 0;
+    top: 7px;
+
     &::before {
       position: absolute;
-      margin-top: -2px;
+      margin-top: 0px;
       margin-left: -10px;
       content: "\2193";
     }
@@ -231,6 +329,7 @@ $loupe-icon: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewB
   display: flex;
   flex-wrap: wrap;
   font-size: 0.8em;
+
   .item {
     display: flex;
     align-items: center;
@@ -242,10 +341,12 @@ $loupe-icon: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewB
     background: #d1f2ff;
     border-radius: 15px;
     margin-right: 5px;
+
     &:hover {
       background: #93e0ff;
     }
   }
+
   button {
     position: absolute;
     background: #d1f2ff;
@@ -258,6 +359,7 @@ $loupe-icon: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewB
     height: 25px;
     right: 3px;
     border-radius: 50%;
+
     &:hover {
       background: #93e0ff;
     }

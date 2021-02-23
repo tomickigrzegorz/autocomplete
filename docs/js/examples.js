@@ -23,7 +23,7 @@ window.addEventListener('DOMContentLoaded', () => {
       return matches
         .map(el => {
           return `
-        <li>${el.name}</li>`;
+            <li>${el.name}</li>`;
         }).join('');
     },
   });
@@ -139,7 +139,7 @@ window.addEventListener('DOMContentLoaded', () => {
         .map((el, index, array) => {
           // we create an element of the group
           let group = el.status !== array[index - 1]?.status
-            ? `<li class="${classGroup}">${el.status} ${count(el.status)}</li>`
+            ? `<li class="${classGroup}"><span>${el.status}</span> ${count(el.status)}</li>`
             : '';
 
           // this part is responsible for the appearance
@@ -148,23 +148,23 @@ window.addEventListener('DOMContentLoaded', () => {
           // into the input field, in this case the text
           // from the <p> element
           return `
-        ${group}
-        <li>
-          <h2 style="margin-bottom: 10px;">
-            ${el.name.replace(regex, (str) => `<b style="color: red;">${str}</b>`)}
-          </h2>
-          <div style="display: flex;">
-            <div style="margin-right: 10px;">
-              <img src="${el.img}" style="max-width: 67px;max-height:95px">
-            </div>
-            <div class="info">
-              <h4>${el.name}</h4>
-              <div><b>nickname:</b> - ${el.nickname}</div>
-              <div><b>birthday:</b> - ${el.birthday}</div>
-              <div><b>status:</b> - ${el.status}</div>
-            </div>
-          </div>
-        </li>`;
+            ${group}
+            <li>
+              <h2 style="margin-bottom: 10px;">
+                ${el.name.replace(regex, (str) => `<b style="color: red;">${str}</b>`)}
+              </h2>
+              <div style="display: flex;">
+                <div style="margin-right: 10px;">
+                  <img src="${el.img}" style="max-width: 67px;max-height:95px">
+                </div>
+                <div class="info">
+                  <h4>${el.name}</h4>
+                  <div><b>nickname:</b> - ${el.nickname}</div>
+                  <div><b>birthday:</b> - ${el.birthday}</div>
+                  <div><b>status:</b> - ${el.status}</div>
+                </div>
+              </div>
+            </li>`;
         }).join('');
     },
 
@@ -184,7 +184,9 @@ window.addEventListener('DOMContentLoaded', () => {
     },
 
     // the method presents no results
-    noResults: ({ currentValue, template }) => template(`<li>No results found: "${currentValue}"</li>`)
+    noResults: ({ element, template }) => {
+      template(`<li>No results found: "${element.value}"</li>`)
+    }
   });
 
 
@@ -221,7 +223,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }).join('');
     },
 
-    noResults: ({ currentValue, template }) => template(`<li>No results found: "${currentValue}"</li>`)
+    noResults: ({ element, template }) => template(`<li>No results found: "${element.value}"</li>`)
   });
 
 
@@ -379,17 +381,22 @@ window.addEventListener('DOMContentLoaded', () => {
       return matches === 0 ? template : matches
         .map((el, index, array) => {
 
+          const icons = `${el.status.toLowerCase().replace(/\s/g, '-')}`;
           // we create an element of the group
           let group = el.status !== array[index - 1]?.status
-            ? `<li class="${classGroup}">${el.status} ${count(el.status)}</li>`
+            ? `<li class="${classGroup}"><span>${el.status}</span> ${count(el.status)}</li>`
             : '';
 
           return `
-          ${group}
-          <li class="loupe">
-            <p>${el.name.replace(new RegExp(currentValue, 'gi'), (str) => `<b>${str}</b>`)}</p>
-          </li>`;
+            ${group}
+            <li class="icon ${icons}">
+              <p>${el.name.replace(new RegExp(currentValue, 'gi'), (str) => `<b>${str}</b>`)}</p>
+            </li>`;
         }).join('');
+    },
+
+    onSelectedItem: ({ index, element, object }) => {
+      console.log(index, element, object)
     },
 
     noResults: ({ currentValue, template }) => template(`<li>No results found: "${currentValue}"</li>`),
@@ -431,6 +438,8 @@ window.addEventListener('DOMContentLoaded', () => {
    */
 
   let firstArray = [];
+  const countNumber = document.querySelector('.count-number');
+
   new Autocomplete('select', {
     clearButton: true,
 
@@ -502,7 +511,6 @@ window.addEventListener('DOMContentLoaded', () => {
         selectedItem.appendChild(item);
       });
 
-
       function setAttributeType(type) {
         [].slice.call(results.children).map(item => {
           if (item.textContent === button.parentNode.textContent) {
@@ -510,6 +518,9 @@ window.addEventListener('DOMContentLoaded', () => {
           }
         });
       }
+
+      // update number count
+      countNumber.textContent = firstArray.length;
 
       // remove selected element
       button.addEventListener('click', (e) => {
@@ -521,6 +532,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
         // remove disabled attr
         setAttributeType('remove');
+
+        // update number count
+        countNumber.textContent = firstArray.length;
 
         // remove element from div
         parentElement.parentNode.removeChild(parentElement);
@@ -536,6 +550,9 @@ window.addEventListener('DOMContentLoaded', () => {
       // after clicking the 'x' button,
       // clear the table
       firstArray = [];
+
+      // remove count number
+      countNumber.textContent = 0;
     }
   });
 

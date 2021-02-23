@@ -33,7 +33,7 @@
           <li><a href="#data-elements">Static file + data-elelemts</a></li>
           <li><a href="#groups">Data grouping</a></li>
           <li><a href="#local-data">Local data</a></li>
-          <li><a href="#select-item">Select multiple values ver 1</a></li>
+          <li><a href="#select-item">Select multiple values ver 1 <div><small>with count</small></div></a></li>
           <li><a href="#select-multiple-values">Select multiple values ver 2</a></li>
           <li><a href="#address-geocoding">Address geocoding</a></li>
           <li><a href="#top" class="top">Back to top</a></li>
@@ -84,47 +84,83 @@
         </article>
         <!-- Geting started end -->
 
-        <article class="info-section">
-          <h2>Configuration of the plugin</h2>
-          <div class="callback">
-            <p><small><b>required</b></small></p>
-            <code><b>onSearch</b>: ({ currentValue, element }) => {}</code>
-          </div>
-          <div class="callback">
-            <p><small><b>required</b></small></p>
-            <code><b>onResults</b>: ({ currentValue, matches, template, classGroup }) => {}</code>
-            <p>when we want to add the information 'No results found:' we need to do a comparison, check the matches is
-              0 then set the template <code>return matches === 0 ? template : matches</code> </p>
-          </div>
-          <div class="callback">
-            <code><b>onSubmit</b>: ({ index, element, object, results }) => {}</code>
-          </div>
-          <div class="callback">
-            <code><b>onSelectedItem</b>: ({ index, element, object }) => {}</code>
-          </div>
-          <div class="callback">
-            <code><b>onOpened</b>: ({ type, element, results }) => {}</code>
-          </div>
-          <div class="callback">
-            <code><b>onReset</b>: (element) => {}</code>
-          </div>
-          <div class="callback">
-            <code><b>noResults</b>: ({ currentValue, template }) => {}</code>
+        <article>
+          <div class="info-section">
+            <h2>Configuration of the plugin</h2>
+            <div class="callback">
+              <p><small><b>required</b></small></p>
+              <code><b>onSearch</b>: ({ currentValue, element }) => {}</code>
+            </div>
+            <div class="callback">
+              <p><small><b>required</b></small></p>
+              <code><b>onResults</b>: ({ currentValue, matches, template, classGroup }) => {}</code>
+              <p>when we want to add the information 'No results found:' we need to do a comparison, check the matches
+                is
+                0 then set the template <code>return matches === 0 ? template : matches</code> </p>
+            </div>
+            <div class="callback">
+              <code><b>onSubmit</b>: ({ index, element, object, results }) => {}</code>
+            </div>
+            <div class="callback">
+              <code><b>onSelectedItem</b>: ({ index, element, object }) => {}</code>
+            </div>
+            <div class="callback">
+              <code><b>onOpened</b>: ({ type, element, results }) => {}</code>
+            </div>
+            <div class="callback">
+              <code><b>onReset</b>: (element) => {}</code>
+            </div>
+            <div class="callback">
+              <code><b>noResults</b>: ({ element, currentValue, template }) => {}</code>
+            </div>
+            <br>
+            <h2>Explanation of the variables</h2>
+            <div class="callback"><code>index</code> record number in the results</div>
+            <div class="callback"><code>currentValue</code> data entered into the input field</div>
+            <div class="callback"><code>element</code> input field for data entry</div>
+            <div class="callback"><code>matches</code> an array of elements matching the entered word</div>
+            <div class="callback"><code>classGroup</code> class name needed for grouping results</div>
+            <div class="callback"><code>object</code> object from the query</div>
+            <div class="callback"><code>type</code> can return two results 'results' or 'showItems'. 'results'
+              occurs each time a new result appears, 'showItems' occurs when we click on the input element and the
+              result
+              reappears</div>
+            <div class="callback"><code>results</code> the entire ul + li html element is returned</div>
+            <div class="callback"><code>template</code> create an element to display information about 'no
+              results'</div>
           </div>
           <br>
-          <h2>Explanation of the variables</h2>
-          <div class="callback"><code>index</code> record number in the results</div>
-          <div class="callback"><code>currentValue</code> data entered into the input field</div>
-          <div class="callback"><code>element</code> input field for data entry</div>
-          <div class="callback"><code>matches</code> an array of elements matching the entered word</div>
-          <div class="callback"><code>classGroup</code> class name needed for grouping results</div>
-          <div class="callback"><code>object</code> object from the query</div>
-          <div class="callback"><code>type</code> can return two results 'results' or 'showItems'. 'results'
-            occurs each time a new result appears, 'showItems' occurs when we click on the input element and the result
-            reappears</div>
-          <div class="callback"><code>results</code> the entire ul + li html element is returned</div>
-          <div class="callback"><code>template</code> create an element to display information about 'no
-            results'</div>
+          <h2>JSON format from static file</h2>
+          <pre rel="json">
+              <code class="language-json">{
+  "char_id": 1,
+  "name": "Walter White",
+  "birthday": "09-07-1958",
+  "img":
+  "https://images.amcnetworks.com/amc.com/wp-content/uploads/2015/04/cast_bb_700x1000_walter-white-lg.jpg",
+  "status": "Presumed dead"
+},</code>
+              </pre>
+          <br>
+          <h2>JSON format from REST API</h2>
+          <pre rel="json">
+            <code class="language-json">{
+  "char_id": 1,
+  "name": "Walter White",
+  "birthday": "09-07-1958",
+  "occupation": [
+    "High School Chemistry Teacher",
+    "Meth King Pin"
+  ],
+  "img": "https://images.amcnetworks.com/amc.com/wp-content/uploads/2015/04/cast_bb_700x1000_walter-white-lg.jpg",
+  "status": "Presumed dead",
+  "nickname": "Heisenberg",
+  "appearance": [ 1, 2, 3, 4, 5 ],
+  "portrayed": "Bryan Cranston",
+  "category": "Breaking Bad",
+  "better_call_saul_appearance": []
+},</code>
+            </pre>
         </article>
 
         <!-- Basic start -->
@@ -362,7 +398,7 @@
   },
 
   // the method presents no results
-  noResults: ({ currentValue, renderTemplate }) => renderTemplate(`<li>No results found: "${currentValue}"</li>`)
+  noResults: ({ element, renderTemplate }) => renderTemplate(`<li>No results found: "${element.value}"</li>`)
 });</code>
             </pre>
           </div>
@@ -376,7 +412,7 @@
               <h2>No results</h2>
               <p>Adding no result is a bit more complicated, so it is included in the examples. First, add the
                 <code>noResults</code> method, then in the <code>onResults</code> method we check whether
-                <code>maches</code> returns zero results, if so, it is enough to make a comparison of <code>return matches === 0 ? input:
+                <code>maches</code> returns zero results, if so, it is enough to make a comparison of <code>return matches === 0 ? template :
                   matches</code>.
               </p>
               <p>Now you just need to type in non-existent text, and <code>no results</code> will be displayed, only "no
@@ -422,7 +458,7 @@
       }).join('');
   },
 
-  noResults: ({ currentValue, renderTemplate }) =&gt; renderTemplate(`&lt;li&gt;No results found: &quot;${currentValue}&quot;&lt;/li&gt;`)
+  noResults: ({ element, renderTemplate }) =&gt; renderTemplate(`&lt;li&gt;No results found: &quot;${element.value}&quot;&lt;/li&gt;`)
 });</code>
     </pre>
           </div>
@@ -687,7 +723,7 @@
               <p>Not only <code>json</code> or <code>rest api</code> file, but also data can be downloaded locally.</p>
               <p>Also in this case, you need to sort and filter the data.</p>
             </div>
-            <div class="search">
+            <div class="search max-height">
               <input type="text" id="local" placeholder="type w" />
             </div>
           </div>
@@ -736,7 +772,8 @@
                 elements just click button clear 'x' or delete elements one by one by clicking the button 'x' which are
                 next to the name of the taken elements.</p>
             </div>
-            <div class="search max-height">
+            <div class="search max-height count">
+              <div class="count-number">0</div>
               <input type="text" id="select" placeholder="type w" />
             </div>
             <div class="selected-item"></div>
@@ -748,6 +785,8 @@
             <h4>javascript</h4>
             <pre rel="js">
               <code class="language-js">let firstArray = [];
+const countNumber = document.querySelector('.count-number');
+
 new Autocomplete('select', {
   clearButton: true,
 
@@ -827,6 +866,9 @@ new Autocomplete('select', {
       });
     }
 
+    // update number count
+    countNumber.textContent = firstArray.length;
+
     // remove selected element
     button.addEventListener('click', (e) =&gt; {
       e.stopPropagation();
@@ -838,11 +880,14 @@ new Autocomplete('select', {
       // remove disabled attr
       setAttributeType('remove');
 
+      // update number count
+      countNumber.textContent = firstArray.length;
+
       // remove element from div
       parentElement.parentNode.removeChild(parentElement);
     });
 
-    / add disabled attr
+    // add disabled attr
     setAttributeType();
   },
 
@@ -852,6 +897,9 @@ new Autocomplete('select', {
     // after clicking the 'x' button,
     // clear the table
     firstArray = [];
+
+    // remove count number
+    countNumber.textContent = 0;
   }
 });</code>
             </pre>

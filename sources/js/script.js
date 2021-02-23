@@ -148,7 +148,11 @@ class Autocomplete {
         if (result.length == 0) {
           this.root.classList.remove('expanded');
           this.reset();
-          this.noResults({ currentValue: value, template: this.results });
+          this.noResults({
+            element: this.root,
+            currentValue: value,
+            template: this.results,
+          });
           this.events();
         } else if (result.length > 0 || isObject(result)) {
           this.results();

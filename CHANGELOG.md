@@ -1,3 +1,10 @@
+## 2021-03-23 (v1.0.33)
+### Added
+- new `aria-label`: `aria-posinset`, `aria-setsize`
+
+### Changed
+- 'aria-autocomplete' to list
+
 ## 2021-02-23 (v1.0.32)
 ### Added
 - to the example `Select multiple values ver 1` counting the selected elements

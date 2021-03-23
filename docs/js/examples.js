@@ -5,6 +5,7 @@ window.addEventListener('DOMContentLoaded', () => {
    */
 
   new Autocomplete('basic', {
+
     onSearch: ({ currentValue }) => {
       const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(currentValue)}`;
       return new Promise((resolve) => {
@@ -657,4 +658,174 @@ window.addEventListener('DOMContentLoaded', () => {
       secondArray = [];
     }
   });
+
+
+  /**
+   * Checkboxes
+   */
+
+  let checkbox = [];
+  const countNumberCheckbox = document.querySelector('.count-number-checkbox');
+
+  // the place where we will add selected elements
+  const selectedItem = document.querySelector('.selected-item-checkbox');
+
+  new Autocomplete('checkbox', {
+    clearButton: true,
+
+    // wyłączenie zamukania jeżeli wybierzemy element
+    disableCloseOnSelect: true,
+
+    onSearch: ({ currentValue }) => {
+      const api = './characters.json';
+      return new Promise((resolve) => {
+        fetch(api)
+          .then((response) => response.json())
+          .then((data) => {
+            // first, we sort by our group, in our case
+            // it will be the status, then we sort by name
+            // of course, it is not always necessary because
+            // such soroting may be obtained from REST API
+            const result = data
+              .sort((a, b) => a.name.localeCompare(b.name))
+              .filter(element => {
+                return element.name.match(new RegExp(currentValue, 'gi'))
+              })
+            resolve(result);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      });
+    },
+
+    onResults: ({ matches }) => {
+      return matches
+        .map(el => {
+          return `
+            <li class="custom-element">
+              <label>
+                <input type="checkbox" value="${el.name}">
+                <div class="checkbox">${el.name}</div>
+              </label>
+            </li>`;
+        }).join('');
+    },
+
+    onOpened: ({ results }) => {
+      // if the elements from the 'array' are identical to those
+      // from the rendered elements add the 'selected' class
+
+      console.log(checkbox);
+      [].slice.call(results.children).map((item, idx) => {
+        let inputElement = results.children[idx].firstElementChild.children[0];
+        if (checkbox[idx]?.val == item.textContent.trim()) {
+          inputElement.checked = true;
+        }
+      });
+    },
+
+    onSubmit: ({ index, element, object, results }) => {
+      if (checkbox.includes(element.value)) {
+        return;
+      };
+
+      let inputElement = results.children[index].firstElementChild.children[0];
+
+      if (inputElement.checked) {
+        // set false checbox
+        inputElement.checked = false;
+        // remove from array object
+        checkbox.splice(checkbox.indexOf({ index, val: element.val }), 1);
+        // remove from div button
+        const dataElement = document.querySelector(`[data-index="${index}"]`);
+        dataElement.parentNode.removeChild(dataElement);
+        return
+      }
+
+      inputElement.checked = true;
+
+      // add the selected item to the array
+      checkbox.push({ index, val: element.value });
+
+      // create elements with names and buttons
+      const button = document.createElement('button');
+      button.type = 'button'
+      button.className = 'remove-item';
+      button.insertAdjacentHTML('beforeend', '<svg aria-label="Remove name" height="16" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z"/></svg>');
+
+      const item = document.createElement('div');
+      item.className = 'item';
+      item.dataset.index = index;
+
+      // add each item in the array to the div selectedItem
+      checkbox.map(object => {
+        const { val } = object;
+        item.textContent = val;
+        item.insertAdjacentElement('beforeend', button);
+        selectedItem.appendChild(item);
+      });
+
+      function setAttributeType(type) {
+        [].slice.call(results.children).map(item => {
+          if (item.textContent.trim() === button.parentNode.textContent) {
+            item.classList[type === 'remove' ? 'remove' : 'add']('selected')
+          }
+        });
+      }
+
+      // update number count
+      countNumberCheckbox.textContent = checkbox.length;
+
+      // remove selected element
+      button.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        const parentElement = button.parentNode;
+
+        const element = e.target.closest('.item');
+        const index = element.dataset.index;
+
+        // remove element from array
+        // checkbox.splice(checkbox.indexOf(parentElement.textContent), 1);
+        checkbox.splice(checkbox.indexOf({ index, val: element.textContent }), 1);
+
+        [].slice.call(results.children).map((item, idx) => {
+          console.log(item);
+          let inputElement = results.children[idx].firstElementChild.children[0];
+          inputElement.checked = false;
+          if (checkbox[idx]?.val == item.textContent.trim()) {
+            inputElement.checked = true;
+          }
+        });
+
+        // remove disabled attr
+        setAttributeType('remove');
+
+        // update number count
+        countNumberCheckbox.textContent = checkbox.length;
+
+        // remove element from div
+        parentElement.parentNode.removeChild(parentElement);
+      });
+
+      // add disabled attr
+      if (!inputElement.checked) {
+        setAttributeType();
+      }
+    },
+
+    onReset: (element) => {
+      selectedItem.innerHTML = '';
+      // after clicking the 'x' button,
+      // clear the table
+      checkbox = [];
+
+      // remove count number
+      countNumberCheckbox.textContent = 0;
+    },
+
+    noResults: ({ element, renderTemplate }) => renderTemplate(`No results found: "${element.value}"`)
+  });
+
 });

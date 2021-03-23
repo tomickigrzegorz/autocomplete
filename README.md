@@ -137,6 +137,33 @@ JavaScript
 
 **instructions** - has been removed from the library, [see how to add to html](https://tomik23.github.io/autocomplete/)
 
+## How do I add data to the input field?
+### Simple data
+```js
+onResults: ({ matches }) => {
+  return matches
+    .map(el => {
+      return `
+        <li>${el.name}</li>`;
+    }).join('');
+}
+```
+
+### A complicated example
+The example below displays `${el.name}`, first name and last name as well as `${el.img}` photo in the results. From this example, only the first element will be added to the input field. So `${el.name}` no matter if it will be inside `p`, `div`, `span` etc. Always the first element and it's only text so it can even be in this form `<p><b>${el.name}</b></p>`
+```js
+onResults: ({ matches }) => {
+  return matches
+    .map(el => {
+      return `
+        <li>
+          <p>${el.name}</p>
+          <p><img src="${el.img}"></p>
+        </li>`;
+    }).join('');
+}
+```
+
 ## Usage jquery || axios || promise + fetch
 
 JAVASCRIPT
@@ -294,7 +321,7 @@ new Autocomplete('complex', {
   },
 
   // the method presents no results
-  noResults: ({ currentValue, template }) => template(`<li>No results found: "${currentValue}"</li>`)
+  noResults: ({ element, currentValue, template }) => template(`<li>No results found: "${currentValue}"</li>`)
 });
 ```
 

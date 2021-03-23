@@ -11,6 +11,7 @@ class Autocomplete {
       selectFirst,
       insertToInput,
       classGroup,
+      disableCloseOnSelect,
       onResults = () => { },
       onSearch = () => { },
       onSubmit = () => { },
@@ -39,6 +40,7 @@ class Autocomplete {
     this.selectFirst = selectFirst || false;
     this.toInput = insertToInput || false;
     this.classGroup = classGroup;
+    this.disableCloseOnSelect = disableCloseOnSelect || false;
 
     // default config
     this.outputUl = `${this.search}-list`;
@@ -49,6 +51,9 @@ class Autocomplete {
     this.err = 'auto-error';
     this.regex = /[|\\{}()[\]^$+*?.]/g;
     this.timeout = null;
+
+    this.resultList = document.createElement('ul');
+    this.clearBtn = document.createElement('button');
 
     this.keyCodes = {
       ESC: 27,
@@ -84,8 +89,6 @@ class Autocomplete {
 
   // create output-list and put after search input
   output = () => {
-    this.resultList = document.createElement('ul');
-
     this.setAttr(this.resultList, {
       id: this.outputUl,
       addClass: 'auto-output-search',
@@ -175,14 +178,14 @@ class Autocomplete {
 
   // preparation of the list
   events = () => {
-    const liElement = [].slice.call(this.resultList.children);
+    const liElements = [].slice.call(this.resultList.children);
 
     this.root.addEventListener('keydown', this.handleKeys);
     this.root.addEventListener('click', this.handleShowItems);
 
-    for (let i = 0; i < liElement.length; i++) {
-      liElement[i].addEventListener('mousemove', this.handleMouse);
-      liElement[i].addEventListener('click', this.handleMouse);
+    for (let i = 0; i < liElements.length; i++) {
+      liElements[i].addEventListener('mousemove', this.handleMouse);
+      liElements[i].addEventListener('click', this.handleMouse);
     }
 
     // close expanded items
@@ -234,7 +237,12 @@ class Autocomplete {
   };
 
   handleDocClick = ({ target }) => {
-    if (target.id !== this.search) {
+    let disableClose = null;
+    if (target.closest('ul') && this.disableCloseOnSelect) {
+      disableClose = true;
+    }
+
+    if (target.id !== this.search && !disableClose) {
       this.reset();
       return;
     }
@@ -300,16 +308,15 @@ class Autocomplete {
 
   // show items when items.length > 0 and is not empty
   handleShowItems = () => {
-    const resultList = this.resultList;
     if (
-      resultList.textContent.length > 0 &&
-      !resultList.classList.contains(this.isActive)
+      this.resultList.textContent.length > 0 &&
+      !this.resultList.classList.contains(this.isActive)
     ) {
       this.setAttr(this.root, {
         'aria-expanded': true,
         addClass: 'expanded',
       });
-      resultList.classList.add(this.isActive);
+      this.resultList.classList.add(this.isActive);
       // select first element
       this.selectFirstEl();
 
@@ -323,7 +330,10 @@ class Autocomplete {
 
   // adding text from the list when li is clicking
   // or adding aria-selected to li elements
-  handleMouse = ({ target, type }) => {
+  handleMouse = (event) => {
+    event.preventDefault();
+
+    const { target, type } = event;
     const targetClosest = target.closest('li');
     const targetClosestRole = targetClosest?.hasAttribute('role');
 
@@ -361,8 +371,6 @@ class Autocomplete {
 
     this.addToInput(element);
 
-    this.remAria(element);
-
     // onSubmit passing text to function
     this.onSubmit({
       index: this.index,
@@ -371,8 +379,12 @@ class Autocomplete {
       results: this.resultList,
     });
 
+    this.remAria(element);
+
     // set default settings
-    this.reset();
+    if (!this.disableCloseOnSelect) {
+      this.reset();
+    }
   };
 
   // get first element from child
@@ -496,8 +508,6 @@ class Autocomplete {
   // create clear button and
   // removing text from the input field
   clearButton = () => {
-    this.clearBtn = document.createElement('button');
-
     this.setAttr(this.clearBtn, {
       id: `auto-clear-${this.search}`,
       class: 'auto-clear hidden',

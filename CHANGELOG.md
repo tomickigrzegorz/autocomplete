@@ -1,3 +1,7 @@
+## 2021-02-26 (v1.0.33)
+### Changed
+- documentation and example
+
 ## 2021-02-23 (v1.0.32)
 ### Added
 - to the example `Select multiple values ver 1` counting the selected elements

@@ -375,7 +375,7 @@
       .map((el, index, array) => {
         // we create an element of the group
         let group = el.status !== array[index - 1]?.status
-          ? `<li class="${classGroup}">${el.status} ${count(el.status)}</li>`
+          ? `&lt;li class="${classGroup}"&gt;${el.status} ${count(el.status)}&lt;/li&gt;`
           : '';
 
         // this part is responsible for the appearance

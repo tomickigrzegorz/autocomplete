@@ -358,6 +358,8 @@ class Autocomplete {
   // get text from li on enter or click
   getTextFromLi = (element) => {
     if (!element || this.matches.length === 0) {
+      // set default settings
+      // this.reset();
       return;
     }
 
@@ -392,7 +394,8 @@ class Autocomplete {
     Array.prototype.indexOf.call(this.itemsLi, target);
 
   // navigating the elements li and enter
-  handleKeys = ({ keyCode }) => {
+  handleKeys = (event) => {
+    const { keyCode } = event;
     const resultList = this.resultList.classList.contains(this.isActive);
 
     const matchesLength = this.matches.length;
@@ -401,6 +404,11 @@ class Autocomplete {
     switch (keyCode) {
       case this.keyCodes.UP:
       case this.keyCodes.DOWN:
+        // Wrong cursor position in the input field #62
+        // Prevents the cursor from moving to the beginning
+        // of input as the cursor hovers over the results.
+        event.preventDefault();
+
         if ((matchesLength <= 1 && this.selectFirst) || !resultList) {
           return;
         }

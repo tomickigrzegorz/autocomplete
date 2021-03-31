@@ -1,3 +1,7 @@
+## 2021-03-31 (v1.0.34)
+### Added
+- new example: "Update input field on selected items"
+
 ## 2021-03-23 (v1.0.33)
 ### Added
 - new `aria-label`: `aria-posinset`, `aria-setsize`

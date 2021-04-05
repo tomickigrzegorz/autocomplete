@@ -1,5 +1,12 @@
-## 2021-04-01 (v1.0.35)
+## 2021-04-05 (v1.0.36)
+### Added
+- `disableCloseOnSelect` - Prevents results from hiding after clicking on an item from the list
+- new example: "Checkbox"
 
+### Changed
+- `clearButton` default on true
+
+## 2021-04-01 (v1.0.35)
 ### Changed
 - fix: wrong cursor position in the input field [#62](https://github.com/tomik23/autocomplete/issues/62)
 
@@ -7,12 +14,9 @@
 ### Added
 - new example: "Update input field on selected items"
 
-## 2021-03-23 (v1.0.33)
-### Added
-- new `aria-label`: `aria-posinset`, `aria-setsize`
-
+## 2021-02-26 (v1.0.33)
 ### Changed
-- 'aria-autocomplete' to list
+- documentation and example
 
 ## 2021-02-23 (v1.0.32)
 ### Added

@@ -127,15 +127,43 @@ JavaScript
 | onOpened          |  Function  |         |   | returns two variables 'results' and 'showItems', 'resutls' first rendering of the results 'showItems' only showing the results when clicking on the input field   |
 | onReset           |  Function  |         |   | After clicking the 'x' button |
 | onSelectedItem    |  Function  |         |   | Get index and data from li element after hovering over li with the mouse or using arrow keys ↓/↑   |
+| clearButton       |  Boolean   | `true` |   | A parameter set to 'true' adds a button to remove text from the input field |
 | selectFirst       |  Boolean   | `false` |   | Default selects the first item in the list of results |
-| clearButton       |  Boolean   | `false` |   | A parameter set to 'true' adds a button to remove text from the input field |
 | insertToInput     |  Boolean   | `false` |   | Adding an element selected with arrows to the input field |
+| disableCloseOnSelect   |   Boolean   | `false` |   | Prevents results from hiding after clicking on an item from the list
 | howManyCharacters |   Number   |   `1`   |   | The number of characters entered should start searching |
 | delay             |   Number   |  `500`  |         | Time in milliseconds that the component should wait after last keystroke before calling search function 1000 = 1s |
 | classGroup        |   String   |         |   | Enter a class name, this class will be added to the group name elements
 | ~~instruction~~   | ~~String~~ | ~~`When autocomplete results ...`~~ |         | ~~aria-describedby [attribute](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-describedby_attribute) A full text below~~ |
 
 **instructions** - has been removed from the library, [see how to add to html](https://tomik23.github.io/autocomplete/)
+
+## How do I add data to the input field?
+### Simple data
+```js
+onResults: ({ matches }) => {
+  return matches
+    .map(el => {
+      return `
+        <li>${el.name}</li>`;
+    }).join('');
+}
+```
+
+### A complicated example
+The example below displays `${el.name}`, first name and last name as well as `${el.img}` photo in the results. From this example, only the first element will be added to the input field. So `${el.name}` no matter if it will be inside `p`, `div`, `span` etc. Always the first element and it's only text so it can even be in this form `<p><b>${el.name}</b></p>`
+```js
+onResults: ({ matches }) => {
+  return matches
+    .map(el => {
+      return `
+        <li>
+          <p>${el.name}</p>
+          <p><img src="${el.img}"></p>
+        </li>`;
+    }).join('');
+}
+```
 
 ## Usage jquery || axios || promise + fetch
 
@@ -294,7 +322,7 @@ new Autocomplete('complex', {
   },
 
   // the method presents no results
-  noResults: ({ currentValue, template }) => template(`<li>No results found: "${currentValue}"</li>`)
+  noResults: ({ element, currentValue, template }) => template(`<li>No results found: "${currentValue}"</li>`)
 });
 ```
 

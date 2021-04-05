@@ -12,7 +12,7 @@ const githubConrner = `
 </svg></a>
 `;
 
-document.addEventListener('DOMContentLoaded', (event) => {
+document.addEventListener('DOMContentLoaded', () => {
   // adding github-corner
   document.body.insertAdjacentHTML('beforeend', githubConrner);
 
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   // active menu elements
   const menuItems = document.querySelectorAll('.menu > li');
   menuItems.forEach((menuItem) => {
-    menuItem.addEventListener('click', (event) => {
+    menuItem.addEventListener('click', () => {
       document.body.classList.remove('close');
     });
   });
@@ -38,11 +38,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
       .cloneNode(true)
       .outerHTML.replace(/^\s{1,12}/gm, '');
 
-    const htmlConverter = htmlCode.replace(/[\u00A0-\u9999<>\\&]/gim, function (
-      i
-    ) {
-      return `&#${i.charCodeAt(0)};`;
-    });
+    const htmlConverter = htmlCode.replace(
+      /[\u00A0-\u9999<>\\&]/gim,
+      function (i) {
+        return `&#${i.charCodeAt(0)};`;
+      }
+    );
 
     const preElement = document.createElement('pre');
     const codeElement = document.createElement('code');
@@ -54,29 +55,28 @@ document.addEventListener('DOMContentLoaded', (event) => {
     element.children[1].insertAdjacentElement('beforeend', preElement);
   });
 
-
   // IntersectionObserver section
   const options = {
-    threshold: 0.25
-  }
+    threshold: 0.25,
+  };
 
-  const changeNav = (entries, observer) => {
+  const changeNav = (entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting && entry.intersectionRatio >= 0.25) {
-
         document.querySelector('.active').classList.remove('active');
 
         var id = entry.target.getAttribute('id');
 
-        document.querySelector(`[href="#${id}"]`).parentNode.classList.add('active');
+        document
+          .querySelector(`[href="#${id}"]`)
+          .parentNode.classList.add('active');
       }
     });
-  }
+  };
 
   const observer = new IntersectionObserver(changeNav, options);
 
   sections.forEach((section) => {
     observer.observe(section);
   });
-
 });

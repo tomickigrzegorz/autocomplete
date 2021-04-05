@@ -127,6 +127,8 @@
             <div class="callback"><code>element</code> input field for data entry</div>
             <div class="callback"><code>matches</code> an array of elements matching the entered word</div>
             <div class="callback"><code>classGroup</code> class name needed for grouping results</div>
+            <div class="callback"><code>disableCloseOnSelect</code> prevents results from hiding after clicking on an
+              item from the list</div>
             <div class="callback"><code>object</code> object from the query</div>
             <div class="callback"><code>type</code> can return two results 'results' or 'showItems'. 'results'
               occurs each time a new result appears, 'showItems' occurs when we click on the input element and the
@@ -214,6 +216,9 @@
           <div class="search-element">
             <div class="info-section">
               <h2>Basic</h2>
+              <div class="sources">
+                <a href="./js/examples/basic.js" target="_blank">source: basic</a>
+              </div>
               <p>In fact, the input
                 <code>&lt;input type="text" id="basic" placeholder="type wa"&gt;</code>
                 field is
@@ -223,8 +228,6 @@
                 button with which we
                 can clear the <code>"x"</code> field, as well as the possibility of an animation waiting for the
                 results before our <code>REST API</code> returns us.
-              </p>
-              <p>See <a href="#complex-example">complex-example.</a>
               </p>
             </div>
             <div class="search">
@@ -272,6 +275,9 @@
           <div class="search-element">
             <div class="info-section">
               <h2>Complex example</h2>
+              <div class="sources">
+                <a href="./js/examples/complex.js" target="_blank">source: complex</a>
+              </div>
               <p><code>search</code> - this class is responsible for the appearance of the input field</p>
               <p><code>max-height</code> - this class is responsible for the maximum height of the div in which the
                 results appear, if there are many results, we can also scroll using the up/down arrows</p>
@@ -323,7 +329,7 @@
   // you can fetch data with jquery, axios, fetch, etc.
   onSearch: ({ currentValue }) => {
     // static file
-    // const api = './characters.json';
+    // const api = '../../data/characters.json';
 
     // OR -------------------------------
 
@@ -460,6 +466,9 @@
           <div class="search-element">
             <div class="info-section">
               <h2>No results</h2>
+              <div class="sources">
+                <a href="./js/examples/no-results.js" target="_blank">source: no-results</a>
+              </div>
               <p>Adding no result is a bit more complicated, so it is included in the examples. First, add the
                 <code>noResults</code> method, then in the <code>onResults</code> method we check whether
                 <code>maches</code> returns zero results, if so, it is enough to make a comparison of <code>return matches === 0 ? template :
@@ -482,7 +491,7 @@
               <pre>
       <code class="language-js">new Autocomplete('no-results', {
   onSearch: ({ currentValue }) =&gt; {
-    const api = './characters.json';
+    const api = '../../data/characters.json';
     return new Promise((resolve) =&gt; {
       fetch(api)
         .then((response) =&gt; response.json())
@@ -522,6 +531,9 @@
           <div class="search-element">
             <div class="info-section">
               <h2>Static file</h2>
+              <div class="sources">
+                <a href="./js/examples/static.js" target="_blank">source: static</a>
+              </div>
               <p>Instead of the REST API, you can use a static files
                 <code>const api='./characters.json'</code>Due to the fact that we
                 download the entire json file locally, we should add sorting and filtering the results.
@@ -543,12 +555,10 @@
             <div>
               <pre>
               <code class="language-js">new Autocomplete('static', {
-  clearButton: true,
-
   // onSearch
   onSearch: ({ currentValue }) =&gt; {
     // static file
-    const api = './characters.json';
+    const api = '../../data/characters.json';
 
     return new Promise((resolve) =&gt; {
       fetch(api)
@@ -588,6 +598,9 @@
           <div class="search-element">
             <div class="info-section">
               <h2>Static file + data-elements</h2>
+              <div class="sources">
+                <a href="./js/examples/static-file-data.js" target="_blank">source: static-file-data</a>
+              </div>
               <p>You want to download all the data, nothing easier. You can do it in the <code>onSubmit</code>
                 method by clicking the mouse on the element, or by pressing enter when the element is selected, but also
                 in the <code>onSelectedItem</code> method.</p>
@@ -611,13 +624,12 @@
             <div>
               <pre>
               <code class="language-js">new Autocomplete('static-file-data', {
-  clearButton: true,
   selectFirst: true,
 
   // onSearch
   onSearch: ({ currentValue }) =&gt; {
     // static file
-    const api = './characters.json';
+    const api = '../../data/characters.json';
 
     return new Promise((resolve) =&gt; {
       fetch(api)
@@ -680,9 +692,11 @@
           <div class="search-element">
             <div class="info-section">
               <h2>Data grouping</h2>
+              <div class="sources">
+                <a href="./js/examples/group.js" target="_blank">source: group</a>
+              </div>
               <p>First, we declare the class of group members <code>classGroup: 'group-by'</code></p>
-              <p>
-                Then we sort by our group, in our case it will be <code>status ['Alive', 'Deceased', 'Presumed
+              <p>Then we sort by our group, in our case it will be <code>status ['Alive', 'Deceased', 'Presumed
                   dead', 'Unknown']</code>,
                 then we
                 sort by
@@ -708,14 +722,12 @@
             <div>
               <pre>
       <code class="language-js">new Autocomplete('group', {
-  clearButton: true,
-
   // enter a class name, this class will
   // be added to the group name elements
   classGroup: 'group-by',
 
   onSearch: ({ currentValue }) =&gt; {
-    const api = './characters.json';
+    const api = '../../data/characters.json';
     return new Promise((resolve) =&gt; {
       fetch(api)
         .then((response) =&gt; response.json())
@@ -778,8 +790,11 @@
           <div class="search-element">
             <div class="info-section">
               <h2>Local data</h2>
-              <p>Not only <code>json</code> or <code>rest api</code> file, but also data can be downloaded locally.</p>
-              <p>Also in this case, you need to sort and filter the data.</p>
+              <div class="sources">
+                <a href="./js/examples/local.js" target="_blank">source: local</a>
+              </div>
+              <p>Not only <code>json</code> or <code>rest api</code> file, but also data can be downloaded locally. Also
+                in this case, you need to sort and filter the data.</p>
             </div>
             <div class="search max-height">
               <input type="text" id="local" placeholder="type w" />
@@ -828,6 +843,9 @@
           <div class="search-element">
             <div class="info-section">
               <h2>Select multiple values ver 1</h2>
+              <div class="sources">
+                <a href="./js/examples/select.js" target="_blank">source: select</a>
+              </div>
               <p>This example allows you to select multiple elements that are added below the input field. To remove all
                 elements just click button clear 'x' or delete elements one by one by clicking the button 'x' which are
                 next to the name of the taken elements.</p>
@@ -849,10 +867,8 @@
 const countNumber = document.querySelector('.count-number');
 
 new Autocomplete('select', {
-  clearButton: true,
-
   onSearch: ({ currentValue }) =&gt; {
-    const api = './characters.json';
+    const api = '../../data/characters.json';
     return new Promise((resolve) =&gt; {
       fetch(api)
         .then((response) =&gt; response.json())
@@ -974,6 +990,9 @@ new Autocomplete('select', {
           <div class="search-element">
             <div class="info-section">
               <h2>Select multiple values ver 2</h2>
+              <div class="sources">
+                <a href="./js/examples/multiple-values.js" target="_blank">source: multiple-values</a>
+              </div>
               <p>This example allows you to select multiple elements that are added to the input field, to remove the
                 selected fields, clear them by pressing the clear 'x' button or by removing the element or elements from
                 the input field.</p>
@@ -992,8 +1011,6 @@ new Autocomplete('select', {
               <code class="language-js">// array initialization
 let secondArray = [];
 new Autocomplete('multiple-values', {
-  clearButton: true,
-
   onSearch: ({ element }) => {
     // first get all the items and split with a comma
     const lastElement = element.value.split(',').pop().trim();
@@ -1097,13 +1114,15 @@ new Autocomplete('multiple-values', {
           <div class="search-element">
             <div class="info-section">
               <h2>Checkboxes</h2>
-              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odit, iure saepe. Asperiores maiores
-                recusandae magnam quis laborum minima tempore quasi ipsa corrupti, vel accusantium molestiae fugiat
-                impedit hic! Expedita, aliquid?</p>
+              <div class="sources">
+                <a href="./js/examples/checkbox.js" target="_blank">source: checkbox</a>
+              </div>
+              <p>TThis example shows what you can use the <code>disableCloseOnSelect</code> variable - checkbox list.
+              </p>
             </div>
             <div class="search max-height count checkoxes">
               <div class="count-number-checkbox">0</div>
-              <input type="text" id="checkbox" placeholder="type w" />
+              <input type="text" id="checkbox" placeholder="write a programming language" />
             </div>
             <div class="selected-item-checkbox"></div>
           </div>
@@ -1114,7 +1133,171 @@ new Autocomplete('multiple-values', {
             <h4>javascript</h4>
             <div>
               <pre>
-              <code class="language-js">ssss</code>
+              <code class="language-js">let checkbox = [];
+const countNumberCheckbox = document.querySelector('.count-number-checkbox');
+
+// the place where we will add selected elements
+const selectedItem = document.querySelector('.selected-item-checkbox');
+
+new Autocomplete('checkbox', {
+  // prevents results from hiding after 
+  // clicking on an item from the list
+  disableCloseOnSelect: true,
+
+  onSearch: ({ currentValue }) =&gt; {
+    const api = '../../data/characters.json';
+    return new Promise((resolve) =&gt; {
+      fetch(api)
+        .then((response) =&gt; response.json())
+        .then((data) =&gt; {
+          // first, we sort by our group, in our case
+          // it will be the status, then we sort by name
+          // of course, it is not always necessary because
+          // such soroting may be obtained from REST API
+          const result = data
+            .sort((a, b) =&gt; a.name.localeCompare(b.name))
+            .filter(element =&gt; {
+              return element.name.match(new RegExp(currentValue, 'gi'))
+            })
+          resolve(result);
+        })
+        .catch((error) =&gt; {
+          console.error(error);
+        });
+    });
+  },
+
+  onResults: ({ matches }) =&gt; {
+    return matches
+      .map(el =&gt; {
+        return `
+            &lt;li class=&quot;custom-element&quot;&gt;
+              &lt;label&gt;
+                &lt;input type=&quot;checkbox&quot; value=&quot;${el.name}&quot;&gt;
+                &lt;div class=&quot;checkbox&quot;&gt;${el.name}&lt;/div&gt;
+              &lt;/label&gt;
+            &lt;/li&gt;`;
+      }).join('');
+  },
+
+  onOpened: ({ results }) =&gt; {
+    // if the elements from the 'array' are identical to those
+    // from the rendered elements add the 'selected' class
+
+    [].slice.call(results.children).map((item, idx) =&gt; {
+      const test = checkbox.some(element =&gt; element === item.textContent.trim());
+      if (!test) return;
+
+      let inputElement = results.children[idx].firstElementChild.children[0];
+      inputElement.checked = true;
+      inputElement.closest('.custom-element').classList.add('checkbox-selected');
+    });
+  },
+
+  onSubmit: ({ index, element, object, results }) =&gt; {
+    // update counter elements
+    function countNumber(numb) {
+      return countNumberCheckbox.textContent = numb;
+    }
+
+    // remove element from array
+    function removeItemFromArray(el) {
+      let index = checkbox.indexOf(el);
+      if (index &gt; -1) {
+        checkbox.splice(index, 1);
+      }
+    }
+
+    function addRemoveClass(type) {
+      inputElement.closest('.custom-element').classList[type]('checkbox-selected');
+      // set false checbox
+      inputElement.checked = type === 'remove' ? false : true;
+    }
+
+    let inputElement = results.children[index].firstElementChild.children[0];
+
+    if (inputElement.checked) {
+      // remove class 
+      addRemoveClass('remove');
+
+      // remove from array object
+      removeItemFromArray(element.value);
+
+      // update counter div
+      countNumber(checkbox.length);
+
+      // remove button
+      [].slice.call(selectedItem.children).map(item =&gt; {
+        if (item.textContent.trim() === element.value) {
+          item.parentNode.removeChild(item);
+        }
+      })
+      return;
+    };
+
+    // set checbox on true and add class
+    addRemoveClass('add');
+
+    // add the selected item to the array
+    checkbox.push(element.value);
+
+    // create elements with names and buttons
+    const button = document.createElement('button');
+    button.type = 'button'
+    button.className = 'remove-item';
+    button.insertAdjacentHTML('beforeend', '&lt;svg aria-label=&quot;Remove name&quot; height=&quot;16&quot; viewBox=&quot;0 0 16 16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z&quot;/&gt;&lt;/svg&gt;');
+
+    const item = document.createElement('div');
+    item.className = 'item';
+
+    // add each item in the array to the div selectedItem
+    checkbox.map(ele =&gt; {
+      item.textContent = ele;
+      item.insertAdjacentElement('beforeend', button);
+      selectedItem.appendChild(item);
+    });
+
+    // update number count
+    countNumber(checkbox.length);
+
+    // remove selected element
+    button.addEventListener('click', (e) =&gt; {
+      e.preventDefault();
+
+      const element = e.target.closest('.item');
+
+      // remove from array object
+      removeItemFromArray(element.textContent);
+
+      // update checkbox
+      [].slice.call(results.children).map((item, idx) =&gt; {
+        let inputElement = results.children[idx].firstElementChild.children[0];
+        inputElement.checked = false;
+        addRemoveClass('remove');
+      });
+
+      // update number count
+      countNumber(checkbox.length);
+
+      // remove element from div
+      const parentElement = button.parentNode;
+      parentElement.parentNode.removeChild(parentElement);
+    });
+  },
+
+  onReset: (element) =&gt; {
+    selectedItem.innerHTML = '';
+    // after clicking the 'x' button,
+    // clear the table
+    checkbox = [];
+
+    // remove count number
+    countNumberCheckbox.textContent = 0;
+  },
+
+  noResults: ({ element, renderTemplate }) =&gt; renderTemplate(`No results found: &quot;${element.value}&quot;`)
+});
+              </code>
             </pre>
             </div>
           </div>
@@ -1137,8 +1320,19 @@ new Autocomplete('multiple-values', {
       <button class="toggle-menu" arial-label="toogle menu" title="tootle menu"></button>
     </main>
 
-    <script src="./js/examples.js"></script>
     <script src="./js/autocomplete.min.js"></script>
+
+    <script src="./js/examples/basic.js"></script>
+    <script src="./js/examples/complex.js"></script>
+    <script src="./js/examples/no-results.js"></script>
+    <script src="./js/examples/static.js"></script>
+    <script src="./js/examples/static-file-data.js"></script>
+    <script src="./js/examples/group.js"></script>
+    <script src="./js/examples/local.js"></script>
+    <script src="./js/examples/select.js"></script>
+    <script src="./js/examples/multiple-values.js"></script>
+    <script src="./js/examples/checkbox.js"></script>
+
   </body>
 
 </html>

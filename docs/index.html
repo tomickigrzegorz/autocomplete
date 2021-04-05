@@ -1226,7 +1226,7 @@ new Autocomplete('checkbox', {
   disableCloseOnSelect: true,
 
   onSearch: ({ currentValue }) =&gt; {
-    const api = '../../data/characters.json';
+    const api = '../../data/language.json';
     return new Promise((resolve) =&gt; {
       fetch(api)
         .then((response) =&gt; response.json())

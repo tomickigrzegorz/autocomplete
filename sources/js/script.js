@@ -36,7 +36,7 @@ class Autocomplete {
 
     this.delay = delay || 500;
     this.characters = howManyCharacters || 1;
-    this.clearBtn = clearButton || false;
+    this.clearBtn = clearButton || true;
     this.selectFirst = selectFirst || false;
     this.toInput = insertToInput || false;
     this.classGroup = classGroup;
@@ -185,7 +185,7 @@ class Autocomplete {
 
     for (let i = 0; i < liElements.length; i++) {
       liElements[i].addEventListener('mousemove', this.handleMouse);
-      liElements[i].addEventListener('click', this.handleMouse);
+      liElements[i].addEventListener('click', this.handleMouse, false);
     }
 
     // close expanded items
@@ -366,6 +366,10 @@ class Autocomplete {
   // get text from li on enter or click
   getTextFromLi = (element) => {
     if (!element || this.matches.length === 0) {
+      // set default settings
+      if (!this.disableCloseOnSelect) {
+        this.reset();
+      }
       return;
     }
 
@@ -379,10 +383,9 @@ class Autocomplete {
       results: this.resultList,
     });
 
-    this.remAria(element);
-
     // set default settings
     if (!this.disableCloseOnSelect) {
+      this.remAria(element);
       this.reset();
     }
   };
@@ -402,7 +405,8 @@ class Autocomplete {
     Array.prototype.indexOf.call(this.itemsLi, target);
 
   // navigating the elements li and enter
-  handleKeys = ({ keyCode }) => {
+  handleKeys = (event) => {
+    const { keyCode } = event;
     const resultList = this.resultList.classList.contains(this.isActive);
 
     const matchesLength = this.matches.length;
@@ -411,6 +415,11 @@ class Autocomplete {
     switch (keyCode) {
       case this.keyCodes.UP:
       case this.keyCodes.DOWN:
+        // Wrong cursor position in the input field #62
+        // Prevents the cursor from moving to the beginning
+        // of input as the cursor hovers over the results.
+        event.preventDefault();
+
         if ((matchesLength <= 1 && this.selectFirst) || !resultList) {
           return;
         }
@@ -444,7 +453,7 @@ class Autocomplete {
 
         break;
       case this.keyCodes.ENTER:
-        this.remAria(this.selectedLi);
+        // this.remAria(this.selectedLi);
         this.getTextFromLi(this.selectedLi);
         break;
 
@@ -493,6 +502,7 @@ class Autocomplete {
     if (!element) {
       return;
     }
+
     this.setAttr(element, {
       id: '',
       removeClass: this.activeList,

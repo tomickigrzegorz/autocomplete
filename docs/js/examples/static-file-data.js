@@ -10,7 +10,7 @@ window.addEventListener('DOMContentLoaded', () => {
     // onSearch
     onSearch: ({ currentValue }) => {
       // static file
-      const api = '../../data/characters.json';
+      const api = './characters.json';
 
       return new Promise((resolve) => {
         fetch(api)

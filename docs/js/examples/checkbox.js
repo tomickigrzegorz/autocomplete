@@ -18,7 +18,7 @@ window.addEventListener('DOMContentLoaded', () => {
     disableCloseOnSelect: true,
 
     onSearch: ({ currentValue }) => {
-      const api = '../../data/language.json';
+      const api = './language.json';
       return new Promise((resolve) => {
         fetch(api)
           .then((response) => response.json())

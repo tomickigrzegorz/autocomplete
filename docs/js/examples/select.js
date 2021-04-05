@@ -9,7 +9,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   new Autocomplete('select', {
     onSearch: ({ currentValue }) => {
-      const api = '../../data/characters.json';
+      const api = './characters.json';
       return new Promise((resolve) => {
         fetch(api)
           .then((response) => response.json())

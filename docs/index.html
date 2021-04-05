@@ -352,7 +352,7 @@
   // you can fetch data with jquery, axios, fetch, etc.
   onSearch: ({ currentValue }) => {
     // static file
-    // const api = '../../data/characters.json';
+    // const api = './characters.json';
 
     // OR -------------------------------
 
@@ -514,7 +514,7 @@
               <pre>
       <code class="language-js">new Autocomplete('no-results', {
   onSearch: ({ currentValue }) =&gt; {
-    const api = '../../data/characters.json';
+    const api = './characters.json';
     return new Promise((resolve) =&gt; {
       fetch(api)
         .then((response) =&gt; response.json())
@@ -581,7 +581,7 @@
   // onSearch
   onSearch: ({ currentValue }) =&gt; {
     // static file
-    const api = '../../data/characters.json';
+    const api = './characters.json';
 
     return new Promise((resolve) =&gt; {
       fetch(api)
@@ -652,7 +652,7 @@
   // onSearch
   onSearch: ({ currentValue }) =&gt; {
     // static file
-    const api = '../../data/characters.json';
+    const api = './characters.json';
 
     return new Promise((resolve) =&gt; {
       fetch(api)
@@ -750,7 +750,7 @@
   classGroup: 'group-by',
 
   onSearch: ({ currentValue }) =&gt; {
-    const api = '../../data/characters.json';
+    const api = './characters.json';
     return new Promise((resolve) =&gt; {
       fetch(api)
         .then((response) =&gt; response.json())
@@ -949,7 +949,7 @@ const countNumber = document.querySelector('.count-number');
 
 new Autocomplete('select', {
   onSearch: ({ currentValue }) =&gt; {
-    const api = '../../data/characters.json';
+    const api = './characters.json';
     return new Promise((resolve) =&gt; {
       fetch(api)
         .then((response) =&gt; response.json())
@@ -1226,7 +1226,7 @@ new Autocomplete('checkbox', {
   disableCloseOnSelect: true,
 
   onSearch: ({ currentValue }) =&gt; {
-    const api = '../../data/language.json';
+    const api = './language.json';
     return new Promise((resolve) =&gt; {
       fetch(api)
         .then((response) =&gt; response.json())

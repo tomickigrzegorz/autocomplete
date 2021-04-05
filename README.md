@@ -127,9 +127,10 @@ JavaScript
 | onOpened          |  Function  |         |   | returns two variables 'results' and 'showItems', 'resutls' first rendering of the results 'showItems' only showing the results when clicking on the input field   |
 | onReset           |  Function  |         |   | After clicking the 'x' button |
 | onSelectedItem    |  Function  |         |   | Get index and data from li element after hovering over li with the mouse or using arrow keys ↓/↑   |
+| clearButton       |  Boolean   | `true` |   | A parameter set to 'true' adds a button to remove text from the input field |
 | selectFirst       |  Boolean   | `false` |   | Default selects the first item in the list of results |
-| clearButton       |  Boolean   | `false` |   | A parameter set to 'true' adds a button to remove text from the input field |
 | insertToInput     |  Boolean   | `false` |   | Adding an element selected with arrows to the input field |
+| disableCloseOnSelect   |   Boolean   | `false` |   | Prevents results from hiding after clicking on an item from the list
 | howManyCharacters |   Number   |   `1`   |   | The number of characters entered should start searching |
 | delay             |   Number   |  `500`  |         | Time in milliseconds that the component should wait after last keystroke before calling search function 1000 = 1s |
 | classGroup        |   String   |         |   | Enter a class name, this class will be added to the group name elements

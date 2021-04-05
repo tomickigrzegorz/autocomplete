@@ -104,7 +104,7 @@ class Autocomplete {
     this.setAttr(this.root, {
       'aria-owns': `${this.search}-list`,
       'aria-expanded': false,
-      'aria-autocomplete': 'both',
+      'aria-autocomplete': 'list',
       'aria-activedescendant': '',
       role: 'combobox',
       removeClass: 'expanded',
@@ -255,6 +255,8 @@ class Autocomplete {
         role: 'option',
         tabindex: -1,
         'aria-selected': 'false',
+        'aria-setsize': this.itemsLi.length,
+        'aria-posinset': i,
       });
     }
   };

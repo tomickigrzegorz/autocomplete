@@ -33,6 +33,7 @@
           <li><a href="#data-elements">Static file + data-elelemts</a></li>
           <li><a href="#groups">Data grouping</a></li>
           <li><a href="#local-data">Local data</a></li>
+          <li><a href="#update-input-data">Update input field on selected items</a></li>
           <li><a href="#select-item">Select multiple values ver 1 <div><small>with count</small></div></a></li>
           <li><a href="#select-multiple-values">Select multiple values ver 2</a></li>
           <li><a href="#select-item-checkbox">Checkbox</a></li>
@@ -93,7 +94,29 @@
 
         <article>
           <div class="info-section">
-            <h2>Configuration of the plugin</h2>
+            <h2>Configuration of the plugin:</h2>
+            <h3>Control variables:</h3>
+            <div class="callback">
+              <code>selectFirst: true</code> default selects the first item in the list of results
+            </div>
+            <div class="callback">
+              <code>clearButton: true</code> a parameter set to 'true' adds a button to remove text from the input field
+            </div>
+            <div class="callback">
+              <code>insertToInput: true</code> adding an element selected with arrows to the input field field
+            </div>
+            <div class="callback">
+              <code>howManyCharacters: 2</code> the number of characters entered should start searching
+            </div>
+            <div class="callback">
+              <code>delay: 500</code> time in milliseconds that the component should wait after last keystroke before
+              calling search function 1000 = 1s
+            </div>
+            <div class="callback">
+              <code>classGroup: 'your class name'</code> enter a class name, this class will be added to the group name
+              elements
+            </div>
+            <h3>Callback function:</h3>
             <div class="callback">
               <p><small><b>required</b></small></p>
               <code><b>onSearch</b>: ({ currentValue, element }) => {}</code>
@@ -398,7 +421,7 @@
       matches.map(el => {
         count[el.status] = (count[el.status] || 0) + 1;
       });
-      return `<small>${count[status]} items</small>`;
+      return `&lt;small&gt;${count[status]} items&lt;/small&gt;`;
     }
 
     // checking if we have results if we don't
@@ -408,7 +431,7 @@
       .map((el, index, array) => {
         // we create an element of the group
         let group = el.status !== array[index - 1]?.status
-          ? `<li class="${classGroup}">${el.status} ${count(el.status)}</li>`
+          ? `&lt;li class="${classGroup}"&gt;${el.status} ${count(el.status)}&lt;/li&gt;`
           : '';
 
         // this part is responsible for the appearance
@@ -796,7 +819,7 @@
               <p>Not only <code>json</code> or <code>rest api</code> file, but also data can be downloaded locally. Also
                 in this case, you need to sort and filter the data.</p>
             </div>
-            <div class="search max-height">
+            <div class="search">
               <input type="text" id="local" placeholder="type w" />
             </div>
           </div>
@@ -836,6 +859,64 @@
           </div>
         </section>
         <!-- Local data end -->
+
+        <!-- update input start -->
+        <section id="update-input-data" class="section">
+          <div class="search-element">
+            <div class="info-section">
+              <h2>Update input field on selected items</h2>
+              <p>Adding this parameter adds the selected data to the input field while navigating through the records
+                with the up/down arrows <code>insertToInput: true</code></p>
+              <p>If you want to be able to add data to the input field after hovering the mouse over the record, you can
+                do it using callback funciton
+                <code>onSelectedItem: ({ element, object }) => {element.value = object.name}</code>
+              </p>
+            </div>
+            <div class="search">
+              <input type="text" id="update-input" placeholder="type w" />
+            </div>
+          </div>
+          <div class="highlight html">
+            <h4>html</h4>
+          </div>
+          <div class="highlight javascript">
+            <h4>javascript</h4>
+            <pre rel="js">
+      <code class="language-js">new Autocomplete('update-input', {
+  clearButton: true,
+
+  insertToInput: true,
+
+  onSearch: ({ currentValue }) =&gt; {
+    // local data
+    const data = [
+      { &quot;name&quot;: &quot;Walter White&quot; },
+      { &quot;name&quot;: &quot;Jesse Pinkman&quot; },
+      { &quot;name&quot;: &quot;Skyler White&quot; },
+      { &quot;name&quot;: &quot;Walter White Jr.&quot; }
+    ];
+    return data.sort((a, b) =&gt; a.name.localeCompare(b.name))
+      .filter(element =&gt; {
+        return element.name.match(new RegExp(currentValue, 'i'))
+      })
+  },
+
+  onResults: ({ matches }) =&gt; {
+    return matches
+      .map(el =&gt; {
+        return `
+          &lt;li&gt;${el.name}&lt;/li&gt;`;
+      }).join('');
+  },
+
+  onSelectedItem: ({ element, object }) => {
+    element.value = object.name
+  }
+});</code>
+    </pre>
+          </div>
+        </section>
+        <!-- update input end -->
 
 
         <!-- Local data start -->

@@ -1,3 +1,19 @@
+## 2021-04-05 (v1.0.36)
+### Added
+- `disableCloseOnSelect` - Prevents results from hiding after clicking on an item from the list
+- new example: "Checkbox"
+
+### Changed
+- `clearButton` default on true
+
+## 2021-04-01 (v1.0.35)
+### Changed
+- fix: wrong cursor position in the input field [#62](https://github.com/tomik23/autocomplete/issues/62)
+
+## 2021-03-31 (v1.0.34)
+### Added
+- new example: "Update input field on selected items"
+
 ## 2021-02-26 (v1.0.33)
 ### Changed
 - documentation and example

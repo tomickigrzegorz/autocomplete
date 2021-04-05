@@ -13,6 +13,7 @@ const githubConrner = `
 `;
 
 document.addEventListener('DOMContentLoaded', (event) => {
+
   // adding github-corner
   document.body.insertAdjacentHTML('beforeend', githubConrner);
 
@@ -46,7 +47,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 
     const preElement = document.createElement('pre');
-    preElement.setAttribute('rel', 'html');
+    // preElement.setAttribute('rel', 'html');
     const codeElement = document.createElement('code');
     codeElement.className = 'language-html';
 

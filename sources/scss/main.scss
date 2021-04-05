@@ -413,3 +413,18 @@ body,
     }
   }
 }
+
+.sources {
+  margin: 20px 0;
+}
+
+.sources a {
+  background: transparent;
+  padding: 0 2px 2px;
+  border-bottom: 1px solid salmon;
+  transition: color 300ms ease-in-out;
+}
+
+.sources a:hover {
+  color: salmon;
+}

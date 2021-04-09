@@ -53,7 +53,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }).join('');
     },
 
-    onOpened: ({ results }) => {
+    onOpened: ({ type, element, results }) => {
       // if the elements from the 'array' are identical to those
       // from the rendered elements add the 'selected' class
 

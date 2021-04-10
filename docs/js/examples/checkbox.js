@@ -40,8 +40,8 @@ window.addEventListener('DOMContentLoaded', () => {
       });
     },
 
-    onResults: ({ matches }) => {
-      return matches
+    onResults: ({ matches, template }) => {
+      return matches === 0 ? template : matches
         .map(el => {
           return `
             <li class="custom-element">
@@ -169,7 +169,7 @@ window.addEventListener('DOMContentLoaded', () => {
       countNumberCheckbox.textContent = 0;
     },
 
-    noResults: ({ element, renderTemplate }) => renderTemplate(`No results found: "${element.value}"`)
+    noResults: ({ element, template }) => template(`<li>No results found: "${element.value}"</li>`)
   });
 
 });

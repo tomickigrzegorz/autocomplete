@@ -476,7 +476,7 @@
   },
 
   // the method presents no results
-  noResults: ({ element, renderTemplate }) => renderTemplate(`<li>No results found: "${element.value}"</li>`)
+  noResults: ({ element, template }) =&gt; template(`&lt;li&gt;No results found: &quot;${element.value}&quot;&lt;/li&gt;`)
 });</code>
             </pre>
             </div>
@@ -541,7 +541,7 @@
       }).join('');
   },
 
-  noResults: ({ element, renderTemplate }) =&gt; renderTemplate(`&lt;li&gt;No results found: &quot;${element.value}&quot;&lt;/li&gt;`)
+  noResults: ({ element, template }) =&gt; template(`&lt;li&gt;No results found: &quot;${element.value}&quot;&lt;/li&gt;`)
 });</code>
     </pre>
             </div>
@@ -1379,7 +1379,7 @@ new Autocomplete('checkbox', {
     countNumberCheckbox.textContent = 0;
   },
 
-  noResults: ({ element, renderTemplate }) =&gt; renderTemplate(`No results found: &quot;${element.value}&quot;`)
+  noResults: ({ element, template }) =&gt; template(`No results found: &quot;${element.value}&quot;`)
 });
               </code>
             </pre>

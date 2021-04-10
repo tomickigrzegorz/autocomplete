@@ -158,6 +158,7 @@ class Autocomplete {
           });
           this.events();
         } else if (result.length > 0 || isObject(result)) {
+          this.index = this.selectFirst ? 0 : -1;
           this.results();
           this.events();
         }

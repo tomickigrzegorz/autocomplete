@@ -2,7 +2,6 @@
   --toggle-menu: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8.578 16.594L13.172 12 8.578 7.406 9.984 6l6 6-6 6z'/%3E%3C/svg%3E");
 }
 
-
 html {
   scroll-behavior: smooth;
   height: 100%;
@@ -131,6 +130,7 @@ aside {
   position: fixed;
   top: 0;
   right: 0;
+  z-index: 2;
 }
 
 .toggle-menu {
@@ -233,15 +233,56 @@ h3 {
 }
 
 .highlight {
+  position: relative;
+  margin-top: 20px;
+  font-size: 18px;
+  line-height: 130%;
+
   h4 {
     text-transform: uppercase;
     margin-bottom: 10px;
     font-weight: 500;
   }
+}
 
-  margin-top: 20px;
-  font-size: 18px;
-  line-height: 130%;
+.html-class {
+  position: relative;
+}
+
+.copy-code {
+  position: absolute;
+  z-index: 1;
+  padding: 10px 15px;
+  right: 0;
+  background: #000;
+  color: #fff;
+  border: 0;
+  border-radius: 0 4px 0 5px;
+  text-transform: uppercase;
+  line-height: 1;
+  transition: all 300ms ease-in-out;
+  cursor: pointer;
+
+  &:hover {
+    background: #fff;
+    color: #000;
+  }
+}
+
+.success-msg {
+  color: #000;
+  background: greenyellow;
+  &:hover {
+    background: greenyellow;
+  }
+}
+
+.error-msg {
+  color: #000;
+  background: red;
+  &:hover {
+    background: red;
+  }
 }
 
 pre {
@@ -320,7 +361,6 @@ body,
 }
 
 @keyframes octocat-wave {
-
   0%,
   100% {
     transform: rotate(0);
@@ -345,7 +385,6 @@ body,
 }
 
 .info-section {
-
   code,
   a {
     padding: 2px 4px;
@@ -359,7 +398,7 @@ body,
     border-bottom: 1px solid #c7254e;
   }
 
-  p+p {
+  p + p {
     margin-top: 20px;
   }
 

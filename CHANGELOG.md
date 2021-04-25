@@ -1,3 +1,12 @@
+## 2021-04-26 (v1.0.38)
+### Added
+- `copy button` - copying examples using the button
+
+## 2021-04-26 (v1.0.37)
+### Changed
+- ux improvement
+- prismjs library updated
+
 ## 2021-04-05 (v1.0.36)
 ### Added
 - `disableCloseOnSelect` - Prevents results from hiding after clicking on an item from the list

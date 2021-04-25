@@ -60,7 +60,7 @@
               If you want to make changes, the uncompiled javascript and sass files are in the sources folder.
             </p>
           </div>
-          <div rel="html">
+          <div class="html-class">
             <pre><code class="language-html">// CSS file
 &lt;link rel=&quot;stylesheet&quot; href=&quot;path/to/autocomplete.css&quot;&gt;
 
@@ -69,7 +69,7 @@
 </code></pre>
           </div>
           <p>If you want on older browsers - IE use polyfills</p>
-          <div rel="html">
+          <div class="html-class">
             <pre><code class="language-html">&lt;script type=&quot;text/javascript&quot;&gt;
   if (!('Promise' in window)) {
     var script = document.createElement('script');
@@ -81,12 +81,12 @@
 </code></pre>
           </div>
           -- OR --
-          <div rel="html">
+          <div class="html-class">
             <pre><code class="language-html">&lt;script src=&quot;https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js&quot;&gt;&lt;/script&gt;
 &lt;script src=&quot;https://cdn.jsdelivr.net/npm/element-closest@3.0.2/browser.min.js&quot;&gt;&lt;/script&gt;</code></pre>
           </div>
           -- OR --
-          <div rel="html">
+          <div class="html-class">
             <pre><code class="language-html">&lt;script src=&quot;path/to/polyfill.js&quot;&gt;&lt;/script&gt;</code></pre>
           </div>
         </article>
@@ -436,9 +436,9 @@
 
         // this part is responsible for the appearance
         // in the drop-down list - see the example in index.html
-        // remember only the first element from <li> is put
+        // remember only the first element from &lt;li&gt is put
         // into the input field, in this case the text
-        // from the <p> element
+        // from the &lt;p&gt element
         return `
           ${group}
           &lt;li&gt;

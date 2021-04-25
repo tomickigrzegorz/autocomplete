@@ -12,27 +12,13 @@ const githubConrner = `
 </svg></a>
 `;
 
-document.addEventListener('DOMContentLoaded', (event) => {
+document.addEventListener('DOMContentLoaded', () => {
 
   // adding github-corner
   document.body.insertAdjacentHTML('beforeend', githubConrner);
 
-  // toggle-button
-  const buttonToggleMenu = document.querySelector('.toggle-menu');
-  buttonToggleMenu.addEventListener('click', () => {
-    document.body.classList.toggle('close');
-  });
-
   const sections = document.querySelectorAll('section');
   const sectionClass = document.querySelectorAll('.section');
-
-  // active menu elements
-  const menuItems = document.querySelectorAll('.menu > li');
-  menuItems.forEach((menuItem) => {
-    menuItem.addEventListener('click', (event) => {
-      document.body.classList.remove('close');
-    });
-  });
 
   sections.forEach((section, index) => {
     const element = sections[index];
@@ -83,4 +69,68 @@ document.addEventListener('DOMContentLoaded', (event) => {
     observer.observe(section);
   });
 
+  document.addEventListener('click', (event) => {
+    const target = event.target;
+    if (target.classList.contains('copy-code')) {
+      buttonCopy(target);
+    }
+
+    // toggle-button
+    if (target.classList.contains('toggle-menu')) {
+      document.body.classList.toggle('close');
+    }
+
+    // active menu elements
+    if (target.closest('li')) {
+      document.body.classList.remove('close');
+    }
+  });
+
+  const button = document.createElement('button');
+  button.setAttribute('type', 'text');
+  button.className = 'copy-code';
+  button.textContent = 'copy';
+
+  const highlights = document.querySelectorAll('.highlight > h4');
+  const htmlClass = document.querySelectorAll('.html-class');
+
+  htmlClass.forEach(htmlCl => {
+    const buttonClone = button.cloneNode(true);
+    htmlCl.insertAdjacentElement('afterbegin', buttonClone);
+  })
+
+  highlights.forEach(highlight => {
+    const buttonClone = button.cloneNode(true);
+    highlight.insertAdjacentElement('afterend', buttonClone);
+  })
+
+  const buttonCopy = (target) => {
+    const selection = window.getSelection();
+    const range = document.createRange();
+    const targetEl = target;
+    range.selectNodeContents(targetEl.nextElementSibling);
+    selection.removeAllRanges();
+    selection.addRange(range);
+
+    try {
+      document.execCommand('copy');
+      selection.removeAllRanges();
+
+      targetEl.classList.add('success-msg');
+      targetEl.textContent = 'copied!';
+
+      setTimeout(() => {
+        targetEl.classList.remove('success-msg');
+        targetEl.textContent = 'copy';
+      }, 1200);
+    } catch (e) {
+      targetEl.classList.add('error-msg');
+      targetEl.textContent = 'error!';
+
+      setTimeout(() => {
+        targetEl.classList.remove('error-msg');
+        targetEl.textContent = 'copy';
+      }, 1200);
+    }
+  }
 });

@@ -5,13 +5,13 @@ class Autocomplete {
   constructor(
     element,
     {
-      delay,
-      clearButton,
-      howManyCharacters,
-      selectFirst,
-      insertToInput,
+      delay = 500,
+      clearButton = true,
+      howManyCharacters = 1,
+      selectFirst = false,
+      insertToInput = false,
       classGroup,
-      disableCloseOnSelect,
+      disableCloseOnSelect = false,
       onResults = () => { },
       onSearch = () => { },
       onSubmit = () => { },
@@ -34,13 +34,13 @@ class Autocomplete {
     this.onReset = onReset;
     this.noResults = noResults;
 
-    this.delay = delay || 500;
-    this.characters = howManyCharacters || 1;
-    this.clearBtn = clearButton || true;
-    this.selectFirst = selectFirst || false;
-    this.toInput = insertToInput || false;
+    this.delay = delay;
+    this.characters = howManyCharacters;
+    this.clearButton = clearButton;
+    this.selectFirst = selectFirst;
+    this.toInput = insertToInput;
     this.classGroup = classGroup;
-    this.disableCloseOnSelect = disableCloseOnSelect || false;
+    this.disableCloseOnSelect = disableCloseOnSelect;
 
     // default config
     this.outputUl = `${this.search}-list`;
@@ -67,8 +67,8 @@ class Autocomplete {
   }
 
   init = () => {
-    if (this.clearBtn) {
-      this.clearButton();
+    if (this.clearButton) {
+      this.clearbutton();
     }
 
     this.output();
@@ -290,9 +290,8 @@ class Autocomplete {
   };
 
   showBtn = () => {
-    if (!this.clearBtn) {
-      return;
-    }
+    if (!this.clearBtn) return;
+
     this.clearBtn.classList.remove('hidden');
     this.clearBtn.addEventListener('click', this.handleClearButton);
   };
@@ -520,7 +519,7 @@ class Autocomplete {
 
   // create clear button and
   // removing text from the input field
-  clearButton = () => {
+  clearbutton = () => {
     this.setAttr(this.clearBtn, {
       id: `auto-clear-${this.search}`,
       class: 'auto-clear hidden',

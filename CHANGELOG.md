@@ -1,3 +1,7 @@
+## 2021-05-09 (v1.0.39)
+### Changed
+- fix: Issue width 'clearButton' [#68](https://github.com/tomik23/autocomplete/issues/68)
+
 ## 2021-04-26 (v1.0.38)
 ### Added
 - `copy button` - copying examples using the button

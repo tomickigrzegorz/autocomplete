@@ -4,7 +4,7 @@ window.addEventListener('DOMContentLoaded', () => {
    * COMPLEX EXAMPLE
    */
 
-  const auto = new Autocomplete('complex', {
+  new Autocomplete('complex', {
     // search delay
     delay: 1000,
 
@@ -160,11 +160,5 @@ window.addEventListener('DOMContentLoaded', () => {
       template(`<li>No results found: "${element.value}"</li>`)
     }
   });
-
-  // clear data
-  const clearButton = document.querySelector('.clear-button');
-  clearButton.addEventListener('click', () => {
-    auto.destroy();
-  })
 
 });

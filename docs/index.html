@@ -100,7 +100,8 @@
               <code>selectFirst: true</code> default selects the first item in the list of results
             </div>
             <div class="callback">
-              <code>clearButton: true</code> a parameter set to 'true' adds a button to remove text from the input field
+              <code>clearButton: true</code> a parameter set to 'true' adds a button to remove text from the input
+              field. You can also use the <code>destroy</code> method - description below
             </div>
             <div class="callback">
               <code>insertToInput: true</code> adding an element selected with arrows to the input field field
@@ -142,6 +143,13 @@
             </div>
             <div class="callback">
               <code><b>noResults</b>: ({ element, currentValue, template }) => {}</code>
+            </div>
+            <br>
+            <h3>Method:</h3>
+            <div class="callback">
+              <p><code><b>destroy</b></code> - this method restores the initial settings,</p>
+              <span>how to use:</span>
+              <code>const auto = new Autocomplete('id', {}); <b>auto.destroy();</b></code>
             </div>
             <br>
             <h2>Explanation of the variables</h2>
@@ -307,14 +315,17 @@
               <p><code>loupe</code> - this class shows a "loupe" icon that appears in the input field on
                 the left</p>
             </div>
-            <div class="search max-height loupe">
-              <input type="text" id="complex" autocomplete="off" placeholder="type w" aria-describedby="instruction"
-                aria-label="Search for a name" />
-              <div id="instruction" class="hidden">
-                When autocomplete results are available use up and down arrows
-                to review and enter to select. Touch device users, explore by
-                touch or with swipe gestures.
+            <div class="wrap">
+              <div class="search max-height loupe">
+                <input type="text" id="complex" autocomplete="off" placeholder="type w" aria-describedby="instruction"
+                  aria-label="Search for a name" />
+                <div id="instruction" class="hidden">
+                  When autocomplete results are available use up and down arrows
+                  to review and enter to select. Touch device users, explore by
+                  touch or with swipe gestures.
+                </div>
               </div>
+              <button class="clear-button">clear<br><small>destroy() method</small></button>
             </div>
           </div>
           <div class="highlight html">
@@ -324,7 +335,7 @@
             <h4>javascript</h4>
             <div>
               <pre>
-              <code class="language-js">new Autocomplete('complex', {
+              <code class="language-js">const auto = new Autocomplete('complex', {
   // search delay
   delay: 1000,
 
@@ -477,7 +488,15 @@
 
   // the method presents no results
   noResults: ({ element, template }) =&gt; template(`&lt;li&gt;No results found: &quot;${element.value}&quot;&lt;/li&gt;`)
-});</code>
+});
+
+// use destroy() method
+const clearButton = document.querySelector('.clear-button');
+clearButton.addEventListener('click', () => {
+  auto.destroy();
+});
+
+</code>
             </pre>
             </div>
           </div>

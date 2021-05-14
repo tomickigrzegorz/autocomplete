@@ -127,6 +127,7 @@ JavaScript
 | onOpened          |  Function  |         |   | returns two variables 'results' and 'showItems', 'resutls' first rendering of the results 'showItems' only showing the results when clicking on the input field   |
 | onReset           |  Function  |         |   | After clicking the 'x' button |
 | onSelectedItem    |  Function  |         |   | Get index and data from li element after hovering over li with the mouse or using arrow keys ↓/↑   |
+| destroy |  Method  |         |   | Restores the initial settings   |
 | clearButton       |  Boolean   | `true` |   | A parameter set to 'true' adds a button to remove text from the input field |
 | selectFirst       |  Boolean   | `false` |   | Default selects the first item in the list of results |
 | insertToInput     |  Boolean   | `false` |   | Adding an element selected with arrows to the input field |

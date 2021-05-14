@@ -53,7 +53,6 @@ class Autocomplete {
     this.timeout = null;
 
     this.resultList = document.createElement('ul');
-    this.clearBtn = document.createElement('button');
 
     this.keyCodes = {
       ESC: 27,
@@ -67,9 +66,7 @@ class Autocomplete {
   }
 
   init = () => {
-    if (this.clearButton) {
-      this.clearbutton();
-    }
+    this.clearbutton();
 
     this.output();
 
@@ -169,13 +166,9 @@ class Autocomplete {
       });
   };
 
-  onLoading = (type) => {
-    this.root.parentNode.classList[type ? 'add' : 'remove'](this.isLoading);
-  };
+  onLoading = (type) => this.root.parentNode.classList[type ? 'add' : 'remove'](this.isLoading);
 
-  error = (type) => {
-    this.root.classList[type ? 'add' : 'remove'](this.err);
-  };
+  error = () => this.root.classList.remove(this.err);
 
   // preparation of the list
   events = () => {
@@ -234,7 +227,7 @@ class Autocomplete {
     });
 
     // adding role, tabindex and aria
-    this.addAriaToLi();
+    this.addAria();
   };
 
   handleDocClick = ({ target }) => {
@@ -250,7 +243,7 @@ class Autocomplete {
   };
 
   // adding role, tabindex, aria and call handleMouse
-  addAriaToLi = () => {
+  addAria = () => {
     for (let i = 0; i < this.itemsLi.length; i++) {
       this.setAttr(this.itemsLi[i], {
         role: 'option',
@@ -283,7 +276,7 @@ class Autocomplete {
       'aria-selected': true,
     });
 
-    this.setAriaDes(this.root, `${this.selectedOption}-0`);
+    this.setAriaDes(`${this.selectedOption}-0`);
 
     // scrollIntoView when press up/down arrows
     this.follow(firstElementChild, this.resultList);
@@ -293,7 +286,7 @@ class Autocomplete {
     if (!this.clearBtn) return;
 
     this.clearBtn.classList.remove('hidden');
-    this.clearBtn.addEventListener('click', this.handleClearButton);
+    this.clearBtn.addEventListener('click', this.destroy);
   };
 
   setAttr = (el, object) => {
@@ -455,7 +448,6 @@ class Autocomplete {
 
         break;
       case this.keyCodes.ENTER:
-        // this.remAria(this.selectedLi);
         this.getTextFromLi(this.selectedLi);
         break;
 
@@ -480,7 +472,7 @@ class Autocomplete {
       addClass: this.activeList,
     });
 
-    this.setAriaDes(this.root, selectedOption);
+    this.setAriaDes(selectedOption);
 
     // scrollIntoView when press up/down arrows
     this.follow(target, this.resultList);
@@ -501,9 +493,7 @@ class Autocomplete {
 
   // remove aria label from item li
   remAria = (element) => {
-    if (!element) {
-      return;
-    }
+    if (!element) return;
 
     this.setAttr(element, {
       id: '',
@@ -513,13 +503,15 @@ class Autocomplete {
   };
 
   // Set aria-activedescendant
-  setAriaDes = (element, type) => {
-    element.setAttribute('aria-activedescendant', type || '');
-  };
+  setAriaDes = (type) => this.root.setAttribute('aria-activedescendant', type || '');
 
   // create clear button and
   // removing text from the input field
   clearbutton = () => {
+    if (!this.clearButton) return;
+
+    this.clearBtn = document.createElement('button');
+
     this.setAttr(this.clearBtn, {
       id: `auto-clear-${this.search}`,
       class: 'auto-clear hidden',
@@ -531,9 +523,10 @@ class Autocomplete {
   };
 
   // clicking on the clear button
-  handleClearButton = ({ target }) => {
-    // hides clear button
-    target.classList.add('hidden');
+  destroy = () => {
+    if (this.clearButton) {
+      this.clearBtn.classList.add('hidden');
+    }
     // clear value searchId
     this.root.value = '';
     // set focus
@@ -546,6 +539,12 @@ class Autocomplete {
     this.error();
 
     this.onReset(this.root);
+
+    // remove listener
+    this.root.removeEventListener('keydown', this.handleKeys);
+    this.root.removeEventListener('click', this.handleShowItems);
+    document.removeEventListener('click', this.handleDocClick);
+
   };
 }
 

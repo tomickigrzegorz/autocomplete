@@ -38,6 +38,8 @@ See the demo - [example](https://tomik23.github.io/autocomplete/)
 Before the first use, clone this repository and install node dependencies:
 
 ```js
+git clone https://github.com/tomik23/autocomplete.git
+
 yarn
 // or
 npm install
@@ -45,7 +47,7 @@ npm install
 
 ## Run the app
 
-Run the app, just call:
+Run the development version:
 
 ```js
 yarn dev
@@ -53,7 +55,7 @@ yarn dev
 npm run dev
 ```
 
-The final code:
+Run the production version:
 
 ```js
 yarn prod
@@ -64,7 +66,6 @@ npm run prod
 ## Installation
 
 Download from `docs` folder:
-
 - autocomplete.css
 - autocomplete.min.js
 
@@ -119,22 +120,23 @@ JavaScript
 
 | props | type | default | require | description |
 | ----------------- | :--------: | :---------: | :-----: | --------------------------------------------- |
-| element           |   String   |         | ✔ | Input field id |
-| onSearch          |  Function  |         | ✔ | Function for user input. It can be a synchronous function or a promise |
-| onResults         |  Function  |         | ✔ | Function that creates the appearance of the result |
-| onSubmit          |  Function  |         |   | Executed on input submission   |
-| noResults         |  Function  |         |   | Showing information: "no results"   |
-| onOpened          |  Function  |         |   | returns two variables 'results' and 'showItems', 'resutls' first rendering of the results 'showItems' only showing the results when clicking on the input field   |
-| onReset           |  Function  |         |   | After clicking the 'x' button |
-| onSelectedItem    |  Function  |         |   | Get index and data from li element after hovering over li with the mouse or using arrow keys ↓/↑   |
-| clearButton       |  Boolean   | `true` |   | A parameter set to 'true' adds a button to remove text from the input field |
-| selectFirst       |  Boolean   | `false` |   | Default selects the first item in the list of results |
-| insertToInput     |  Boolean   | `false` |   | Adding an element selected with arrows to the input field |
-| disableCloseOnSelect   |   Boolean   | `false` |   | Prevents results from hiding after clicking on an item from the list
-| howManyCharacters |   Number   |   `1`   |   | The number of characters entered should start searching |
-| delay             |   Number   |  `500`  |         | Time in milliseconds that the component should wait after last keystroke before calling search function 1000 = 1s |
-| classGroup        |   String   |         |   | Enter a class name, this class will be added to the group name elements
-| ~~instruction~~   | ~~String~~ | ~~`When autocomplete results ...`~~ |         | ~~aria-describedby [attribute](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-describedby_attribute) A full text below~~ |
+| element           |   string   |         | ✔ | Input field id |
+| onSearch          |  function  |         | ✔ | Function for user input. It can be a synchronous function or a promise |
+| onResults         |  function  |         | ✔ | Function that creates the appearance of the result |
+| onSubmit          |  function  |         |   | Executed on input submission   |
+| noResults         |  function  |         |   | Showing information: "no results"   |
+| onOpened          |  function  |         |   | returns two variables 'results' and 'showItems', 'resutls' first rendering of the results 'showItems' only showing the results when clicking on the input field   |
+| onReset           |  function  |         |   | After clicking the 'x' button |
+| onSelectedItem    |  function  |         |   | Get index and data from li element after hovering over li with the mouse or using arrow keys ↓/↑   |
+| destroy |  method  |         |   | Removes the autocomplete instance and its bindings   |
+| clearButton       |  boolean   | `true` |   | A parameter set to 'true' adds a button to remove text from the input field |
+| selectFirst       |  boolean   | `false` |   | Default selects the first item in the list of results |
+| insertToInput     |  boolean   | `false` |   | Adding an element selected with arrows to the input field |
+| disableCloseOnSelect   |   boolean   | `false` |   | Prevents results from hiding after clicking on an item from the list
+| howManyCharacters |   number   |   `1`   |   | The number of characters entered should start searching |
+| delay             |   number   |  `500`  |         | Time in milliseconds that the component should wait after last keystroke before calling search function 1000 = 1s |
+| classGroup        |   string   |         |   | Enter a class name, this class will be added to the group name elements
+| ~~instruction~~   | ~~string~~ | ~~`When autocomplete results ...`~~ |         | ~~aria-describedby [attribute](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-describedby_attribute) A full text below~~ |
 
 **instructions** - has been removed from the library, [see how to add to html](https://tomik23.github.io/autocomplete/)
 
@@ -271,7 +273,7 @@ new Autocomplete('complex', {
     }
 
     // checking if we have results if we don't
-    // take data from the noResults method
+    // take data from the noResults collback
     return matches === 0 ? template : matches
       .sort((a, b) => a.status.localeCompare(b.status) || a.name.localeCompare(b.name))
       .map((el, index, array) => {
@@ -321,7 +323,7 @@ new Autocomplete('complex', {
     console.log('onSelectedItem:', index, element.value, object);
   },
 
-  // the method presents no results
+  // the calback function presents no results
   noResults: ({ element, currentValue, template }) => template(`<li>No results found: "${currentValue}"</li>`)
 });
 ```

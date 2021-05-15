@@ -1,3 +1,7 @@
+## 2021-05-15 (v1.0.40)
+### Added
+- `destroy()` this method removes the autocomplete instance and its bindings
+
 ## 2021-05-09 (v1.0.39)
 ### Changed
 - fix: Issue width 'clearButton' [#68](https://github.com/tomik23/autocomplete/issues/68)

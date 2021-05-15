@@ -48,12 +48,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const options = {
     root: null,
     rootMargin: '0px',
-    threshold: 0.1,
+    threshold: 0.2,
   }
 
   const changeNav = (entries) => {
     entries.forEach((entry) => {
-      if (entry.isIntersecting && entry.intersectionRatio > 0.1) {
+      if (entry.isIntersecting && entry.intersectionRatio > 0.2) {
 
         document.querySelector('.active').classList.remove('active');
 
@@ -133,4 +133,15 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 1200);
     }
   }
+
+  const topButton = document.createElement('a');
+  topButton.href = '#';
+  topButton.className = 'top-button'
+  topButton.textContent = 'top';
+
+  const section = document.querySelectorAll('section, article');
+  section.forEach((element) => {
+    element.insertAdjacentElement("beforeend", topButton.cloneNode(true));
+  });
+
 });

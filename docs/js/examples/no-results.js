@@ -25,7 +25,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     onResults: ({ matches, template }) => {
       // checking if we have results if we don't
-      // take data from the noResults method
+      // take data from the noResults callback
       return matches === 0 ? template : matches
         .map(el => {
           return `

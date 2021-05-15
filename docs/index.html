@@ -24,10 +24,13 @@
           <img src="https://img.shields.io/github/package-json/v/tomik23/autosuggest" />
           <img src="https://img.shields.io/badge/License-MIT-green.svg" />
         </div>
+        <div class="based"><a href="https://breakingbadapi.com/" target="_blank">BASED ON: The Breaking Bad API</a>
+        </div>
+
         <ul class="menu">
           <li class="active"><a href="#started">Geting started</a></li>
-          <li><a href="#basics">Basics</a></li>
-          <li><a href="#complex-example">Complex result</a></li>
+          <li><a href="#basics">Basics example</a></li>
+          <li><a href="#complex-example">Complex example</a></li>
           <li><a href="#no-results-example">No results</a></li>
           <li><a href="#static-file">Static file</a></li>
           <li><a href="#data-elements">Static file + data-elelemts</a></li>
@@ -36,14 +39,9 @@
           <li><a href="#update-input-data">Update input field on selected items</a></li>
           <li><a href="#select-item">Select multiple values ver 1 <div><small>with count</small></div></a></li>
           <li><a href="#select-multiple-values">Select multiple values ver 2</a></li>
-          <li><a href="#select-item-checkbox">Checkbox</a></li>
+          <li><a href="#select-item-checkbox">Checkboxes</a></li>
           <li><a href="#address-geocoding">Address geocoding</a></li>
-          <li><a href="#top" class="top">Back to top</a></li>
         </ul>
-        <div class="based">
-          based on:
-          <small><a href="https://breakingbadapi.com/" target="_blank">The breaking bad api</a></small>
-        </div>
       </aside>
       <!-- menu end -->
 
@@ -95,155 +93,197 @@
         <article>
           <div class="info-section">
             <h2>Configuration of the plugin:</h2>
-            <h3>Control variables:</h3>
-            <div class="callback">
-              <code>selectFirst: true</code> default selects the first item in the list of results
+            <h3>Settings</h3>
+
+            <div class="table">
+              <table class="first-table">
+                <thead>
+                  <tr>
+                    <th>Property</th>
+                    <th>Default</th>
+                    <th>Required</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tr>
+                  <td><code>element</code></td>
+                  <td></td>
+                  <td>&check;</td>
+                  <td>Input field id</td>
+                </tr>
+                <tr>
+                  <td><code>clearButton</code></td>
+                  <td>false</td>
+                  <td></td>
+                  <td>A parameter set to 'true' adds a button to remove text from the input field. You can also use the
+                    <code>destroy</code> method - description below
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>selectFirst</code></td>
+                  <td>false</td>
+                  <td></td>
+                  <td>Default selects the first item in the list of results</td>
+                </tr>
+                <tr>
+                  <td><code>insertToInput</code></td>
+                  <td>false</td>
+                  <td></td>
+                  <td>Adding an element selected with arrows to the input field field</td>
+                </tr>
+                <tr>
+                  <td><code>disableCloseOnSelect</code></td>
+                  <td>false</td>
+                  <td></td>
+                  <td>Prevents results from hiding after clicking on an item from the list</td>
+                </tr>
+                <tr>
+                  <td><code>howManyCharacters</code></td>
+                  <td>1</td>
+                  <td></td>
+                  <td>The number of characters entered should start searching</td>
+                </tr>
+                <tr>
+                  <td><code>delay</code></td>
+                  <td>500</td>
+                  <td></td>
+                  <td>Time in milliseconds that the component should wait after last keystroke before calling search
+                    function 1000 = 1s</td>
+                </tr>
+                <tr>
+                  <td><code>classGroup</code></td>
+                  <td>""</td>
+                  <td></td>
+                  <td>Enter a class name, this class will be added to the group name elements</td>
+                </tr>
+              </table>
             </div>
-            <div class="callback">
-              <code>clearButton: true</code> a parameter set to 'true' adds a button to remove text from the input field
+
+            <div class="table">
+              <table class="second-table">
+                <thead>
+                  <tr>
+                    <th>Callbacks function</th>
+                    <th>Required</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tr>
+                  <td><code><b>onSearch</b>: ({ currentValue, element }) => {}</code></td>
+                  <td>&check;</td>
+                  <td>Function for user input. It can be a synchronous function or a promise</td>
+                </tr>
+                <tr>
+                  <td><code><b>onResults</b>: ({ currentValue, matches, template, classGroup }) => {}</code></td>
+                  <td>&check;</td>
+                  <td>when we want to add the information 'No results found:' we need to do a comparison, check the
+                    matches is 0 then set the template <code>return matches === 0 ? template : matches</code></td>
+                </tr>
+                <tr>
+                  <td><code><b>onSubmit</b>: ({ index, element, object, results }) => {}</code></td>
+                  <td></td>
+                  <td>Executed on input submission</td>
+                </tr>
+                <tr>
+                  <td><code><b>noResults</b>: ({ element, currentValue, template }) => {}</code></td>
+                  <td></td>
+                  <td>Showing information: "no results"</td>
+                </tr>
+                <tr>
+                  <td><code><b>onOpened</b>: ({ type, element, results }) => {}</code></td>
+                  <td></td>
+                  <td>Returns two variables 'results' and 'showItems', 'resutls' first rendering of the results
+                    'showItems' only showing the results when clicking on the input field</td>
+                </tr>
+                <tr>
+                  <td><code><b>onSelectedItem</b>: ({ index, element, object }) => {}</code></td>
+                  <td></td>
+                  <td>Get index and data from li element after hovering over li with the mouse or using arrow keys ↓/↑
+                  </td>
+                </tr>
+                <tr>
+                  <td><code><b>onReset</b>: (element) => {}</code></td>
+                  <td></td>
+                  <td>After clicking the 'x' button</td>
+                </tr>
+              </table>
             </div>
-            <div class="callback">
-              <code>insertToInput: true</code> adding an element selected with arrows to the input field field
+
+            <div class="table">
+              <table>
+                <thead>
+                  <th>Public methods</th>
+                  <th>Description</th>
+                </thead>
+                <tr>
+                  <td><code><b>destroy</b></code></td>
+                  <td>
+                    Removes the autocomplete instance and its bindings,<br><span>how to use:</span>
+                    <code>const auto = new Autocomplete('id', {});</code> <code><b>auto.destroy();</b></code>
+                  </td>
+                </tr>
+              </table>
             </div>
-            <div class="callback">
-              <code>howManyCharacters: 2</code> the number of characters entered should start searching
-            </div>
-            <div class="callback">
-              <code>delay: 500</code> time in milliseconds that the component should wait after last keystroke before
-              calling search function 1000 = 1s
-            </div>
-            <div class="callback">
-              <code>classGroup: 'your class name'</code> enter a class name, this class will be added to the group name
-              elements
-            </div>
-            <h3>Callback function:</h3>
-            <div class="callback">
-              <p><small><b>required</b></small></p>
-              <code><b>onSearch</b>: ({ currentValue, element }) => {}</code>
-            </div>
-            <div class="callback">
-              <p><small><b>required</b></small></p>
-              <code><b>onResults</b>: ({ currentValue, matches, template, classGroup }) => {}</code>
-              <p>when we want to add the information 'No results found:' we need to do a comparison, check the matches
-                is
-                0 then set the template <code>return matches === 0 ? template : matches</code> </p>
-            </div>
-            <div class="callback">
-              <code><b>onSubmit</b>: ({ index, element, object, results }) => {}</code>
-            </div>
-            <div class="callback">
-              <code><b>onSelectedItem</b>: ({ index, element, object }) => {}</code>
-            </div>
-            <div class="callback">
-              <code><b>onOpened</b>: ({ type, element, results }) => {}</code>
-            </div>
-            <div class="callback">
-              <code><b>onReset</b>: (element) => {}</code>
-            </div>
-            <div class="callback">
-              <code><b>noResults</b>: ({ element, currentValue, template }) => {}</code>
-            </div>
+
             <br>
             <h2>Explanation of the variables</h2>
-            <div class="callback"><code>index</code> record number in the results</div>
-            <div class="callback"><code>currentValue</code> data entered into the input field</div>
-            <div class="callback"><code>element</code> input field for data entry</div>
-            <div class="callback"><code>matches</code> an array of elements matching the entered word</div>
-            <div class="callback"><code>classGroup</code> class name needed for grouping results</div>
-            <div class="callback"><code>disableCloseOnSelect</code> prevents results from hiding after clicking on an
-              item from the list</div>
-            <div class="callback"><code>object</code> object from the query</div>
-            <div class="callback"><code>type</code> can return two results 'results' or 'showItems'. 'results'
-              occurs each time a new result appears, 'showItems' occurs when we click on the input element and the
-              result
-              reappears</div>
-            <div class="callback"><code>results</code> the entire ul + li html element is returned</div>
-            <div class="callback"><code>template</code> create an element to display information about 'no
-              results'</div>
-            <br>
-            <h2>How do I add data to the input field?</h2>
-            <h3>Simple example</h3>
-          </div>
-          <div rel="js">
-            <pre><code class="language-js">onResults: ({ matches }) => {
-  return matches
-    .map(el => {
-      return `
-        &lt;li&gt;${el.name}&lt;/li&gt;`;
-    }).join('');
-}</code></pre>
-          </div>
-          <br>
-          <h3>A complicated example</h3>
-          <div class="info-section">
-            <div class="callback">The example below displays <code>${el.name}</code>, first name and last name as well
-              as
-              <code>${el.img}</code> photo in the results. From this example, only the first element will be added to
-              the
-              input field. So <code>${el.name}</code> no matter if it will be inside <code>p</code>, <code>div</code>,
-              <code>span</code> etc. Always the first element and it's only
-              text so it can even be in this form <code>&lt;p&gt;&lt;b&gt;${el.name}&lt;/b&gt;&lt;/p&gt;</code>
+            <div class="table">
+              <table>
+                <thead>
+                  <th>Function params</th>
+                  <th>Description</th>
+                </thead>
+                <tr>
+                  <td><code>index</code></td>
+                  <td>Record number in the results</td>
+                </tr>
+                <tr>
+                  <td><code>currentValue</code></td>
+                  <td>Data entered into the input field</td>
+                </tr>
+                <tr>
+                  <td><code>element</code></td>
+                  <td>Input field for data entry</td>
+                </tr>
+                <tr>
+                  <td><code>matches</code></td>
+                  <td>An array of elements matching the entered word</td>
+                </tr>
+                <tr>
+                  <td><code>object</code></td>
+                  <td>Object from the query</td>
+                </tr>
+                <tr>
+                  <td><code>type</code></td>
+                  <td>Can return two results <code>results</code> or <code>showItems</code>.<br><code>results</code>
+                    occurs
+                    each time a
+                    new result appears,
+                    <code>showItems</code> occurs when we click on the input element and the result reappears
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>results</code></td>
+                  <td>The entire <code>ul + li</code> html element is returned</td>
+                </tr>
+                <tr>
+                  <td><code>template</code></td>
+                  <td>Create an element to display information about <code>no results</code></td>
+                </tr>
+              </table>
             </div>
-          </div>
-          <div rel="js">
-            <pre><code class="language-js">onResults: ({ matches }) => {
-  return matches
-    .map(el => {
-      return `
-        &lt;li&gt;
-          &lt;p&gt;${el.name}&lt;/p&gt;
-          &lt;p&gt;&lt;img src=&quot;${el.img}&quot;&gt;&lt;/p&gt;
-        &lt;/li&gt;`;
-    }).join('');
-}</code></pre>
-          </div>
-          <br>
-          <h2>JSON format from static file</h2>
-          <div rel="json">
-            <pre>
-              <code class="language-json">{
-  "char_id": 1,
-  "name": "Walter White",
-  "birthday": "09-07-1958",
-  "img": "https://images.amcnetworks.com/amc.com/wp-content/uploads/2015/04/cast_bb_700x1000_walter-white-lg.jpg",
-  "status": "Presumed dead"
-},</code>
-              </pre>
-          </div>
-          <br>
-          <h2>JSON format from REST API</h2>
-          <div rel="json">
-            <pre>
-            <code class="language-json">{
-  "char_id": 1,
-  "name": "Walter White",
-  "birthday": "09-07-1958",
-  "occupation": [
-    "High School Chemistry Teacher",
-    "Meth King Pin"
-  ],
-  "img": "https://images.amcnetworks.com/amc.com/wp-content/uploads/2015/04/cast_bb_700x1000_walter-white-lg.jpg",
-  "status": "Presumed dead",
-  "nickname": "Heisenberg",
-  "appearance": [ 1, 2, 3, 4, 5 ],
-  "portrayed": "Bryan Cranston",
-  "category": "Breaking Bad",
-  "better_call_saul_appearance": []
-},</code>
-            </pre>
-          </div>
         </article>
 
         <!-- Basic start -->
         <section id="basics" class="section">
           <div class="search-element">
             <div class="info-section">
-              <h2>Basic</h2>
+              <h2>Basic example</h2>
               <div class="sources">
                 <a href="./js/examples/basic.js" target="_blank">source: basic</a>
               </div>
               <p>In fact, the input
-                <code>&lt;input type="text" id="basic" placeholder="type wa"&gt;</code>
+                <code>&lt;input type="text" id="basic" placeholder="type w"&gt;</code>
                 field is
                 enough to add a
                 search engine. The div surrounding the input field controls
@@ -257,11 +297,8 @@
               <input type="text" id="basic" placeholder="type w" />
             </div>
           </div>
-          <div class="highlight html">
-            <h4>html</h4>
-          </div>
-          <div class="highlight javascript">
-            <h4>javascript</h4>
+          <div rel="HTML" class="highlight html html-class"></div>
+          <div rel="JS" class="highlight javascript html-class">
             <div>
               <pre>
               <code class="language-js">new Autocomplete('basic', {
@@ -307,30 +344,30 @@
               <p><code>loupe</code> - this class shows a "loupe" icon that appears in the input field on
                 the left</p>
             </div>
-            <div class="search max-height loupe">
-              <input type="text" id="complex" autocomplete="off" placeholder="type w" aria-describedby="instruction"
-                aria-label="Search for a name" />
-              <div id="instruction" class="hidden">
-                When autocomplete results are available use up and down arrows
-                to review and enter to select. Touch device users, explore by
-                touch or with swipe gestures.
+            <div class="wrap">
+              <div class="search max-height loupe">
+                <input type="text" id="complex" autocomplete="off" placeholder="type w" aria-describedby="instruction"
+                  aria-label="Search for a name" />
+                <div id="instruction" class="hidden">
+                  When autocomplete results are available use up and down arrows
+                  to review and enter to select. Touch device users, explore by
+                  touch or with swipe gestures.
+                </div>
               </div>
+              <button class="clear-button">clear<br><small>destroy() method</small></button>
             </div>
           </div>
-          <div class="highlight html">
-            <h4>html</h4>
-          </div>
-          <div class="highlight javascript">
-            <h4>javascript</h4>
+          <div rel="HTML" class="highlight html html-class"></div>
+          <div rel="JS" class="highlight javascript html-class">
             <div>
               <pre>
-              <code class="language-js">new Autocomplete('complex', {
+              <code class="language-js">const auto = new Autocomplete('complex', {
   // search delay
   delay: 1000,
 
   // add button 'x' to clear the text from
   // the input filed
-  clearButton: true,
+  clearButton: false,
 
   // default selects the first item in
   // the list of results
@@ -476,8 +513,18 @@
   },
 
   // the method presents no results
-  noResults: ({ element, template }) =&gt; template(`&lt;li&gt;No results found: &quot;${element.value}&quot;&lt;/li&gt;`)
-});</code>
+  noResults: ({ element, template }) => {
+    template(`&lt;li&gt;No results found: &quot;${element.value}&quot;&lt;/li&gt;`);
+  }
+});
+
+// use destroy() method
+const clearButton = document.querySelector('.clear-button');
+clearButton.addEventListener('click', () => {
+  auto.destroy();
+});
+
+</code>
             </pre>
             </div>
           </div>
@@ -505,11 +552,8 @@
               <input type="text" id="no-results" placeholder="type xx" />
             </div>
           </div>
-          <div class="highlight html">
-            <h4>html</h4>
-          </div>
-          <div class="highlight javascript">
-            <h4>javascript</h4>
+          <div rel="HTML" class="highlight html html-class"></div>
+          <div rel="JS" class="highlight javascript html-class">
             <div>
               <pre>
       <code class="language-js">new Autocomplete('no-results', {
@@ -570,11 +614,8 @@
               <input type="text" id="static" aria-label="Search for a name" autocomplete="off" placeholder="type c" />
             </div>
           </div>
-          <div class="highlight html">
-            <h4>html</h4>
-          </div>
-          <div class="highlight javascript">
-            <h4>javascript</h4>
+          <div rel="HTML" class="highlight html html-class"></div>
+          <div rel="JS" class="highlight javascript html-class">
             <div>
               <pre>
               <code class="language-js">new Autocomplete('static', {
@@ -639,11 +680,8 @@
             </div>
             <div class="info-d"></div>
           </div>
-          <div class="highlight html">
-            <h4>html</h4>
-          </div>
-          <div class="highlight javascript">
-            <h4>javascript</h4>
+          <div rel="HTML" class="highlight html html-class"></div>
+          <div rel="JS" class="highlight javascript html-class">
             <div>
               <pre>
               <code class="language-js">new Autocomplete('static-file-data', {
@@ -737,11 +775,8 @@
               <input type="text" id="group" placeholder="type w" />
             </div>
           </div>
-          <div class="highlight html">
-            <h4>html</h4>
-          </div>
-          <div class="highlight javascript">
-            <h4>javascript</h4>
+          <div rel="HTML" class="highlight html html-class"></div>
+          <div rel="JS" class="highlight javascript html-class">
             <div>
               <pre>
       <code class="language-js">new Autocomplete('group', {
@@ -816,18 +851,16 @@
               <div class="sources">
                 <a href="./js/examples/local.js" target="_blank">source: local</a>
               </div>
-              <p>Not only <code>json</code> or <code>rest api</code> file, but also data can be downloaded locally. Also
+              <p>Not only <code>json file</code> or <code>rest api</code>, but also data can be downloaded locally.
+                Also
                 in this case, you need to sort and filter the data.</p>
             </div>
             <div class="search">
               <input type="text" id="local" placeholder="type w" />
             </div>
           </div>
-          <div class="highlight html">
-            <h4>html</h4>
-          </div>
-          <div class="highlight javascript">
-            <h4>javascript</h4>
+          <div rel="HTML" class="highlight html html-class"></div>
+          <div rel="JS" class="highlight javascript html-class">
             <div>
               <pre>
       <code class="language-js">new Autocomplete('local', {
@@ -879,11 +912,8 @@
               <input type="text" id="update-input" placeholder="type w" />
             </div>
           </div>
-          <div class="highlight html">
-            <h4>html</h4>
-          </div>
-          <div class="highlight javascript">
-            <h4>javascript</h4>
+          <div rel="HTML" class="highlight html html-class"></div>
+          <div rel="JS" class="highlight javascript html-class">
             <pre rel="js">
       <code class="language-js">new Autocomplete('update-input', {
   clearButton: true,
@@ -940,11 +970,8 @@
             </div>
             <div class="selected-item"></div>
           </div>
-          <div class="highlight html">
-            <h4>html</h4>
-          </div>
-          <div class="highlight javascript">
-            <h4>javascript</h4>
+          <div rel="HTML" class="highlight html html-class"></div>
+          <div rel="JS" class="highlight javascript html-class">
             <div>
               <pre>
               <code class="language-js">let firstArray = [];
@@ -1085,11 +1112,8 @@ new Autocomplete('select', {
               <input type="text" id="multiple-values" placeholder="type w" />
             </div>
           </div>
-          <div class="highlight html">
-            <h4>html</h4>
-          </div>
-          <div class="highlight javascript">
-            <h4>javascript</h4>
+          <div rel="HTML" class="highlight html html-class"></div>
+          <div rel="JS" class="highlight javascript html-class">
             <div>
               <pre>
               <code class="language-js">// array initialization
@@ -1210,11 +1234,8 @@ new Autocomplete('multiple-values', {
             </div>
             <div class="selected-item-checkbox"></div>
           </div>
-          <div class="highlight html">
-            <h4>html</h4>
-          </div>
-          <div class="highlight javascript">
-            <h4>javascript</h4>
+          <div rel="HTML" class="highlight html html-class"></div>
+          <div rel="JS" class="highlight javascript html-class">
             <div>
               <pre>
               <code class="language-js">let checkbox = [];

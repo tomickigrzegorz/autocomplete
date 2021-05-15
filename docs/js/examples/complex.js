@@ -4,13 +4,13 @@ window.addEventListener('DOMContentLoaded', () => {
    * COMPLEX EXAMPLE
    */
 
-  new Autocomplete('complex', {
+  const auto = new Autocomplete('complex', {
     // search delay
     delay: 1000,
 
     // add button 'x' to clear the text from
     // the input filed
-    clearButton: true,
+    clearButton: false,
 
     // default selects the first item in
     // the list of results
@@ -105,7 +105,7 @@ window.addEventListener('DOMContentLoaded', () => {
       }
 
       // checking if we have results if we don't
-      // take data from the noResults method
+      // take data from the noResults callback
       return matches === 0 ? template : matches
         .sort((a, b) => a.status.localeCompare(b.status) || a.name.localeCompare(b.name))
         .map((el, index, array) => {
@@ -155,10 +155,16 @@ window.addEventListener('DOMContentLoaded', () => {
       console.log('onSelectedItem:', index, element.value, object);
     },
 
-    // the method presents no results
+    // the callback presents no results
     noResults: ({ element, template }) => {
       template(`<li>No results found: "${element.value}"</li>`)
     }
   });
+
+  // clear data
+  const clearButton = document.querySelector('.clear-button');
+  clearButton.addEventListener('click', () => {
+    auto.destroy();
+  })
 
 });

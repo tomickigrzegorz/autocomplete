@@ -1,3 +1,7 @@
+## 2021-06-02 (v1.0.41)
+### Changed
+- refactor: removing unnecessary icons and redundant styles from autocomplete.css main style
+
 ## 2021-05-15 (v1.0.40)
 ### Added
 - `destroy()` this method removes the autocomplete instance and its bindings

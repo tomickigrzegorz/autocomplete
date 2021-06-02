@@ -1,5 +1,18 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400&display=swap");
+@import "./modules/colors";
+@import "./modules/prism-theme";
+@import "./modules/helper";
+
 :root {
   --toggle-menu: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8.578 16.594L13.172 12 8.578 7.406 9.984 6l6 6-6 6z'/%3E%3C/svg%3E");
+}
+
+*,
+:after,
+:before {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
 html {
@@ -15,8 +28,7 @@ html {
 
 body {
   position: relative;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji,
-    Segoe UI emoji;
+  font-family: "Lato", sans-serif;
   background: #fbfbfb;
   padding: 0;
   line-height: 1.4;
@@ -28,12 +40,13 @@ body {
 h1 {
   position: relative;
   margin-bottom: 30px;
-  padding-left: 50px;
-  font-weight: 500;
+  padding-left: 35px;
 
   &.loupe:before {
     transform: scale(1.5);
     filter: brightness(0.5);
+    left: 3px;
+    top: 4px;
   }
 
   &.search:before {
@@ -48,7 +61,7 @@ a {
   color: #414141;
   padding: 7px 0 7px 5px;
   margin-bottom: 5px;
-  line-height: 1.2;
+  line-height: 1.3;
 
   &:hover {
     color: salmon;
@@ -56,16 +69,19 @@ a {
 }
 
 .active {
+  position: relative;
   a {
     position: relative;
-    margin-right: -30px;
-    font-weight: 600;
     color: #272727;
-    padding: 10px;
-    background: #d4d4d4;
-    border-radius: 5px 0 0 5px;
-    margin-left: -8px;
-    border-left: 3px solid #ff1900;
+    font-weight: bold;
+  }
+  &:before {
+    position: absolute;
+    content: "";
+    height: 100%;
+    left: -5px;
+    width: 4px;
+    background: salmon;
   }
 }
 
@@ -73,7 +89,6 @@ label {
   display: block;
   font-size: 12px;
   text-transform: uppercase;
-  font-weight: bold;
 }
 
 aside {
@@ -83,7 +98,7 @@ aside {
   height: 100%;
   left: 0;
   max-width: 320px;
-  padding: 50px 30px;
+  padding: 50px 30px 20px 20px;
   background: #ececec;
   transition: left 200ms ease;
   box-shadow: inset -2px 2px 0 #d3d3d3;
@@ -93,7 +108,7 @@ aside {
 
     a {
       display: block;
-      padding: 0 0 5px 5px;
+      padding: 5px;
     }
   }
 }
@@ -183,18 +198,15 @@ article,
 h2 {
   margin-bottom: 10px;
   padding-bottom: 10px;
-  font-weight: 400;
   border-bottom: 1px solid rgba(158, 158, 158, 0.2);
 }
 
 h3 {
   position: relative;
   margin-bottom: 10px;
-  font-weight: 400;
 }
 
 .info-section h3 {
-  font-weight: 400;
   padding: 5px 0;
 }
 
@@ -240,7 +252,6 @@ h3 {
   h4 {
     text-transform: uppercase;
     margin-bottom: 10px;
-    font-weight: 500;
   }
 }
 
@@ -251,12 +262,14 @@ h3 {
 .copy-code {
   position: absolute;
   z-index: 1;
-  padding: 10px 15px;
-  right: 0;
+  padding: 0 10px;
+  top: 10px;
+  right: 10px;
   background: #000;
   color: #fff;
   border: 0;
-  border-radius: 0 4px 0 5px;
+  border-radius: 5px;
+  height: 28px;
   text-transform: uppercase;
   line-height: 1;
   transition: all 300ms ease-in-out;
@@ -294,30 +307,26 @@ pre {
 
 [rel] {
   position: relative;
+  margin-top: 40px;
 
   &::before {
     position: absolute;
     content: attr(rel);
-    top: 0;
-    left: 0;
+    top: 10px;
+    left: 10px;
     z-index: 1;
     color: #fff;
-    font-size: 50%;
+    font-size: 80%;
     text-transform: uppercase;
-    font-weight: 700;
     padding: 0 15px;
     background: #000;
-    border-radius: 5px 0 5px 0;
+    border-radius: 5px;
     line-height: 200%;
   }
-}
 
-[rel="HTML"] {
-  margin-top: 40px;
-}
-
-[rel="HTML"] + div {
-  margin-top: 30px;
+  + div {
+    margin-top: 30px;
+  }
 }
 
 body,
@@ -554,6 +563,9 @@ td code {
 
 .menu {
   font-size: 90%;
+  a {
+    line-height: 1;
+  }
 }
 
 h1.loupe {
@@ -575,4 +587,9 @@ h1.loupe {
   position: absolute;
   right: 0;
   top: 0;
+}
+
+.selected {
+  background: #ffe9e9;
+  pointer-events: none;
 }

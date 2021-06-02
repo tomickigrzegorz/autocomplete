@@ -43,11 +43,11 @@ class Autocomplete {
     this.disableCloseOnSelect = disableCloseOnSelect;
 
     // default config
-    this.outputUl = `${this.search}-list`;
+    this.outputUl = `auto-${this.search}`;
     this.isLoading = 'auto-is-loading';
     this.isActive = 'auto-is-active';
     this.activeList = 'auto-selected';
-    this.selectedOption = 'selectedOption';
+    this.selectedOption = 'auto-selected-option';
     this.err = 'auto-error';
     this.regex = /[|\\{}()[\]^$+*?.]/g;
     this.timeout = null;
@@ -104,7 +104,7 @@ class Autocomplete {
       'aria-autocomplete': 'list',
       'aria-activedescendant': '',
       role: 'combobox',
-      removeClass: 'expanded',
+      removeClass: 'auto-expanded',
     });
 
     this.resultList.classList.remove(this.isActive);
@@ -151,7 +151,7 @@ class Autocomplete {
         }
 
         if (result.length == 0 && this.root.value.length) {
-          this.root.classList.remove('expanded');
+          this.root.classList.remove('auto-expanded');
           this.reset();
           this.noResults({
             element: this.root,
@@ -194,7 +194,7 @@ class Autocomplete {
   results = (template) => {
     this.setAttr(this.root, {
       'aria-expanded': true,
-      addClass: 'expanded',
+      addClass: 'auto-expanded',
     });
 
     // add all found records to otput ul
@@ -320,7 +320,7 @@ class Autocomplete {
     ) {
       this.setAttr(this.root, {
         'aria-expanded': true,
-        addClass: 'expanded',
+        addClass: 'auto-expanded',
       });
       this.resultList.classList.add(this.isActive);
       // select first element

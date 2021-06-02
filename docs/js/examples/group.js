@@ -47,7 +47,6 @@ window.addEventListener('DOMContentLoaded', () => {
       return matches === 0 ? template : matches
         .map((el, index, array) => {
 
-          const icons = `${el.status.toLowerCase().replace(/\s/g, '-')}`;
           // we create an element of the group
           let group = el.status !== array[index - 1]?.status
             ? `<li class="${classGroup}"><span>${el.status}</span> ${count(el.status)}</li>`
@@ -55,7 +54,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
           return `
             ${group}
-            <li class="icon ${icons}">
+            <li class="icon loupe">
               <p>${el.name.replace(new RegExp(currentValue, 'gi'), (str) => `<b>${str}</b>`)}</p>
             </li>`;
         }).join('');

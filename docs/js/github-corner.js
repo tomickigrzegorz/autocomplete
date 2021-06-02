@@ -48,12 +48,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const options = {
     root: null,
     rootMargin: '0px',
-    threshold: 0.2,
+    threshold: 0.1,
   }
 
   const changeNav = (entries) => {
     entries.forEach((entry) => {
-      if (entry.isIntersecting && entry.intersectionRatio > 0.2) {
+      if (entry.isIntersecting && entry.intersectionRatio > 0.1) {
 
         document.querySelector('.active').classList.remove('active');
 

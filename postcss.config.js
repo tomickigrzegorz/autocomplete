@@ -4,5 +4,6 @@ module.exports = {
     cssnano: {
       safe: true,
     },
+    'postcss-css-variables': {}
   },
 };

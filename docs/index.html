@@ -35,6 +35,7 @@
           <li><a href="#data-elements">Static file + data-elelemts</a></li>
           <li><a href="#groups">Data grouping</a></li>
           <li><a href="#local-data">Local data</a></li>
+          <li><a href="#modal">Modal</a></li>
           <li><a href="#update-input-data">Update input field on selected items</a></li>
           <li><a href="#select-item">Select multiple values ver 1 <div><small>with count</small></div></a></li>
           <li><a href="#select-multiple-values">Select multiple values ver 2</a></li>
@@ -184,11 +185,6 @@
                   <td>Executed on input submission</td>
                 </tr>
                 <tr>
-                  <td><code><b>noResults</b>: ({ element, currentValue, template }) => {}</code></td>
-                  <td></td>
-                  <td>Showing information: "no results"</td>
-                </tr>
-                <tr>
                   <td><code><b>onOpened</b>: ({ type, element, results }) => {}</code></td>
                   <td></td>
                   <td>Returns two variables 'results' and 'showItems', 'resutls' first rendering of the results
@@ -204,6 +200,16 @@
                   <td><code><b>onReset</b>: (element) => {}</code></td>
                   <td></td>
                   <td>After clicking the 'x' button</td>
+                </tr>
+                <tr>
+                  <td><code><b>onClose</b>: () => {}</code></td>
+                  <td></td>
+                  <td>e.g. remove class after closing results. See an example of modal</td>
+                </tr>
+                <tr>
+                  <td><code><b>noResults</b>: ({ element, currentValue, template }) => {}</code></td>
+                  <td></td>
+                  <td>Showing information: "no results"</td>
                 </tr>
               </table>
             </div>
@@ -892,6 +898,71 @@ clearButton.addEventListener('click', () => {
         </section>
         <!-- Local data end -->
 
+        <!-- Local data start -->
+        <section id="modal" class="section">
+          <div class="search-element">
+            <div class="info-section">
+              <h2>Modal</h2>
+              <div class="sources">
+                <a href="./js/examples/modal.js" target="_blank">source: modal</a>
+              </div>
+              <p>To get this effect, add to html <code>&lt;div class=&quot;modal&quot;&gt;&lt;/div&gt;</code>
+                preferably somewhere at the bottom of the page. For this we also need<code>onOpened</code> and
+                <code>onClose</code>. Using the first function, we add a class that causes the modal to show up, and the
+                second class removes the visibility of the modal.
+              </p>
+            </div>
+            <div class="auto-search">
+              <input type="text" id="modal-example" placeholder="type w" />
+            </div>
+          </div>
+          <div rel="HTML" class="highlight html html-class"></div>
+          <div rel="JS" class="highlight javascript html-class">
+            <div>
+              <pre>
+<code class="language-js">const modal = document.querySelector('.modal');
+
+new Autocomplete('modal-example', {
+  onSearch: ({ currentValue }) =&gt; {
+
+    // local data
+    const data = [
+      { "name": "Walter White" },
+      { "name": "Jesse Pinkman" },
+      { "name": "Skyler White" },
+      { "name": "Walter White Jr." }
+    ];
+    return data.sort((a, b) =&gt; a.name.localeCompare(b.name))
+      .filter(element =&gt; {
+        return element.name.match(new RegExp(currentValue, 'i'))
+      })
+  },
+
+  onResults: ({ matches }) =&gt; {
+    return matches
+      .map(el =&gt; {
+        return `
+          &lt;li&gt;${el.name}&lt;/li&gt;`;
+      }).join('');
+  },
+
+  // add 'active' class to modal div
+  onOpened: () => {
+    modal.classList.add('active');
+  },
+
+  // delete 'active' class from
+  // modal if closing results
+  onClose: () => {
+    modal.classList.remove('active');
+  }
+});</code>
+</pre>
+            </div>
+          </div>
+        </section>
+        <!-- Local data end -->
+
         <!-- update input start -->
         <section id="update-input-data" class="section">
           <div class="search-element">
@@ -922,10 +993,10 @@ clearButton.addEventListener('click', () => {
   onSearch: ({ currentValue }) =&gt; {
     // local data
     const data = [
-      { &quot;name&quot;: &quot;Walter White&quot; },
-      { &quot;name&quot;: &quot;Jesse Pinkman&quot; },
-      { &quot;name&quot;: &quot;Skyler White&quot; },
-      { &quot;name&quot;: &quot;Walter White Jr.&quot; }
+      { "name": "Walter White" },
+      { "name": "Jesse Pinkman" },
+      { "name": "Skyler White" },
+      { "name": "Walter White Jr." }
     ];
     return data.sort((a, b) =&gt; a.name.localeCompare(b.name))
       .filter(element =&gt; {
@@ -1424,6 +1495,7 @@ new Autocomplete('checkbox', {
       <button class="toggle-menu" arial-label="toogle menu" title="tootle menu"></button>
     </main>
 
+    <div class="modal"></div>
     <script src="./js/autocomplete.min.js"></script>
 
     <script src="./js/examples/basic.js"></script>
@@ -1433,6 +1505,7 @@ new Autocomplete('checkbox', {
     <script src="./js/examples/static-file-data.js"></script>
     <script src="./js/examples/group.js"></script>
     <script src="./js/examples/local.js"></script>
+    <script src="./js/examples/modal.js"></script>
     <script src="./js/examples/update-input.js"></script>
     <script src="./js/examples/select.js"></script>
     <script src="./js/examples/multiple-values.js"></script>

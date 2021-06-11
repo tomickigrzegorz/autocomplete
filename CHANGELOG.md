@@ -1,6 +1,11 @@
+## 2021-06-11 (v1.0.42)
+### Changed
+- wrapper class `search` renaming to `auto-search`
+- use `postcss-css-variables` for backward compatibility for browsers
+
 ## 2021-06-02 (v1.0.41)
 ### Changed
-- refactor: removing unnecessary icons and redundant styles from autocomplete.css main style
+- removing unnecessary icons and redundant styles from autocomplete.css main style
 
 ## 2021-05-15 (v1.0.40)
 ### Added

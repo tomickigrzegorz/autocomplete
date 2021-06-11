@@ -17,6 +17,7 @@ class Autocomplete {
       onSubmit = () => { },
       onOpened = () => { },
       onReset = () => { },
+      onClose = () => { },
       noResults = () => { },
       onSelectedItem = () => { },
     }
@@ -33,6 +34,7 @@ class Autocomplete {
     this.onOpened = onOpened;
     this.onReset = onReset;
     this.noResults = noResults;
+    this.onClose = onClose;
 
     this.delay = delay;
     this.characters = howManyCharacters;
@@ -71,7 +73,7 @@ class Autocomplete {
     this.output();
 
     // default aria
-    this.reset();
+    // this.reset();
 
     this.root.addEventListener('input', this.handleInput);
   };
@@ -118,6 +120,8 @@ class Autocomplete {
     }
 
     this.index = this.selectFirst ? 0 : -1;
+
+    this.onClose();
   };
 
   // The async function gets the text from the search

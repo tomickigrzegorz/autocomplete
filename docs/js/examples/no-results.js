@@ -29,7 +29,7 @@ window.addEventListener('DOMContentLoaded', () => {
       return matches === 0 ? template : matches
         .map(el => {
           return `
-        <li>${el.name}</li>`;
+            <li>${el.name}</li>`;
         }).join('');
     },
 

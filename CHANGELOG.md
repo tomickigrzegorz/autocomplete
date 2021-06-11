@@ -1,3 +1,8 @@
+## 2021-06-12 (v1.0.43)
+### Added
+- callback function: `onClose`, use - e.g. after class deletion after closing results
+- new example: [modal](https://tomik23.github.io/autocomplete/#modal)
+
 ## 2021-06-11 (v1.0.42)
 ### Changed
 - wrapper class `search` renaming to `auto-search`

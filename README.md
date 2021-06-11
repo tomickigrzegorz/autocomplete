@@ -124,10 +124,11 @@ JavaScript
 | onSearch          |  function  |         | ✔ | Function for user input. It can be a synchronous function or a promise |
 | onResults         |  function  |         | ✔ | Function that creates the appearance of the result |
 | onSubmit          |  function  |         |   | Executed on input submission   |
-| noResults         |  function  |         |   | Showing information: "no results"   |
 | onOpened          |  function  |         |   | returns two variables 'results' and 'showItems', 'resutls' first rendering of the results 'showItems' only showing the results when clicking on the input field   |
-| onReset           |  function  |         |   | After clicking the 'x' button |
 | onSelectedItem    |  function  |         |   | Get index and data from li element after hovering over li with the mouse or using arrow keys ↓/↑   |
+| onReset           |  function  |         |   | After clicking the 'x' button |
+| onClose         |  function  |         |   | e.g. delete class after close results, see example modal   |
+| noResults         |  function  |         |   | Showing information: "no results"   |
 | destroy |  method  |         |   | Removes the autocomplete instance and its bindings   |
 | clearButton       |  boolean   | `true` |   | A parameter set to 'true' adds a button to remove text from the input field |
 | selectFirst       |  boolean   | `false` |   | Default selects the first item in the list of results |

@@ -78,7 +78,7 @@ CSS
 HTML
 
 ```html
-<div class="search">
+<div class="auto-search">
   <input type="text" id="local" autocomplete="off" placeholder="Enter letter">
 </div>
 ```

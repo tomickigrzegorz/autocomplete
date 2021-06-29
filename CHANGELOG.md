@@ -1,3 +1,7 @@
+## 2021-06-29 (v1.0.44)
+### Changed
+- removal of an unused plug-in "rollup-plugin-postcss"
+
 ## 2021-06-12 (v1.0.43)
 ### Added
 - callback function: `onClose`, use - e.g. after class deletion after closing results

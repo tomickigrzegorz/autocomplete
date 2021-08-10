@@ -6,6 +6,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   new Autocomplete('update-input', {
     insertToInput: true,
+    cache: true,
 
     onSearch: ({ currentValue }) => {
       // local data

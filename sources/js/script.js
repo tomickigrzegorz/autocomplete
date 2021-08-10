@@ -10,8 +10,9 @@ class Autocomplete {
       howManyCharacters = 1,
       selectFirst = false,
       insertToInput = false,
-      classGroup,
+      cache = false,
       disableCloseOnSelect = false,
+      classGroup,
       onResults = () => { },
       onSearch = () => { },
       onSubmit = () => { },
@@ -45,7 +46,9 @@ class Autocomplete {
     this.disableCloseOnSelect = disableCloseOnSelect;
 
     // default config
+    this.cache = cache;
     this.outputUl = `auto-${this.search}`;
+    this.cacheData = `data-cache-auto-${this.search}`;
     this.isLoading = 'auto-is-loading';
     this.isActive = 'auto-is-active';
     this.activeList = 'auto-selected';
@@ -74,8 +77,21 @@ class Autocomplete {
 
     // default aria
     // this.reset();
-
     this.root.addEventListener('input', this.handleInput);
+  };
+
+  cacheAct = (type, target) => {
+    if (!this.cache) return;
+    const dataCache = document.getElementById(this.search);
+    if (type === 'update') {
+      dataCache.setAttribute(this.cacheData, target.value);
+    }
+    if (type === 'remove') {
+      dataCache.removeAttribute(this.cacheData);
+    }
+    if (type === 'root') {
+      this.root.value = dataCache.getAttribute(this.cacheData);
+    }
   };
 
   handleInput = ({ target }) => {
@@ -84,6 +100,9 @@ class Autocomplete {
     this.timeout = setTimeout(() => {
       this.searchItem(regex.trim());
     }, this.delay);
+
+    // update data attribute cache
+    this.cacheAct('update', target);
   };
 
   // create output-list and put after search input
@@ -399,6 +418,9 @@ class Autocomplete {
       this.remAria(element);
       this.reset();
     }
+
+    // remove cache
+    this.cacheAct('remove');
   };
 
   // get first element from child
@@ -420,7 +442,7 @@ class Autocomplete {
     const { keyCode } = event;
     const resultList = this.resultList.classList.contains(this.isActive);
 
-    const matchesLength = this.matches.length;
+    const matchesLength = this.matches.length + 1;
     this.selectedLi = document.querySelector(`.${this.activeList}`);
 
     switch (keyCode) {
@@ -436,10 +458,11 @@ class Autocomplete {
         }
 
         if (keyCode === this.keyCodes.UP) {
-          this.index -= 1;
           if (this.index < 0) {
             this.index = matchesLength - 1;
           }
+          this.index -= 1;
+
         } else {
           this.index += 1;
           if (this.index >= matchesLength) {
@@ -449,7 +472,7 @@ class Autocomplete {
 
         this.remAria(this.selectedLi);
 
-        if (matchesLength > 0) {
+        if (matchesLength > 0 && this.index >= 0 && this.index < matchesLength - 1) {
           this.onSelectedItem({
             index: this.index,
             element: this.root,
@@ -460,6 +483,10 @@ class Autocomplete {
           if (this.toInput && resultList) {
             this.addToInput(this.itemsLi[this.index]);
           }
+        } else {
+          // focus on input
+          this.cacheAct('root');
+          this.setAriaDes();
         }
 
         break;

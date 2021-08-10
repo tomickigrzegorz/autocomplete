@@ -134,6 +134,7 @@ JavaScript
 | selectFirst       |  boolean   | `false` |   | Default selects the first item in the list of results |
 | insertToInput     |  boolean   | `false` |   | Adding an element selected with arrows to the input field |
 | disableCloseOnSelect   |   boolean   | `false` |   | Prevents results from hiding after clicking on an item from the list
+| cache   |   boolean   | `false` |   | The characters entered in the input field are cached
 | howManyCharacters |   number   |   `1`   |   | The number of characters entered should start searching |
 | delay             |   number   |  `500`  |         | Time in milliseconds that the component should wait after last keystroke before calling search function 1000 = 1s |
 | classGroup        |   string   |         |   | Enter a class name, this class will be added to the group name elements

@@ -138,6 +138,12 @@
                   <td>Prevents results from hiding after clicking on an item from the list</td>
                 </tr>
                 <tr>
+                  <td><code>cache</code></td>
+                  <td>false</td>
+                  <td></td>
+                  <td>The characters entered in the input field are cached</td>
+                </tr>
+                <tr>
                   <td><code>howManyCharacters</code></td>
                   <td>1</td>
                   <td></td>
@@ -986,9 +992,8 @@ new Autocomplete('modal-example', {
           <div rel="JS" class="highlight javascript html-class">
             <pre rel="js">
       <code class="language-js">new Autocomplete('update-input', {
-  clearButton: true,
-
   insertToInput: true,
+  cache: true,
 
   onSearch: ({ currentValue }) =&gt; {
     // local data

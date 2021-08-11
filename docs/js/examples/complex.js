@@ -24,6 +24,10 @@ window.addEventListener('DOMContentLoaded', () => {
     // should start searching
     howManyCharacters: 1,
 
+    // the characters entered in
+    // the input field are cached
+    cache: true,
+
     // enter the name of the class by
     // which you will name the group element
     classGroup: 'group-by',

@@ -1,5 +1,4 @@
 window.addEventListener('DOMContentLoaded', () => {
-
   /**
    * COMPLEX EXAMPLE
    */
@@ -41,13 +40,15 @@ window.addEventListener('DOMContentLoaded', () => {
       // OR -------------------------------
 
       // your REST API
-      const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(currentValue)}`;
+      const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(
+        currentValue
+      )}`;
       /**
-        * jquery
-        * If you want to use jquery you have to add the
-        * jquery library to head html
-        * https://cdnjs.com/libraries/jquery
-        */
+       * jquery
+       * If you want to use jquery you have to add the
+       * jquery library to head html
+       * https://cdnjs.com/libraries/jquery
+       */
       // return $.ajax({
       //   url: api,
       //   method: 'GET',
@@ -62,11 +63,11 @@ window.addEventListener('DOMContentLoaded', () => {
       // OR ----------------------------------
 
       /**
-        * axios
-        * If you want to use axios you have to add the
-        * axios library to head html
-        * https://cdnjs.com/libraries/axios
-        */
+       * axios
+       * If you want to use axios you have to add the
+       * axios library to head html
+       * https://cdnjs.com/libraries/axios
+       */
       // return axios.get(api)
       //   .then((response) => {
       //     return response.data;
@@ -78,8 +79,8 @@ window.addEventListener('DOMContentLoaded', () => {
       // OR ----------------------------------
 
       /**
-        * Promise
-        */
+       * Promise
+       */
       return new Promise((resolve) => {
         fetch(api)
           .then((response) => response.json())
@@ -102,7 +103,7 @@ window.addEventListener('DOMContentLoaded', () => {
       // counting status elements
       function count(status) {
         let count = {};
-        matches.map(el => {
+        matches.map((el) => {
           count[el.status] = (count[el.status] || 0) + 1;
         });
         return `<small>${count[status]} items</small>`;
@@ -110,24 +111,35 @@ window.addEventListener('DOMContentLoaded', () => {
 
       // checking if we have results if we don't
       // take data from the noResults callback
-      return matches === 0 ? template : matches
-        .sort((a, b) => a.status.localeCompare(b.status) || a.name.localeCompare(b.name))
-        .map((el, index, array) => {
-          // we create an element of the group
-          let group = el.status !== array[index - 1]?.status
-            ? `<li class="${classGroup}"><span>${el.status}</span> ${count(el.status)}</li>`
-            : '';
+      return matches === 0
+        ? template
+        : matches
+            .sort(
+              (a, b) =>
+                a.status.localeCompare(b.status) || a.name.localeCompare(b.name)
+            )
+            .map((el, index, array) => {
+              // we create an element of the group
+              let group =
+                el.status !== array[index - 1]?.status
+                  ? `<li class="${classGroup}"><span>${
+                      el.status
+                    }</span> ${count(el.status)}</li>`
+                  : '';
 
-          // this part is responsible for the appearance
-          // in the drop-down list - see the example in index.html
-          // remember only the first element from <li> is put
-          // into the input field, in this case the text
-          // from the <p> element
-          return `
+              // this part is responsible for the appearance
+              // in the drop-down list - see the example in index.html
+              // remember only the first element from <li> is put
+              // into the input field, in this case the text
+              // from the <p> element
+              return `
             ${group}
             <li>
               <h2 style="margin-bottom: 10px;">
-                ${el.name.replace(regex, (str) => `<b style="color: red;">${str}</b>`)}
+                ${el.name.replace(
+                  regex,
+                  (str) => `<b style="color: red;">${str}</b>`
+                )}
               </h2>
               <div style="display: flex;">
                 <div style="margin-right: 10px;">
@@ -141,7 +153,8 @@ window.addEventListener('DOMContentLoaded', () => {
                 </div>
               </div>
             </li>`;
-        }).join('');
+            })
+            .join('');
     },
 
     // the onSubmit function is executed when the user
@@ -161,14 +174,13 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // the callback presents no results
     noResults: ({ element, template }) => {
-      template(`<li>No results found: "${element.value}"</li>`)
-    }
+      template(`<li>No results found: "${element.value}"</li>`);
+    },
   });
 
   // clear data
   const clearButton = document.querySelector('.clear-button');
   clearButton.addEventListener('click', () => {
     auto.destroy();
-  })
-
+  });
 });

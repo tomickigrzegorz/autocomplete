@@ -1,13 +1,13 @@
 window.addEventListener('DOMContentLoaded', () => {
-
   /**
    * BASIC
    */
 
   new Autocomplete('basic', {
-
     onSearch: ({ currentValue }) => {
-      const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(currentValue)}`;
+      const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(
+        currentValue
+      )}`;
       return new Promise((resolve) => {
         fetch(api)
           .then((response) => response.json())
@@ -22,11 +22,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
     onResults: ({ matches }) => {
       return matches
-        .map(el => {
+        .map((el) => {
           return `
             <li>${el.name}</li>`;
-        }).join('');
+        })
+        .join('');
     },
   });
-
 });

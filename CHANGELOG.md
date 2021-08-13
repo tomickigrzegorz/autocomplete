@@ -1,3 +1,7 @@
+## 2021-08-12 (v1.1.1)
+### Added
+- new example: 'dynamic-list-position' [#84](https://github.com/tomik23/autocomplete/issues/84)
+
 ## 2021-08-10 (v1.1.0)
 ### Added
 - `cache` - the characters entered in the input field are cached. This is best seen on the example [update-input-data](https://tomik23.github.io/autocomplete/#update-input-data) If we enter the letter `w`, we will see a list of 3 records `['Skyler White', 'Walter White', 'Walter White Jr.']`. By navigating through the records with the use of arrows (keyboard), the selected records are added to the input field. If the highlight is on `Walter White Jr.` and click the down arrow again, our original entry will appear in the input field, i.e. the letter `w`.

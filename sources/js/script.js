@@ -13,14 +13,14 @@ class Autocomplete {
       cache = false,
       disableCloseOnSelect = false,
       classGroup,
-      onResults = () => { },
-      onSearch = () => { },
-      onSubmit = () => { },
-      onOpened = () => { },
-      onReset = () => { },
-      onClose = () => { },
-      noResults = () => { },
-      onSelectedItem = () => { },
+      onResults = () => {},
+      onSearch = () => {},
+      onSubmit = () => {},
+      onOpened = () => {},
+      onReset = () => {},
+      onClose = () => {},
+      noResults = () => {},
+      onSelectedItem = () => {},
     }
   ) {
     this.search = element;
@@ -28,7 +28,7 @@ class Autocomplete {
     this.onSearch = isPromise(onSearch)
       ? onSearch
       : ({ currentValue: a, element: b }) =>
-        Promise.resolve(onSearch({ currentValue: a, element: b }));
+          Promise.resolve(onSearch({ currentValue: a, element: b }));
     this.onResults = onResults;
     this.onSubmit = onSubmit;
     this.onSelectedItem = onSelectedItem;
@@ -194,7 +194,8 @@ class Autocomplete {
       });
   };
 
-  onLoading = (type) => this.root.parentNode.classList[type ? 'add' : 'remove'](this.isLoading);
+  onLoading = (type) =>
+    this.root.parentNode.classList[type ? 'add' : 'remove'](this.isLoading);
 
   error = () => this.root.classList.remove(this.err);
 
@@ -224,15 +225,15 @@ class Autocomplete {
     this.resultList.innerHTML =
       this.matches.length === 0
         ? this.onResults({
-          currentValue: this.value,
-          matches: 0,
-          template,
-        })
+            currentValue: this.value,
+            matches: 0,
+            template,
+          })
         : this.onResults({
-          currentValue: this.value,
-          matches: this.matches,
-          classGroup: this.classGroup,
-        });
+            currentValue: this.value,
+            matches: this.matches,
+            classGroup: this.classGroup,
+          });
 
     this.resultList.classList.add(this.isActive);
 
@@ -462,7 +463,6 @@ class Autocomplete {
             this.index = matchesLength - 1;
           }
           this.index -= 1;
-
         } else {
           this.index += 1;
           if (this.index >= matchesLength) {
@@ -472,7 +472,11 @@ class Autocomplete {
 
         this.remAria(this.selectedLi);
 
-        if (matchesLength > 0 && this.index >= 0 && this.index < matchesLength - 1) {
+        if (
+          matchesLength > 0 &&
+          this.index >= 0 &&
+          this.index < matchesLength - 1
+        ) {
           this.onSelectedItem({
             index: this.index,
             element: this.root,
@@ -506,8 +510,9 @@ class Autocomplete {
 
   // set aria label on item li
   setAria = (target) => {
-    // eslint-disable-next-line prettier/prettier
-    const selectedOption = `${this.selectedOption}-${this.indexLiSelected(target)}`;
+    const selectedOption = `${this.selectedOption}-${this.indexLiSelected(
+      target
+    )}`;
 
     this.setAttr(target, {
       id: selectedOption,
@@ -546,7 +551,8 @@ class Autocomplete {
   };
 
   // Set aria-activedescendant
-  setAriaDes = (type) => this.root.setAttribute('aria-activedescendant', type || '');
+  setAriaDes = (type) =>
+    this.root.setAttribute('aria-activedescendant', type || '');
 
   // create clear button and
   // removing text from the input field

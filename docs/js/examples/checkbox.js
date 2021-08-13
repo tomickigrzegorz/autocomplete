@@ -1,5 +1,4 @@
 window.addEventListener('DOMContentLoaded', () => {
-
   /**
    * Checkboxes
    */
@@ -13,7 +12,7 @@ window.addEventListener('DOMContentLoaded', () => {
   new Autocomplete('checkbox', {
     insertToInput: true,
     // insertToInput: true,
-    // prevents results from hiding after 
+    // prevents results from hiding after
     // clicking on an item from the list
     disableCloseOnSelect: true,
 
@@ -29,9 +28,9 @@ window.addEventListener('DOMContentLoaded', () => {
             // such soroting may be obtained from REST API
             const result = data
               .sort((a, b) => a.name.localeCompare(b.name))
-              .filter(element => {
-                return element.name.match(new RegExp(currentValue, 'gi'))
-              })
+              .filter((element) => {
+                return element.name.match(new RegExp(currentValue, 'gi'));
+              });
             resolve(result);
           })
           .catch((error) => {
@@ -41,16 +40,19 @@ window.addEventListener('DOMContentLoaded', () => {
     },
 
     onResults: ({ matches, template }) => {
-      return matches === 0 ? template : matches
-        .map(el => {
-          return `
+      return matches === 0
+        ? template
+        : matches
+            .map((el) => {
+              return `
             <li class="custom-element">
               <label>
                 <input type="checkbox" value="${el.name}">
                 <div class="checkbox">${el.name}</div>
               </label>
             </li>`;
-        }).join('');
+            })
+            .join('');
     },
 
     onOpened: ({ type, element, results }) => {
@@ -58,19 +60,23 @@ window.addEventListener('DOMContentLoaded', () => {
       // from the rendered elements add the 'selected' class
 
       [].slice.call(results.children).map((item, idx) => {
-        const test = checkbox.some(element => element === item.textContent.trim());
+        const test = checkbox.some(
+          (element) => element === item.textContent.trim()
+        );
         if (!test) return;
 
         let inputElement = results.children[idx].firstElementChild.children[0];
         inputElement.checked = true;
-        inputElement.closest('.custom-element').classList.add('checkbox-selected');
+        inputElement
+          .closest('.custom-element')
+          .classList.add('checkbox-selected');
       });
     },
 
     onSubmit: ({ index, element, object, results }) => {
       // update counter elements
       function countNumber(numb) {
-        return countNumberCheckbox.textContent = numb;
+        return (countNumberCheckbox.textContent = numb);
       }
 
       // remove element from array
@@ -82,7 +88,9 @@ window.addEventListener('DOMContentLoaded', () => {
       }
 
       function addRemoveClass(type) {
-        inputElement.closest('.custom-element').classList[type]('checkbox-selected');
+        inputElement
+          .closest('.custom-element')
+          .classList[type]('checkbox-selected');
         // set false checbox
         inputElement.checked = type === 'remove' ? false : true;
       }
@@ -90,7 +98,7 @@ window.addEventListener('DOMContentLoaded', () => {
       let inputElement = results.children[index].firstElementChild.children[0];
 
       if (inputElement.checked) {
-        // remove class 
+        // remove class
         addRemoveClass('remove');
 
         // remove from array object
@@ -100,14 +108,14 @@ window.addEventListener('DOMContentLoaded', () => {
         countNumber(checkbox.length);
 
         // remove button
-        [].slice.call(selectedItem.children).map(item => {
+        [].slice.call(selectedItem.children).map((item) => {
           if (item.textContent.trim() === element.value) {
             item.parentNode.removeChild(item);
           }
-        })
+        });
 
         return;
-      };
+      }
 
       // set checbox on true and add class
       addRemoveClass('add');
@@ -117,15 +125,18 @@ window.addEventListener('DOMContentLoaded', () => {
 
       // create elements with names and buttons
       const button = document.createElement('button');
-      button.type = 'button'
+      button.type = 'button';
       button.className = 'remove-item';
-      button.insertAdjacentHTML('beforeend', '<svg aria-label="Remove name" height="16" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z"/></svg>');
+      button.insertAdjacentHTML(
+        'beforeend',
+        '<svg aria-label="Remove name" height="16" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z"/></svg>'
+      );
 
       const item = document.createElement('div');
       item.className = 'item';
 
       // add each item in the array to the div selectedItem
-      checkbox.map(ele => {
+      checkbox.map((ele) => {
         item.textContent = ele;
         item.insertAdjacentElement('beforeend', button);
         selectedItem.appendChild(item);
@@ -145,7 +156,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
         // update checkbox
         [].slice.call(results.children).map((item, idx) => {
-          let inputElement = results.children[idx].firstElementChild.children[0];
+          let inputElement =
+            results.children[idx].firstElementChild.children[0];
           inputElement.checked = false;
           addRemoveClass('remove');
         });
@@ -169,7 +181,7 @@ window.addEventListener('DOMContentLoaded', () => {
       countNumberCheckbox.textContent = 0;
     },
 
-    noResults: ({ element, template }) => template(`<li>No results found: "${element.value}"</li>`)
+    noResults: ({ element, template }) =>
+      template(`<li>No results found: "${element.value}"</li>`),
   });
-
 });

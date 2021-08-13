@@ -1,8 +1,7 @@
 window.addEventListener('DOMContentLoaded', () => {
-
   /**
-    * MULTIPLE VALUES
-    */
+   * MULTIPLE VALUES
+   */
 
   // array initialization
   let secondArray = [];
@@ -14,32 +13,34 @@ window.addEventListener('DOMContentLoaded', () => {
       if (lastElement.length === 0) return;
 
       const data = [
-        { "name": "Grzesiek" },
-        { "name": "Andrzej" },
-        { "name": "Monika" },
-        { "name": "Wiesława" },
-        { "name": "Waldemar" },
-        { "name": "Włodzimierz" },
-        { "name": "Adam" },
-        { "name": "Agnieszka" },
-        { "name": "Paweł" },
-        { "name": "Tadeusz" },
-        { "name": "Tymoteusz" },
-        { "name": "Łucja" },
-        { "name": "Nela" }
+        { name: 'Grzesiek' },
+        { name: 'Andrzej' },
+        { name: 'Monika' },
+        { name: 'Wiesława' },
+        { name: 'Waldemar' },
+        { name: 'Włodzimierz' },
+        { name: 'Adam' },
+        { name: 'Agnieszka' },
+        { name: 'Paweł' },
+        { name: 'Tadeusz' },
+        { name: 'Tymoteusz' },
+        { name: 'Łucja' },
+        { name: 'Nela' },
       ];
-      return data.sort((a, b) => a.name.localeCompare(b.name))
-        .filter(element => {
-          return element.name.match(new RegExp(lastElement, 'gi'))
-        })
+      return data
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .filter((element) => {
+          return element.name.match(new RegExp(lastElement, 'gi'));
+        });
     },
 
     onResults: ({ matches }) => {
       return matches
-        .map(el => {
+        .map((el) => {
           return `
             <li class='loupe'>${el.name}</li>`;
-        }).join('');
+        })
+        .join('');
     },
 
     onOpened: ({ element, results }) => {
@@ -51,24 +52,27 @@ window.addEventListener('DOMContentLoaded', () => {
 
       // get the data from the input field and divide by the
       // decimal point, then remove the empty last element
-      const currentValue = element.value.split(', ').splice(0, element.value.length - 1);
+      const currentValue = element.value
+        .split(', ')
+        .splice(0, element.value.length - 1);
 
       // leave in the array only those elements that are in the input field
-      secondArray = secondArray.filter(el => currentValue.includes(el));
+      secondArray = secondArray.filter((el) => currentValue.includes(el));
 
-      // check if the table 'multipleArr' contains selected elements from 
+      // check if the table 'multipleArr' contains selected elements from
       // the input field, if so we add the 'selected' class to the 'li' element,
       // if not, remove the 'selected' class from the li element
-      [].slice.call(results.children).map(item => {
-        item.classList[secondArray.includes(item.textContent) ? 'add' : 'remove']('selected')
+      [].slice.call(results.children).map((item) => {
+        item.classList[
+          secondArray.includes(item.textContent) ? 'add' : 'remove'
+        ]('selected');
       });
-
     },
 
     onSubmit: ({ index, element, object, results }) => {
       if (secondArray.includes(element.value)) {
         return;
-      };
+      }
 
       console.log('index: ', index, 'object: ', object, 'results: ', results);
 
@@ -77,7 +81,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
       // check if the table includes selected items from
       // the list, if so, add the 'selected' class
-      [].slice.call(results.children).map(item => {
+      [].slice.call(results.children).map((item) => {
         if (secondArray.includes(item.textContent)) {
           item.classList.add('selected');
         }
@@ -85,7 +89,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
       // add the elements from the array separated by commas
       // to the 'input' field, also add a comma to the last element
-      element.value = `${secondArray.join(', ')}${secondArray > 2 ? secondArray.pop()[secondArray.length - 1] : ', '}`;
+      element.value = `${secondArray.join(', ')}${
+        secondArray > 2 ? secondArray.pop()[secondArray.length - 1] : ', '
+      }`;
 
       // after selecting an item, set the
       // focus to the input field
@@ -96,7 +102,6 @@ window.addEventListener('DOMContentLoaded', () => {
       // after clicking the 'x' button,
       // clear the table
       secondArray = [];
-    }
+    },
   });
-
 });

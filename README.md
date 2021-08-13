@@ -194,6 +194,10 @@ new Autocomplete('complex', {
   // should start searching
   howManyCharacters: 2,
 
+  // the characters entered in
+  // the input field are cached
+  cache: true,
+  
   // enter the name of the class by
   // which you will name the group element
   classGroup: 'group-by',

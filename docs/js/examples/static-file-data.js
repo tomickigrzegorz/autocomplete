@@ -1,5 +1,4 @@
 window.addEventListener('DOMContentLoaded', () => {
-
   /**
    * STATIC FILE
    */
@@ -30,13 +29,18 @@ window.addEventListener('DOMContentLoaded', () => {
     },
 
     onResults: ({ currentValue, matches }) => {
-      return matches.map(({ name, status }) => {
-        return `
+      return matches
+        .map(({ name, status }) => {
+          return `
       <li class="loupe">
-        <p>${name.replace(new RegExp(currentValue, 'gi'), (str) => `<b>${str}</b>`)}</p>
+        <p>${name.replace(
+          new RegExp(currentValue, 'gi'),
+          (str) => `<b>${str}</b>`
+        )}</p>
         <small>status - ${status}</small>
       </li>`;
-      }).join('');
+        })
+        .join('');
     },
 
     // event onsubmit
@@ -60,7 +64,5 @@ window.addEventListener('DOMContentLoaded', () => {
     onSelectedItem: ({ index, element, object }) => {
       console.log('onSelectedItem:', index, element.value, object);
     },
-
   });
-
 });

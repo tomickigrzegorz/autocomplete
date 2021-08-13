@@ -35,6 +35,7 @@
           <li><a href="#data-elements">Static file + data-elelemts</a></li>
           <li><a href="#groups">Data grouping</a></li>
           <li><a href="#local-data">Local data</a></li>
+          <li><a href="#dynamic-list">Dynamic list position</a></li>
           <li><a href="#modal">Modal</a></li>
           <li><a href="#update-input-data">Update input field on selected items</a></li>
           <li><a href="#select-item">Select multiple values ver 1 <div><small>with count</small></div></a></li>
@@ -859,6 +860,101 @@ clearButton.addEventListener('click', () => {
         <!-- Group end -->
 
         <!-- Local data start -->
+        <section id="dynamic-list" class="section">
+          <div class="search-element">
+            <div class="info-section">
+              <h2>Dynamic list position</h2>
+              <div class="sources">
+                <a href="./js/examples/dynamic-list-position.js" target="_blank">source: dynamic-list-position</a>
+              </div>
+              <p>Dynamic display of results, and precisely the position of these results. The simplest thing is that the
+                results, if they do not fit in the page view, under the input field, will be displayed above this field.
+                <br><br>Move the page so that the input field is near the bottom of the window. Do a search, the results
+                should
+                appear above the input field.
+              </p>
+            </div>
+            <div class="auto-search max-height">
+              <input type="text" id="dynamic-list-position" placeholder="type w" />
+            </div>
+          </div>
+          <div rel="HTML" class="highlight html html-class"></div>
+          <div rel="JS" class="highlight javascript html-class">
+            <div>
+              <pre>
+      <code class="language-js">// add styles to the header responsible for
+// displaying the results above the search field
+(function () {
+  const head = document.getElementsByTagName('head')[0];
+  const css = document.createElement('style');
+
+  const style = `
+    .auto-list-up ul {
+      border-top: 1px solid #858585;
+      border-bottom: none;
+      border-radius: 10px 10px 0 0;
+      box-shadow: none;
+    }
+    .auto-list-up .auto-expanded {
+      border-radius: 0 0 10px 10px;
+    }
+  `;
+
+  css.appendChild(document.createTextNode(style));
+  head.appendChild(css);
+})();
+
+new Autocomplete('dynamic-list-position', {
+  insertToInput: true,
+  cache: true,
+
+  onSearch: ({ currentValue }) =&gt; {
+
+    // local data
+    const data = [
+      { &quot;name&quot;: &quot;Walter White&quot; },
+      { &quot;name&quot;: &quot;Jesse Pinkman&quot; },
+      { &quot;name&quot;: &quot;Skyler White&quot; },
+      { &quot;name&quot;: &quot;Walter White Jr.&quot; }
+    ];
+    return data.sort((a, b) =&gt; a.name.localeCompare(b.name))
+      .filter(element =&gt; {
+        return element.name.match(new RegExp(currentValue, 'i'))
+      })
+  },
+
+  onOpened: ({ element, results }) =&gt; {
+    // we check if there is room for input for results
+    const position = element.getBoundingClientRect().bottom + results.getBoundingClientRect().height > (window.innerHeight || document.documentElement.clientHeight);
+
+    // if there is no room for results under the input field 
+    // in the page view, we raise the results above the input field
+    if (position) {
+      results.style.bottom = element.offsetHeight - 1 + 'px';
+    } else {
+      results.removeAttribute('style');
+    }
+
+    // when checking the parent element, we also add a class based
+    // on which we format the appearance of the results and their posture
+    results.parentNode.classList[position ? 'add' : 'remove']('auto-list-up');
+  },
+
+  onResults: ({ matches }) =&gt; {
+    return matches
+      .map(el =&gt; {
+        return `
+          &lt;li&gt;${el.name}&lt;/li&gt;`;
+      }).join('');
+  }
+});</code>
+    </pre>
+            </div>
+          </div>
+        </section>
+        <!-- Local data end -->
+
+        <!-- Local data start -->
         <section id="local-data" class="section">
           <div class="search-element">
             <div class="info-section">
@@ -907,6 +1003,7 @@ clearButton.addEventListener('click', () => {
           </div>
         </section>
         <!-- Local data end -->
+
 
         <!-- Local data start -->
         <section id="modal" class="section">
@@ -1514,6 +1611,7 @@ new Autocomplete('checkbox', {
     <script src="./js/examples/static-file-data.js"></script>
     <script src="./js/examples/group.js"></script>
     <script src="./js/examples/local.js"></script>
+    <script src="./js/examples/dynamic-list-position.js"></script>
     <script src="./js/examples/modal.js"></script>
     <script src="./js/examples/update-input.js"></script>
     <script src="./js/examples/select.js"></script>

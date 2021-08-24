@@ -36,6 +36,7 @@
           <li><a href="#groups">Data grouping</a></li>
           <li><a href="#local-data">Local data</a></li>
           <li><a href="#dynamic-list">Dynamic list position</a></li>
+          <li><a href="#records-from-the-result">Number of records from the result</a></li>
           <li><a href="#modal">Modal</a></li>
           <li><a href="#update-input-data">Update input field on selected items</a></li>
           <li><a href="#select-item">Select multiple values ver 1 <div><small>with count</small></div></a></li>
@@ -954,6 +955,108 @@ new Autocomplete('dynamic-list-position', {
         </section>
         <!-- Local data end -->
 
+        <!-- Basic start -->
+        <section id="records-from-the-result" class="section">
+          <div class="search-element">
+            <div class="info-section">
+              <h2>Number of records from the result</h2>
+              <div class="sources">
+                <a href="./js/examples/records-from-the-result.js" target="_blank">source: records-from-the-result</a>
+              </div>
+              <p>This example shows only the top 7 records of the total number of matched results.<br>
+                For example, when searching for 'w', it would find 13 records but only 7 records are shown.</p>
+            </div>
+            <div class="auto-search">
+              <input type="text" id="records-result" placeholder="type w" />
+            </div>
+          </div>
+          <div rel="HTML" class="highlight html html-class"></div>
+          <div rel="JS" class="highlight javascript html-class">
+            <div>
+              <pre>
+                      <code class="language-js">// global 'results'
+let results = 0;
+const maxRecords = 7;
+
+new Autocomplete('records-result', {
+  insertToInput: true,
+  cache: true,
+  classGroup: 'group-by',
+
+  onSearch: ({ currentValue }) =&gt; {
+    // clear array always when new searching
+    results = [];
+
+    const api = './characters.json';
+    return new Promise((resolve) =&gt; {
+      fetch(api)
+        .then((response) =&gt; response.json())
+        .then((data) =&gt; {
+
+          const result = data
+            .sort((a, b) =&gt; a.name.localeCompare(b.name))
+            .filter((element) =&gt; {
+              return element.name.match(new RegExp(currentValue, 'gi'));
+            });
+
+          // show only 7 records
+          resolve(result.slice(0, maxRecords));
+
+          // we set the number of record
+          // to a global variable
+          results = result.length;
+        })
+        .catch((error) =&gt; {
+          console.error(error);
+        });
+    });
+  },
+
+  onResults: ({ currentValue, matches, template, classGroup }) =&gt; {
+    return matches === 0
+      ? template
+      : matches
+          .map((el, index, array) =&gt; {
+            let resultsCount =
+              index === 0
+                ? `&lt;li class=&quot;${classGroup}&quot;&gt;
+                    &lt;span&gt;Displaying
+                      &lt;strong&gt;${
+                        maxRecords > matches.length
+                          ? matches.length
+                          : maxRecords
+                      }&lt;/strong&gt;
+                      from
+                      &lt;strong&gt;${results}&lt;/strong&gt;
+                    &lt;/span&gt;
+                  &lt;/li&gt;`
+                : '';
+
+            return `
+              ${resultsCount}
+              &lt;li class=&quot;icon loupe&quot;&gt;
+                &lt;p&gt;${el.name.replace(
+                  new RegExp(currentValue, 'gi'),
+                  (str) =&gt; `&lt;b&gt;${str}&lt;/b&gt;`
+                )}&lt;/p&gt;
+              &lt;/li&gt;`;
+          })
+          .join('');
+  },
+
+  onSelectedItem: ({ index, element, object }) =&gt; {
+    console.log(index, element, object);
+  },
+
+  noResults: ({ currentValue, template }) =&gt;
+    template(`&lt;li&gt;No results found: &quot;${currentValue}&quot;&lt;/li&gt;`),
+});</code>
+                    </pre>
+            </div>
+          </div>
+        </section>
+        <!-- Basic end -->
+
         <!-- Local data start -->
         <section id="local-data" class="section">
           <div class="search-element">
@@ -1612,6 +1715,7 @@ new Autocomplete('checkbox', {
     <script src="./js/examples/group.js"></script>
     <script src="./js/examples/local.js"></script>
     <script src="./js/examples/dynamic-list-position.js"></script>
+    <script src="./js/examples/records-from-the-result.js"></script>
     <script src="./js/examples/modal.js"></script>
     <script src="./js/examples/update-input.js"></script>
     <script src="./js/examples/select.js"></script>

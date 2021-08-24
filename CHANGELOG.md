@@ -1,164 +1,243 @@
-## 2021-08-12 (v1.1.1)
+## 2021-08-24 (v1.1.2)
+
 ### Added
+
+- new example: 'number of records from the result'
+
+## 2021-08-12 (v1.1.1)
+
+### Added
+
 - new example: 'dynamic-list-position' [#84](https://github.com/tomik23/autocomplete/issues/84)
 
 ## 2021-08-10 (v1.1.0)
+
 ### Added
+
 - `cache` - the characters entered in the input field are cached. This is best seen on the example [update-input-data](https://tomik23.github.io/autocomplete/#update-input-data) If we enter the letter `w`, we will see a list of 3 records `['Skyler White', 'Walter White', 'Walter White Jr.']`. By navigating through the records with the use of arrows (keyboard), the selected records are added to the input field. If the highlight is on `Walter White Jr.` and click the down arrow again, our original entry will appear in the input field, i.e. the letter `w`.
 
 ## 2021-06-29 (v1.0.44)
+
 ### Changed
+
 - removal of an unused plug-in "rollup-plugin-postcss"
 
 ## 2021-06-12 (v1.0.43)
+
 ### Added
+
 - callback function: `onClose`, use - e.g. after class deletion after closing results
 - new example: [modal](https://tomik23.github.io/autocomplete/#modal)
 
 ## 2021-06-11 (v1.0.42)
+
 ### Changed
+
 - wrapper class `search` renaming to `auto-search`
 - use `postcss-css-variables` for backward compatibility for browsers
 
 ## 2021-06-02 (v1.0.41)
+
 ### Changed
+
 - removing unnecessary icons and redundant styles from autocomplete.css main style
 
 ## 2021-05-15 (v1.0.40)
+
 ### Added
+
 - `destroy()` this method removes the autocomplete instance and its bindings
 
 ## 2021-05-09 (v1.0.39)
+
 ### Changed
+
 - fix: Issue width 'clearButton' [#68](https://github.com/tomik23/autocomplete/issues/68)
 
 ## 2021-04-26 (v1.0.38)
+
 ### Added
+
 - `copy button` - copying examples using the button
 
 ## 2021-04-26 (v1.0.37)
+
 ### Changed
+
 - ux improvement
 - prismjs library updated
 
 ## 2021-04-05 (v1.0.36)
+
 ### Added
+
 - `disableCloseOnSelect` - Prevents results from hiding after clicking on an item from the list
 - new example: "Checkbox"
 
 ### Changed
+
 - `clearButton` default on true
 
 ## 2021-04-01 (v1.0.35)
+
 ### Changed
+
 - fix: wrong cursor position in the input field [#62](https://github.com/tomik23/autocomplete/issues/62)
 
 ## 2021-03-31 (v1.0.34)
+
 ### Added
+
 - new example: "Update input field on selected items"
 
 ## 2021-02-26 (v1.0.33)
+
 ### Changed
+
 - documentation and example
 
 ## 2021-02-23 (v1.0.32)
+
 ### Added
+
 - to the example `Select multiple values ver 1` counting the selected elements
 - `element` to noResults callback function
 
 ## 2021-02-05 (v1.0.31)
+
 ### Added
+
 - select multiple values
 - callback functions: `onReset`, `onOpened`
 
 ### Changed
+
 - `howManyCharacters` changed from 2 over 1
 
 ## 2021-01-26 (v1.0.30)
+
 ### Added
+
 - grouping the results [#55](https://github.com/tomik23/autocomplete/issues/55)
 
 ## 2021-01-23 (v1.0.29)
+
 ### Changed
+
 - expanding demo examples
 
 ## 2021-01-21 (v1.0.28)
+
 ### Changed
+
 - fix: 'no results' does not hidden [#52](https://github.com/tomik23/autocomplete/issues/52)
 
 ## 2021-01-20 (v1.0.27)
+
 ### Added
+
 - new method `onSelectedItem`, get index and data from li element after hovering over li with the mouse or using arrow keys ↓ | ↑
 
 ## 2021-01-13 (v1.0.26)
+
 ### Changed
+
 - fix: special characters are not removed [#49](https://github.com/tomik23/autocomplete/issues/49)
 
 ## 2021-01-13 (v1.0.25)
+
 ### Added
+
 - data to the input field [#47](https://github.com/tomik23/autocomplete/issues/47)
 
 ## 2021-01-10 (v1.0.24)
+
 ### Added
+
 - showing information: "no results"
 
 ## 2020-12-07 (v1.0.23)
+
 ### Changed
+
 - renaming the repository to autocomplete
 
 ## 2020-11-21 (v1.0.22)
+
 ### Added
+
 - UMD version, polyfill.js [closet, promise]
+
 ### Changed
+
 - order in docs, move js and css to appropriate folders
 - update dependencies
 
 ## 2020-09-10 (v1.0.21)
+
 ### Changed
+
 - callback functions
 - fix: [#43](https://github.com/tomik23/autosuggest/issues/42)
 - fix: remove typo
 
 ## 2020-09-01 (v1.0.20)
+
 ### Changed
+
 - fix: debouncing issue [#40](https://github.com/tomik23/autosuggest/issues/40)
 - fix: selectFirst [#38](https://github.com/tomik23/autosuggest/issues/38)
 
 ## 2020-08-31 (v1.0.19)
+
 ### Changed
+
 - moving aria-label to the library
 
 ## 2020-08-30 (v1.0.18)
+
 ### Changed
+
 - fix: Bad behavior when scrolling through the results with the up / down arrows [#35](https://github.com/tomik23/autosuggest/issues/35)
 - refactoring
 
 ## 2020-08-28 (v1.0.17)
+
 ### Changed
+
 - fix: aria-activedescendant
 - update dependencies
 
 ## 2020-08-27 (v1.0.16)
+
 ### Added
+
 - A simple error handling [#32](https://github.com/tomik23/autosuggest/issues/32)
 
 ## 2020-08-26 (v1.0.15)
+
 ### Changed
+
 - the function `onSubmit` returns the object `matches`, and the text clicked `input`
 - removing `dataElements`, all can now be obtained with the `onSubmit` function
 - small improvements
 - update readme
 
 ## 2020-08-23 (v1.0.14.1)
+
 ### Added
+
 - active menu on scroll [#30](https://github.com/tomik23/autosuggest/pull/30)
 
 ## 2020-08-22 (v1.0.14)
+
 ### Added
+
 - `babelHelpers: 'bundled'` to rollup
 - `margin-left=20px` to `search-elements` when `media 950px`
 
 ### Changed
+
 - up/down arrow [#28](https://github.com/tomik23/autosuggest/issues/28)
 - reorganization of the scss structure
 - changed dev and prod for sass in package.json

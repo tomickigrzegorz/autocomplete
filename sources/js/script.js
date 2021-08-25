@@ -153,6 +153,10 @@ class Autocomplete {
     // hide button clear
     this.showBtn();
 
+    if (value.length == 0 && this.clearButton) {
+      this.clearBtn.classList.add('hidden');
+    }
+
     if (this.characters > value.length) {
       this.onLoading();
       return;
@@ -418,6 +422,11 @@ class Autocomplete {
     if (!this.disableCloseOnSelect) {
       this.remAria(element);
       this.reset();
+    }
+
+    // show clearBtn when select element
+    if (this.clearButton) {
+      this.clearBtn.classList.remove('hidden');
     }
 
     // remove cache

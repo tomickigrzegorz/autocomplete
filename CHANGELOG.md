@@ -1,3 +1,9 @@
+## 2021-08-25 (v1.1.4)
+
+### Changed
+
+- fixed: clearButton [#89](https://github.com/tomik23/autocomplete/issues/89)
+
 ## 2021-08-25 (v1.1.3)
 
 ### Changed

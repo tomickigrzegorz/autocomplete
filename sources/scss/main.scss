@@ -1,10 +1,15 @@
-@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400&display=swap");
-@import "./modules/colors";
-@import "./modules/prism-theme";
-@import "./modules/helper";
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400&display=swap');
+@import './modules/colors';
+@import './modules/prism-theme';
+@import './modules/helper';
 
 :root {
   --toggle-menu: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8.578 16.594L13.172 12 8.578 7.406 9.984 6l6 6-6 6z'/%3E%3C/svg%3E");
+
+  --shadow: 0 2.8px 2.2px rgba(223, 223, 223, 0.034),
+    0 6.7px 5.3px rgba(192, 192, 192, 0.048),
+    0 1.5px 1px rgba(144, 144, 144, 0.06), 0 2.3px 1.9px rgba(92, 92, 92, 0.072),
+    0 2.8px 1px rgba(63, 63, 63, 0.086);
 }
 
 *,
@@ -28,7 +33,7 @@ html {
 
 body {
   position: relative;
-  font-family: "Lato", sans-serif;
+  font-family: 'Lato', sans-serif;
   background: #fbfbfb;
   padding: 0;
   line-height: 1.4;
@@ -77,7 +82,7 @@ a {
   }
   &:before {
     position: absolute;
-    content: "";
+    content: '';
     height: 100%;
     left: -5px;
     width: 4px;
@@ -155,7 +160,7 @@ aside {
 
   &:before {
     position: absolute;
-    content: "";
+    content: '';
     top: 0;
     left: 0;
     width: 100%;
@@ -436,7 +441,7 @@ body,
 
   &::before {
     position: absolute;
-    content: "\2191";
+    content: '\2191';
     margin-top: -2px;
     left: 0;
   }
@@ -496,10 +501,9 @@ body,
 .clear-button {
   cursor: pointer;
   margin-left: 10px;
-  height: 48px;
+  height: 44px;
   text-transform: uppercase;
   padding: 0 10px;
-  border-radius: 5px;
   border: 0;
   background: #c8c8c8;
   transition: all 300ms ease-in-out;
@@ -583,7 +587,7 @@ h1.loupe {
 }
 
 .top-button:after {
-  content: "↑";
+  content: '↑';
   position: absolute;
   right: 0;
   top: 0;
@@ -617,4 +621,21 @@ h1.loupe {
     right: 0;
     margin: auto;
   }
+}
+
+.hidden {
+  display: none;
+}
+
+.auto-search.auto-list-up {
+  ul {
+    border-top: 1px solid #858585;
+    border-bottom: none;
+    box-shadow: none;
+  }
+}
+
+.auto-search {
+  max-width: 350px;
+  margin: 20px 0;
 }

@@ -1,26 +1,5 @@
 window.addEventListener('DOMContentLoaded', () => {
-  // add styles to the header responsible for
   // displaying the results above the search field
-  (function () {
-    const head = document.getElementsByTagName('head')[0];
-    const css = document.createElement('style');
-
-    const style = `
-      .auto-list-up ul {
-        border-top: 1px solid #858585;
-        border-bottom: none;
-        border-radius: 10px 10px 0 0;
-        box-shadow: none;
-      }
-      .auto-list-up .auto-expanded {
-        border-radius: 0 0 10px 10px;
-      }
-    `;
-
-    css.appendChild(document.createTextNode(style));
-    head.appendChild(css);
-  })();
-
   /**
    * dynamic-list-position
    */

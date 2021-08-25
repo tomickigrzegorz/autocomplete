@@ -1,3 +1,9 @@
+## 2021-08-25 (v1.1.3)
+
+### Changed
+
+- refactoring style - [#86](https://github.com/tomik23/autocomplete/issues/86)
+
 ## 2021-08-24 (v1.1.2)
 
 ### Added

@@ -37,6 +37,7 @@
           <li><a href="#local-data">Local data</a></li>
           <li><a href="#dynamic-list">Dynamic list position</a></li>
           <li><a href="#records-from-the-result">Number of records from the result</a></li>
+          <li><a href="#footer">Header/Footer</a></li>
           <li><a href="#modal">Modal</a></li>
           <li><a href="#update-input-data">Update input field on selected items</a></li>
           <li><a href="#select-item">Select multiple values ver 1 <div><small>with count</small></div></a></li>
@@ -94,7 +95,7 @@
 
         <article>
           <div class="info-section">
-            <h2>Configuration of the plugin:</h2>
+            <h2 id="configuration-of-the-plugin">Configuration of the plugin:</h2>
             <h3>Settings</h3>
 
             <div class="table">
@@ -138,6 +139,14 @@
                   <td>false</td>
                   <td></td>
                   <td>Prevents results from hiding after clicking on an item from the list</td>
+                </tr>
+                <tr>
+                  <td><code>classPreventClosing</code></td>
+                  <td>""</td>
+                  <td></td>
+                  <td>Prevents results from hiding after clicking on element with this class. See the
+                    <code><a href="#footer">Footer/Header</a></code>
+                  </td>
                 </tr>
                 <tr>
                   <td><code>cache</code></td>
@@ -186,6 +195,13 @@
                   <td>&check;</td>
                   <td>when we want to add the information 'No results found:' we need to do a comparison, check the
                     matches is 0 then set the template <code>return matches === 0 ? template : matches</code></td>
+                </tr>
+                <tr>
+                  <td><code><b>onRender</b>: ({ element, results }) => {}</code></td>
+                  <td></td>
+                  <td>when we want to add additional elements, e.g. some buttons or plain text. See the
+                    <code><a href="#footer">Footer/Header</a></code> example. This function is only called once.
+                  </td>
                 </tr>
                 <tr>
                   <td><code><b>onSubmit</b>: ({ index, element, object, results }) => {}</code></td>
@@ -934,7 +950,7 @@ new Autocomplete('dynamic-list-position', {
         </section>
         <!-- Local data end -->
 
-        <!-- Basic start -->
+        <!-- records results start -->
         <section id="records-from-the-result" class="section">
           <div class="search-element">
             <div class="info-section">
@@ -1034,7 +1050,91 @@ new Autocomplete('records-result', {
             </div>
           </div>
         </section>
-        <!-- Basic end -->
+        <!-- records results end -->
+
+
+        <!-- footer start -->
+        <section id="footer" class="section">
+          <div class="search-element">
+            <div class="info-section">
+              <h2>Header/Footer</h2>
+              <div class="sources">
+                <a href="./js/examples/header-footer.js" target="_blank">source: header/footer</a>
+              </div>
+              <p>Add adding additional DOM elements to the code. A callback function is used for this
+                <code>onRender: ({ element, results }) {}</code> This function is only called once.
+              </p>
+            </div>
+            <div class="auto-search max-height bottom-radius">
+              <input type="text" id="additional-elements" placeholder="type w" />
+            </div>
+          </div>
+          <div rel="HTML" class="highlight html html-class"></div>
+          <div rel="JS" class="highlight javascript html-class">
+            <div>
+              <pre>
+                <code class="language-js">new Autocomplete('additional-elements', {
+  selectFirst: true,
+  cache: true,
+
+  // prevents results from hiding after
+  // clicking on element with this class
+  // footer/header elements have this class
+  // of course, any class name
+  classPreventClosing: 'additional-elements',
+
+  onSearch: ({ currentValue }) =&gt; {
+    const api = './characters.json';
+    
+    return new Promise((resolve) =&gt; {
+      fetch(api)
+        .then((response) =&gt; response.json())
+        .then((data) =&gt; {
+          const result = data.sort((a, b) =&gt; a.name.localeCompare(b.name))
+            .filter(element =&gt; {
+              return element.name.match(new RegExp(currentValue, 'gi'))
+            })
+          resolve(result);
+        })
+        .catch((error) =&gt; {
+          console.error(error);
+        });
+      });
+  },
+
+  // this function is responsible for rendering
+  // additional elements above and below the results
+  onRender: ({ results }) =&gt; {
+    const elements = [
+      { where: 'beforebegin', text: 'header' },
+      { where: 'afterend', text: 'footer' },
+    ];
+
+    elements.map((element) =&gt; {
+      results.insertAdjacentHTML(
+        element.where,
+        `&lt;div class=&quot;additional-elements&quot;&gt;&lt;small&gt;${element.text}&lt;/small&gt;&lt;/div&gt;`
+      );
+    });
+  },
+
+  onSelectedItem: ({ element, object }) =&gt; {
+    element.value = object.name;
+  },
+
+  onResults: ({ matches }) =&gt; {
+    return matches
+      .map(el =&gt; {
+        return `
+          &lt;li&gt;${el.name}&lt;/li&gt;`;
+      }).join('');
+  }
+});</code>
+              </pre>
+            </div>
+          </div>
+        </section>
+        <!-- footer end -->
 
         <!-- Local data start -->
         <section id="local-data" class="section">
@@ -1087,7 +1187,7 @@ new Autocomplete('records-result', {
         <!-- Local data end -->
 
 
-        <!-- Local data start -->
+        <!-- modal -->
         <section id="modal" class="section">
           <div class="search-element">
             <div class="info-section">
@@ -1150,7 +1250,7 @@ new Autocomplete('modal-example', {
             </div>
           </div>
         </section>
-        <!-- Local data end -->
+        <!-- modal -->
 
         <!-- update input start -->
         <section id="update-input-data" class="section">
@@ -1210,7 +1310,7 @@ new Autocomplete('modal-example', {
         <!-- update input end -->
 
 
-        <!-- Local data start -->
+        <!-- select item -->
         <section id="select-item" class="section">
           <div class="search-element">
             <div class="info-section">
@@ -1352,9 +1452,9 @@ new Autocomplete('select', {
             </div>
           </div>
         </section>
-        <!-- Local data end -->
+        <!-- select item -->
 
-        <!-- Local data start -->
+        <!-- select mutiple values -->
         <section id="select-multiple-values" class="section">
           <div class="search-element">
             <div class="info-section">
@@ -1472,7 +1572,7 @@ new Autocomplete('multiple-values', {
             </div>
           </div>
         </section>
-        <!-- Local data end -->
+        <!-- select multiple values -->
 
 
         <!-- checkbox -->
@@ -1687,6 +1787,7 @@ new Autocomplete('checkbox', {
     <script src="./js/autocomplete.min.js"></script>
 
     <script src="./js/examples/basic.js"></script>
+    <script src="./js/examples/header-footer.js"></script>
     <script src="./js/examples/complex.js"></script>
     <script src="./js/examples/no-results.js"></script>
     <script src="./js/examples/static.js"></script>
@@ -1700,7 +1801,6 @@ new Autocomplete('checkbox', {
     <script src="./js/examples/select.js"></script>
     <script src="./js/examples/multiple-values.js"></script>
     <script src="./js/examples/checkbox.js"></script>
-
   </body>
 
 </html>

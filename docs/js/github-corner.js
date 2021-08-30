@@ -13,7 +13,6 @@ const githubConrner = `
 `;
 
 document.addEventListener('DOMContentLoaded', () => {
-
   // adding github-corner
   document.body.insertAdjacentHTML('beforeend', githubConrner);
 
@@ -26,11 +25,12 @@ document.addEventListener('DOMContentLoaded', () => {
       .cloneNode(true)
       .outerHTML.replace(/^\s{1,12}/gm, '');
 
-    const htmlConverter = htmlCode.replace(/[\u00A0-\u9999<>\\&]/gim, function (
-      i
-    ) {
-      return `&#${i.charCodeAt(0)};`;
-    });
+    const htmlConverter = htmlCode.replace(
+      /[\u00A0-\u9999<>\\&]/gim,
+      function (i) {
+        return `&#${i.charCodeAt(0)};`;
+      }
+    );
 
     const preElement = document.createElement('pre');
     // preElement.setAttribute('rel', 'html');
@@ -43,25 +43,25 @@ document.addEventListener('DOMContentLoaded', () => {
     element.children[1].insertAdjacentElement('beforeend', preElement);
   });
 
-
   // IntersectionObserver section
   const options = {
     root: null,
     rootMargin: '0px',
     threshold: 0.1,
-  }
+  };
 
   const changeNav = (entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting && entry.intersectionRatio > 0.1) {
-
         document.querySelector('.active').classList.remove('active');
 
         var id = entry.target.getAttribute('id');
-        document.querySelector(`[href="#${id}"]`).parentNode.classList.add('active');
+        document
+          .querySelector(`[href="#${id}"]`)
+          .parentNode.classList.add('active');
       }
     });
-  }
+  };
 
   const observer = new IntersectionObserver(changeNav, options);
 
@@ -94,15 +94,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const highlights = document.querySelectorAll('.highlight > h4');
   const htmlClass = document.querySelectorAll('.html-class');
 
-  htmlClass.forEach(htmlCl => {
+  htmlClass.forEach((htmlCl) => {
     const buttonClone = button.cloneNode(true);
     htmlCl.insertAdjacentElement('afterbegin', buttonClone);
-  })
+  });
 
-  highlights.forEach(highlight => {
+  highlights.forEach((highlight) => {
     const buttonClone = button.cloneNode(true);
     highlight.insertAdjacentElement('afterend', buttonClone);
-  })
+  });
 
   const buttonCopy = (target) => {
     const selection = window.getSelection();
@@ -132,16 +132,15 @@ document.addEventListener('DOMContentLoaded', () => {
         targetEl.textContent = 'copy';
       }, 1200);
     }
-  }
+  };
 
   const topButton = document.createElement('a');
   topButton.href = '#';
-  topButton.className = 'top-button'
+  topButton.className = 'top-button';
   topButton.textContent = 'top';
 
   const section = document.querySelectorAll('section, article');
   section.forEach((element) => {
-    element.insertAdjacentElement("beforeend", topButton.cloneNode(true));
+    element.insertAdjacentElement('beforeend', topButton.cloneNode(true));
   });
-
 });

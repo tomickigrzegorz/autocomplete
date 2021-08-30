@@ -193,7 +193,8 @@
                 <tr>
                   <td><code><b>onResults</b>: ({ currentValue, matches, template, classGroup }) => {}</code></td>
                   <td>&check;</td>
-                  <td>when we want to add the information 'No results found:' we need to do a comparison, check the
+                  <td>when we want to add the information <code>No results found:</code> we need to do a comparison,
+                    check the
                     matches is 0 then set the template <code>return matches === 0 ? template : matches</code></td>
                 </tr>
                 <tr>
@@ -211,19 +212,24 @@
                 <tr>
                   <td><code><b>onOpened</b>: ({ type, element, results }) => {}</code></td>
                   <td></td>
-                  <td>Returns two variables 'results' and 'showItems', 'resutls' first rendering of the results
-                    'showItems' only showing the results when clicking on the input field</td>
+                  <td>Returns two variables <code>results</code> and <code>showItems</code>.<br><code>resutls</code>
+                    first
+                    rendering
+                    of the results
+                    <code>showItems</code> only showing the results when clicking on the input field
+                  </td>
                 </tr>
                 <tr>
                   <td><code><b>onSelectedItem</b>: ({ index, element, object }) => {}</code></td>
                   <td></td>
-                  <td>Get index and data from li element after hovering over li with the mouse or using arrow keys ↓/↑
+                  <td>Get index and data from li element after hovering over li with the mouse or using arrow keys
+                    <kbd>↓</kbd> | <kbd>↑</kbd>
                   </td>
                 </tr>
                 <tr>
                   <td><code><b>onReset</b>: (element) => {}</code></td>
                   <td></td>
-                  <td>After clicking the 'x' button</td>
+                  <td>After clicking the <kbd>x</kbd> button</td>
                 </tr>
                 <tr>
                   <td><code><b>onClose</b>: () => {}</code></td>
@@ -318,7 +324,7 @@
                 search engine. The div surrounding the input field controls
                 the appearance of this field and also the appearance of the <code>"loupe"</code> icons and the
                 button with which we
-                can clear the <code>"x"</code> field, as well as the possibility of an animation waiting for the
+                can clear the <kbd>x</kbd> field, as well as the possibility of an animation waiting for the
                 results before our <code>REST API</code> returns us.
               </p>
             </div>
@@ -1319,8 +1325,10 @@ new Autocomplete('modal-example', {
                 <a href="./js/examples/select.js" target="_blank">source: select</a>
               </div>
               <p>This example allows you to select multiple elements that are added below the input field. To remove all
-                elements just click button clear 'x' or delete elements one by one by clicking the button 'x' which are
-                next to the name of the taken elements.</p>
+                elements just click button clear <kbd>x</kbd> or delete elements one by one by clicking the button
+                <kbd>x</kbd> which are
+                next to the name of the taken elements.
+              </p>
             </div>
             <div class="auto-search max-height count">
               <div class="count-number">0</div>
@@ -1463,7 +1471,8 @@ new Autocomplete('select', {
                 <a href="./js/examples/multiple-values.js" target="_blank">source: multiple-values</a>
               </div>
               <p>This example allows you to select multiple elements that are added to the input field, to remove the
-                selected fields, clear them by pressing the clear 'x' button or by removing the element or elements from
+                selected fields, clear them by pressing the clear <kbd>x</kbd> button or by removing the element or
+                elements from
                 the input field.</p>
             </div>
             <div class="auto-search max-height loupe">
@@ -1583,7 +1592,7 @@ new Autocomplete('multiple-values', {
               <div class="sources">
                 <a href="./js/examples/checkbox.js" target="_blank">source: checkbox</a>
               </div>
-              <p>TThis example shows what you can use the <code>disableCloseOnSelect</code> variable - checkbox list.
+              <p>This example shows what you can use the <code>disableCloseOnSelect</code> variable - checkbox list.
               </p>
             </div>
             <div class="auto-search max-height count checkoxes">

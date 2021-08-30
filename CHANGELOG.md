@@ -1,3 +1,17 @@
+## 2021-09-01 (v1.5)
+
+### Added
+
+- `onRender` - callback function when we want to add additional elements, e.g. some buttons, links or plain text. See the Footer/Header e
+  xample
+- `classPreventClosing` - Prevents results from hiding after clicking on element with this class
+- `Footer/Header` - new example, showing how to add an element above the results and below
+
+### Changed
+
+- wrap the results of additional divs. Useful when we want to add additional elements to the results, e.g. a legend, links, buttons, etc. See an example `Footer/Header`
+- fixed: following a record when navigating records up/down with arrows and when using `classGroup`
+
 ## 2021-08-25 (v1.1.4)
 
 ### Changed

@@ -32,9 +32,9 @@ window.addEventListener('DOMContentLoaded', () => {
       // if there is no room for results under the input field
       // in the page view, we raise the results above the input field
       if (position) {
-        results.style.bottom = `${element.offsetHeight - 1}px`;
+        results.parentNode.style.bottom = `${element.offsetHeight - 1}px`;
       } else {
-        results.removeAttribute('style');
+        results.parentNode.removeAttribute('style');
       }
 
       // when checking the parent element, we also add a class based

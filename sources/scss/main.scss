@@ -623,15 +623,22 @@ h1.loupe {
   }
 }
 
-.auto-search.auto-list-up {
-  ul {
-    border-top: 1px solid #858585;
-    border-bottom: none;
-    box-shadow: none;
-  }
+.auto-output-search.auto-list-up {
+  border-top: 1px solid #858585;
+  border-bottom: none;
 }
 
 .auto-search {
   max-width: 350px;
   margin: 20px 0;
+}
+
+.bottom-radius {
+  .auto-output-search {
+    border-radius: 0 0 10px 10px;
+  }
+}
+
+.additional-elements {
+  padding: 5px 10px;
 }

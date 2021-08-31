@@ -29,8 +29,6 @@
 
   ul {
     list-style: none;
-    border: 1px solid #858585;
-    border-top: none;
     padding: 0;
     overflow: auto;
     box-sizing: border-box;
@@ -151,9 +149,12 @@ li.loupe:before {
 
 .auto-output-search {
   display: none;
+  border: 1px solid #858585;
+  border-top: none;
+  overflow: hidden;
   background-color: $color-white;
 
-  & > .loupe {
+  ul > .loupe {
     padding-left: 40px;
   }
 

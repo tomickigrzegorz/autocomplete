@@ -13,11 +13,13 @@ class Autocomplete {
       cache = false,
       disableCloseOnSelect = false,
       classGroup,
+      classPreventClosing,
       onResults = () => {},
       onSearch = () => {},
       onSubmit = () => {},
       onOpened = () => {},
       onReset = () => {},
+      onRender = () => {},
       onClose = () => {},
       noResults = () => {},
       onSelectedItem = () => {},
@@ -30,6 +32,7 @@ class Autocomplete {
       : ({ currentValue: a, element: b }) =>
           Promise.resolve(onSearch({ currentValue: a, element: b }));
     this.onResults = onResults;
+    this.onRender = onRender;
     this.onSubmit = onSubmit;
     this.onSelectedItem = onSelectedItem;
     this.onOpened = onOpened;
@@ -43,6 +46,7 @@ class Autocomplete {
     this.selectFirst = selectFirst;
     this.toInput = insertToInput;
     this.classGroup = classGroup;
+    this.classPreventClosing = classPreventClosing;
     this.disableCloseOnSelect = disableCloseOnSelect;
 
     // default config
@@ -57,6 +61,7 @@ class Autocomplete {
     this.regex = /[|\\{}()[\]^$+*?.]/g;
     this.timeout = null;
 
+    this.resultWrapper = document.createElement('div');
     this.resultList = document.createElement('ul');
 
     this.keyCodes = {
@@ -78,6 +83,11 @@ class Autocomplete {
     // default aria
     // this.reset();
     this.root.addEventListener('input', this.handleInput);
+
+    this.onRender({
+      element: this.root,
+      results: this.resultList,
+    });
   };
 
   cacheAct = (type, target) => {
@@ -109,12 +119,22 @@ class Autocomplete {
   output = () => {
     this.setAttr(this.resultList, {
       id: this.outputUl,
-      addClass: 'auto-output-search',
+      // addClass: 'auto-output-search',
       tabIndex: 0,
       role: 'listbox',
     });
 
-    this.root.parentNode.insertBefore(this.resultList, this.root.nextSibling);
+    this.setAttr(this.resultWrapper, {
+      id: `${this.outputUl}-wrapper`,
+      addClass: 'auto-output-search',
+    });
+
+    this.resultWrapper.insertAdjacentElement('beforeend', this.resultList);
+
+    this.root.parentNode.insertBefore(
+      this.resultWrapper,
+      this.root.nextSibling
+    );
   };
 
   // default aria
@@ -128,7 +148,7 @@ class Autocomplete {
       removeClass: 'auto-expanded',
     });
 
-    this.resultList.classList.remove(this.isActive);
+    this.resultWrapper.classList.remove(this.isActive);
 
     // move the view item to the first item
     this.resultList.scrollTop = 0;
@@ -239,7 +259,7 @@ class Autocomplete {
             classGroup: this.classGroup,
           });
 
-    this.resultList.classList.add(this.isActive);
+    this.resultWrapper.classList.add(this.isActive);
 
     const checkIfClassGroupExist = this.classGroup
       ? `:not(.${this.classGroup})`
@@ -265,7 +285,16 @@ class Autocomplete {
 
   handleDocClick = ({ target }) => {
     let disableClose = null;
+
+    // if 'target' is a ul and 'disableCloseOnSelect'
+    // is a 'true' set 'disableClose' on true
     if (target.closest('ul') && this.disableCloseOnSelect) {
+      disableClose = true;
+    }
+
+    // when class classDisableClose
+    // then do not not close results
+    if (target.closest(`.${this.classPreventClosing}`)) {
       disableClose = true;
     }
 
@@ -344,13 +373,13 @@ class Autocomplete {
   handleShowItems = () => {
     if (
       this.resultList.textContent.length > 0 &&
-      !this.resultList.classList.contains(this.isActive)
+      !this.resultWrapper.classList.contains(this.isActive)
     ) {
       this.setAttr(this.root, {
         'aria-expanded': true,
         addClass: 'auto-expanded',
       });
-      this.resultList.classList.add(this.isActive);
+      this.resultWrapper.classList.add(this.isActive);
       // select first element
       this.selectFirstEl();
 
@@ -450,7 +479,7 @@ class Autocomplete {
   // navigating the elements li and enter
   handleKeys = (event) => {
     const { keyCode } = event;
-    const resultList = this.resultList.classList.contains(this.isActive);
+    const resultList = this.resultWrapper.classList.contains(this.isActive);
 
     const matchesLength = this.matches.length + 1;
     this.selectedLi = document.querySelector(`.${this.activeList}`);
@@ -535,15 +564,39 @@ class Autocomplete {
     this.follow(target, this.resultList);
   };
 
+  getClassGroupHeight = () => {
+    let height = 0;
+    const classGroup = [].slice.call(
+      document.querySelectorAll(
+        `#${this.outputUl} > li:not(.${this.classGroup})`
+      )
+    );
+
+    classGroup.map((el) => (height += el.offsetHeight));
+    return height;
+  };
+
   // follow active element
-  follow = (element, container) => {
-    if (element.offsetTop < container.scrollTop) {
-      container.scrollTop = element.offsetTop;
+  follow = (target, resultList) => {
+    const previusElement = resultList.previousSibling;
+
+    const previusElementHeight = previusElement
+      ? previusElement.offsetHeight
+      : 0;
+
+    if (target.getAttribute('aria-posinset') == '0') {
+      resultList.scrollTop = target.offsetTop - this.getClassGroupHeight();
+    }
+
+    if (target.offsetTop - previusElementHeight < resultList.scrollTop) {
+      console.log('test');
+      resultList.scrollTop = target.offsetTop - previusElementHeight;
     } else {
-      const offsetBottom = element.offsetTop + element.offsetHeight;
-      const scrollBottom = container.scrollTop + container.offsetHeight;
+      const offsetBottom =
+        target.offsetTop + target.offsetHeight - previusElementHeight;
+      const scrollBottom = resultList.scrollTop + resultList.offsetHeight;
       if (offsetBottom > scrollBottom) {
-        container.scrollTop = offsetBottom - container.offsetHeight;
+        resultList.scrollTop = offsetBottom - resultList.offsetHeight;
       }
     }
   };

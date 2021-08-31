@@ -66,6 +66,7 @@ npm run prod
 ## Installation
 
 Download from `docs` folder:
+
 - autocomplete.css
 - autocomplete.min.js
 
@@ -79,7 +80,7 @@ HTML
 
 ```html
 <div class="auto-search">
-  <input type="text" id="local" autocomplete="off" placeholder="Enter letter">
+  <input type="text" id="local" autocomplete="off" placeholder="Enter letter" />
 </div>
 ```
 
@@ -90,27 +91,28 @@ JavaScript
   window.addEventListener('DOMContentLoaded', function () {
     new Autocomplete('local', {
       onSearch: ({ currentValue }) => {
-
         // local data
         const data = [
-          { "name": "Walter White" },
-          { "name": "Jesse Pinkman" },
-          { "name": "Skyler White" },
-          { "name": "Walter White Jr." }
+          { name: 'Walter White' },
+          { name: 'Jesse Pinkman' },
+          { name: 'Skyler White' },
+          { name: 'Walter White Jr.' },
         ];
-        return data.sort((a, b) => a.name.localeCompare(b.name))
-          .filter(element => {
-            return element.name.match(new RegExp(currentValue, 'i'))
-          })
+        return data
+          .sort((a, b) => a.name.localeCompare(b.name))
+          .filter((element) => {
+            return element.name.match(new RegExp(currentValue, 'i'));
+          });
       },
 
       onResults: ({ matches }) => {
         return matches
-          .map(el => {
+          .map((el) => {
             return `
               <li>${el.name}</li>`;
-          }).join('');
-      }
+          })
+          .join('');
+      },
     });
   });
 </script>
@@ -118,55 +120,63 @@ JavaScript
 
 ## Configuration of the plugin
 
-| props | type | default | require | description |
-| ----------------- | :--------: | :---------: | :-----: | --------------------------------------------- |
-| element           |   string   |         | ✔ | Input field id |
-| onSearch          |  function  |         | ✔ | Function for user input. It can be a synchronous function or a promise |
-| onResults         |  function  |         | ✔ | Function that creates the appearance of the result |
-| onSubmit          |  function  |         |   | Executed on input submission   |
-| onOpened          |  function  |         |   | returns two variables 'results' and 'showItems', 'resutls' first rendering of the results 'showItems' only showing the results when clicking on the input field   |
-| onSelectedItem    |  function  |         |   | Get index and data from li element after hovering over li with the mouse or using arrow keys ↓/↑   |
-| onReset           |  function  |         |   | After clicking the 'x' button |
-| onClose         |  function  |         |   | e.g. delete class after close results, see example modal   |
-| noResults         |  function  |         |   | Showing information: "no results"   |
-| destroy |  method  |         |   | Removes the autocomplete instance and its bindings   |
-| clearButton       |  boolean   | `true` |   | A parameter set to 'true' adds a button to remove text from the input field |
-| selectFirst       |  boolean   | `false` |   | Default selects the first item in the list of results |
-| insertToInput     |  boolean   | `false` |   | Adding an element selected with arrows to the input field |
-| disableCloseOnSelect   |   boolean   | `false` |   | Prevents results from hiding after clicking on an item from the list
-| cache   |   boolean   | `false` |   | The characters entered in the input field are cached
-| howManyCharacters |   number   |   `1`   |   | The number of characters entered should start searching |
-| delay             |   number   |  `500`  |         | Time in milliseconds that the component should wait after last keystroke before calling search function 1000 = 1s |
-| classGroup        |   string   |         |   | Enter a class name, this class will be added to the group name elements
-| ~~instruction~~   | ~~string~~ | ~~`When autocomplete results ...`~~ |         | ~~aria-describedby [attribute](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-describedby_attribute) A full text below~~ |
+| props                |    type    |               default               | require | description                                                                                                                                                              |
+| -------------------- | :--------: | :---------------------------------: | :-----: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| element              |   string   |                                     |    ✔    | Input field id                                                                                                                                                           |
+| onSearch             |  function  |                                     |    ✔    | Function for user input. It can be a synchronous function or a promise                                                                                                   |
+| onResults            |  function  |                                     |    ✔    | Function that creates the appearance of the result                                                                                                                       |
+| onSubmit             |  function  |                                     |         | Executed on input submission                                                                                                                                             |
+| onOpened             |  function  |                                     |         | returns two variables 'results' and 'showItems', 'resutls' first rendering of the results 'showItems' only showing the results when clicking on the input field          |
+| onSelectedItem       |  function  |                                     |         | Get index and data from li element after hovering over li with the mouse or using arrow keys ↓/↑                                                                         |
+| onReset              |  function  |                                     |         | After clicking the 'x' button                                                                                                                                            |
+| onRender             |  function  |                                     |         | Possibility to add html elements, e.g. before and after the search results                                                                                               |
+| onClose              |  function  |                                     |         | e.g. delete class after close results, see example modal                                                                                                                 |
+| noResults            |  function  |                                     |         | Showing information: "no results"                                                                                                                                        |
+| destroy              |   method   |                                     |         | Removes the autocomplete instance and its bindings                                                                                                                       |
+| clearButton          |  boolean   |               `true`                |         | A parameter set to 'true' adds a button to remove text from the input field                                                                                              |
+| selectFirst          |  boolean   |               `false`               |         | Default selects the first item in the list of results                                                                                                                    |
+| insertToInput        |  boolean   |               `false`               |         | Adding an element selected with arrows to the input field                                                                                                                |
+| disableCloseOnSelect |  boolean   |               `false`               |         | Prevents results from hiding after clicking on an item from the results list                                                                                             |
+| classPreventClosing  |   string   |                 ``                  |         | Prevents results from hiding after clicking on element with this class                                                                                                   |
+| cache                |  boolean   |               `false`               |         | The characters entered in the input field are cached                                                                                                                     |
+| howManyCharacters    |   number   |                 `1`                 |         | The number of characters entered should start searching                                                                                                                  |
+| delay                |   number   |                `500`                |         | Time in milliseconds that the component should wait after last keystroke before calling search function 1000 = 1s                                                        |
+| classGroup           |   string   |                                     |         | Enter a class name, this class will be added to the group name elements                                                                                                  |
+| ~~instruction~~      | ~~string~~ | ~~`When autocomplete results ...`~~ |         | ~~aria-describedby [attribute](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-describedby_attribute) A full text below~~ |
 
 **instructions** - has been removed from the library, [see how to add to html](https://tomik23.github.io/autocomplete/)
 
 ## How do I add data to the input field?
+
 ### Simple data
+
 ```js
 onResults: ({ matches }) => {
   return matches
-    .map(el => {
+    .map((el) => {
       return `
         <li>${el.name}</li>`;
-    }).join('');
-}
+    })
+    .join('');
+};
 ```
 
 ### A complicated example
+
 The example below displays `${el.name}`, first name and last name as well as `${el.img}` photo in the results. From this example, only the first element will be added to the input field. So `${el.name}` no matter if it will be inside `p`, `div`, `span` etc. Always the first element and it's only text so it can even be in this form `<p><b>${el.name}</b></p>`
+
 ```js
 onResults: ({ matches }) => {
   return matches
-    .map(el => {
+    .map((el) => {
       return `
         <li>
           <p>${el.name}</p>
           <p><img src="${el.img}"></p>
         </li>`;
-    }).join('');
-}
+    })
+    .join('');
+};
 ```
 
 ## Usage jquery || axios || promise + fetch
@@ -197,10 +207,20 @@ new Autocomplete('complex', {
   // the characters entered in
   // the input field are cached
   cache: true,
-  
+
+  // prevents results from hiding after
+  // clicking on an item from the list
+  disableCloseOnSelect: true,
+
   // enter the name of the class by
   // which you will name the group element
   classGroup: 'group-by',
+
+  // prevents results from hiding after
+  // clicking on element with this class
+  // footer/header elements have this class
+  // of course, any class name
+  classPreventClosing: 'additional-elements',
 
   // Function for user input. It can be a synchronous function or a promise
   // you can fetch data with jquery, axios, fetch, etc.
@@ -211,19 +231,21 @@ new Autocomplete('complex', {
     // OR -------------------------------
 
     // your REST API
-    const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(currentValue)}`;
+    const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(
+      currentValue
+    )}`;
     /**
-      * jquery
-      * If you want to use jquery you have to add the
-      * jquery library to head html
-      * https://cdnjs.com/libraries/jquery
-      */
+     * jquery
+     * If you want to use jquery you have to add the
+     * jquery library to head html
+     * https://cdnjs.com/libraries/jquery
+     */
     return $.ajax({
       url: api,
       method: 'GET',
     })
       .done(function (data) {
-        return data
+        return data;
       })
       .fail(function (xhr) {
         console.error(xhr);
@@ -232,24 +254,25 @@ new Autocomplete('complex', {
     // OR ----------------------------------
 
     /**
-      * axios
-      * If you want to use axios you have to add the
-      * axios library to head html
-      * https://cdnjs.com/libraries/axios
-      */
-    return axios.get(api)
+     * axios
+     * If you want to use axios you have to add the
+     * axios library to head html
+     * https://cdnjs.com/libraries/axios
+     */
+    return axios
+      .get(api)
       .then((response) => {
         return response.data;
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
 
     // OR ----------------------------------
 
     /**
-      * Promise
-      */
+     * Promise
+     */
     return new Promise((resolve) => {
       fetch(api)
         .then((response) => response.json())
@@ -272,7 +295,7 @@ new Autocomplete('complex', {
     // counting status elements
     function count(status) {
       let count = {};
-      matches.map(el => {
+      matches.map((el) => {
         count[el.status] = (count[el.status] || 0) + 1;
       });
       return `<small>${count[status]} items</small>`;
@@ -280,24 +303,35 @@ new Autocomplete('complex', {
 
     // checking if we have results if we don't
     // take data from the noResults collback
-    return matches === 0 ? template : matches
-      .sort((a, b) => a.status.localeCompare(b.status) || a.name.localeCompare(b.name))
-      .map((el, index, array) => {
-        // we create an element of the group
-        let group = el.status !== array[index - 1]?.status
-          ? `<li class="${classGroup}">${el.status} ${count(el.status)}</li>`
-          : '';
+    return matches === 0
+      ? template
+      : matches
+          .sort(
+            (a, b) =>
+              a.status.localeCompare(b.status) || a.name.localeCompare(b.name)
+          )
+          .map((el, index, array) => {
+            // we create an element of the group
+            let group =
+              el.status !== array[index - 1]?.status
+                ? `<li class="${classGroup}">${el.status} ${count(
+                    el.status
+                  )}</li>`
+                : '';
 
-        // this part is responsible for the appearance
-        // in the drop-down list - see the example in index.html
-        // remember only the first element from <li> is put
-        // into the input field, in this case the text
-        // from the <p> element
-        return `
+            // this part is responsible for the appearance
+            // in the drop-down list - see the example in index.html
+            // remember only the first element from <li> is put
+            // into the input field, in this case the text
+            // from the <p> element
+            return `
           ${group}
           <li>
             <h2 style="margin-bottom: 10px;">
-              ${el.name.replace(regex, (str) => `<b style="color: red;">${str}</b>`)}
+              ${el.name.replace(
+                regex,
+                (str) => `<b style="color: red;">${str}</b>`
+              )}
             </h2>
             <div style="display: flex;">
               <div style="margin-right: 10px;">
@@ -311,7 +345,8 @@ new Autocomplete('complex', {
               </div>
             </div>
           </li>`;
-      }).join('');
+          })
+          .join('');
   },
 
   // the onSubmit function is executed when the user
@@ -330,15 +365,66 @@ new Autocomplete('complex', {
   },
 
   // the calback function presents no results
-  noResults: ({ element, currentValue, template }) => template(`<li>No results found: "${currentValue}"</li>`)
+  noResults: ({ element, currentValue, template }) =>
+    template(`<li>No results found: "${currentValue}"</li>`),
 });
+```
+
+## All available configuration items
+
+```js
+const auto = new Autocomplete('you-id', {
+  clearButton: false,
+  selectFirst: false,
+  insertToInput: false,
+  disableCloseOnSelect: false,
+  cache: false,
+  classPreventClosing: '',
+  classGroup: '',
+  howManyCharacters: 1,
+  delay: 500,
+  onSearch: ({ currentValue, element }) => {},
+  onResults: ({ currentValue, matches, template, classGroup }) => {},
+  onRender: ({ element, results }) => {},
+  onSubmit: ({ index, element, object, results }) => {},
+  onOpened: ({ type, element, results }) => {},
+  onSelectedItem: ({ index, element, object }) => {},
+  onReset: (element) => {},
+  onClose: () => {},
+  noResults: ({ element, currentValue, template }) => {},
+});
+
+// public methods
+auto.destroy();
 ```
 
 ## Browsers support
 
-| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>IE / Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png" alt="Opera" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Opera | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/vivaldi/vivaldi_48x48.png" alt="Vivaldi" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Vivaldi |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| IE10, IE11, Edge                                                                                                                                                                                                | last 2 versions                                                                                                                                                                                                   | last 2 versions                                                                                                                                                                                               | last 2 versions                                                                                                                                                                                           | last 2 versions                                                                                                                                                                                                   |
+| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png" alt="Opera" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Opera | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/vivaldi/vivaldi_48x48.png" alt="Vivaldi" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Vivaldi |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Edge                                                                                                                                                                                                  | last 2 versions                                                                                                                                                                                                   | last 2 versions                                                                                                                                                                                               | last 2 versions                                                                                                                                                                                           | last 2 versions                                                                                                                                                                                                   |
+
+> \* If you want the code to be supported in IE11 you need replace a few lines in `package.json`. Below what needs to be changed in the code and compile.
+
+Replace
+
+```json
+"production": [
+  "defaults",
+  "not IE 11",
+  "maintained node versions"
+]
+```
+
+To this
+
+```json
+"production": [
+  ">0.2%",
+  "not dead",
+  "not op_mini all"
+]
+```
 
 ### IE10, IE11
 
@@ -373,10 +459,10 @@ import './helpers/element-closest-polyfill.js';
 ```
 
 4. You can download all polyfills from `docs/js/polyfill.js` and put in head html
+
 ```html
 <script src="./polyfill.js"></script>
 ```
-
 
 ## License
 

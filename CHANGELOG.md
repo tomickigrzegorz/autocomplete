@@ -2,8 +2,7 @@
 
 ### Added
 
-- `onRender` - callback function when we want to add additional elements, e.g. some buttons, links or plain text. See the Footer/Header e
-  xample
+- `onRender` - callback function when we want to add additional elements, e.g. some buttons, links or plain text. See the Footer/Header example
 - `classPreventClosing` - Prevents results from hiding after clicking on element with this class
 - `Footer/Header` - new example, showing how to add an element above the results and below
 

@@ -589,7 +589,6 @@ class Autocomplete {
     }
 
     if (target.offsetTop - previusElementHeight < resultList.scrollTop) {
-      console.log('test');
       resultList.scrollTop = target.offsetTop - previusElementHeight;
     } else {
       const offsetBottom =

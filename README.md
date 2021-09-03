@@ -24,16 +24,82 @@ See the demo - [example](https://tomik23.github.io/autocomplete/)
 
 ## Features
 
-- Accessible, with full support for ARIA attributes and keyboard interactions.
-- Customize your own CSS.
-- Support for asynchronous data fetching.
+- Accessible, with full support for ARIA attributes and keyboard interactions
+- Customize your own CSS
+- Support for asynchronous data fetching
 - Move between the records using the arrows <kbd>↓</kbd> <kbd>↑</kbd>, and confirm by <kbd>Enter</kbd> or mouse
 - Grouping of record results
 - Showing 'no results'
+- Show all values on click
 - No dependencies
 - Very light library, packed gzip **only ~3KB**
+- And a lot more
 
-## Initialization
+## Installation
+
+### CDN
+
+#### CSS
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomik23/autocomplete@master/docs/css/autocomplete.css"/>
+```
+
+#### JavaScript
+```html
+<script src="https://cdn.jsdelivr.net/gh/tomik23/autocomplete@master/docs/js/autocomplete.min.js"></script>
+```
+
+##### -- OR --
+
+Download from `docs` folder and insert to html:
+
+- autocomplete.css
+- autocomplete.min.js
+
+#### HTML
+
+Basic code to display autocomplete correctly 
+
+```html
+<div class="auto-search">
+  <input type="text" id="local" autocomplete="off" placeholder="Enter letter" />
+</div>
+```
+
+#### JavaScript
+
+```js
+window.addEventListener('DOMContentLoaded', function () {
+  // 'local' is the 'id' of input element
+  new Autocomplete('local', {
+    onSearch: ({ currentValue }) => {
+      // local data
+      const data = [
+        { name: 'Walter White' },
+        { name: 'Jesse Pinkman' },
+        { name: 'Skyler White' },
+        { name: 'Walter White Jr.' },
+      ];
+      return data
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .filter((element) => {
+          return element.name.match(new RegExp(currentValue, 'i'));
+        });
+    },
+
+    onResults: ({ matches }) => {
+      return matches
+        .map((el) => {
+          return `
+            <li>${el.name}</li>`;
+        })
+        .join('');
+    },
+  });
+});
+```
+
+## Package Manager
 
 Before the first use, clone this repository and install node dependencies:
 
@@ -63,61 +129,6 @@ yarn prod
 npm run prod
 ```
 
-## Installation
-
-Download from `docs` folder:
-
-- autocomplete.css
-- autocomplete.min.js
-
-CSS
-
-```html
-<link rel="stylesheet" href="autocomplete.css" />
-```
-
-HTML
-
-```html
-<div class="auto-search">
-  <input type="text" id="local" autocomplete="off" placeholder="Enter letter" />
-</div>
-```
-
-JavaScript
-
-```html
-<script>
-  window.addEventListener('DOMContentLoaded', function () {
-    new Autocomplete('local', {
-      onSearch: ({ currentValue }) => {
-        // local data
-        const data = [
-          { name: 'Walter White' },
-          { name: 'Jesse Pinkman' },
-          { name: 'Skyler White' },
-          { name: 'Walter White Jr.' },
-        ];
-        return data
-          .sort((a, b) => a.name.localeCompare(b.name))
-          .filter((element) => {
-            return element.name.match(new RegExp(currentValue, 'i'));
-          });
-      },
-
-      onResults: ({ matches }) => {
-        return matches
-          .map((el) => {
-            return `
-              <li>${el.name}</li>`;
-          })
-          .join('');
-      },
-    });
-  });
-</script>
-```
-
 ## Configuration of the plugin
 
 | props                |    type    |               default               | require | description                                                                                                                                                              |
@@ -137,14 +148,15 @@ JavaScript
 | selectFirst          |  boolean   |               `false`               |         | Default selects the first item in the list of results                                                                                                                    |
 | insertToInput        |  boolean   |               `false`               |         | Adding an element selected with arrows to the input field                                                                                                                |
 | disableCloseOnSelect |  boolean   |               `false`               |         | Prevents results from hiding after clicking on an item from the results list                                                                                             |
-| classPreventClosing  |   string   |                 ``                  |         | Prevents results from hiding after clicking on element with this class                                                                                                   |
+| showAllValues        |  boolean   |               `false`               |         | This option will toggle showing all values when the input is clicked, like a default dropdown                                                                            |
 | cache                |  boolean   |               `false`               |         | The characters entered in the input field are cached                                                                                                                     |
 | howManyCharacters    |   number   |                 `1`                 |         | The number of characters entered should start searching                                                                                                                  |
 | delay                |   number   |                `500`                |         | Time in milliseconds that the component should wait after last keystroke before calling search function 1000 = 1s                                                        |
+| classPreventClosing  |   string   |                                     |         | Prevents results from hiding after clicking on element with this class                                                                                                   |
 | classGroup           |   string   |                                     |         | Enter a class name, this class will be added to the group name elements                                                                                                  |
 | ~~instruction~~      | ~~string~~ | ~~`When autocomplete results ...`~~ |         | ~~aria-describedby [attribute](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-describedby_attribute) A full text below~~ |
 
-**instructions** - has been removed from the library, [see how to add to html](https://tomik23.github.io/autocomplete/)
+**instructions** - has been removed from the library, [see how to add to html](https://tomik23.github.io/autocomplete/#complex-example)
 
 ## How do I add data to the input field?
 
@@ -190,37 +202,51 @@ new Autocomplete('complex', {
 
   // add button 'x' to clear the text from
   // the input filed
-  clearButton: true,
+  // by default is true
+  clearButton: false,
 
   // default selects the first item in
   // the list of results
+  // by default is false
   selectFirst: true,
 
   // add text to the input field as you move through
   // the results with the up/down cursors
+  // by default is false
   insertToInput: true,
 
   // the number of characters entered
   // should start searching
+  // by default is 1
   howManyCharacters: 2,
 
   // the characters entered in
   // the input field are cached
+  // by default is false
   cache: true,
 
   // prevents results from hiding after
   // clicking on an item from the list
+  // by default is false
   disableCloseOnSelect: true,
 
   // enter the name of the class by
   // which you will name the group element
+  // by default is empty ''
   classGroup: 'group-by',
 
   // prevents results from hiding after
   // clicking on element with this class
   // footer/header elements have this class
   // of course, any class name
+  // by default is empty ''
   classPreventClosing: 'additional-elements',
+
+  // this option will toggle showing all
+  // values when the input is clicked,
+  // like a default dropdown
+  // by default is false
+  showAllValues: true,
 
   // Function for user input. It can be a synchronous function or a promise
   // you can fetch data with jquery, axios, fetch, etc.
@@ -231,9 +257,7 @@ new Autocomplete('complex', {
     // OR -------------------------------
 
     // your REST API
-    const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(
-      currentValue
-    )}`;
+    const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(currentValue)}`;
     /**
      * jquery
      * If you want to use jquery you have to add the
@@ -306,17 +330,12 @@ new Autocomplete('complex', {
     return matches === 0
       ? template
       : matches
-          .sort(
-            (a, b) =>
-              a.status.localeCompare(b.status) || a.name.localeCompare(b.name)
-          )
+          .sort((a, b) => a.status.localeCompare(b.status) || a.name.localeCompare(b.name))
           .map((el, index, array) => {
             // we create an element of the group
             let group =
               el.status !== array[index - 1]?.status
-                ? `<li class="${classGroup}">${el.status} ${count(
-                    el.status
-                  )}</li>`
+                ? `<li class="${classGroup}">${el.status} ${count(el.status)}</li>`
                 : '';
 
             // this part is responsible for the appearance
@@ -325,28 +344,25 @@ new Autocomplete('complex', {
             // into the input field, in this case the text
             // from the <p> element
             return `
-          ${group}
-          <li>
-            <h2 style="margin-bottom: 10px;">
-              ${el.name.replace(
-                regex,
-                (str) => `<b style="color: red;">${str}</b>`
-              )}
-            </h2>
-            <div style="display: flex;">
-              <div style="margin-right: 10px;">
-                <img src="${el.img}" style="max-width: 67px;max-height:95px">
-              </div>
-              <div class="info">
-                <h4>${el.name}</h4>
-                <div><b>nickname:</b> - ${el.nickname}</div>
-                <div><b>birthday:</b> - ${el.birthday}</div>
-                <div><b>status:</b> - ${el.status}</div>
-              </div>
-            </div>
-          </li>`;
-          })
-          .join('');
+              ${group}
+              <li>
+                <h2 style="margin-bottom: 10px;">
+                  ${el.name.replace(regex, (str) => `<b style="color: red;">${str}</b>`)}
+                </h2>
+                <div style="display: flex;">
+                  <div style="margin-right: 10px;">
+                    <img src="${el.img}" style="max-width: 67px;max-height:95px">
+                  </div>
+                  <div class="info">
+                    <h4>${el.name}</h4>
+                    <div><b>nickname:</b> - ${el.nickname}</div>
+                    <div><b>birthday:</b> - ${el.birthday}</div>
+                    <div><b>status:</b> - ${el.status}</div>
+                  </div>
+                </div>
+              </li>`;
+              })
+              .join('');
   },
 
   // the onSubmit function is executed when the user
@@ -379,6 +395,7 @@ const auto = new Autocomplete('you-id', {
   insertToInput: false,
   disableCloseOnSelect: false,
   cache: false,
+  showAllValues: true,
   classPreventClosing: '',
   classGroup: '',
   howManyCharacters: 1,
@@ -437,8 +454,7 @@ There are three ways to add this polyfill:
 <script type="text/javascript">
   if (!('Promise' in window)) {
     var script = document.createElement('script');
-    script.src =
-      'https://polyfill.io/v3/polyfill.min.js?features=Promise%2CElement.prototype.closest';
+    script.src = 'https://polyfill.io/v3/polyfill.min.js?features=Promise%2CElement.prototype.closest';
     document.getElementsByTagName('head')[0].appendChild(script);
   }
 </script>

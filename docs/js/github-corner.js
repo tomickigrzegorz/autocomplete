@@ -61,7 +61,17 @@ function generateMenu(data) {
   });
 }
 
-fetchData(`../data/menu.json`, 'json')
+function detectUrl(file) {
+  let url;
+  if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+    url = `../data/${file}`;
+  } else {
+    url = `https://tomik23.github.io/autocomplete/data/${file}`;
+  }
+  return url;
+}
+
+fetchData(detectUrl('menu.json'), 'json')
   .then((data) => {
     generateMenu(data);
   })
@@ -207,7 +217,7 @@ tablesNew.forEach((tableRoot) => {
   ta.appendChild(body);
   tableRoot.appendChild(ta);
 
-  fetchData(`../data/${tableJson}`, 'json').then((data) => {
+  fetchData(detectUrl(tableJson), 'json').then((data) => {
     configurationOfThePlugin(data);
   });
 

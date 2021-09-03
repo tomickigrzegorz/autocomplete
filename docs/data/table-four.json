@@ -1,0 +1,60 @@
+[
+  {
+    "thead": ["Params", "Description"]
+  },
+  {
+    "tbody": [
+      {
+        "row": [
+          { "column": "index" },
+          { "column": "Record number in the results" }
+        ]
+      },
+      {
+        "row": [
+          { "column": "currentValue" },
+          { "column": "Data entered into the input field" }
+        ]
+      },
+      {
+        "row": [
+          { "column": "element" },
+          { "column": "Input field for data entry" }
+        ]
+      },
+      {
+        "row": [
+          { "column": "matches" },
+          { "column": "An array of elements matching the entered word" }
+        ]
+      },
+      {
+        "row": [{ "column": "object" }, { "column": "Object from the query" }]
+      },
+      {
+        "row": [
+          { "column": "type" },
+          {
+            "column": "Can return two results <code>results</code> or <code>showItems</code>.<br><code>results</code> occurs each time a new result appears, <code>showItems</code> occurs when we click on the input element and the result reappears"
+          }
+        ]
+      },
+      {
+        "row": [
+          { "column": "results" },
+          {
+            "column": "The entire <code>ul + li</code> html element is returned"
+          }
+        ]
+      },
+      {
+        "row": [
+          { "column": "template" },
+          {
+            "column": "Create an element to display information about <code>no results</code>"
+          }
+        ]
+      }
+    ]
+  }
+]

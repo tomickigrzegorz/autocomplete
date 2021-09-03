@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Autosuggest</title>
-    <script src="./js/github-corner.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/components/prism-core.min.js"></script>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/plugins/autoloader/prism-autoloader.min.js"></script>
@@ -26,25 +25,7 @@
         <div class="based"><a href="https://breakingbadapi.com/" target="_blank">BASED ON: The Breaking Bad API</a>
         </div>
 
-        <ul class="menu">
-          <li class="active"><a href="#started">Geting started</a></li>
-          <li><a href="#basics">Basics example</a></li>
-          <li><a href="#complex-example">Complex example</a></li>
-          <li><a href="#no-results-example">No results</a></li>
-          <li><a href="#static-file">Static file</a></li>
-          <li><a href="#data-elements">Static file + data-elelemts</a></li>
-          <li><a href="#groups">Data grouping</a></li>
-          <li><a href="#local-data">Local data</a></li>
-          <li><a href="#dynamic-list">Dynamic list position</a></li>
-          <li><a href="#records-from-the-result">Number of records from the result</a></li>
-          <li><a href="#footer">Header/Footer</a></li>
-          <li><a href="#modal">Modal</a></li>
-          <li><a href="#update-input-data">Update input field on selected items</a></li>
-          <li><a href="#select-item">Select multiple values ver 1 <div><small>with count</small></div></a></li>
-          <li><a href="#select-multiple-values">Select multiple values ver 2</a></li>
-          <li><a href="#select-item-checkbox">Checkboxes</a></li>
-          <li><a href="#address-geocoding">Address geocoding</a></li>
-        </ul>
+        <ul class="menu"></ul>
       </aside>
       <!-- menu end -->
 
@@ -62,13 +43,23 @@
             </p>
           </div>
           <div rel="HTML" class="html-class">
-            <pre><code class="language-html">// CSS file
+            <pre><code class="language-html">&lt;!-- CSS file --&gt;
 &lt;link rel=&quot;stylesheet&quot; href=&quot;path/to/autocomplete.css&quot;&gt;
 
-// JS file
+&lt;!-- JS file --&gt;
 &lt;script src=&quot;path/to/autocomplete.min.js&quot;&gt;&lt;/script&gt;
 </code></pre>
           </div>
+          -- OR CDN --
+          <div rel="HTML" class="html-class">
+            <pre><code class="language-html">&lt;!-- CSS file --&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/tomik23/autocomplete@master/docs/css/autocomplete.css&quot;/&gt;
+
+&lt;!-- JS file --&gt;
+&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomik23/autocomplete@master/docs/js/autocomplete.min.js&quot;&gt;&lt;/script&gt;
+          </code></pre>
+          </div>
+
           <p>If you want on older browsers - IE use polyfills</p>
           <div rel="HTML" class="html-class">
             <pre><code class="language-html">&lt;script&gt;
@@ -95,217 +86,19 @@
 
         <article>
           <div class="info-section">
-            <h2 id="configuration-of-the-plugin">Configuration of the plugin:</h2>
-            <h3>Settings</h3>
-
+            <h2 id="configuration-of-the-plugin">Configuration of the plugin</h2>
             <div class="table">
-              <table class="first-table">
-                <thead>
-                  <tr>
-                    <th>Property</th>
-                    <th>Default</th>
-                    <th>Required</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tr>
-                  <td><code>element</code></td>
-                  <td></td>
-                  <td>&check;</td>
-                  <td>Input field id</td>
-                </tr>
-                <tr>
-                  <td><code>clearButton</code></td>
-                  <td>false</td>
-                  <td></td>
-                  <td>A parameter set to 'true' adds a button to remove text from the input field. You can also use the
-                    <code>destroy</code> method - description below
-                  </td>
-                </tr>
-                <tr>
-                  <td><code>selectFirst</code></td>
-                  <td>false</td>
-                  <td></td>
-                  <td>Default selects the first item in the list of results</td>
-                </tr>
-                <tr>
-                  <td><code>insertToInput</code></td>
-                  <td>false</td>
-                  <td></td>
-                  <td>Adding an element selected with arrows to the input field field</td>
-                </tr>
-                <tr>
-                  <td><code>disableCloseOnSelect</code></td>
-                  <td>false</td>
-                  <td></td>
-                  <td>Prevents results from hiding after clicking on an item from the list</td>
-                </tr>
-                <tr>
-                  <td><code>classPreventClosing</code></td>
-                  <td>""</td>
-                  <td></td>
-                  <td>Prevents results from hiding after clicking on element with this class. See the
-                    <code><a href="#footer">Footer/Header</a></code>
-                  </td>
-                </tr>
-                <tr>
-                  <td><code>cache</code></td>
-                  <td>false</td>
-                  <td></td>
-                  <td>The characters entered in the input field are cached</td>
-                </tr>
-                <tr>
-                  <td><code>howManyCharacters</code></td>
-                  <td>1</td>
-                  <td></td>
-                  <td>The number of characters entered should start searching</td>
-                </tr>
-                <tr>
-                  <td><code>delay</code></td>
-                  <td>500</td>
-                  <td></td>
-                  <td>Time in milliseconds that the component should wait after last keystroke before calling search
-                    function 1000 = 1s</td>
-                </tr>
-                <tr>
-                  <td><code>classGroup</code></td>
-                  <td>""</td>
-                  <td></td>
-                  <td>Enter a class name, this class will be added to the group name elements</td>
-                </tr>
-              </table>
-            </div>
-
-            <div class="table">
-              <table class="second-table">
-                <thead>
-                  <tr>
-                    <th>Callbacks function</th>
-                    <th>Required</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tr>
-                  <td><code><b>onSearch</b>: ({ currentValue, element }) => {}</code></td>
-                  <td>&check;</td>
-                  <td>Function for user input. It can be a synchronous function or a promise</td>
-                </tr>
-                <tr>
-                  <td><code><b>onResults</b>: ({ currentValue, matches, template, classGroup }) => {}</code></td>
-                  <td>&check;</td>
-                  <td>when we want to add the information <code>No results found:</code> we need to do a comparison,
-                    check the
-                    matches is 0 then set the template <code>return matches === 0 ? template : matches</code></td>
-                </tr>
-                <tr>
-                  <td><code><b>onRender</b>: ({ element, results }) => {}</code></td>
-                  <td></td>
-                  <td>when we want to add additional elements, e.g. some buttons or plain text. See the
-                    <code><a href="#footer">Footer/Header</a></code> example. This function is only called once.
-                  </td>
-                </tr>
-                <tr>
-                  <td><code><b>onSubmit</b>: ({ index, element, object, results }) => {}</code></td>
-                  <td></td>
-                  <td>Executed on input submission</td>
-                </tr>
-                <tr>
-                  <td><code><b>onOpened</b>: ({ type, element, results }) => {}</code></td>
-                  <td></td>
-                  <td>Returns two variables <code>results</code> and <code>showItems</code>.<br><code>resutls</code>
-                    first
-                    rendering
-                    of the results
-                    <code>showItems</code> only showing the results when clicking on the input field
-                  </td>
-                </tr>
-                <tr>
-                  <td><code><b>onSelectedItem</b>: ({ index, element, object }) => {}</code></td>
-                  <td></td>
-                  <td>Get index and data from li element after hovering over li with the mouse or using arrow keys
-                    <kbd>↓</kbd> | <kbd>↑</kbd>
-                  </td>
-                </tr>
-                <tr>
-                  <td><code><b>onReset</b>: (element) => {}</code></td>
-                  <td></td>
-                  <td>After clicking the <kbd>x</kbd> button</td>
-                </tr>
-                <tr>
-                  <td><code><b>onClose</b>: () => {}</code></td>
-                  <td></td>
-                  <td>e.g. remove class after closing results. See an example of modal</td>
-                </tr>
-                <tr>
-                  <td><code><b>noResults</b>: ({ element, currentValue, template }) => {}</code></td>
-                  <td></td>
-                  <td>Showing information: "no results"</td>
-                </tr>
-              </table>
-            </div>
-
-            <div class="table">
-              <table>
-                <thead>
-                  <th>Public methods</th>
-                  <th>Description</th>
-                </thead>
-                <tr>
-                  <td><code><b>destroy</b></code></td>
-                  <td>
-                    Removes the autocomplete instance and its bindings,<br><span>how to use:</span>
-                    <code>const auto = new Autocomplete('id', {});</code> <code><b>auto.destroy();</b></code>
-                  </td>
-                </tr>
-              </table>
-            </div>
-
-            <br>
-            <h2>Explanation of the variables</h2>
-            <div class="table">
-              <table>
-                <thead>
-                  <th>Function params</th>
-                  <th>Description</th>
-                </thead>
-                <tr>
-                  <td><code>index</code></td>
-                  <td>Record number in the results</td>
-                </tr>
-                <tr>
-                  <td><code>currentValue</code></td>
-                  <td>Data entered into the input field</td>
-                </tr>
-                <tr>
-                  <td><code>element</code></td>
-                  <td>Input field for data entry</td>
-                </tr>
-                <tr>
-                  <td><code>matches</code></td>
-                  <td>An array of elements matching the entered word</td>
-                </tr>
-                <tr>
-                  <td><code>object</code></td>
-                  <td>Object from the query</td>
-                </tr>
-                <tr>
-                  <td><code>type</code></td>
-                  <td>Can return two results <code>results</code> or <code>showItems</code>.<br><code>results</code>
-                    occurs
-                    each time a
-                    new result appears,
-                    <code>showItems</code> occurs when we click on the input element and the result reappears
-                  </td>
-                </tr>
-                <tr>
-                  <td><code>results</code></td>
-                  <td>The entire <code>ul + li</code> html element is returned</td>
-                </tr>
-                <tr>
-                  <td><code>template</code></td>
-                  <td>Create an element to display information about <code>no results</code></td>
-                </tr>
-              </table>
+              <h3>Settings:</h3>
+              <div data-json="table-one.json" class="table-new first-table"></div>
+              <br>
+              <h3>Callbacks function:</h3>
+              <div data-json="table-two.json" class="table-new second-table"></div>
+              <br>
+              <h3>Public methods:</h3>
+              <div data-json="table-three.json" class="table-new"></div>
+              <br>
+              <h3>Explanation of the variables:</h3>
+              <div data-json="table-four.json" class="table-new"></div>
             </div>
         </article>
 
@@ -334,33 +127,9 @@
           </div>
           <div rel="HTML" class="highlight html html-class"></div>
           <div rel="JS" class="highlight javascript html-class">
-            <div>
-              <pre>
-              <code class="language-js">new Autocomplete('basic', {
-  onSearch: ({ currentValue }) =&gt; {
-    const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(currentValue)}`;
-    return new Promise((resolve) =&gt; {
-      fetch(api)
-        .then((response) =&gt; response.json())
-        .then((data) =&gt; {
-          resolve(data);
-        })
-        .catch((error) =&gt; {
-          console.error(error);
-        });
-    });
-  },
-
-  onResults: ({ matches }) =&gt; {
-    return matches
-      .map(el =&gt; {
-        return `
-          &lt;li&gt;${el.name}&lt;/li&gt;`;
-      }).join('');
-  }
-});</code>
-            </pre>
-            </div>
+            <pre>
+                <code class="language-js" data-source="./js/examples/basic.js"></code>
+              </pre>
           </div>
         </section>
         <!-- Basic end -->
@@ -389,183 +158,14 @@
                   touch or with swipe gestures.
                 </div>
               </div>
-              <button class="clear-button">clear<br><small>destroy() method</small></button>
+              <button class="clear-button complex-clear">clear<br><small>destroy() method</small></button>
             </div>
           </div>
           <div rel="HTML" class="highlight html html-class"></div>
           <div rel="JS" class="highlight javascript html-class">
-            <div>
-              <pre>
-              <code class="language-js">const auto = new Autocomplete('complex', {
-  // search delay
-  delay: 1000,
-
-  // add button 'x' to clear the text from
-  // the input filed
-  clearButton: false,
-
-  // default selects the first item in
-  // the list of results
-  selectFirst: true,
-
-  // add text to the input field as you move through
-  // the results with the up/down cursors
-  insertToInput: true,
-
-  // the number of characters entered
-  // should start searching
-  howManyCharacters: 1,
-
-  // the characters entered in
-  // the input field are cached
-  cache: true,
-
-  // enter the name of the class by
-  // which you will name the group element
-  classGroup: 'group-by',
-
-  // Function for user input. It can be a synchronous function or a promise
-  // you can fetch data with jquery, axios, fetch, etc.
-  onSearch: ({ currentValue }) => {
-    // static file
-    // const api = './characters.json';
-
-    // OR -------------------------------
-
-    // your REST API
-    const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(currentValue)}`;
-    /**
-      * jquery
-      * If you want to use jquery you have to add the
-      * jquery library to head html
-      * https://cdnjs.com/libraries/jquery
-      */
-    // return $.ajax({
-    //   url: api,
-    //   method: 'GET',
-    // })
-    //   .done(function (data) {
-    //     return data
-    //   })
-    //   .fail(function (xhr) {
-    //     console.error(xhr);
-    //   });
-
-    // OR ----------------------------------
-
-    /**
-      * axios
-      * If you want to use axios you have to add the
-      * axios library to head html
-      * https://cdnjs.com/libraries/axios
-      */
-    // return axios.get(api)
-    //   .then((response) => {
-    //     return response.data;
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //   });
-
-    // OR ----------------------------------
-
-    /**
-      * Promise
-      */
-    return new Promise((resolve) => {
-      fetch(api)
-        .then((response) => response.json())
-        .then((data) => {
-          resolve(data);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    });
-  },
-
-  // this part is responsible for the number of records,
-  // the appearance of li elements and it really depends
-  // on you how it will look
-  onResults: ({ currentValue, matches, template, classGroup, }) => {
-    // const regex = new RegExp(^${input}`, 'gi'); // start with
-    const regex = new RegExp(currentValue, 'gi');
-
-    // counting status elements
-    function count(status) {
-      let count = {};
-      matches.map(el => {
-        count[el.status] = (count[el.status] || 0) + 1;
-      });
-      return `&lt;small&gt;${count[status]} items&lt;/small&gt;`;
-    }
-
-    // checking if we have results if we don't
-    // take data from the noResults method
-    return matches === 0 ? template : matches
-      .sort((a, b) => a.status.localeCompare(b.status) || a.name.localeCompare(b.name))
-      .map((el, index, array) => {
-        // we create an element of the group
-        let group = el.status !== array[index - 1]?.status
-          ? `&lt;li class="${classGroup}"&gt;${el.status} ${count(el.status)}&lt;/li&gt;`
-          : '';
-
-        // this part is responsible for the appearance
-        // in the drop-down list - see the example in index.html
-        // remember only the first element from &lt;li&gt is put
-        // into the input field, in this case the text
-        // from the &lt;p&gt element
-        return `
-          ${group}
-          &lt;li&gt;
-            &lt;h2 style=&quot;margin-bottom: 10px;&quot;&gt;
-              ${el.name.replace(regex, (str) =&gt; `&lt;b style=&quot;color: red;&quot;&gt;${str}&lt;/b&gt;`)}
-            &lt;/h2&gt;
-            &lt;div style=&quot;display: flex;&quot;&gt;
-              &lt;div style=&quot;margin-right: 10px;&quot;&gt;
-                &lt;img src=&quot;${el.img}&quot; style=&quot;max-width: 67px;max-height:95px&quot;&gt;
-              &lt;/div&gt;
-              &lt;div class=&quot;info&quot;&gt;
-                &lt;h4&gt;${el.name}&lt;/h4&gt;
-                &lt;div&gt;&lt;b&gt;nickname:&lt;/b&gt; - ${el.nickname}&lt;/div&gt;
-                &lt;div&gt;&lt;b&gt;birthday:&lt;/b&gt; - ${el.birthday}&lt;/div&gt;
-                &lt;div&gt;&lt;b&gt;status:&lt;/b&gt; - ${el.status}&lt;/div&gt;
-              &lt;/div&gt;
-            &lt;/div&gt;
-          &lt;/li&gt;`;
-      }).join('');
-  },
-
-  // the onSubmit function is executed when the user
-  // submits their result by either selecting a result
-  // from the list, or pressing enter or mouse button
-  onSubmit: ({ index, element, object, results }) => {
-    console.log('complex: ', index, element, object, results);
-    // window.open(`https://www.imdb.com/find?q=${encodeURI(element.value)}`)
-  },
-
-  // get index and data from li element after
-  // hovering over li with the mouse or using
-  // arrow keys ↓ | ↑
-  onSelectedItem: ({ index, element, object }) => {
-    console.log('onSelectedItem:', index, element.value, object);
-  },
-
-  // the method presents no results
-  noResults: ({ element, template }) => {
-    template(`&lt;li&gt;No results found: &quot;${element.value}&quot;&lt;/li&gt;`);
-  }
-});
-
-// use destroy() method
-const clearButton = document.querySelector('.clear-button');
-clearButton.addEventListener('click', () => {
-  auto.destroy();
-});
-
-</code>
-            </pre>
-            </div>
+            <pre>
+                <code class="language-js" data-source="./js/examples/complex.js"></code>
+              </pre>
           </div>
         </section>
         <!-- Complex example end -->
@@ -595,38 +195,8 @@ clearButton.addEventListener('click', () => {
           <div rel="JS" class="highlight javascript html-class">
             <div>
               <pre>
-      <code class="language-js">new Autocomplete('no-results', {
-  onSearch: ({ currentValue }) =&gt; {
-    const api = './characters.json';
-    return new Promise((resolve) =&gt; {
-      fetch(api)
-        .then((response) =&gt; response.json())
-        .then((data) =&gt; {
-          const result = data.sort((a, b) =&gt; a.name.localeCompare(b.name))
-            .filter(element =&gt; {
-              return element.name.match(new RegExp(currentValue, 'gi'))
-            })
-          resolve(result);
-        })
-        .catch((error) =&gt; {
-          console.error(error);
-        });
-    });
-  },
-
-  onResults: ({ matches, template }) =&gt; {
-    // checking if we have results if we don't
-    // take data from the noResults method
-    return matches === 0 ? template : matches
-      .map(el =&gt; {
-        return `
-          &lt;li&gt;${el.name}&lt;/li&gt;`;
-      }).join('');
-  },
-
-  noResults: ({ element, template }) =&gt; template(`&lt;li&gt;No results found: &quot;${element.value}&quot;&lt;/li&gt;`)
-});</code>
-    </pre>
+                <code class="language-js" data-source="./js/examples/no-results.js"></code>
+              </pre>
             </div>
           </div>
         </section>
@@ -657,40 +227,8 @@ clearButton.addEventListener('click', () => {
           <div rel="JS" class="highlight javascript html-class">
             <div>
               <pre>
-              <code class="language-js">new Autocomplete('static', {
-  // onSearch
-  onSearch: ({ currentValue }) =&gt; {
-    // static file
-    const api = './characters.json';
-
-    return new Promise((resolve) =&gt; {
-      fetch(api)
-        .then((response) =&gt; response.json())
-        .then((data) =&gt; {
-          const result = data.sort((a, b) =&gt; a.name.localeCompare(b.name))
-            .filter(element =&gt; {
-              return element.name.match(new RegExp(currentValue, 'gi'))
-            })
-          resolve(result);
-        })
-        .catch((error) =&gt; {
-          console.error(error);
-        });
-    });
-  },
-
-  onResults: ({ currentValue, matches }) =&gt; {
-    return matches
-      .map(el =&gt; {
-        return `
-          &lt;li class=&quot;loupe&quot;&gt;
-            &lt;p&gt;${el.name.replace(new RegExp(currentValue, 'gi'), (str) =&gt; `&lt;b&gt;${str}&lt;/b&gt;`)}&lt;/p&gt;
-          &lt;/li&gt;`;
-      })
-      .join('');
-  }
-});</code>
-            </pre>
+                <code class="language-js" data-source="./js/examples/static.js"></code>
+              </pre>
             </div>
           </div>
         </section>
@@ -723,65 +261,8 @@ clearButton.addEventListener('click', () => {
           <div rel="JS" class="highlight javascript html-class">
             <div>
               <pre>
-              <code class="language-js">new Autocomplete('static-file-data', {
-  selectFirst: true,
-
-  // onSearch
-  onSearch: ({ currentValue }) =&gt; {
-    // static file
-    const api = './characters.json';
-
-    return new Promise((resolve) =&gt; {
-      fetch(api)
-        .then((response) =&gt; response.json())
-        .then((data) =&gt; {
-          const result = data
-            .sort((a, b) =&gt; a.name.localeCompare(b.name))
-            .filter((element) =&gt; {
-              return element.name.match(new RegExp(currentValue, 'gi'));
-            });
-          resolve(result);
-        })
-        .catch((error) =&gt; {
-          console.error(error);
-        });
-    });
-  },
-
-  onResults: ({ currentValue, matches }) =&gt; {
-    return matches.map(({ name, status }) =&gt; {
-      return `
-        &lt;li class=&quot;loupe&quot;&gt;
-          &lt;p&gt;${name.replace(new RegExp(currentValue, 'gi'), (str) =&gt; `&lt;b&gt;${str}&lt;/b&gt;`)}&lt;/p&gt;
-          &lt;small&gt;status - ${status}&lt;/small&gt;
-        &lt;/li&gt;`;
-    }).join('');
-  },
-
-  // event onsubmit
-  onSubmit: ({ index, element, object }) =&gt; {
-    const { name, status, img } = object;
-
-    console.table('static-file-data', index, element, object);
-
-    const template = `
-      &lt;p&gt;name - ${name}&lt;/p&gt;
-      &lt;p&gt;status - ${status}&lt;/p&gt;
-      &lt;div class=&quot;image&quot;&gt;&lt;img src=&quot;${img}&quot;&gt;&lt;/div&gt;`;
-
-    const info = document.querySelector('.info-d');
-    info.classList.add('active-data');
-    info.innerHTML = template;
-  },
-
-  // get index and data from li element after
-  // hovering over li with the mouse
-  onSelectedItem: ({ index, element, object }) =&gt; {
-    console.log('onSelectedItem:', index, element.value, object);
-  },
-
-});</code>
-            </pre>
+                <code class="language-js" data-source="./js/examples/static-file-data.js"></code>
+              </pre>
             </div>
           </div>
         </section>
@@ -818,65 +299,8 @@ clearButton.addEventListener('click', () => {
           <div rel="JS" class="highlight javascript html-class">
             <div>
               <pre>
-      <code class="language-js">new Autocomplete('group', {
-  // enter a class name, this class will
-  // be added to the group name elements
-  classGroup: 'group-by',
-
-  onSearch: ({ currentValue }) =&gt; {
-    const api = './characters.json';
-    return new Promise((resolve) =&gt; {
-      fetch(api)
-        .then((response) =&gt; response.json())
-        .then((data) =&gt; {
-
-          // first, we sort by our group, in our case
-          // it will be the status, then we sort by name
-          // of course, it is not always necessary because
-          // such soroting may be obtained from REST API
-          const result = data
-            .sort((a, b) =&gt; a.status.localeCompare(b.status) || a.name.localeCompare(b.name))
-            .filter(element =&gt; {
-              return element.name.match(new RegExp(currentValue, 'gi'))
-            })
-          resolve(result);
-        })
-        .catch((error) =&gt; {
-          console.error(error);
-        });
-    });
-  },
-
-  onResults: ({ currentValue, matches, template, classGroup }) =&gt; {
-
-    // counting status elements
-    function count(status) {
-      let count = {};
-      matches.map(el =&gt; {
-        count[el.status] = (count[el.status] || 0) + 1;
-      });
-      return `&lt;small&gt;${count[status]} items&lt;/small&gt;`;
-    }
-
-    return matches === 0 ? template : matches
-      .map((el, index, array) =&gt; {
-
-        // we create an element of the group
-        let group = el.status !== array[index - 1]?.status
-          ? `&lt;li class=&quot;${classGroup}&quot;&gt;${el.status} ${count(el.status)}&lt;/li&gt;`
-          : '';
-
-        return `
-          ${group}
-          &lt;li class=&quot;loupe&quot;&gt;
-            &lt;p&gt;${el.name.replace(new RegExp(currentValue, 'gi'), (str) =&gt; `&lt;b&gt;${str}&lt;/b&gt;`)}&lt;/p&gt;
-          &lt;/li&gt;`;
-      }).join('');
-  },
-
-  noResults: ({ currentValue, template }) =&gt; template(`&lt;li&gt;No results found: &quot;${currentValue}&quot;&lt;/li&gt;`),
-});</code>
-    </pre>
+                <code class="language-js" data-source="./js/examples/group.js"></code>
+              </pre>
             </div>
           </div>
         </section>
@@ -905,52 +329,8 @@ clearButton.addEventListener('click', () => {
           <div rel="JS" class="highlight javascript html-class">
             <div>
               <pre>
-      <code class="language-js">// displaying the results above the search field
-new Autocomplete('dynamic-list-position', {
-  insertToInput: true,
-  cache: true,
-
-  onSearch: ({ currentValue }) =&gt; {
-
-    // local data
-    const data = [
-      { &quot;name&quot;: &quot;Walter White&quot; },
-      { &quot;name&quot;: &quot;Jesse Pinkman&quot; },
-      { &quot;name&quot;: &quot;Skyler White&quot; },
-      { &quot;name&quot;: &quot;Walter White Jr.&quot; }
-    ];
-    return data.sort((a, b) =&gt; a.name.localeCompare(b.name))
-      .filter(element =&gt; {
-        return element.name.match(new RegExp(currentValue, 'i'))
-      })
-  },
-
-  onOpened: ({ element, results }) =&gt; {
-    // we check if there is room for input for results
-    const position = element.getBoundingClientRect().bottom + results.getBoundingClientRect().height > (window.innerHeight || document.documentElement.clientHeight);
-
-    // if there is no room for results under the input field 
-    // in the page view, we raise the results above the input field
-    if (position) {
-      results.style.bottom = element.offsetHeight - 1 + 'px';
-    } else {
-      results.removeAttribute('style');
-    }
-
-    // when checking the parent element, we also add a class based
-    // on which we format the appearance of the results and their posture
-    results.parentNode.classList[position ? 'add' : 'remove']('auto-list-up');
-  },
-
-  onResults: ({ matches }) =&gt; {
-    return matches
-      .map(el =&gt; {
-        return `
-          &lt;li&gt;${el.name}&lt;/li&gt;`;
-      }).join('');
-  }
-});</code>
-    </pre>
+                <code class="language-js" data-source="./js/examples/dynamic-list-position.js"></code>
+              </pre>
             </div>
           </div>
         </section>
@@ -975,84 +355,8 @@ new Autocomplete('dynamic-list-position', {
           <div rel="JS" class="highlight javascript html-class">
             <div>
               <pre>
-                      <code class="language-js">// global 'results'
-let results = 0;
-const maxRecords = 7;
-
-new Autocomplete('records-result', {
-  insertToInput: true,
-  cache: true,
-  classGroup: 'group-by',
-
-  onSearch: ({ currentValue }) =&gt; {
-    // clear array always when new searching
-    results = [];
-
-    const api = './characters.json';
-    return new Promise((resolve) =&gt; {
-      fetch(api)
-        .then((response) =&gt; response.json())
-        .then((data) =&gt; {
-
-          const result = data
-            .sort((a, b) =&gt; a.name.localeCompare(b.name))
-            .filter((element) =&gt; {
-              return element.name.match(new RegExp(currentValue, 'gi'));
-            });
-
-          // show only 7 records
-          resolve(result.slice(0, maxRecords));
-
-          // we set the number of record
-          // to a global variable
-          results = result.length;
-        })
-        .catch((error) =&gt; {
-          console.error(error);
-        });
-    });
-  },
-
-  onResults: ({ currentValue, matches, template, classGroup }) =&gt; {
-    return matches === 0
-      ? template
-      : matches
-          .map((el, index, array) =&gt; {
-            let resultsCount =
-              index === 0
-                ? `&lt;li class=&quot;${classGroup}&quot;&gt;
-                    &lt;span&gt;Displaying
-                      &lt;strong&gt;${
-                        maxRecords > matches.length
-                          ? matches.length
-                          : maxRecords
-                      }&lt;/strong&gt;
-                      from
-                      &lt;strong&gt;${results}&lt;/strong&gt;
-                    &lt;/span&gt;
-                  &lt;/li&gt;`
-                : '';
-
-            return `
-              ${resultsCount}
-              &lt;li class=&quot;icon loupe&quot;&gt;
-                &lt;p&gt;${el.name.replace(
-                  new RegExp(currentValue, 'gi'),
-                  (str) =&gt; `&lt;b&gt;${str}&lt;/b&gt;`
-                )}&lt;/p&gt;
-              &lt;/li&gt;`;
-          })
-          .join('');
-  },
-
-  onSelectedItem: ({ index, element, object }) =&gt; {
-    console.log(index, element, object);
-  },
-
-  noResults: ({ currentValue, template }) =&gt;
-    template(`&lt;li&gt;No results found: &quot;${currentValue}&quot;&lt;/li&gt;`),
-});</code>
-                    </pre>
+                <code class="language-js" data-source="./js/examples/records-from-the-result.js"></code>
+              </pre>
             </div>
           </div>
         </section>
@@ -1079,63 +383,7 @@ new Autocomplete('records-result', {
           <div rel="JS" class="highlight javascript html-class">
             <div>
               <pre>
-                <code class="language-js">new Autocomplete('additional-elements', {
-  selectFirst: true,
-  cache: true,
-
-  // prevents results from hiding after
-  // clicking on element with this class
-  // footer/header elements have this class
-  // of course, any class name
-  classPreventClosing: 'additional-elements',
-
-  onSearch: ({ currentValue }) =&gt; {
-    const api = './characters.json';
-    
-    return new Promise((resolve) =&gt; {
-      fetch(api)
-        .then((response) =&gt; response.json())
-        .then((data) =&gt; {
-          const result = data.sort((a, b) =&gt; a.name.localeCompare(b.name))
-            .filter(element =&gt; {
-              return element.name.match(new RegExp(currentValue, 'gi'))
-            })
-          resolve(result);
-        })
-        .catch((error) =&gt; {
-          console.error(error);
-        });
-      });
-  },
-
-  // this function is responsible for rendering
-  // additional elements above and below the results
-  onRender: ({ results }) =&gt; {
-    const elements = [
-      { where: 'beforebegin', text: 'header' },
-      { where: 'afterend', text: 'footer' },
-    ];
-
-    elements.map((element) =&gt; {
-      results.insertAdjacentHTML(
-        element.where,
-        `&lt;div class=&quot;additional-elements&quot;&gt;&lt;small&gt;${element.text}&lt;/small&gt;&lt;/div&gt;`
-      );
-    });
-  },
-
-  onSelectedItem: ({ element, object }) =&gt; {
-    element.value = object.name;
-  },
-
-  onResults: ({ matches }) =&gt; {
-    return matches
-      .map(el =&gt; {
-        return `
-          &lt;li&gt;${el.name}&lt;/li&gt;`;
-      }).join('');
-  }
-});</code>
+                <code class="language-js" data-source="./js/examples/header-footer.js"></code>
               </pre>
             </div>
           </div>
@@ -1162,31 +410,8 @@ new Autocomplete('records-result', {
           <div rel="JS" class="highlight javascript html-class">
             <div>
               <pre>
-      <code class="language-js">new Autocomplete('local', {
-  onSearch: ({ currentValue }) =&gt; {
-
-    // local data
-    const data = [
-      { &quot;name&quot;: &quot;Walter White&quot; },
-      { &quot;name&quot;: &quot;Jesse Pinkman&quot; },
-      { &quot;name&quot;: &quot;Skyler White&quot; },
-      { &quot;name&quot;: &quot;Walter White Jr.&quot; }
-    ];
-    return data.sort((a, b) =&gt; a.name.localeCompare(b.name))
-      .filter(element =&gt; {
-        return element.name.match(new RegExp(currentValue, 'i'))
-      })
-  },
-
-  onResults: ({ matches }) =&gt; {
-    return matches
-      .map(el =&gt; {
-        return `
-          &lt;li&gt;${el.name}&lt;/li&gt;`;
-      }).join('');
-  }
-});</code>
-    </pre>
+                <code class="language-js" data-source="./js/examples/local.js"></code>
+              </pre>
             </div>
           </div>
         </section>
@@ -1207,7 +432,7 @@ new Autocomplete('records-result', {
                 second class removes the visibility of the modal.
               </p>
             </div>
-            <div class="auto-search">
+            <div class="auto-search modal-search">
               <input type="text" id="modal-example" placeholder="type w" />
             </div>
           </div>
@@ -1215,48 +440,50 @@ new Autocomplete('records-result', {
           <div rel="JS" class="highlight javascript html-class">
             <div>
               <pre>
-<code class="language-js">const modal = document.querySelector('.modal');
-
-new Autocomplete('modal-example', {
-  onSearch: ({ currentValue }) =&gt; {
-
-    // local data
-    const data = [
-      { "name": "Walter White" },
-      { "name": "Jesse Pinkman" },
-      { "name": "Skyler White" },
-      { "name": "Walter White Jr." }
-    ];
-    return data.sort((a, b) =&gt; a.name.localeCompare(b.name))
-      .filter(element =&gt; {
-        return element.name.match(new RegExp(currentValue, 'i'))
-      })
-  },
-
-  onResults: ({ matches }) =&gt; {
-    return matches
-      .map(el =&gt; {
-        return `
-          &lt;li&gt;${el.name}&lt;/li&gt;`;
-      }).join('');
-  },
-
-  // add 'active' class to modal div
-  onOpened: () => {
-    modal.classList.add('active');
-  },
-
-  // delete 'active' class from
-  // modal if closing results
-  onClose: () => {
-    modal.classList.remove('active');
-  }
-});</code>
-</pre>
+                <code class="language-js" data-source="./js/examples/modal.js"></code>
+              </pre>
             </div>
           </div>
         </section>
         <!-- modal -->
+
+        <!-- show all values start -->
+        <section id="showAllValues" class="section">
+          <div class="search-element">
+            <div class="info-section">
+              <h2>Show all values</h2>
+              <div class="sources">
+                <a href="./js/examples/show-all-values.js" target="_blank">source: show-all-values</a>
+              </div>
+
+              <p>This option will toggle showing all values when the input is clicked, like a default
+                dropdown.<br><br>Please note that only the first element is added to the input field, in this case we
+                want
+                only the country code to be
+                added.<br>
+                To get the following effect in the results, i.e. <strong>first the state flag, then the name of the
+                  country and
+                  then the code</strong>,
+                use the styles. Just use the <code>flex</code> + <code>order</code> property. Order is responsible for
+                the proper sorting of elements.</p>
+            </div>
+            <div class="wrap">
+              <div class="auto-search max-height drop-down-arrow bottom-radius">
+                <input type="text" id="show-all-values" placeholder="click" />
+              </div>
+              <button class="clear-button phone-clear">clear</button>
+            </div>
+          </div>
+          <div rel="HTML" class="highlight html html-class"></div>
+          <div rel="JS" class="highlight javascript html-class">
+            <div>
+              <pre>
+                <code class="language-js" data-source="./js/examples/show-all-values.js"></code>
+              </pre>
+            </div>
+          </div>
+        </section>
+        <!-- show all values end -->
 
         <!-- update input start -->
         <section id="update-input-data" class="section">
@@ -1280,37 +507,8 @@ new Autocomplete('modal-example', {
           <div rel="HTML" class="highlight html html-class"></div>
           <div rel="JS" class="highlight javascript html-class">
             <pre rel="js">
-      <code class="language-js">new Autocomplete('update-input', {
-  insertToInput: true,
-  cache: true,
-
-  onSearch: ({ currentValue }) =&gt; {
-    // local data
-    const data = [
-      { "name": "Walter White" },
-      { "name": "Jesse Pinkman" },
-      { "name": "Skyler White" },
-      { "name": "Walter White Jr." }
-    ];
-    return data.sort((a, b) =&gt; a.name.localeCompare(b.name))
-      .filter(element =&gt; {
-        return element.name.match(new RegExp(currentValue, 'i'))
-      })
-  },
-
-  onResults: ({ matches }) =&gt; {
-    return matches
-      .map(el =&gt; {
-        return `
-          &lt;li&gt;${el.name}&lt;/li&gt;`;
-      }).join('');
-  },
-
-  onSelectedItem: ({ element, object }) => {
-    element.value = object.name
-  }
-});</code>
-    </pre>
+              <code class="language-js" data-source="./js/examples/update-input.js"></code>
+            </pre>
           </div>
         </section>
         <!-- update input end -->
@@ -1340,123 +538,8 @@ new Autocomplete('modal-example', {
           <div rel="JS" class="highlight javascript html-class">
             <div>
               <pre>
-              <code class="language-js">let firstArray = [];
-const countNumber = document.querySelector('.count-number');
-
-new Autocomplete('select', {
-  onSearch: ({ currentValue }) =&gt; {
-    const api = './characters.json';
-    return new Promise((resolve) =&gt; {
-      fetch(api)
-        .then((response) =&gt; response.json())
-        .then((data) =&gt; {
-          // first, we sort by our group, in our case
-          // it will be the status, then we sort by name
-          // of course, it is not always necessary because
-          // such soroting may be obtained from REST API
-          const result = data
-            .sort((a, b) =&gt; a.name.localeCompare(b.name))
-            .filter(element =&gt; {
-              return element.name.match(new RegExp(currentValue, 'gi'))
-            })
-          resolve(result);
-        })
-        .catch((error) =&gt; {
-          console.error(error);
-        });
-    });
-  },
-
-  onResults: ({ matches }) =&gt; {
-    return matches
-      .map(el =&gt; {
-        return `
-          &lt;li&gt;${el.name}&lt;/li&gt;`;
-      }).join('');
-  },
-
-  onOpened: ({ results }) =&gt; {
-    // if the elements from the 'array' are identical to those
-    // from the rendered elements add the 'selected' class
-    [].slice.call(results.children).map(item =&gt; {
-      if (firstArray.includes(item.textContent)) {
-        item.classList.add('selected');
-      }
-    });
-  },
-
-  onSubmit: ({ element, results }) =&gt; {
-    if (firstArray.includes(element.value)) {
-      return;
-    };
-
-    // add the selected item to the array
-    firstArray.push(element.value);
-
-    // the place where we will add selected elements
-    const selectedItem = document.querySelector('.selected-item');
-
-    // create elements with names and buttons
-    const button = document.createElement('button');
-    button.type = 'button'
-    button.className = 'remove-item';
-    button.insertAdjacentHTML('beforeend', '&lt;svg aria-label=&quot;Remove name&quot; height=&quot;16&quot; viewBox=&quot;0 0 16 16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z&quot;/&gt;&lt;/svg&gt;');
-
-    const item = document.createElement('div');
-    item.className = 'item';
-
-    // add each item in the array to the div selectedItem
-    firstArray.map(itemText =&gt; {
-      item.textContent = itemText;
-      item.insertAdjacentElement('beforeend', button);
-      selectedItem.appendChild(item);
-    });
-
-    function setAttributeType(type) {
-      [].slice.call(results.children).map(item =&gt; {
-        if (item.textContent === button.parentNode.textContent) {
-          item.classList[type === 'remove' ? 'remove' : 'add']('selected')
-        }
-      });
-    }
-
-    // update number count
-    countNumber.textContent = firstArray.length;
-
-    // remove selected element
-    button.addEventListener('click', (e) =&gt; {
-      e.stopPropagation();
-      const parentElement = button.parentNode;
-
-      // remove element from array
-      firstArray.splice(firstArray.indexOf(parentElement.textContent), 1);
-
-      // remove disabled attr
-      setAttributeType('remove');
-
-      // update number count
-      countNumber.textContent = firstArray.length;
-
-      // remove element from div
-      parentElement.parentNode.removeChild(parentElement);
-    });
-
-    // add disabled attr
-    setAttributeType();
-  },
-
-  onReset: (element) =&gt; {
-    const selectedItem = document.querySelector('.selected-item');
-    selectedItem.innerHTML = '';
-    // after clicking the 'x' button,
-    // clear the table
-    firstArray = [];
-
-    // remove count number
-    countNumber.textContent = 0;
-  }
-});</code>
-            </pre>
+                <code class="language-js" data-source="./js/examples/select.js"></code>
+              </pre>
             </div>
           </div>
         </section>
@@ -1483,101 +566,8 @@ new Autocomplete('select', {
           <div rel="JS" class="highlight javascript html-class">
             <div>
               <pre>
-              <code class="language-js">// array initialization
-let secondArray = [];
-new Autocomplete('multiple-values', {
-  onSearch: ({ element }) => {
-    // first get all the items and split with a comma
-    const lastElement = element.value.split(',').pop().trim();
-    // if the last item is 0 then we don't do a search
-    if (lastElement.length === 0) return;
-
-    const data = [
-      { "name": "Grzesiek" },
-      { "name": "Andrzej" },
-      { "name": "Monika" },
-      { "name": "Wiesława" },
-      { "name": "Waldemar" },
-      { "name": "Włodzimierz" },
-      { "name": "Adam" },
-      { "name": "Agnieszka" },
-      { "name": "Paweł" },
-      { "name": "Tadeusz" },
-      { "name": "Tymoteusz" },
-      { "name": "Łucja" },
-      { "name": "Nela" }
-    ];
-    return data.sort((a, b) => a.name.localeCompare(b.name))
-      .filter(element => {
-        return element.name.match(new RegExp(lastElement, 'gi'))
-      })
-  },
-
-  onResults: ({ matches }) => {
-    return matches
-      .map(el => {
-        return `
-          &lt;li&gt;${el.name}&lt;/li&gt;`;
-      }).join('');
-  },
-
-  onOpened: ({ element, results }) => {
-    // type - two values 'results' and 'showItems',
-    // 'resutls' first rendering of the results
-    // 'showItems' only showing the results when clicking on the input field
-    // resultList all results rendered containing ul and li
-    // input - root input
-
-    // get the data from the input field and divide by the
-    // decimal point, then remove the empty last element
-    const currentValue = element.value.split(', ').splice(0, element.value.length - 1);
-
-    // leave in the array only those elements that are in the input field
-    secondArray = secondArray.filter(el => currentValue.includes(el));
-
-    // check if the table 'secondArray' contains selected elements from 
-    // the input field, if so we add the 'selected' class to the 'li' element,
-    // if not, remove the 'selected' class from the li element
-    [].slice.call(results.children).map(item => {
-      item.classList[secondArray.includes(item.textContent) ? 'add' : 'remove']('selected')
-    });
-
-  },
-
-  onSubmit: ({ index, element, object, results }) => {
-    if (secondArray.includes(element.value)) {
-      return;
-    };
-
-    console.log('index: ', index, 'object: ', object, 'results: ', results);
-
-    // each click on the li element adds data to the array
-    secondArray.push(element.value.trim());
-
-    // check if the table includes selected items from
-    // the list, if so, add the 'selected' class
-    [].slice.call(results.children).map(item => {
-      if (secondArray.includes(item.textContent)) {
-        item.classList.add('selected');
-      }
-    });
-
-    // add the elements from the array separated by commas
-    // to the 'input' field, also add a comma to the last element
-    element.value = `${secondArray.join(', ')}${secondArray > 2 ? secondArray.pop()[secondArray.length - 1] : ', '}`;
-
-    // after selecting an item, set the
-    // focus to the input field
-    element.focus();
-  },
-
-  onReset: (element) => {
-    // after clicking the 'x' button,
-    // clear the table
-    secondArray = [];
-  }
-});</code>
-            </pre>
+                <code class="language-js" data-source="./js/examples/multiple-values.js"></code>
+              </pre>
             </div>
           </div>
         </section>
@@ -1605,172 +595,8 @@ new Autocomplete('multiple-values', {
           <div rel="JS" class="highlight javascript html-class">
             <div>
               <pre>
-              <code class="language-js">let checkbox = [];
-const countNumberCheckbox = document.querySelector('.count-number-checkbox');
-
-// the place where we will add selected elements
-const selectedItem = document.querySelector('.selected-item-checkbox');
-
-new Autocomplete('checkbox', {
-  // prevents results from hiding after 
-  // clicking on an item from the list
-  disableCloseOnSelect: true,
-
-  onSearch: ({ currentValue }) =&gt; {
-    const api = './language.json';
-    return new Promise((resolve) =&gt; {
-      fetch(api)
-        .then((response) =&gt; response.json())
-        .then((data) =&gt; {
-          // first, we sort by our group, in our case
-          // it will be the status, then we sort by name
-          // of course, it is not always necessary because
-          // such soroting may be obtained from REST API
-          const result = data
-            .sort((a, b) =&gt; a.name.localeCompare(b.name))
-            .filter(element =&gt; {
-              return element.name.match(new RegExp(currentValue, 'gi'))
-            })
-          resolve(result);
-        })
-        .catch((error) =&gt; {
-          console.error(error);
-        });
-    });
-  },
-
-  onResults: ({ matches }) =&gt; {
-    return matches
-      .map(el =&gt; {
-        return `
-            &lt;li class=&quot;custom-element&quot;&gt;
-              &lt;label&gt;
-                &lt;input type=&quot;checkbox&quot; value=&quot;${el.name}&quot;&gt;
-                &lt;div class=&quot;checkbox&quot;&gt;${el.name}&lt;/div&gt;
-              &lt;/label&gt;
-            &lt;/li&gt;`;
-      }).join('');
-  },
-
-  onOpened: ({ results }) =&gt; {
-    // if the elements from the 'array' are identical to those
-    // from the rendered elements add the 'selected' class
-
-    [].slice.call(results.children).map((item, idx) =&gt; {
-      const test = checkbox.some(element =&gt; element === item.textContent.trim());
-      if (!test) return;
-
-      let inputElement = results.children[idx].firstElementChild.children[0];
-      inputElement.checked = true;
-      inputElement.closest('.custom-element').classList.add('checkbox-selected');
-    });
-  },
-
-  onSubmit: ({ index, element, object, results }) =&gt; {
-    // update counter elements
-    function countNumber(numb) {
-      return countNumberCheckbox.textContent = numb;
-    }
-
-    // remove element from array
-    function removeItemFromArray(el) {
-      let index = checkbox.indexOf(el);
-      if (index &gt; -1) {
-        checkbox.splice(index, 1);
-      }
-    }
-
-    function addRemoveClass(type) {
-      inputElement.closest('.custom-element').classList[type]('checkbox-selected');
-      // set false checbox
-      inputElement.checked = type === 'remove' ? false : true;
-    }
-
-    let inputElement = results.children[index].firstElementChild.children[0];
-
-    if (inputElement.checked) {
-      // remove class 
-      addRemoveClass('remove');
-
-      // remove from array object
-      removeItemFromArray(element.value);
-
-      // update counter div
-      countNumber(checkbox.length);
-
-      // remove button
-      [].slice.call(selectedItem.children).map(item =&gt; {
-        if (item.textContent.trim() === element.value) {
-          item.parentNode.removeChild(item);
-        }
-      })
-      return;
-    };
-
-    // set checbox on true and add class
-    addRemoveClass('add');
-
-    // add the selected item to the array
-    checkbox.push(element.value);
-
-    // create elements with names and buttons
-    const button = document.createElement('button');
-    button.type = 'button'
-    button.className = 'remove-item';
-    button.insertAdjacentHTML('beforeend', '&lt;svg aria-label=&quot;Remove name&quot; height=&quot;16&quot; viewBox=&quot;0 0 16 16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z&quot;/&gt;&lt;/svg&gt;');
-
-    const item = document.createElement('div');
-    item.className = 'item';
-
-    // add each item in the array to the div selectedItem
-    checkbox.map(ele =&gt; {
-      item.textContent = ele;
-      item.insertAdjacentElement('beforeend', button);
-      selectedItem.appendChild(item);
-    });
-
-    // update number count
-    countNumber(checkbox.length);
-
-    // remove selected element
-    button.addEventListener('click', (e) =&gt; {
-      e.preventDefault();
-
-      const element = e.target.closest('.item');
-
-      // remove from array object
-      removeItemFromArray(element.textContent);
-
-      // update checkbox
-      [].slice.call(results.children).map((item, idx) =&gt; {
-        let inputElement = results.children[idx].firstElementChild.children[0];
-        inputElement.checked = false;
-        addRemoveClass('remove');
-      });
-
-      // update number count
-      countNumber(checkbox.length);
-
-      // remove element from div
-      const parentElement = button.parentNode;
-      parentElement.parentNode.removeChild(parentElement);
-    });
-  },
-
-  onReset: (element) =&gt; {
-    selectedItem.innerHTML = '';
-    // after clicking the 'x' button,
-    // clear the table
-    checkbox = [];
-
-    // remove count number
-    countNumberCheckbox.textContent = 0;
-  },
-
-  noResults: ({ element, template }) =&gt; template(`No results found: &quot;${element.value}&quot;`)
-});
-              </code>
-            </pre>
+                <code class="language-js" data-source="./js/examples/checkbox.js"></code>
+              </pre>
             </div>
           </div>
         </section>
@@ -1793,9 +619,15 @@ new Autocomplete('checkbox', {
     </main>
 
     <div class="modal"></div>
+
+    <script src="./js/github-corner.js"></script>
+
+    <!-- lib -->
     <script src="./js/autocomplete.min.js"></script>
 
+    <!-- examples -->
     <script src="./js/examples/basic.js"></script>
+    <script src="./js/examples/show-all-values.js"></script>
     <script src="./js/examples/header-footer.js"></script>
     <script src="./js/examples/complex.js"></script>
     <script src="./js/examples/no-results.js"></script>

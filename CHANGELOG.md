@@ -1,21 +1,38 @@
+## 2021-09-02 (v1.5.1)
+
+### Added
+
+- `showAllValues` - new props, this option will toggle showing all values when the input is clicked, like a default dropdown
+- 'Show all values' - new example
+
+### Changed
+- 'rollup.config.js' to remove forgotten `console.log` and `debugger`
+- rebuilding html with examples so you don't have to add js code to html manually. From now on, the code is dynamically downloaded from js as text and inserted into the appropriate place, and then presented by 'prism'
+
+### Fixed
+- when the results have a scroll bar, i.e. scroll overflow is set, we will scroll to the last record, for example, the scroll bar will be at the bottom. Closing and reopening the results causes a scroll and thus the results to the beginning of the container
+
 ## 2021-08-31 (v1.5.0)
 
 ### Added
 
 - `onRender` - callback function when we want to add additional elements, e.g. some buttons, links or plain text. See the Footer/Header example
-- `classPreventClosing` - Prevents results from hiding after clicking on element with this class
+- `classPreventClosing` - prevents results from hiding after clicking on element with this class
 - `Footer/Header` - new example, showing how to add an element above the results and below
 
 ### Changed
 
 - wrap the results of additional divs. Useful when we want to add additional elements to the results, e.g. a legend, links, buttons, etc. See an example `Footer/Header`
-- fixed: following a record when navigating records up/down with arrows and when using `classGroup`
+
+### Fixed
+
+- following a record when navigating records up/down with arrows and when using `classGroup`
 
 ## 2021-08-25 (v1.1.4)
 
-### Changed
+### Fixed
 
-- fixed: clearButton [#89](https://github.com/tomik23/autocomplete/issues/89)
+- clearButton [#89](https://github.com/tomik23/autocomplete/issues/89)
 
 ## 2021-08-25 (v1.1.3)
 
@@ -75,9 +92,9 @@
 
 ## 2021-05-09 (v1.0.39)
 
-### Changed
+### Fiexed
 
-- fix: Issue width 'clearButton' [#68](https://github.com/tomik23/autocomplete/issues/68)
+- issue width 'clearButton' [#68](https://github.com/tomik23/autocomplete/issues/68)
 
 ## 2021-04-26 (v1.0.38)
 
@@ -105,9 +122,9 @@
 
 ## 2021-04-01 (v1.0.35)
 
-### Changed
+### Fixed
 
-- fix: wrong cursor position in the input field [#62](https://github.com/tomik23/autocomplete/issues/62)
+- wrong cursor position in the input field [#62](https://github.com/tomik23/autocomplete/issues/62)
 
 ## 2021-03-31 (v1.0.34)
 
@@ -153,9 +170,9 @@
 
 ## 2021-01-21 (v1.0.28)
 
-### Changed
+### Fixed
 
-- fix: 'no results' does not hidden [#52](https://github.com/tomik23/autocomplete/issues/52)
+- 'no results' does not hidden [#52](https://github.com/tomik23/autocomplete/issues/52)
 
 ## 2021-01-20 (v1.0.27)
 
@@ -165,9 +182,9 @@
 
 ## 2021-01-13 (v1.0.26)
 
-### Changed
+### Fixed
 
-- fix: special characters are not removed [#49](https://github.com/tomik23/autocomplete/issues/49)
+- special characters are not removed [#49](https://github.com/tomik23/autocomplete/issues/49)
 
 ## 2021-01-13 (v1.0.25)
 
@@ -203,15 +220,18 @@
 ### Changed
 
 - callback functions
-- fix: [#43](https://github.com/tomik23/autosuggest/issues/42)
-- fix: remove typo
+
+### Fiexed
+
+- scrollIntoView [#43](https://github.com/tomik23/autosuggest/issues/42)
+- remove typo
 
 ## 2020-09-01 (v1.0.20)
 
-### Changed
+### Fixed
 
-- fix: debouncing issue [#40](https://github.com/tomik23/autosuggest/issues/40)
-- fix: selectFirst [#38](https://github.com/tomik23/autosuggest/issues/38)
+- debouncing issue [#40](https://github.com/tomik23/autosuggest/issues/40)
+- selectFirst [#38](https://github.com/tomik23/autosuggest/issues/38)
 
 ## 2020-08-31 (v1.0.19)
 
@@ -221,17 +241,15 @@
 
 ## 2020-08-30 (v1.0.18)
 
-### Changed
+### Fixed
 
-- fix: Bad behavior when scrolling through the results with the up / down arrows [#35](https://github.com/tomik23/autosuggest/issues/35)
-- refactoring
+- bad behavior when scrolling through the results with the up / down arrows [#35](https://github.com/tomik23/autosuggest/issues/35)
 
 ## 2020-08-28 (v1.0.17)
 
-### Changed
+### Fixed
 
-- fix: aria-activedescendant
-- update dependencies
+- aria-activedescendant
 
 ## 2020-08-27 (v1.0.16)
 
@@ -275,10 +293,13 @@
 
 ## 2020-08-20 (v1.0.12)
 
+### Fiexed
+
+- mouseenter is not reset previous selected li [#22](https://github.com/tomik23/autosuggest/issues/22)
+- bad behavior of the scrollIntoView parameter [#20](https://github.com/tomik23/autosuggest/issues/20)
+
 ### Changed
 
-- fix: mouseenter is not reset previous selected li [#22](https://github.com/tomik23/autosuggest/issues/22)
-- fix: Bad behavior of the scrollIntoView parameter [#20](https://github.com/tomik23/autosuggest/issues/20)
 - update examples, new UI
 - adding global styles
 - update readme
@@ -292,12 +313,14 @@
 
 - adding an additional example using data-elements
 
+### Fixed
+
+- up-down arrows item selection [#17](https://github.com/tomik23/autosuggest/issues/17)
+
 ### Changed
 
-- fix: Up-down arrows item selection [#17](https://github.com/tomik23/autosuggest/issues/17)
 - remove promise-polyfill
-- update dependencies
-- update readme
+- update dependencies/readme
 - github-corner separate file
 
 ## 2020-08-18
@@ -322,10 +345,13 @@
 
 ## 2020-08-16
 
+### Fiexed
+
+- errors if we have more than one autocomplete field [#13](https://github.com/tomik23/autosuggest/issues/13)
+- non-closing list of results [#15](https://github.com/tomik23/autosuggest/issues/15)
+
 ### Changed
 
-- fix: errors if we have more than one autocomplete field [#13](https://github.com/tomik23/autosuggest/issues/13)
-- fix: Non-closing list of results [#15](https://github.com/tomik23/autosuggest/issues/15)
 - adding two fields to the example
 - update readme
 
@@ -334,12 +360,14 @@
 ### Added
 
 - github corner
-- fix: scrollIntoView [#12](https://github.com/tomik23/autosuggest/issues/12)
+
+### Fixed
+
+- scrollIntoView [#12](https://github.com/tomik23/autosuggest/issues/12)
 
 ### Changed
 
-- update example
-- update readme
+- update example / readme
 
 ## 2020-08-13
 
@@ -351,9 +379,7 @@
 
 ### Changed
 
-- update aria
-- update dependencies
-- update readme
+- update aria / dependencies / readme
 
 ## 2020-08-12
 
@@ -371,10 +397,7 @@
 - reducing library size by removing babel-runtime
 - remove noResult (temporarily?)
 - remove prettier
-- update dependencies
-- update readme
-- update eslintrc
-- update webpack.config.js
+- update dependencies / readme / eslintrc / webpack.config.js
 
 ## 2020-08-04
 
@@ -384,10 +407,13 @@
 - noResult
 - accessible for ARIA attributes and keyboard interactions
 
+### Fixed
+
+- the 'x' button is not hidden fixed
+- no reset of settings
+
 ### Changed
 
-- fix the 'x' button is not hidden fixed
-- fix no reset of settings
 - update dependencies
 - update readme
 - update webpack.config.js
@@ -396,14 +422,13 @@
 
 ### Changed
 
-- update dependencies
-- update example wikipedia
+- update dependencies / example wikipedia
 
 ## 2020-06-22
 
-### Changed
+### Fixed
 
-- fix: many spaces
+- many spaces
 
 ## 2020-06-20
 
@@ -489,9 +514,12 @@
 
 ## 2019-05-14
 
-### Changed
+### Fixed
 
 - fixing issue with fast typing
+
+### Changed
+
 - a small change that improves the look
 
 ## 2019-05-07
@@ -501,9 +529,12 @@
 - adding license
 - the appearance of the error
 
+### Fixed
+
+- a problem with several elements of inputs
+
 ### Changed
 
-- fixing a problem with several elements of inputs
 - changing class name
 
 ## 2019-05-06
@@ -512,9 +543,12 @@
 
 - specific output template
 
-### Changed
+### Fixed
 
 - fixed IE10/11
+
+### Changed
+
 - update specificOutput compatible IE10/11
 
 ## 2019-05-05

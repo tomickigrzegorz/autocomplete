@@ -663,8 +663,16 @@ kbd {
   vertical-align: middle;
 }
 
+.drop-down {
+  input {
+    cursor: pointer;
+  }
+}
+
 .drop-down-arrow {
-  position: relative;
+  position: absolute;
+  right: 0;
+  top: 22px;
   &::after {
     box-sizing: border-box;
     position: absolute;
@@ -678,15 +686,18 @@ kbd {
     pointer-events: none;
     background-image: var(--drop-down-arrow);
   }
-  input {
-    cursor: pointer;
-  }
 
   &.arrow-up {
     &::after {
       transform: rotate(180deg);
       top: 4px;
     }
+  }
+}
+
+.auto-is-loading {
+  .drop-down-arrow {
+    display: none;
   }
 }
 

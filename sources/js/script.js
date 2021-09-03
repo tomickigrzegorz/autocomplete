@@ -194,7 +194,7 @@ class Autocomplete {
   searchItem = (value) => {
     this.value = value;
 
-    if (!this.showAll) this.onLoading(true);
+    this.onLoading(true);
 
     // hide button clear
     this.showBtn();

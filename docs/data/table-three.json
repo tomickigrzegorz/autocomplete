@@ -1,0 +1,19 @@
+[
+  {
+    "thead": ["Methods", "Description"]
+  },
+  {
+    "tbody": [
+      {
+        "row": [
+          {
+            "column": "<b>destroy</b>"
+          },
+          {
+            "column": "Removes the autocomplete instance and its bindings,<br><span>how to use:</span> <code>const auto = new Autocomplete('id', {});</code> <code><b>auto.destroy();</b>"
+          }
+        ]
+      }
+    ]
+  }
+]

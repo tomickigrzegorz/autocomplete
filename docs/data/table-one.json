@@ -1,0 +1,113 @@
+[
+  {
+    "thead": ["Property", "Default", "Required", "Description"]
+  },
+  {
+    "tbody": [
+      {
+        "row": [
+          { "column": "element" },
+          { "column": "" },
+          { "column": "&check;" },
+          { "column": "Input field id" }
+        ]
+      },
+      {
+        "row": [
+          { "column": "clearButton" },
+          { "column": "false" },
+          { "column": "" },
+          {
+            "column": "A parameter set to 'true' adds a button to remove text from the input field. You can also use the <code>destroy</code> method - description below"
+          }
+        ]
+      },
+      {
+        "row": [
+          { "column": "selectFirst" },
+          { "column": "false" },
+          { "column": "" },
+          { "column": "Default selects the first item in the list of results" }
+        ]
+      },
+      {
+        "row": [
+          { "column": "insertToInput" },
+          { "column": "false" },
+          { "column": "" },
+          {
+            "column": "Adding an element selected with arrows to the input field field"
+          }
+        ]
+      },
+      {
+        "row": [
+          { "column": "disableCloseOnSelect" },
+          { "column": "false" },
+          { "column": "" },
+          {
+            "column": "Prevents results from hiding after clicking on an item from the list"
+          }
+        ]
+      },
+      {
+        "row": [
+          { "column": "cache" },
+          { "column": "false" },
+          { "column": "" },
+          { "column": "The characters entered in the input field are cached" }
+        ]
+      },
+      {
+        "row": [
+          { "column": "showAllValues" },
+          { "column": "false" },
+          { "column": "" },
+          {
+            "column": "This option will toggle showing all values when the input is clicked, like a default dropdown"
+          }
+        ]
+      },
+      {
+        "row": [
+          { "column": "howManyCharacters" },
+          { "column": 1 },
+          { "column": "" },
+          {
+            "column": "The number of characters entered should start searching"
+          }
+        ]
+      },
+      {
+        "row": [
+          { "column": "delay" },
+          { "column": 500 },
+          { "column": "" },
+          {
+            "column": "Time in milliseconds that the component should wait after last keystroke before calling search function 1000 = 1s"
+          }
+        ]
+      },
+      {
+        "row": [
+          { "column": "classPreventClosing" },
+          { "column": "\"\"" },
+          { "column": "" },
+          {
+            "column": "Prevents results from hiding after clicking on element with this class. See the <code><a href=\"#footer\">Footer/Header</a>"
+          }
+        ]
+      },
+      {
+        "row": [
+          { "column": "classGroup" },
+          { "column": "\"\"" },
+          { "column": "" },
+          {
+            "column": "Enter a class name, this class will be added to the group name elements"
+          }
+        ]
+      }
+    ]
+  }
+]

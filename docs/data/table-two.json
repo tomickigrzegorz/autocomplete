@@ -1,0 +1,100 @@
+[
+  {
+    "thead": ["Function", "Required", "Description"]
+  },
+  {
+    "tbody": [
+      {
+        "row": [
+          {
+            "column": "<b>onSearch</b>: ({ currentValue, element }) => {}"
+          },
+          { "column": "&check;" },
+          {
+            "column": "Function for user input. It can be a synchronous function or a promise"
+          }
+        ]
+      },
+      {
+        "row": [
+          {
+            "column": "<b>onResults</b>: ({ currentValue, matches, template, classGroup }) => {}"
+          },
+          { "column": "&check;" },
+          {
+            "column": "When we want to add the information <code>No results found:</code> we need to do a comparison, check the matches is 0 then set the template <code>return matches === 0 ? template : matches</code>"
+          }
+        ]
+      },
+      {
+        "row": [
+          { "column": "<b>onRender</b>: ({ element, results }) => {}" },
+          { "column": "" },
+          {
+            "column": "When we want to add additional elements, e.g. some buttons or plain text. See the <code><a href=\"#footer\">Footer/Header</a></code> example. This function is only called once."
+          }
+        ]
+      },
+      {
+        "row": [
+          {
+            "column": "<b>onSubmit</b>: ({ index, element, object, results }) => {}"
+          },
+          { "column": "" },
+          {
+            "column": "Executed on input submission"
+          }
+        ]
+      },
+      {
+        "row": [
+          { "column": "<b>onOpened</b>: ({ type, element, results }) => {}" },
+          { "column": "" },
+          {
+            "column": "Returns two variables <code>results</code> and <code>showItems</code>. <br><code>resutls</code> first rendering of the results <code>showItems</code> only showing the results when clicking on the input field"
+          }
+        ]
+      },
+      {
+        "row": [
+          {
+            "column": "<b>onSelectedItem</b>: ({ index, element, object }) => {}"
+          },
+          { "column": "" },
+          {
+            "column": "Get index and data from li element after hovering over li with the mouse or using arrow keys <kbd>↓</kbd> or <kbd>↑</kbd>"
+          }
+        ]
+      },
+      {
+        "row": [
+          { "column": "<b>onReset</b>: (element) => {}" },
+          { "column": "" },
+          {
+            "column": "After clicking the <kbd>x</kbd> button"
+          }
+        ]
+      },
+      {
+        "row": [
+          { "column": "<b>onClose</b>: () => {}" },
+          { "column": "" },
+          {
+            "column": "e.g. remove class after closing results. See an example of modal"
+          }
+        ]
+      },
+      {
+        "row": [
+          {
+            "column": "<b>noResults</b>: ({ element, currentValue, template }) => {}"
+          },
+          { "column": "" },
+          {
+            "column": "Showing information: \"no results\""
+          }
+        ]
+      }
+    ]
+  }
+]

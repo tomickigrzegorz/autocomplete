@@ -12,135 +12,231 @@ const githubConrner = `
 </svg></a>
 `;
 
-document.addEventListener('DOMContentLoaded', () => {
-  // adding github-corner
-  document.body.insertAdjacentHTML('beforeend', githubConrner);
+// adding github-corner
+document.body.insertAdjacentHTML('beforeend', githubConrner);
 
-  const sections = document.querySelectorAll('section');
-  const sectionClass = document.querySelectorAll('.section');
+const dataSources = [...document.querySelectorAll('[data-source]')];
 
-  sections.forEach((section, index) => {
-    const element = sections[index];
-    const htmlCode = sections[index].children[0].children[1]
-      .cloneNode(true)
-      .outerHTML.replace(/^\s{1,12}/gm, '');
+async function fetchData(url, type) {
+  try {
+    const response = await fetch(url);
+    const data =
+      type === 'text' ? await response.text() : await response.json();
+    return data;
+  } catch (err) {
+    console.error(err);
+  }
+}
 
-    const htmlConverter = htmlCode.replace(
-      /[\u00A0-\u9999<>\\&]/gim,
-      function (i) {
-        return `&#${i.charCodeAt(0)};`;
-      }
-    );
+dataSources.forEach((datasource) => {
+  fetchData(datasource.dataset.source, 'text').then((data) => {
+    datasource.textContent = data;
+  });
+});
 
-    const preElement = document.createElement('pre');
-    // preElement.setAttribute('rel', 'html');
-    const codeElement = document.createElement('code');
-    codeElement.className = 'language-html';
+const sections = document.querySelectorAll('section');
+const sectionClass = document.querySelectorAll('.section');
 
-    codeElement.insertAdjacentHTML('beforeend', htmlConverter);
-    preElement.appendChild(codeElement);
+const htmlRoot = document.querySelectorAll('.search-element');
+const htmlRootElement = document.querySelectorAll(
+  '.search-element > :nth-child(2)'
+);
 
-    element.children[1].insertAdjacentElement('beforeend', preElement);
+/**
+ * menu
+ */
+
+const menu = document.querySelector('.menu');
+function generateMenu(data) {
+  data.map((el, index) => {
+    const li = document.createElement('li');
+    if (index === 0) {
+      li.className = 'active';
+    }
+    const a = document.createElement('a');
+    a.href = `#${el.link}`;
+    a.insertAdjacentHTML('beforeend', el.html);
+    li.appendChild(a);
+    menu.appendChild(li);
+  });
+}
+
+fetchData(`../data/menu.json`, 'json')
+  .then((data) => {
+    generateMenu(data);
+  })
+  .then(() => {
+    // IntersectionObserver section
+    const options = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1,
+    };
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.1) {
+          document.querySelector('.active').classList.remove('active');
+          let id = entry.target.getAttribute('id');
+          document
+            .querySelector(`[href="#${id}"]`)
+            .parentNode.classList.add('active');
+        }
+      });
+    }, options);
+    sectionClass.forEach((section) => {
+      observer.observe(section);
+    });
   });
 
-  // IntersectionObserver section
-  const options = {
-    root: null,
-    rootMargin: '0px',
-    threshold: 0.1,
-  };
+// ----------
 
-  const changeNav = (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting && entry.intersectionRatio > 0.1) {
-        document.querySelector('.active').classList.remove('active');
+htmlRootElement.forEach((element, index) => {
+  const htmlCode = element.cloneNode(true).outerHTML.replace(/^\s{1,12}/gm, '');
 
-        var id = entry.target.getAttribute('id');
-        document
-          .querySelector(`[href="#${id}"]`)
-          .parentNode.classList.add('active');
+  const htmlConverter = htmlCode.replace(
+    /[\u00A0-\u9999<>\\&]/gim,
+    function (i) {
+      return `&#${i.charCodeAt(0)};`;
+    }
+  );
+
+  const preElement = document.createElement('pre');
+  const codeElement = document.createElement('code');
+  codeElement.className = 'language-html';
+
+  preElement.appendChild(codeElement);
+
+  codeElement.insertAdjacentHTML('beforeend', htmlConverter);
+
+  htmlRoot[index].nextElementSibling.appendChild(preElement);
+});
+
+document.addEventListener('click', (event) => {
+  const target = event.target;
+  if (target.classList.contains('copy-code')) {
+    buttonCopy(target);
+  }
+
+  // toggle-button
+  if (target.classList.contains('toggle-menu')) {
+    document.body.classList.toggle('close');
+  }
+
+  // active menu elements
+  if (target.closest('li')) {
+    document.body.classList.remove('close');
+  }
+});
+
+const button = document.createElement('button');
+button.setAttribute('type', 'text');
+button.className = 'copy-code';
+button.textContent = 'copy';
+
+const highlights = document.querySelectorAll('.highlight > h4');
+const htmlClass = document.querySelectorAll('.html-class');
+
+htmlClass.forEach((htmlCl) => {
+  const buttonClone = button.cloneNode(true);
+  htmlCl.insertAdjacentElement('afterbegin', buttonClone);
+});
+
+highlights.forEach((highlight) => {
+  const buttonClone = button.cloneNode(true);
+  highlight.insertAdjacentElement('afterend', buttonClone);
+});
+
+const buttonCopy = (target) => {
+  const selection = window.getSelection();
+  const range = document.createRange();
+  const targetEl = target;
+  range.selectNodeContents(targetEl.nextElementSibling);
+  selection.removeAllRanges();
+  selection.addRange(range);
+
+  try {
+    document.execCommand('copy');
+    selection.removeAllRanges();
+
+    targetEl.classList.add('success-msg');
+    targetEl.textContent = 'copied!';
+
+    setTimeout(() => {
+      targetEl.classList.remove('success-msg');
+      targetEl.textContent = 'copy';
+    }, 1200);
+  } catch (e) {
+    targetEl.classList.add('error-msg');
+    targetEl.textContent = 'error!';
+
+    setTimeout(() => {
+      targetEl.classList.remove('error-msg');
+      targetEl.textContent = 'copy';
+    }, 1200);
+  }
+};
+
+const topButton = document.createElement('a');
+topButton.href = '#';
+topButton.className = 'top-button';
+topButton.textContent = 'top';
+
+const section = document.querySelectorAll('section, article');
+section.forEach((element) => {
+  element.insertAdjacentElement('beforeend', topButton.cloneNode(true));
+});
+
+const tablesNew = document.querySelectorAll('.table-new');
+
+const table = document.createElement('table');
+const thead = document.createElement('thead');
+const tbody = document.createElement('tbody');
+
+const tr = document.createElement('tr');
+const th = document.createElement('th');
+const td = document.createElement('td');
+
+tablesNew.forEach((tableRoot) => {
+  const tableJson = tableRoot.dataset.json;
+
+  const ta = table.cloneNode();
+  const head = thead.cloneNode();
+  const body = tbody.cloneNode();
+
+  ta.appendChild(head);
+  ta.appendChild(body);
+  tableRoot.appendChild(ta);
+
+  fetchData(`../data/${tableJson}`, 'json').then((data) => {
+    configurationOfThePlugin(data);
+  });
+
+  function configurationOfThePlugin(data) {
+    return data.map((element) => {
+      // thead
+      const etr = tr.cloneNode();
+
+      if (element.thead) {
+        element.thead.map((text) => {
+          const eth = th.cloneNode();
+          eth.textContent = text;
+          etr.appendChild(eth);
+          head.appendChild(etr);
+        });
+      }
+      // tbody
+      if (element.tbody) {
+        element.tbody.map((el) => {
+          const etr = tr.cloneNode();
+          el.row.map((col, index) => {
+            const etd = td.cloneNode();
+            etd.innerHTML =
+              index == 0 ? `<code>${col.column}</code>` : col.column;
+            etr.appendChild(etd);
+          });
+          body.appendChild(etr);
+        });
       }
     });
-  };
-
-  const observer = new IntersectionObserver(changeNav, options);
-
-  sectionClass.forEach((section) => {
-    observer.observe(section);
-  });
-
-  document.addEventListener('click', (event) => {
-    const target = event.target;
-    if (target.classList.contains('copy-code')) {
-      buttonCopy(target);
-    }
-
-    // toggle-button
-    if (target.classList.contains('toggle-menu')) {
-      document.body.classList.toggle('close');
-    }
-
-    // active menu elements
-    if (target.closest('li')) {
-      document.body.classList.remove('close');
-    }
-  });
-
-  const button = document.createElement('button');
-  button.setAttribute('type', 'text');
-  button.className = 'copy-code';
-  button.textContent = 'copy';
-
-  const highlights = document.querySelectorAll('.highlight > h4');
-  const htmlClass = document.querySelectorAll('.html-class');
-
-  htmlClass.forEach((htmlCl) => {
-    const buttonClone = button.cloneNode(true);
-    htmlCl.insertAdjacentElement('afterbegin', buttonClone);
-  });
-
-  highlights.forEach((highlight) => {
-    const buttonClone = button.cloneNode(true);
-    highlight.insertAdjacentElement('afterend', buttonClone);
-  });
-
-  const buttonCopy = (target) => {
-    const selection = window.getSelection();
-    const range = document.createRange();
-    const targetEl = target;
-    range.selectNodeContents(targetEl.nextElementSibling);
-    selection.removeAllRanges();
-    selection.addRange(range);
-
-    try {
-      document.execCommand('copy');
-      selection.removeAllRanges();
-
-      targetEl.classList.add('success-msg');
-      targetEl.textContent = 'copied!';
-
-      setTimeout(() => {
-        targetEl.classList.remove('success-msg');
-        targetEl.textContent = 'copy';
-      }, 1200);
-    } catch (e) {
-      targetEl.classList.add('error-msg');
-      targetEl.textContent = 'error!';
-
-      setTimeout(() => {
-        targetEl.classList.remove('error-msg');
-        targetEl.textContent = 'copy';
-      }, 1200);
-    }
-  };
-
-  const topButton = document.createElement('a');
-  topButton.href = '#';
-  topButton.className = 'top-button';
-  topButton.textContent = 'top';
-
-  const section = document.querySelectorAll('section, article');
-  section.forEach((element) => {
-    element.insertAdjacentElement('beforeend', topButton.cloneNode(true));
-  });
+  }
 });

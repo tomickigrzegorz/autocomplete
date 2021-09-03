@@ -12,15 +12,19 @@ const plugins = ({ module }) => {
       exclude: 'node_modules/**',
       babelHelpers: 'bundled',
     }),
-    PRODUCTION && terser({
-      module,
-      mangle: true,
-      compress: true,
-    }),
+    PRODUCTION &&
+      terser({
+        module,
+        mangle: true,
+        compress: {
+          drop_console: true,
+          drop_debugger: true,
+        },
+      }),
     !PRODUCTION && serve({ open: true, contentBase: 'docs' }),
     !PRODUCTION && livereload(),
-  ]
-}
+  ];
+};
 
 const configs = [
   {
@@ -29,7 +33,7 @@ const configs = [
       format: 'iife',
       file: pkg.main,
       name: 'Autocomplete',
-      sourcemap: !PRODUCTION
+      sourcemap: !PRODUCTION,
     },
     plugins: plugins({ module: false }),
   },
@@ -39,7 +43,7 @@ const configs = [
     output: {
       format: 'umd',
       file: pkg.browser,
-      name: 'Autocomplete'
+      name: 'Autocomplete',
     },
     plugins: plugins({ module: true }),
   },
@@ -48,10 +52,10 @@ const configs = [
     watch: false,
     output: {
       format: 'esm',
-      file: 'docs/js/polyfill.js'
+      file: 'docs/js/polyfill.js',
     },
     plugins: plugins({ module: false }),
-  }
+  },
 ];
 
 export default configs;

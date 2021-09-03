@@ -1,3 +1,4 @@
 .vscode
 *.map
+.prettierignore
 node_modules/

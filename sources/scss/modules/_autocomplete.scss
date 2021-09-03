@@ -60,28 +60,28 @@
   &.loupe:before {
     filter: invert(60%);
   }
+}
 
-  &.auto-is-loading {
-    &:after {
-      content: '';
-      box-sizing: border-box;
-      position: absolute;
-      top: 0px;
-      bottom: 0;
-      margin: auto;
-      right: 10px;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      border: 2px solid $color-gray;
-      border-left-color: lighten($color-gray, 35%);
-      border-top-color: lighten($color-gray, 35%);
-      animation: auto-spinner 0.6s linear infinite;
-    }
+.auto-is-loading {
+  &:after {
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    top: 0px;
+    bottom: 0;
+    margin: auto;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid $color-gray;
+    border-left-color: lighten($color-gray, 35%);
+    border-top-color: lighten($color-gray, 35%);
+    animation: auto-spinner 0.6s linear infinite;
+  }
 
-    .auto-clear {
-      display: none;
-    }
+  .auto-clear {
+    display: none;
   }
 }
 

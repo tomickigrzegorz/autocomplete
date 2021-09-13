@@ -15,8 +15,8 @@ class Autocomplete {
       disableCloseOnSelect = false,
       classGroup,
       classPreventClosing,
+      onSearch,
       onResults = () => {},
-      onSearch = () => {},
       onSubmit = () => {},
       onOpened = () => {},
       onReset = () => {},
@@ -30,8 +30,8 @@ class Autocomplete {
     this.root = document.getElementById(this.search);
     this.onSearch = isPromise(onSearch)
       ? onSearch
-      : ({ currentValue: a, element: b }) =>
-          Promise.resolve(onSearch({ currentValue: a, element: b }));
+      : ({ currentValue, element }) =>
+          Promise.resolve(onSearch({ currentValue, element }));
     this.onResults = onResults;
     this.onRender = onRender;
     this.onSubmit = onSubmit;
@@ -65,6 +65,7 @@ class Autocomplete {
 
     this.resultWrap = document.createElement('div');
     this.resultList = document.createElement('ul');
+    this.cBtn = document.createElement('button');
 
     this.keyCodes = {
       ESC: 27,
@@ -141,7 +142,7 @@ class Autocomplete {
   output = () => {
     this.setAttr(this.resultList, {
       id: this.outputUl,
-      tabIndex: 0,
+      tabIndex: '0',
       role: 'listbox',
     });
 
@@ -159,7 +160,7 @@ class Autocomplete {
   reset = () => {
     this.setAttr(this.root, {
       'aria-owns': `${this.search}-list`,
-      'aria-expanded': false,
+      'aria-expanded': 'false',
       'aria-autocomplete': 'list',
       'aria-activedescendant': '',
       role: 'combobox',
@@ -267,7 +268,7 @@ class Autocomplete {
 
   results = (template) => {
     this.setAttr(this.root, {
-      'aria-expanded': true,
+      'aria-expanded': 'true',
       addClass: 'auto-expanded',
     });
 
@@ -336,7 +337,7 @@ class Autocomplete {
     for (let i = 0; i < this.itemsLi.length; i++) {
       this.setAttr(this.itemsLi[i], {
         role: 'option',
-        tabindex: -1,
+        tabindex: '-1',
         'aria-selected': 'false',
         'aria-setsize': this.itemsLi.length,
         'aria-posinset': i,
@@ -362,7 +363,7 @@ class Autocomplete {
     this.setAttr(classSelectFirst, {
       id: `${this.selectedOption}-0`,
       addClass: this.activeList,
-      'aria-selected': true,
+      'aria-selected': 'true',
     });
 
     // add fisrst element to root input
@@ -405,7 +406,7 @@ class Autocomplete {
       !resultWrap.classList.contains(this.isActive)
     ) {
       this.setAttr(this.root, {
-        'aria-expanded': true,
+        'aria-expanded': 'true',
         addClass: 'auto-expanded',
       });
 
@@ -586,7 +587,7 @@ class Autocomplete {
 
     this.setAttr(target, {
       id: selectedOption,
-      'aria-selected': true,
+      'aria-selected': 'true',
       addClass: this.activeList,
     });
 
@@ -638,7 +639,7 @@ class Autocomplete {
     this.setAttr(element, {
       id: '',
       removeClass: this.activeList,
-      'aria-selected': false,
+      'aria-selected': 'false',
     });
   };
 
@@ -650,8 +651,6 @@ class Autocomplete {
   // removing text from the input field
   clearbutton = () => {
     if (!this.clearButton) return;
-
-    this.cBtn = document.createElement('button');
 
     this.setAttr(this.cBtn, {
       id: `auto-clear-${this.search}`,

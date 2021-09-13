@@ -1,3 +1,9 @@
+## 2021-09-13 (v1.6.1)
+
+### Fixed
+
+- Calback function 'onSearch' [#94](https://github.com/tomik23/autocomplete/issues/94)
+
 ## 2021-09-03 (v1.6.0)
 
 ### Added

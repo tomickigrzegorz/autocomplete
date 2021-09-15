@@ -1,3 +1,9 @@
+## 2021-09-15 (v1.6.2)
+
+### Added
+
+- `classPrefix` - new props, add option for prefixing all autocomplete css class names [#97](https://github.com/tomik23/autocomplete/issues/97)
+
 ## 2021-09-13 (v1.6.1)
 
 ### Fixed
@@ -12,10 +18,12 @@
 - 'Show all values' - new example
 
 ### Changed
+
 - 'rollup.config.js' to remove forgotten `console.log` and `debugger`
 - rebuilding html with examples so you don't have to add js code to html manually. From now on, the code is dynamically downloaded from js as text and inserted into the appropriate place, and then presented by 'prism'
 
 ### Fixed
+
 - when the results have a scroll bar, i.e. scroll overflow is set, we will scroll to the last record, for example, the scroll bar will be at the bottom. Closing and reopening the results causes a scroll and thus the results to the beginning of the container
 
 ## 2021-08-31 (v1.5.0)

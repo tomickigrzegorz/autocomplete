@@ -40,11 +40,13 @@ See the demo - [example](https://tomik23.github.io/autocomplete/)
 ### CDN
 
 #### CSS
+
 ```html
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomik23/autocomplete@master/docs/css/autocomplete.css"/>
 ```
 
 #### JavaScript
+
 ```html
 <script src="https://cdn.jsdelivr.net/gh/tomik23/autocomplete@master/docs/js/autocomplete.min.js"></script>
 ```
@@ -58,7 +60,7 @@ Download from `docs` folder and insert to html:
 
 #### HTML
 
-Basic code to display autocomplete correctly 
+Basic code to display autocomplete correctly
 
 ```html
 <div class="auto-search">
@@ -154,6 +156,7 @@ npm run prod
 | delay                |   number   |                `500`                |         | Time in milliseconds that the component should wait after last keystroke before calling search function 1000 = 1s                                                        |
 | classPreventClosing  |   string   |                                     |         | Prevents results from hiding after clicking on element with this class                                                                                                   |
 | classGroup           |   string   |                                     |         | Enter a class name, this class will be added to the group name elements                                                                                                  |
+| classPrefix          |   string   |                                     |         | Prefixing all autocomplete css class name, 'prefix-auto-', default 'auto-'                                                                                               |
 | ~~instruction~~      | ~~string~~ | ~~`When autocomplete results ...`~~ |         | ~~aria-describedby [attribute](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-describedby_attribute) A full text below~~ |
 
 **instructions** - has been removed from the library, [see how to add to html](https://tomik23.github.io/autocomplete/#complex-example)
@@ -330,7 +333,10 @@ new Autocomplete('complex', {
     return matches === 0
       ? template
       : matches
-          .sort((a, b) => a.status.localeCompare(b.status) || a.name.localeCompare(b.name))
+          .sort(
+            (a, b) =>
+              a.status.localeCompare(b.status) || a.name.localeCompare(b.name)
+          )
           .map((el, index, array) => {
             // we create an element of the group
             let group =
@@ -361,8 +367,8 @@ new Autocomplete('complex', {
                   </div>
                 </div>
               </li>`;
-              })
-              .join('');
+          })
+          .join('');
   },
 
   // the onSubmit function is executed when the user

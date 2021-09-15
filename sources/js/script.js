@@ -15,6 +15,7 @@ class Autocomplete {
       disableCloseOnSelect = false,
       classGroup,
       classPreventClosing,
+      classPrefix,
       onSearch,
       onResults = () => {},
       onSubmit = () => {},
@@ -26,8 +27,8 @@ class Autocomplete {
       onSelectedItem = () => {},
     }
   ) {
-    this.search = element;
-    this.root = document.getElementById(this.search);
+    this.id = element;
+    this.root = document.getElementById(this.id);
     this.onSearch = isPromise(onSearch)
       ? onSearch
       : ({ currentValue, element }) =>
@@ -35,7 +36,7 @@ class Autocomplete {
     this.onResults = onResults;
     this.onRender = onRender;
     this.onSubmit = onSubmit;
-    this.onSelectedItem = onSelectedItem;
+    this.onSelected = onSelectedItem;
     this.onOpened = onOpened;
     this.onReset = onReset;
     this.noResults = noResults;
@@ -48,18 +49,19 @@ class Autocomplete {
     this.toInput = insertToInput;
     this.showAll = showAllValues;
     this.classGroup = classGroup;
-    this.classPreventClosing = classPreventClosing;
-    this.disableCloseOnSelect = disableCloseOnSelect;
+    this.prevClosing = classPreventClosing;
+    this.prefix = classPrefix ? `${classPrefix}-auto` : 'auto';
+    this.disable = disableCloseOnSelect;
 
     // default config
     this.cache = cache;
-    this.outputUl = `auto-${this.search}`;
-    this.cacheData = `data-cache-auto-${this.search}`;
-    this.isLoading = 'auto-is-loading';
-    this.isActive = 'auto-is-active';
-    this.activeList = 'auto-selected';
-    this.selectedOption = 'auto-selected-option';
-    this.err = 'auto-error';
+    this.outputUl = `${this.prefix}-${this.id}-results`;
+    this.cacheData = `data-cache-auto-${this.id}`;
+    this.isLoading = `${this.prefix}-is-loading`;
+    this.isActive = `${this.prefix}-is-active`;
+    this.activeList = `${this.prefix}-selected`;
+    this.selectedOption = `${this.prefix}-selected-option`;
+    this.err = `${this.prefix}-error`;
     this.regex = /[|\\{}()[\]^$+*?.]/g;
     this.timeout = null;
 
@@ -147,8 +149,7 @@ class Autocomplete {
     });
 
     this.setAttr(this.resultWrap, {
-      id: `${this.outputUl}-wrapper`,
-      addClass: 'auto-output-search',
+      addClass: `${this.prefix}-wrapper`,
     });
 
     this.resultWrap.insertAdjacentElement('beforeend', this.resultList);
@@ -159,7 +160,7 @@ class Autocomplete {
   // default aria
   reset = () => {
     this.setAttr(this.root, {
-      'aria-owns': `${this.search}-list`,
+      'aria-owns': `${this.id}-list`,
       'aria-expanded': 'false',
       'aria-autocomplete': 'list',
       'aria-activedescendant': '',
@@ -269,7 +270,7 @@ class Autocomplete {
   results = (template) => {
     this.setAttr(this.root, {
       'aria-expanded': 'true',
-      addClass: 'auto-expanded',
+      addClass: `${this.prefix}-expanded`,
     });
 
     // add all found records to otput ul
@@ -318,15 +319,15 @@ class Autocomplete {
     // if 'target' is a ul and 'disableCloseOnSelect'
     // is a 'true' set 'disableClose' on true
     if (
-      (target.closest('ul') && this.disableCloseOnSelect) ||
+      (target.closest('ul') && this.disable) ||
       // when class classDisableClose
       // then do not not close results
-      target.closest(`.${this.classPreventClosing}`)
+      target.closest(`.${this.prevClosing}`)
     ) {
       disableClose = true;
     }
 
-    if (target.id !== this.search && !disableClose) {
+    if (target.id !== this.id && !disableClose) {
       this.reset();
       return;
     }
@@ -407,7 +408,7 @@ class Autocomplete {
     ) {
       this.setAttr(this.root, {
         'aria-expanded': 'true',
-        addClass: 'auto-expanded',
+        addClass: `${this.prefix}-expanded`,
       });
 
       resultWrap.classList.add(this.isActive);
@@ -454,7 +455,7 @@ class Autocomplete {
       this.setAria(targetClosest);
       this.index = this.indexLiSelected(targetClosest);
 
-      this.onSelectedItem({
+      this.onSelected({
         index: this.index,
         element: this.root,
         object: this.matches[this.index],
@@ -466,7 +467,7 @@ class Autocomplete {
   getTextFromLi = (element) => {
     if (!element || this.matches.length === 0) {
       // set default settings
-      !this.disableCloseOnSelect && this.reset();
+      !this.disable && this.reset();
 
       return;
     }
@@ -482,7 +483,7 @@ class Autocomplete {
     });
 
     // set default settings
-    if (!this.disableCloseOnSelect) {
+    if (!this.disable) {
       this.remAria(element);
       this.reset();
     }
@@ -548,7 +549,7 @@ class Autocomplete {
           this.index >= 0 &&
           this.index < matchesLength - 1
         ) {
-          this.onSelectedItem({
+          this.onSelected({
             index: this.index,
             element: this.root,
             object: this.matches[this.index],
@@ -653,8 +654,7 @@ class Autocomplete {
     if (!this.clearButton) return;
 
     this.setAttr(this.cBtn, {
-      id: `auto-clear-${this.search}`,
-      class: 'auto-clear hidden',
+      class: `${this.prefix}-clear hidden`,
       type: 'button',
       'aria-label': 'claar text from input',
     });

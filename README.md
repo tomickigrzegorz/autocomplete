@@ -245,6 +245,10 @@ new Autocomplete('complex', {
   // by default is empty ''
   classPreventClosing: 'additional-elements',
 
+  // prefixing all autocomplete css class name,
+  // 'prefix-auto-', default 'auto-'
+  classPrefix: 'prefix',
+
   // this option will toggle showing all
   // values when the input is clicked,
   // like a default dropdown
@@ -404,6 +408,7 @@ const auto = new Autocomplete('you-id', {
   showAllValues: true,
   classPreventClosing: '',
   classGroup: '',
+  classPrefix: 'auto',
   howManyCharacters: 1,
   delay: 500,
   onSearch: ({ currentValue, element }) => {},

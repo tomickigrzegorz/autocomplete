@@ -147,7 +147,7 @@ li.loupe:before {
   }
 }
 
-.auto-output-search {
+.auto-wrapper {
   display: none;
   border: 1px solid #858585;
   border-top: none;
@@ -169,8 +169,6 @@ li.loupe:before {
 
 .auto-selected {
   background-color: lighten($color-gray, 40%);
-  transition: background-color 0.2s ease-out;
-
   + li:before {
     border-top: none;
   }

@@ -4,6 +4,7 @@ module.exports = {
     cssnano: {
       safe: true,
     },
-    'postcss-css-variables': {}
+    // turn it on if you want to enable IE support
+    // 'postcss-css-variables': {}
   },
 };

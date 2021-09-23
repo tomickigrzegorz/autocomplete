@@ -1,3 +1,9 @@
+## 2021-09-23 (v1.6.3)
+
+### Changed
+
+- documentation improvements
+
 ## 2021-09-15 (v1.6.2)
 
 ### Added

@@ -1,6 +1,6 @@
 {
   "name": "autocomplete",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "description": "Simple autocomplete component in vanilla JS",
   "author": "Grzegorz Tomicki",
   "main": "docs/js/autocomplete.min.js",

@@ -1,14 +1,28 @@
-const modal = document.querySelector('.modal');
 const modalSearch = document.querySelector('.modal-search');
 
 new Autocomplete('modal-example', {
+  insertToInput: true,
+  cache: true,
+
   onSearch: ({ currentValue }) => {
     // local data
     const data = [
-      { name: 'Walter White' },
-      { name: 'Jesse Pinkman' },
-      { name: 'Skyler White' },
-      { name: 'Walter White Jr.' },
+      {
+        name: 'Walter White',
+        modal: '255,23,68',
+      },
+      {
+        name: 'Jesse Pinkman',
+        modal: '62,39,35',
+      },
+      {
+        name: 'Skyler White',
+        modal: '118,255,3',
+      },
+      {
+        name: 'Walter White Jr.',
+        modal: '48,79,254',
+      },
     ];
     return data
       .sort((a, b) => a.name.localeCompare(b.name))
@@ -20,15 +34,22 @@ new Autocomplete('modal-example', {
   onResults: ({ matches }) =>
     matches.map((el) => `<li>${el.name}</li>`).join(''),
 
-  // add 'active' class to modal div
+  // add 'active-modal' class to modal div
   onOpened: () => {
-    modal.classList.add('active');
+    document.body.classList.add('active-modal');
     modalSearch.setAttribute('style', 'z-index: 2');
   },
 
-  // delete 'active' class from modal if closing results
+  // delete 'active-modal' class from modal if closing results
   onClose: () => {
-    modal.classList.remove('active');
+    document.body.classList.remove('active-modal');
     modalSearch.removeAttribute('style');
+  },
+
+  onSelectedItem: ({ element, object }) => {
+    const root = document.documentElement;
+    root.style.setProperty('--modal', object.modal);
+
+    element.value = object.name;
   },
 });

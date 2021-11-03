@@ -1,3 +1,8 @@
+## 2021-11-04 (v1.6.6)
+
+### Added
+- unminified javascript file [#103](https://github.com/tomik23/autocomplete/issues/103)
+
 ## 2021-11-03 (v1.6.5)
 
 ### Fixed

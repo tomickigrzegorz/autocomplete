@@ -90,6 +90,16 @@
       },
       {
         "row": [
+          { "column": "ariaLabelClear" },
+          { "column": "clear text from input" },
+          { "column": "" },
+          {
+            "column": "Set aria-label attribute for the clear button"
+          }
+        ]
+      },
+      {
+        "row": [
           { "column": "classPreventClosing" },
           { "column": "\"\"" },
           { "column": "" },
@@ -105,6 +115,16 @@
           { "column": "" },
           {
             "column": "Enter a class name, this class will be added to the group name elements"
+          }
+        ]
+      },
+      {
+        "row": [
+          { "column": "classPrefix" },
+          { "column": "\"\"" },
+          { "column": "" },
+          {
+            "column": "Prefixing all autocomplete css class name, 'prefix-auto-', default 'auto-'"
           }
         ]
       }

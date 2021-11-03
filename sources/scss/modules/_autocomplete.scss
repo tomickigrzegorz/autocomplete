@@ -30,8 +30,8 @@
   ul {
     list-style: none;
     padding: 0;
+    margin: 0;
     overflow: auto;
-    box-sizing: border-box;
 
     li {
       position: relative;
@@ -152,6 +152,7 @@ li.loupe:before {
   border: 1px solid #858585;
   border-top: none;
   overflow: hidden;
+  box-sizing: border-box;
   background-color: $color-white;
 
   ul > .loupe {

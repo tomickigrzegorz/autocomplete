@@ -16,6 +16,7 @@ class Autocomplete {
       classGroup,
       classPreventClosing,
       classPrefix,
+      ariaLabelClear,
       onSearch,
       onResults = () => {},
       onSubmit = () => {},
@@ -50,6 +51,9 @@ class Autocomplete {
     this.showAll = showAllValues;
     this.classGroup = classGroup;
     this.prevClosing = classPreventClosing;
+    this.clearBtnAriLabel = ariaLabelClear
+      ? ariaLabelClear
+      : 'clear text from input';
     this.prefix = classPrefix ? `${classPrefix}-auto` : 'auto';
     this.disable = disableCloseOnSelect;
 
@@ -656,7 +660,7 @@ class Autocomplete {
     this.setAttr(this.cBtn, {
       class: `${this.prefix}-clear hidden`,
       type: 'button',
-      'aria-label': 'claar text from input',
+      'aria-label': this.clearBtnAriLabel,
     });
 
     this.root.insertAdjacentElement('afterend', this.cBtn);

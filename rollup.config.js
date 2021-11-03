@@ -6,13 +6,14 @@ import pkg from './package.json';
 
 const { PRODUCTION } = process.env;
 
-const plugins = ({ module }) => {
+const plugins = ({ module, noMinify }) => {
   return [
     babel({
       exclude: 'node_modules/**',
       babelHelpers: 'bundled',
     }),
     PRODUCTION &&
+      !noMinify &&
       terser({
         module,
         mangle: true,
@@ -46,6 +47,15 @@ const configs = [
       name: 'Autocomplete',
     },
     plugins: plugins({ module: true }),
+  },
+  {
+    input: 'sources/js/script.js',
+    output: {
+      format: 'iife',
+      file: 'docs/js/autocomplete.js',
+      name: 'Autocomplete',
+    },
+    plugins: plugins({ noMinify: true }),
   },
   {
     input: 'sources/js/polyfill.js',

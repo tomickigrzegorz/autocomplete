@@ -154,6 +154,7 @@ npm run prod
 | cache                |  boolean   |               `false`               |         | The characters entered in the input field are cached                                                                                                                     |
 | howManyCharacters    |   number   |                 `1`                 |         | The number of characters entered should start searching                                                                                                                  |
 | delay                |   number   |                `500`                |         | Time in milliseconds that the component should wait after last keystroke before calling search function 1000 = 1s                                                        |
+| ariaLabelClear       |   string   |        `clear text from input`      |         | Set aria-label attribute for the clear button |
 | classPreventClosing  |   string   |                                     |         | Prevents results from hiding after clicking on element with this class                                                                                                   |
 | classGroup           |   string   |                                     |         | Enter a class name, this class will be added to the group name elements                                                                                                  |
 | classPrefix          |   string   |                                     |         | Prefixing all autocomplete css class name, 'prefix-auto-', default 'auto-'                                                                                               |
@@ -254,6 +255,10 @@ new Autocomplete('complex', {
   // like a default dropdown
   // by default is false
   showAllValues: true,
+
+  // set aria-label attribute for the clear button
+  // by default is 'clear text from input'
+  ariaLabelClear: 'insert your text if you want ;)'
 
   // Function for user input. It can be a synchronous function or a promise
   // you can fetch data with jquery, axios, fetch, etc.
@@ -410,6 +415,7 @@ const auto = new Autocomplete('you-id', {
   classGroup: '',
   classPrefix: 'auto',
   howManyCharacters: 1,
+  ariaLabelClear: 'clear text from input',
   delay: 500,
   onSearch: ({ currentValue, element }) => {},
   onResults: ({ currentValue, matches, template, classGroup }) => {},

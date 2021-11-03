@@ -1,3 +1,18 @@
+## 2021-11-03 (v1.6.5)
+
+### Fixed
+- typo in clear label [#104](https://github.com/tomik23/autocomplete/issues/104) (thanks @bjarnef)
+
+### Changed
+- adding a new parameter that allows you to insert your own aria-label for the 'x' button to clear data in the input field.
+
+## 2021-11-03 (v1.6.4)
+
+### Fixed
+
+- reset margin on autocomplete ul [#102](https://github.com/tomik23/autocomplete/issues/102) (thanks @bjarnef)
+
+
 ## 2021-09-23 (v1.6.3)
 
 ### Changed

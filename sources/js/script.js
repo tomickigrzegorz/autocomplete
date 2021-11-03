@@ -1,5 +1,6 @@
 import isPromise from './helpers/isPromise';
 import isObject from './helpers/isObject';
+import keyCodes from './helpers/defaults';
 
 class Autocomplete {
   constructor(
@@ -72,14 +73,6 @@ class Autocomplete {
     this.resultWrap = document.createElement('div');
     this.resultList = document.createElement('ul');
     this.cBtn = document.createElement('button');
-
-    this.keyCodes = {
-      ESC: 27,
-      ENTER: 13,
-      UP: 38,
-      DOWN: 40,
-      TAB: 9,
-    };
 
     this.init();
   }
@@ -515,7 +508,6 @@ class Autocomplete {
 
   // navigating the elements li and enter
   handleKeys = (event) => {
-    const key = this.keyCodes;
     const { keyCode } = event;
     const resultList = this.resultWrap.classList.contains(this.isActive);
 
@@ -523,8 +515,8 @@ class Autocomplete {
     this.selectedLi = document.querySelector(`.${this.activeList}`);
 
     switch (keyCode) {
-      case key.UP:
-      case key.DOWN:
+      case keyCodes.UP:
+      case keyCodes.DOWN:
         // Wrong cursor position in the input field #62
         // Prevents the cursor from moving to the beginning
         // of input as the cursor hovers over the results.
@@ -534,7 +526,7 @@ class Autocomplete {
           return;
         }
 
-        if (keyCode === key.UP) {
+        if (keyCode === keyCodes.UP) {
           if (this.index < 0) {
             this.index = matchesLength - 1;
           }
@@ -570,12 +562,12 @@ class Autocomplete {
         }
 
         break;
-      case key.ENTER:
+      case keyCodes.ENTER:
         this.getTextFromLi(this.selectedLi);
         break;
 
-      case key.TAB:
-      case key.ESC:
+      case keyCodes.TAB:
+      case keyCodes.ESC:
         this.reset();
 
         break;

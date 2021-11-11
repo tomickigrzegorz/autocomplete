@@ -1,3 +1,12 @@
+## 2021-11-12 (v1.6.7)
+
+### Changed
+- unminified file convert to UMD version
+
+### Improvements
+- build optimization (smaller file)
+
+
 ## 2021-11-04 (v1.6.6)
 
 ### Added
@@ -5,7 +14,7 @@
 
 ## 2021-11-03 (v1.6.5)
 
-### Fixed
+### Bug fixes
 - typo in clear label [#104](https://github.com/tomik23/autocomplete/issues/104) (thanks @bjarnef)
 
 ### Changed
@@ -13,7 +22,7 @@
 
 ## 2021-11-03 (v1.6.4)
 
-### Fixed
+### Bug fixes
 
 - reset margin on autocomplete ul [#102](https://github.com/tomik23/autocomplete/issues/102) (thanks @bjarnef)
 
@@ -32,7 +41,7 @@
 
 ## 2021-09-13 (v1.6.1)
 
-### Fixed
+### Bug fixes
 
 - Calback function 'onSearch' [#94](https://github.com/tomik23/autocomplete/issues/94)
 
@@ -48,7 +57,7 @@
 - 'rollup.config.js' to remove forgotten `console.log` and `debugger`
 - rebuilding html with examples so you don't have to add js code to html manually. From now on, the code is dynamically downloaded from js as text and inserted into the appropriate place, and then presented by 'prism'
 
-### Fixed
+### Bug fixes
 
 - when the results have a scroll bar, i.e. scroll overflow is set, we will scroll to the last record, for example, the scroll bar will be at the bottom. Closing and reopening the results causes a scroll and thus the results to the beginning of the container
 
@@ -64,13 +73,13 @@
 
 - wrap the results of additional divs. Useful when we want to add additional elements to the results, e.g. a legend, links, buttons, etc. See an example `Footer/Header`
 
-### Fixed
+### Bug fixes
 
 - following a record when navigating records up/down with arrows and when using `classGroup`
 
 ## 2021-08-25 (v1.1.4)
 
-### Fixed
+### Bug fixes
 
 - clearButton [#89](https://github.com/tomik23/autocomplete/issues/89)
 
@@ -162,7 +171,7 @@
 
 ## 2021-04-01 (v1.0.35)
 
-### Fixed
+### Bug fixes
 
 - wrong cursor position in the input field [#62](https://github.com/tomik23/autocomplete/issues/62)
 
@@ -210,7 +219,7 @@
 
 ## 2021-01-21 (v1.0.28)
 
-### Fixed
+### Bug fixes
 
 - 'no results' does not hidden [#52](https://github.com/tomik23/autocomplete/issues/52)
 
@@ -222,7 +231,7 @@
 
 ## 2021-01-13 (v1.0.26)
 
-### Fixed
+### Bug fixes
 
 - special characters are not removed [#49](https://github.com/tomik23/autocomplete/issues/49)
 
@@ -268,7 +277,7 @@
 
 ## 2020-09-01 (v1.0.20)
 
-### Fixed
+### Bug fixes
 
 - debouncing issue [#40](https://github.com/tomik23/autosuggest/issues/40)
 - selectFirst [#38](https://github.com/tomik23/autosuggest/issues/38)
@@ -281,13 +290,13 @@
 
 ## 2020-08-30 (v1.0.18)
 
-### Fixed
+### Bug fixes
 
 - bad behavior when scrolling through the results with the up / down arrows [#35](https://github.com/tomik23/autosuggest/issues/35)
 
 ## 2020-08-28 (v1.0.17)
 
-### Fixed
+### Bug fixes
 
 - aria-activedescendant
 
@@ -353,7 +362,7 @@
 
 - adding an additional example using data-elements
 
-### Fixed
+### Bug fixes
 
 - up-down arrows item selection [#17](https://github.com/tomik23/autosuggest/issues/17)
 
@@ -401,7 +410,7 @@
 
 - github corner
 
-### Fixed
+### Bug fixes
 
 - scrollIntoView [#12](https://github.com/tomik23/autosuggest/issues/12)
 
@@ -447,7 +456,7 @@
 - noResult
 - accessible for ARIA attributes and keyboard interactions
 
-### Fixed
+### Bug fixes
 
 - the 'x' button is not hidden fixed
 - no reset of settings
@@ -466,7 +475,7 @@
 
 ## 2020-06-22
 
-### Fixed
+### Bug fixes
 
 - many spaces
 
@@ -554,7 +563,7 @@
 
 ## 2019-05-14
 
-### Fixed
+### Bug fixes
 
 - fixing issue with fast typing
 
@@ -569,7 +578,7 @@
 - adding license
 - the appearance of the error
 
-### Fixed
+### Bug fixes
 
 - a problem with several elements of inputs
 
@@ -583,7 +592,7 @@
 
 - specific output template
 
-### Fixed
+### Bug fixes
 
 - fixed IE10/11
 

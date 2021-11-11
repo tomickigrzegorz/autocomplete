@@ -1,8 +1,28 @@
-import isPromise from './helpers/isPromise';
-import isObject from './helpers/isObject';
-import keyCodes from './helpers/defaults';
+import {
+  addAriaToAllLiElements,
+  followActiveElement,
+  getFirstElementFromLiAndAddToInput,
+  isObject,
+  isPromise,
+  output,
+  scrollResultsToTop,
+  setAriaActivedescendant,
+  setAttributes,
+  showBtnToClearData,
+} from './utils/function';
 
-class Autocomplete {
+import keyCodes from './utils/keyCodes';
+
+/**
+ * @class Autocomplete
+ */
+export default class Autocomplete {
+  /**
+   * Constructor
+   *
+   * @param {String} element
+   * @param {Object} object
+   */
   constructor(
     element,
     {
@@ -77,12 +97,15 @@ class Autocomplete {
     this.init();
   }
 
+  /**
+   * Initial function
+   */
   init = () => {
-    const root = this.root;
+    const { resultList, root } = this;
 
     this.clearbutton();
 
-    this.output();
+    output(root, resultList, this.outputUl, this.resultWrap, this.prefix);
 
     // default aria
     // this.reset();
@@ -91,12 +114,19 @@ class Autocomplete {
     // show all values on click root input
     this.showAll && root.addEventListener('click', this.handleInput);
 
+    // calback functions
     this.onRender({
       element: root,
-      results: this.resultList,
+      results: resultList,
     });
   };
 
+  /**
+   * Actions on input
+   *
+   * @param {String} type - set attribute depending on type
+   * @param {String} target
+   */
   cacheAct = (type, target) => {
     const root = this.root;
     if (!this.cache) return;
@@ -110,6 +140,11 @@ class Autocomplete {
     }
   };
 
+  /**
+   * Handle input
+   *
+   * @param {Event} object
+   */
   handleInput = ({ target, type }) => {
     if (
       this.root.getAttribute('aria-expanded') === 'true' &&
@@ -137,26 +172,12 @@ class Autocomplete {
     }, this.delay);
   };
 
-  // create output-list and put after search input
-  output = () => {
-    this.setAttr(this.resultList, {
-      id: this.outputUl,
-      tabIndex: '0',
-      role: 'listbox',
-    });
-
-    this.setAttr(this.resultWrap, {
-      addClass: `${this.prefix}-wrapper`,
-    });
-
-    this.resultWrap.insertAdjacentElement('beforeend', this.resultList);
-
-    this.root.parentNode.insertBefore(this.resultWrap, this.root.nextSibling);
-  };
-
-  // default aria
+  /**
+   * Default aria
+   */
   reset = () => {
-    this.setAttr(this.root, {
+    // set attributes to root - input
+    setAttributes(this.root, {
       'aria-owns': `${this.id}-list`,
       'aria-expanded': 'false',
       'aria-autocomplete': 'list',
@@ -165,48 +186,53 @@ class Autocomplete {
       removeClass: 'auto-expanded',
     });
 
+    // remove class isActive
     this.resultWrap.classList.remove(this.isActive);
 
     // move the view item to the first item
     // this.resultList.scrollTop = 0;
-    this.scrollResultsToTop();
+    // scrollResultsToTop(this.resultList, this.resultWrap);
 
     // remove result when lengh = 0 and insertToInput is false
     if ((this.matches?.length == 0 && !this.toInput) || this.showAll) {
       this.resultList.innerHTML = '';
     }
 
+    // set index
     this.index = this.selectFirst ? 0 : -1;
 
+    // callback function
     this.onClose();
   };
 
-  scrollResultsToTop = () => {
-    // if there is an overflow of ul element, after
-    // opening we always move ul to the top of the results
-    this.resultList.scrollTop =
-      this.resultList.offsetTop - this.resultWrap.offsetHeight;
-  };
-
-  // The async function gets the text from the search
-  // and returns the matching array
+  /**
+   * The async function gets the text from the search
+   * and returns the matching array
+   *
+   * @param {String} value
+   */
   searchItem = (value) => {
     this.value = value;
 
+    // if searching show loading icon
     this.onLoading(true);
 
     // hide button clear
-    this.showBtn();
+    showBtnToClearData(this.cBtn, this.destroy);
 
+    // if there is no value and clearButton is true
     if (value.length == 0 && this.clearButton) {
       this.cBtn.classList.add('hidden');
     }
 
+    // if declare characters more then value.len and showAll is false
+    // remove class isActive
     if (this.characters > value.length && !this.showAll) {
       this.onLoading();
       return;
     }
 
+    // callblack function onSearch
     this.onSearch({ currentValue: value, element: this.root })
       .then((result) => {
         const rootValueLength = this.root.value.length;
@@ -245,27 +271,49 @@ class Autocomplete {
       });
   };
 
+  /**
+   * Set or remove loading class
+   *
+   * @param {Boolean} type
+   */
   onLoading = (type) =>
     this.root.parentNode.classList[type ? 'add' : 'remove'](this.isLoading);
 
+  /**
+   * Set error class to the root element
+   */
   error = () => this.root.classList.remove(this.err);
 
-  // preparation of the list
+  /**
+   * Events
+   */
   events = () => {
-    this.root.addEventListener('keydown', this.handleKeys);
-    this.root.addEventListener('click', this.handleShowItems);
+    const { root, resultList } = this;
+
+    // handle click on keydown [up, down, enter, tab, esc]
+    root.addEventListener('keydown', this.handleKeys);
+
+    //
+    root.addEventListener('click', this.handleShowItems);
 
     // temporarily disabled mouseleave
     ['mousemove', 'click'].map((eventType) => {
-      this.resultList.addEventListener(eventType, this.handleMouse);
+      resultList.addEventListener(eventType, this.handleMouse);
     });
 
     // close expanded items
     document.addEventListener('click', this.handleDocClick);
   };
 
+  /**
+   * Results
+   *
+   * @param {HTMLElement|String} template - html or string returned from the function,
+   * look at the example - https://github.com/tomik23/autocomplete/blob/master/docs/js/examples/no-results.js#L30
+   */
   results = (template) => {
-    this.setAttr(this.root, {
+    // set attribute to root
+    setAttributes(this.root, {
       'aria-expanded': 'true',
       addClass: `${this.prefix}-expanded`,
     });
@@ -286,7 +334,7 @@ class Autocomplete {
 
     this.resultWrap.classList.add(this.isActive);
 
-    this.scrollResultsToTop();
+    // scrollResultsToTop(this.resultList, this.resultWrap);
 
     const checkIfClassGroupExist = this.classGroup
       ? `:not(.${this.classGroup})`
@@ -307,9 +355,14 @@ class Autocomplete {
     });
 
     // adding role, tabindex and aria
-    this.addAria();
+    addAriaToAllLiElements(this.itemsLi);
   };
 
+  /**
+   * Hangle click on document
+   *
+   * @param {Event} object
+   */
   handleDocClick = ({ target }) => {
     let disableClose = null;
 
@@ -330,37 +383,29 @@ class Autocomplete {
     }
   };
 
-  // adding role, tabindex, aria and call handleMouse
-  addAria = () => {
-    for (let i = 0; i < this.itemsLi.length; i++) {
-      this.setAttr(this.itemsLi[i], {
-        role: 'option',
-        tabindex: '-1',
-        'aria-selected': 'false',
-        'aria-setsize': this.itemsLi.length,
-        'aria-posinset': i,
-      });
-    }
-  };
-
-  // select first element
+  /**
+   * Select first element
+   */
   selectFirstEl = () => {
-    this.remAria(document.querySelector(`.${this.activeList}`));
+    const { activeList, selectedOption, selectFirst, root } = this;
 
-    if (!this.selectFirst) {
+    this.remAria(document.querySelector(`.${activeList}`));
+
+    if (!selectFirst) {
       return;
     }
 
     const { firstElementChild } = this.resultList;
 
     const classSelectFirst =
-      this.classGroup && this.matches.length > 0 && this.selectFirst
+      this.classGroup && this.matches.length > 0 && selectFirst
         ? firstElementChild.nextElementSibling
         : firstElementChild;
 
-    this.setAttr(classSelectFirst, {
-      id: `${this.selectedOption}-0`,
-      addClass: this.activeList,
+    // set attribute to first element
+    setAttributes(classSelectFirst, {
+      id: `${selectedOption}-0`,
+      addClass: activeList,
       'aria-selected': 'true',
     });
 
@@ -370,19 +415,18 @@ class Autocomplete {
     //   this.addToInput(this.itemsLi[this.index]);
     // }
 
-    this.setAriaDes(`${this.selectedOption}-0`);
+    // set aria active descendant
+    setAriaActivedescendant(root, `${selectedOption}-0`);
 
     // scrollIntoView when press up/down arrows
-    this.follow(firstElementChild);
+    // this.follow(firstElementChild);
   };
 
-  showBtn = () => {
-    if (!this.cBtn) return;
-
-    this.cBtn.classList.remove('hidden');
-    this.cBtn.addEventListener('click', this.destroy);
-  };
-
+  /**
+   * Add/remove class or set attribute
+   * @param {HTMLElement} el
+   * @param {Object} object
+   */
   setAttr = (el, object) => {
     for (let key in object) {
       if (key === 'addClass') {
@@ -395,36 +439,45 @@ class Autocomplete {
     }
   };
 
-  // show items when items.length > 0 and is not empty
+  /**
+   * show items when items.length > 0 and is not empty
+   */
   handleShowItems = () => {
-    const resultWrap = this.resultWrap;
+    const { root, resultWrap, resultList, isActive } = this;
 
+    // if resultWrap is not active and resultList is not empty
     if (
-      this.resultList.textContent.length > 0 &&
-      !resultWrap.classList.contains(this.isActive)
+      resultList.textContent.length > 0 &&
+      !resultWrap.classList.contains(isActive)
     ) {
-      this.setAttr(this.root, {
+      // set attribute to root
+      setAttributes(root, {
         'aria-expanded': 'true',
         addClass: `${this.prefix}-expanded`,
       });
 
-      resultWrap.classList.add(this.isActive);
+      // add isActive class to resultWrap
+      resultWrap.classList.add(isActive);
 
-      this.scrollResultsToTop();
+      scrollResultsToTop(resultList, resultWrap);
 
       // select first element
       this.selectFirstEl();
 
+      // callback function
       this.onOpened({
         type: 'showItems',
-        element: this.root,
-        results: this.resultList,
+        element: root,
+        results: resultList,
       });
     }
   };
 
-  // adding text from the list when li is clicking
-  // or adding aria-selected to li elements
+  /**
+   * Adding text from the list when li is clicking
+   * or adding aria-selected to li elements
+   * @param {Event} event
+   */
   handleMouse = (event) => {
     event.preventDefault();
 
@@ -440,6 +493,7 @@ class Autocomplete {
 
     // click on li get element
     if (type === 'click') {
+      // get text from clicked li
       this.getTextFromLi(targetClosest);
     }
 
@@ -449,6 +503,7 @@ class Autocomplete {
     ) {
       this.remAria(activeClassElement);
 
+      // add aria to li
       this.setAria(targetClosest);
       this.index = this.indexLiSelected(targetClosest);
 
@@ -460,27 +515,34 @@ class Autocomplete {
     }
   };
 
-  // get text from li on enter or click
+  /**
+   * Get text from li on enter or click
+   *
+   * @param {HTMLElement} element
+   */
   getTextFromLi = (element) => {
+    const { root, index, disable } = this;
+
     if (!element || this.matches.length === 0) {
       // set default settings
-      !this.disable && this.reset();
+      !disable && this.reset();
 
       return;
     }
 
-    this.addToInput(element);
+    // get first element from li and set it to root
+    getFirstElementFromLiAndAddToInput(element, root);
 
     // onSubmit passing text to function
     this.onSubmit({
-      index: this.index,
-      element: this.root,
-      object: this.matches[this.index],
+      index: index,
+      element: root,
+      object: this.matches[index],
       results: this.resultList,
     });
 
     // set default settings
-    if (!this.disable) {
+    if (!disable) {
       this.remAria(element);
       this.reset();
     }
@@ -492,28 +554,32 @@ class Autocomplete {
     this.cacheAct('remove');
   };
 
-  // get first element from child
-  firstElement = (element) => element.firstElementChild || element;
-
-  // set data from li to input
-  addToInput = (element) => {
-    // add text to input
-    this.root.value = this.firstElement(element).textContent.trim();
-  };
-
-  // return which li element was selected
-  // by hovering the mouse over
+  /**
+   * Return which li element was selected
+   * by hovering the mouse over
+   *
+   * @param {HTMLElement} target
+   * @returns {Number}
+   */
   indexLiSelected = (target) =>
+    // get index of li element
     Array.prototype.indexOf.call(this.itemsLi, target);
 
-  // navigating the elements li and enter
+  /**
+   * Navigating the elements li and enter
+   *
+   * @param {Event} event
+   */
   handleKeys = (event) => {
+    const { root } = this;
     const { keyCode } = event;
+
     const resultList = this.resultWrap.classList.contains(this.isActive);
 
     const matchesLength = this.matches.length + 1;
     this.selectedLi = document.querySelector(`.${this.activeList}`);
 
+    // switch between keys
     switch (keyCode) {
       case keyCodes.UP:
       case keyCodes.DOWN:
@@ -526,6 +592,7 @@ class Autocomplete {
           return;
         }
 
+        // if keyCode is up
         if (keyCode === keyCodes.UP) {
           if (this.index < 0) {
             this.index = matchesLength - 1;
@@ -538,6 +605,7 @@ class Autocomplete {
           }
         }
 
+        // remove aria-selected
         this.remAria(this.selectedLi);
 
         if (
@@ -545,27 +613,31 @@ class Autocomplete {
           this.index >= 0 &&
           this.index < matchesLength - 1
         ) {
+          // callback function
           this.onSelected({
             index: this.index,
-            element: this.root,
+            element: root,
             object: this.matches[this.index],
           });
 
+          // set aria-selected
           this.setAria(this.itemsLi[this.index]);
           if (this.toInput && resultList) {
-            this.addToInput(this.itemsLi[this.index]);
+            getFirstElementFromLiAndAddToInput(this.itemsLi[this.index], root);
           }
         } else {
-          // focus on input
+          // catch action
           this.cacheAct();
-          this.setAriaDes();
+          setAriaActivedescendant(root);
         }
 
         break;
+      // keycode enter
       case keyCodes.ENTER:
         this.getTextFromLi(this.selectedLi);
         break;
 
+      // keycode escape and keycode tab
       case keyCodes.TAB:
       case keyCodes.ESC:
         this.reset();
@@ -576,96 +648,83 @@ class Autocomplete {
     }
   };
 
-  // set aria label on item li
+  /**
+   * Set aria label on item li
+   *
+   * @param {HTMLElement} target
+   */
   setAria = (target) => {
     const selectedOption = `${this.selectedOption}-${this.indexLiSelected(
       target
     )}`;
 
-    this.setAttr(target, {
+    // set aria to li
+    setAttributes(target, {
       id: selectedOption,
       'aria-selected': 'true',
       addClass: this.activeList,
     });
 
-    this.setAriaDes(selectedOption);
+    setAriaActivedescendant(this.root, selectedOption);
 
     // scrollIntoView when press up/down arrows
-    this.follow(target);
-  };
-
-  getClassGroupHeight = () => {
-    const allLi = document.querySelectorAll(
-      `#${this.outputUl} > li:not(.${this.classGroup})`
+    followActiveElement(
+      target,
+      this.outputUl,
+      this.classGroup,
+      this.resultList
     );
-    let height = 0;
-    [].slice.call(allLi).map((el) => (height += el.offsetHeight));
-
-    return height;
   };
 
-  // follow active element
-  follow = (target) => {
-    const resultList = this.resultList;
-    const previusElement = resultList.previousSibling;
-
-    const previusElementHeight = previusElement
-      ? previusElement.offsetHeight
-      : 0;
-
-    if (target.getAttribute('aria-posinset') == '0') {
-      resultList.scrollTop = target.offsetTop - this.getClassGroupHeight();
-    }
-
-    if (target.offsetTop - previusElementHeight < resultList.scrollTop) {
-      resultList.scrollTop = target.offsetTop - previusElementHeight;
-    } else {
-      const offsetBottom =
-        target.offsetTop + target.offsetHeight - previusElementHeight;
-      const scrollBottom = resultList.scrollTop + resultList.offsetHeight;
-      if (offsetBottom > scrollBottom) {
-        resultList.scrollTop = offsetBottom - resultList.offsetHeight;
-      }
-    }
-  };
-
-  // remove aria label from item li
+  /**
+   * Remove aria label from item li
+   *
+   * @param {HTMLElement} element
+   */
   remAria = (element) => {
     if (!element) return;
 
-    this.setAttr(element, {
+    // remove aria from li
+    setAttributes(element, {
       id: '',
       removeClass: this.activeList,
       'aria-selected': 'false',
     });
   };
 
-  // Set aria-activedescendant
-  setAriaDes = (type) =>
-    this.root.setAttribute('aria-activedescendant', type || '');
-
-  // create clear button and
-  // removing text from the input field
+  /**
+   * Create clear button and
+   * removing text from the input field
+   */
   clearbutton = () => {
+    // stop when clear button is disabled
     if (!this.clearButton) return;
 
-    this.setAttr(this.cBtn, {
+    const { cBtn } = this;
+
+    // add aria to clear button
+    setAttributes(cBtn, {
       class: `${this.prefix}-clear hidden`,
       type: 'button',
       'aria-label': this.clearBtnAriLabel,
     });
 
-    this.root.insertAdjacentElement('afterend', this.cBtn);
+    // insert clear button after input - root
+    this.root.insertAdjacentElement('afterend', cBtn);
   };
 
-  // clicking on the clear button
-  // publick destroy method
+  /**
+   * Clicking on the clear button
+   * publick destroy method
+   */
   destroy = () => {
+    const { root } = this;
+    // if clear button is true then add class hidden
     this.clearButton && this.cBtn.classList.add('hidden');
     // clear value searchId
-    this.root.value = '';
+    root.value = '';
     // set focus
-    this.root.focus();
+    root.focus();
     // remove li from ul
     this.resultList.textContent = '';
     // set default aria
@@ -673,13 +732,13 @@ class Autocomplete {
     // remove error if exist
     this.error();
 
-    this.onReset(this.root);
+    // callback function
+    this.onReset(root);
 
     // remove listener
-    this.root.removeEventListener('keydown', this.handleKeys);
-    this.root.removeEventListener('click', this.handleShowItems);
+    root.removeEventListener('keydown', this.handleKeys);
+    root.removeEventListener('click', this.handleShowItems);
+    // remove listener on click on document
     document.removeEventListener('click', this.handleDocClick);
   };
 }
-
-export default Autocomplete;

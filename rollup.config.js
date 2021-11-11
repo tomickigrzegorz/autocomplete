@@ -5,6 +5,7 @@ import { terser } from 'rollup-plugin-terser';
 import pkg from './package.json';
 
 const { PRODUCTION } = process.env;
+const input = 'sources/js/script.js';
 
 const plugins = ({ module, noMinify }) => {
   return [
@@ -29,17 +30,27 @@ const plugins = ({ module, noMinify }) => {
 
 const configs = [
   {
-    input: 'sources/js/script.js',
+    input,
+    watch: false,
+    output: {
+      format: 'umd', // no minify umd
+      file: pkg.main,
+      name: 'Autocomplete',
+    },
+    plugins: plugins({ noMinify: true }),
+  },
+  {
+    input,
     output: {
       format: 'iife',
-      file: pkg.main,
+      file: 'docs/js/autocomplete.min.js',
       name: 'Autocomplete',
       sourcemap: !PRODUCTION,
     },
     plugins: plugins({ module: false }),
   },
   {
-    input: 'sources/js/script.js',
+    input,
     watch: false,
     output: {
       format: 'umd',
@@ -49,19 +60,19 @@ const configs = [
     plugins: plugins({ module: true }),
   },
   {
-    input: 'sources/js/script.js',
+    input,
+    watch: false,
     output: {
-      format: 'iife',
-      file: 'docs/js/autocomplete.js',
-      name: 'Autocomplete',
+      format: 'es',
+      file: 'docs/js/autocomplete.esm.min.js',
     },
-    plugins: plugins({ noMinify: true }),
+    plugins: plugins({ module: true }),
   },
   {
     input: 'sources/js/polyfill.js',
     watch: false,
     output: {
-      format: 'esm',
+      format: 'es',
       file: 'docs/js/polyfill.js',
     },
     plugins: plugins({ module: false }),

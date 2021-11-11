@@ -1,9 +1,9 @@
 {
   "name": "autocomplete",
-  "version": "1.6.6",
+  "version": "1.6.7",
   "description": "Simple autocomplete component in vanilla JS",
   "author": "Grzegorz Tomicki",
-  "main": "docs/js/autocomplete.min.js",
+  "main": "docs/js/autocomplete.js",
   "browser": "docs/js/autocomplete.umd.min.js",
   "license": "MIT",
   "repository": {
@@ -27,39 +27,32 @@
     "promise+fetch",
     "axios"
   ],
-  "browserslist": {
-    "production": [
-      "defaults",
-      "not IE 11",
-      "maintained node versions"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
+  "browserslist": [
+    "defaults",
+    "not IE 11",
+    "maintained node versions"
+  ],
   "devDependencies": {
-    "@babel/core": "^7.15.0",
-    "@babel/eslint-parser": "^7.15.0",
-    "@babel/plugin-proposal-class-properties": "^7.14.5",
-    "@babel/preset-env": "^7.15.0",
+    "@babel/core": "^7.16.0",
+    "@babel/eslint-parser": "^7.16.3",
+    "@babel/plugin-proposal-class-properties": "^7.16.0",
+    "@babel/preset-env": "^7.16.0",
     "@rollup/plugin-babel": "^5.3.0",
-    "autoprefixer": "^10.3.3",
-    "concurrently": "^6.2.1",
-    "core-js": "^3.16.4",
-    "cssnano": "^5.0.8",
-    "eslint": "^7.32.0",
+    "autoprefixer": "^10.4.0",
+    "concurrently": "^6.3.0",
+    "core-js": "^3.19.1",
+    "cssnano": "^5.0.10",
+    "eslint": "^8.2.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^3.4.1",
-    "postcss": "^8.3.6",
-    "postcss-cli": "^8.3.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "postcss": "^8.3.11",
+    "postcss-cli": "^9.0.2",
     "postcss-css-variables": "^0.18.0",
-    "prettier": "^2.3.2",
-    "rollup": "^2.56.3",
+    "prettier": "^2.4.1",
+    "rollup": "^2.59.0",
     "rollup-plugin-livereload": "^2.0.5",
     "rollup-plugin-serve": "^1.1.0",
     "rollup-plugin-terser": "^7.0.2",
-    "sass": "^1.38.2"
+    "sass": "^1.43.4"
   }
 }

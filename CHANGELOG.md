@@ -1,4 +1,4 @@
-## 2021-11-13 (v1.6.8)
+## 2021-11-12 (v1.6.8)
 
 ### Added
 - global output folder `dist`

@@ -1,7 +1,7 @@
-import babel from '@rollup/plugin-babel';
+import { babel } from '@rollup/plugin-babel';
+import { terser } from 'rollup-plugin-terser';
 import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
-import { terser } from 'rollup-plugin-terser';
 import cleanup from 'rollup-plugin-cleanup';
 
 import pkg from './package.json';
@@ -9,19 +9,7 @@ import pkg from './package.json';
 const { PRODUCTION } = process.env;
 const input = 'sources/js/script.js';
 
-const plugins = () => {
-  return [babel({ babelHelpers: 'bundled' }), cleanup()];
-};
-const terserConf = () => {
-  return [
-    terser({
-      mangle: true,
-      compress: { drop_console: true, drop_debugger: true },
-    }),
-  ];
-};
-
-const configs = [
+export default [
   {
     input,
     plugins: [babel({ babelHelpers: 'bundled' }), cleanup()],
@@ -35,26 +23,29 @@ const configs = [
   },
   {
     input,
-    plugins: [plugins()],
+    plugins: [babel({ babelHelpers: 'bundled' }), cleanup()],
     watch: false,
     output: {
       name: 'Autocomplete',
       format: 'iife',
       sourcemap: true,
       file: 'dist/js/autocomplete.min.js',
-      plugins: [terserConf()],
+      plugins: [terser()],
     },
   },
   {
     input,
-    plugins: [plugins()],
+    plugins: [babel({ babelHelpers: 'bundled' }), cleanup()],
     output: {
       name: 'Autocomplete',
       format: 'iife',
       sourcemap: true,
       file: 'docs/js/autocomplete.min.js',
       plugins: [
-        terserConf(),
+        terser({
+          mangle: true,
+          compress: { drop_console: true, drop_debugger: true },
+        }),
         !PRODUCTION && serve({ open: true, contentBase: ['docs'] }),
         !PRODUCTION && livereload(),
       ],
@@ -63,7 +54,7 @@ const configs = [
   {
     input,
     watch: false,
-    plugins: [plugins()],
+    plugins: [babel({ babelHelpers: 'bundled' }), cleanup()],
     output: [
       {
         name: 'Autocomplete',
@@ -76,14 +67,19 @@ const configs = [
         format: 'umd',
         sourcemap: true,
         file: 'dist/js/autocomplete.umd.min.js',
-        plugins: [terserConf()],
+        plugins: [
+          terser({
+            mangle: true,
+            compress: { drop_console: true, drop_debugger: true },
+          }),
+        ],
       },
     ],
   },
   {
     input,
     watch: false,
-    plugins: [plugins()],
+    plugins: [babel({ babelHelpers: 'bundled' }), cleanup()],
     output: [
       {
         name: 'Autocomplete',
@@ -96,7 +92,12 @@ const configs = [
         format: 'es',
         sourcemap: true,
         file: 'dist/js/autocomplete.esm.min.js',
-        plugins: [terserConf()],
+        plugins: [
+          terser({
+            mangle: true,
+            compress: { drop_console: true, drop_debugger: true },
+          }),
+        ],
       },
     ],
   },
@@ -109,5 +110,3 @@ const configs = [
     },
   },
 ];
-
-export default configs;

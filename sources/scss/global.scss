@@ -229,6 +229,13 @@ h2 {
   border-bottom: 1px solid rgba(158, 158, 158, 0.2);
 }
 
+.auto-search {
+  h2 {
+    margin-top: 0;
+    padding-top: 0;
+  }
+}
+
 h3 {
   position: relative;
   margin-bottom: 10px;
@@ -681,6 +688,7 @@ kbd {
 }
 
 .drop-down {
+  position: relative;
   input {
     cursor: pointer;
   }
@@ -688,16 +696,22 @@ kbd {
 
 .drop-down-arrow {
   position: absolute;
-  right: 0;
-  top: 22px;
+  left: 320px;
+  top: 32px;
+  width: 20px;
+  height: 20px;
+  background: transparent;
+  border: 0;
+  &:focus {
+    outline: 1px solid #000;
+  }
   &::after {
-    box-sizing: border-box;
     position: absolute;
     content: '';
     top: 0px;
     bottom: 0;
     margin: auto;
-    right: 10px;
+    right: 0;
     width: 20px;
     height: 20px;
     pointer-events: none;

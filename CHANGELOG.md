@@ -1,7 +1,7 @@
 ## 2021-11-12 (v1.6.7)
 
 ### Changed
-- unminified file convert to UMD version
+- unminified file convert to ESM version
 
 ### Improvements
 - build optimization (smaller file)

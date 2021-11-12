@@ -1,3 +1,12 @@
+## 2021-11-12 (v1.6.8)
+
+### Added
+- global output folder `dist`
+
+### Changed
+- change of links to cdn
+
+
 ## 2021-11-12 (v1.6.7)
 
 ### Changed

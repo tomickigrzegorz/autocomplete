@@ -1,33 +1,8 @@
-(function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-  typeof define === 'function' && define.amd ? define(factory) :
-  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.Autocomplete = factory());
-})(this, (function () { 'use strict';
+var Autocomplete = (function () {
+  'use strict';
 
-  /**
-   * Check is a Object
-   * @param {Object} value
-   * @returns {Boolean}
-   */
   const isObject = value => value && typeof value === 'object' && value.constructor === Object;
-  /**
-   * Check if is a Promise
-   * https://stackoverflow.com/a/53955664/10424385
-   *
-   * @param {Object} value
-   * @returns {Boolean}
-   */
-
-
   const isPromise = value => Boolean(value && typeof value.then === 'function');
-  /**
-   * Set attributes to element
-   *
-   * @param {HTMLElement} el
-   * @param {Object} object
-   */
-
-
   const setAttributes = (el, object) => {
     for (let key in object) {
       if (key === 'addClass') {
@@ -39,47 +14,13 @@
       }
     }
   };
-  /**
-   * Get first element from child
-   *
-   * @param {HTMLElement} element
-   * @returns {HTMLELement}
-   */
-
-
   const getFirstElement = element => element.firstElementChild || element;
-  /**
-   * Set data from li to input
-   *
-   * @param {String} element
-   * @param {HTMLElement} root
-   * @returns {String}
-   */
-
-
-  const getFirstElementFromLiAndAddToInput = (element, root) => // get first element from li and add to input
+  const getFirstElementFromLiAndAddToInput = (element, root) =>
   root.value = getFirstElement(element).textContent.trim();
-  /**
-   * Scroll to top result-list
-   * @param {HTMLElement} resultList
-   * @param {HTMLElement} resultWrap
-   */
-
-
   const scrollResultsToTop = (resultList, resultWrap) => {
-    // if there is an overflow of ul element, after
-    // opening we always move ul to the top of the results
     resultList.scrollTop = resultList.offsetTop - resultWrap.offsetHeight;
   };
-  /**
-   * Adding role, tabindex, aria and call handleMouse
-   *
-   * @param {HTMLElement} itemsLi
-   */
-
-
   const addAriaToAllLiElements = itemsLi => {
-    // add role to all li elements
     for (let i = 0; i < itemsLi.length; i++) {
       setAttributes(itemsLi[i], {
         role: 'option',
@@ -90,112 +31,52 @@
       });
     }
   };
-  /**
-   * Show btn to clear data
-   *
-   * @param {HTMLElement} clearButton - button to clear data
-   * @param {Function} destroy - destroy function
-   */
-
-
   const showBtnToClearData = function (clearButton, destroy) {
     if (clearButton === void 0) {
       clearButton = false;
     }
-
     if (!clearButton) return;
-    clearButton.classList.remove('hidden'); // add event to clear button
-
+    clearButton.classList.remove('hidden');
     clearButton.addEventListener('click', destroy);
   };
-  /**
-   * Set aria-activedescendant
-   *
-   * @param {HTMLElement} root - search input
-   * @param {String} type
-   */
-
-
   const setAriaActivedescendant = (root, type) => {
     root.setAttribute('aria-activedescendant', type || '');
   };
-  /**
-   * Get height of ul without group class
-   *
-   * @param {String} outputUl
-   * @param {String} classGroup
-   * @returns {Number}
-   */
-
-
   const getClassGroupHeight = (outputUl, classGroup) => {
-    // get height of ul without group class
     const allLi = document.querySelectorAll("#" + outputUl + " > li:not(." + classGroup + ")");
     let height = 0;
-    [].slice.call(allLi).map(el => height += el.offsetHeight); // return height
-
+    [].slice.call(allLi).map(el => height += el.offsetHeight);
     return height;
   };
-  /**
-   * Scroll into view when press up/down arrows
-   *
-   * @param {HTMLElement} target
-   * @param {HTMLElement} outputUl
-   * @param {String} classGroup
-   * @param {HTMLElement} resultList
-   */
-
-
   const followActiveElement = (target, outputUl, classGroup, resultList) => {
     const previusElement = resultList.previousSibling;
     const previusElementHeight = previusElement ? previusElement.offsetHeight : 0;
-
     if (target.getAttribute('aria-posinset') == '0') {
       resultList.scrollTop = target.offsetTop - getClassGroupHeight(outputUl, classGroup);
     }
-
     if (target.offsetTop - previusElementHeight < resultList.scrollTop) {
       resultList.scrollTop = target.offsetTop - previusElementHeight;
     } else {
       const offsetBottom = target.offsetTop + target.offsetHeight - previusElementHeight;
       const scrollBottom = resultList.scrollTop + resultList.offsetHeight;
-
       if (offsetBottom > scrollBottom) {
         resultList.scrollTop = offsetBottom - resultList.offsetHeight;
       }
     }
   };
-  /**
-   * Create output-list and put after search input
-   *
-   * @param {HTMLElement} root - search input
-   * @param {HTMLElement} resultList - output-list ul
-   * @param {String} outputUl - id name of output-list
-   * @param {HTMLElement} resultWrap - wrapper ul element
-   * @param {String} prefix - add prefix to all class auto
-   */
-
-
   const output = (root, resultList, outputUl, resultWrap, prefix) => {
-    // set attribute to results-list
     setAttributes(resultList, {
       id: outputUl,
       tabIndex: '0',
       role: 'listbox'
-    }); // add class to wrap element
-
+    });
     setAttributes(resultWrap, {
       addClass: prefix + "-wrapper"
-    }); // insert the results into the wrap element
-
-    resultWrap.insertAdjacentElement('beforeend', resultList); // insert the wrap element after the search input
-
+    });
+    resultWrap.insertAdjacentElement('beforeend', resultList);
     root.parentNode.insertBefore(resultWrap, root.nextSibling);
   };
 
-  /**
-   * Key codes
-   */
   const keyCodes = {
     ESC: 27,
     ENTER: 13,
@@ -204,17 +85,7 @@
     TAB: 9
   };
 
-  /**
-   * @class Autocomplete
-   */
-
   class Autocomplete {
-    /**
-     * Constructor
-     *
-     * @param {String} element
-     * @param {Object} object
-     */
     constructor(_element, _ref) {
       let {
         delay = 500,
@@ -239,30 +110,23 @@
         noResults = () => {},
         onSelectedItem = () => {}
       } = _ref;
-
       this.init = () => {
         const {
           resultList,
           root
         } = this;
         this.clearbutton();
-        output(root, resultList, this.outputUl, this.resultWrap, this.prefix); // default aria
-        // this.reset();
-
-        root.addEventListener('input', this.handleInput); // show all values on click root input
-
-        this.showAll && root.addEventListener('click', this.handleInput); // calback functions
-
+        output(root, resultList, this.outputUl, this.resultWrap, this.prefix);
+        root.addEventListener('input', this.handleInput);
+        this.showAll && root.addEventListener('click', this.handleInput);
         this.onRender({
           element: root,
           results: resultList
         });
       };
-
       this.cacheAct = (type, target) => {
         const root = this.root;
         if (!this.cache) return;
-
         if (type === 'update') {
           root.setAttribute(this.cacheData, target.value);
         } else if (type === 'remove') {
@@ -271,38 +135,28 @@
           root.value = root.getAttribute(this.cacheData);
         }
       };
-
       this.handleInput = _ref2 => {
         let {
           target,
           type
         } = _ref2;
-
         if (this.root.getAttribute('aria-expanded') === 'true' && type === 'click') {
           return;
         }
-
-        const regex = target.value.replace(this.regex, '\\$&'); // update data attribute cache
-
-        this.cacheAct('update', target); // if showing all values is set on
-        // true we are no need timeout
-
+        const regex = target.value.replace(this.regex, '\\$&');
+        this.cacheAct('update', target);
         if (this.showAll && type === 'click') {
           this.reset();
           this.searchItem(regex.trim());
           return;
         }
-
         clearTimeout(this.timeout);
         this.timeout = setTimeout(() => {
           this.searchItem(regex.trim());
         }, this.delay);
       };
-
       this.reset = () => {
         var _this$matches;
-
-        // set attributes to root - input
         setAttributes(this.root, {
           'aria-owns': this.id + "-list",
           'aria-expanded': 'false',
@@ -310,57 +164,37 @@
           'aria-activedescendant': '',
           role: 'combobox',
           removeClass: 'auto-expanded'
-        }); // remove class isActive
-
-        this.resultWrap.classList.remove(this.isActive); // move the view item to the first item
-        // this.resultList.scrollTop = 0;
-        // scrollResultsToTop(this.resultList, this.resultWrap);
-        // remove result when lengh = 0 and insertToInput is false
-
+        });
+        this.resultWrap.classList.remove(this.isActive);
         if (((_this$matches = this.matches) == null ? void 0 : _this$matches.length) == 0 && !this.toInput || this.showAll) {
           this.resultList.innerHTML = '';
-        } // set index
-
-
-        this.index = this.selectFirst ? 0 : -1; // callback function
-
+        }
+        this.index = this.selectFirst ? 0 : -1;
         this.onClose();
       };
-
       this.searchItem = value => {
-        this.value = value; // if searching show loading icon
-
-        this.onLoading(true); // hide button clear
-
-        showBtnToClearData(this.cBtn, this.destroy); // if there is no value and clearButton is true
-
+        this.value = value;
+        this.onLoading(true);
+        showBtnToClearData(this.cBtn, this.destroy);
         if (value.length == 0 && this.clearButton) {
           this.cBtn.classList.add('hidden');
-        } // if declare characters more then value.len and showAll is false
-        // remove class isActive
-
-
+        }
         if (this.characters > value.length && !this.showAll) {
           this.onLoading();
           return;
-        } // callblack function onSearch
-
-
+        }
         this.onSearch({
           currentValue: value,
           element: this.root
         }).then(result => {
           const rootValueLength = this.root.value.length;
-          const resultLength = result.length; // set no result
-
+          const resultLength = result.length;
           this.matches = Array.isArray(result) ? [...result] : JSON.parse(JSON.stringify(result));
           this.onLoading();
-          this.error(); // if use destroy() method
-
+          this.error();
           if (resultLength == 0 && rootValueLength == 0) {
             this.cBtn.classList.add('hidden');
           }
-
           if (resultLength == 0 && rootValueLength) {
             this.root.classList.remove('auto-expanded');
             this.reset();
@@ -380,35 +214,25 @@
           this.reset();
         });
       };
-
       this.onLoading = type => this.root.parentNode.classList[type ? 'add' : 'remove'](this.isLoading);
-
       this.error = () => this.root.classList.remove(this.err);
-
       this.events = () => {
         const {
           root,
           resultList
-        } = this; // handle click on keydown [up, down, enter, tab, esc]
-
-        root.addEventListener('keydown', this.handleKeys); //
-
-        root.addEventListener('click', this.handleShowItems); // temporarily disabled mouseleave
-
+        } = this;
+        root.addEventListener('keydown', this.handleKeys);
+        root.addEventListener('click', this.handleShowItems);
         ['mousemove', 'click'].map(eventType => {
           resultList.addEventListener(eventType, this.handleMouse);
-        }); // close expanded items
-
+        });
         document.addEventListener('click', this.handleDocClick);
       };
-
       this.results = template => {
-        // set attribute to root
         setAttributes(this.root, {
           'aria-expanded': 'true',
           addClass: this.prefix + "-expanded"
-        }); // add all found records to otput ul
-
+        });
         this.resultList.innerHTML = this.matches.length === 0 ? this.onResults({
           currentValue: this.value,
           matches: 0,
@@ -418,41 +242,31 @@
           matches: this.matches,
           classGroup: this.classGroup
         });
-        this.resultWrap.classList.add(this.isActive); // scrollResultsToTop(this.resultList, this.resultWrap);
-
+        this.resultWrap.classList.add(this.isActive);
         const checkIfClassGroupExist = this.classGroup ? ":not(." + this.classGroup + ")" : '';
-        this.itemsLi = document.querySelectorAll("#" + this.outputUl + " > li" + checkIfClassGroupExist); // select first element
-
-        this.selectFirstEl(); // action on open results
-
+        this.itemsLi = document.querySelectorAll("#" + this.outputUl + " > li" + checkIfClassGroupExist);
+        this.selectFirstEl();
         this.onOpened({
           type: 'results',
           element: this.root,
           results: this.resultList
-        }); // adding role, tabindex and aria
-
+        });
         addAriaToAllLiElements(this.itemsLi);
       };
-
       this.handleDocClick = _ref3 => {
         let {
           target
         } = _ref3;
-        let disableClose = null; // if 'target' is a ul and 'disableCloseOnSelect'
-        // is a 'true' set 'disableClose' on true
-
-        if (target.closest('ul') && this.disable || // when class classDisableClose
-        // then do not not close results
+        let disableClose = null;
+        if (target.closest('ul') && this.disable ||
         target.closest("." + this.prevClosing)) {
           disableClose = true;
         }
-
         if (target.id !== this.id && !disableClose) {
           this.reset();
           return;
         }
       };
-
       this.selectFirstEl = () => {
         const {
           activeList,
@@ -461,31 +275,20 @@
           root
         } = this;
         this.remAria(document.querySelector("." + activeList));
-
         if (!selectFirst) {
           return;
         }
-
         const {
           firstElementChild
         } = this.resultList;
-        const classSelectFirst = this.classGroup && this.matches.length > 0 && selectFirst ? firstElementChild.nextElementSibling : firstElementChild; // set attribute to first element
-
+        const classSelectFirst = this.classGroup && this.matches.length > 0 && selectFirst ? firstElementChild.nextElementSibling : firstElementChild;
         setAttributes(classSelectFirst, {
           id: selectedOption + "-0",
           addClass: activeList,
           'aria-selected': 'true'
-        }); // add fisrst element to root input
-        // temporarily turned off
-        // if (this.matches.length > 0 && this.toInput) {
-        //   this.addToInput(this.itemsLi[this.index]);
-        // }
-        // set aria active descendant
-
-        setAriaActivedescendant(root, selectedOption + "-0"); // scrollIntoView when press up/down arrows
-        // this.follow(firstElementChild);
+        });
+        setAriaActivedescendant(root, selectedOption + "-0");
       };
-
       this.setAttr = (el, object) => {
         for (let key in object) {
           if (key === 'addClass') {
@@ -497,27 +300,21 @@
           }
         }
       };
-
       this.handleShowItems = () => {
         const {
           root,
           resultWrap,
           resultList,
           isActive
-        } = this; // if resultWrap is not active and resultList is not empty
-
+        } = this;
         if (resultList.textContent.length > 0 && !resultWrap.classList.contains(isActive)) {
-          // set attribute to root
           setAttributes(root, {
             'aria-expanded': 'true',
             addClass: this.prefix + "-expanded"
-          }); // add isActive class to resultWrap
-
+          });
           resultWrap.classList.add(isActive);
-          scrollResultsToTop(resultList, resultWrap); // select first element
-
-          this.selectFirstEl(); // callback function
-
+          scrollResultsToTop(resultList, resultWrap);
+          this.selectFirstEl();
           this.onOpened({
             type: 'showItems',
             element: root,
@@ -525,7 +322,6 @@
           });
         }
       };
-
       this.handleMouse = event => {
         event.preventDefault();
         const {
@@ -536,20 +332,14 @@
         const targetClosestRole = targetClosest == null ? void 0 : targetClosest.hasAttribute('role');
         const activeClass = this.activeList;
         const activeClassElement = document.querySelector("." + activeClass);
-
         if (!targetClosest || !targetClosestRole) {
           return;
-        } // click on li get element
-
-
+        }
         if (type === 'click') {
-          // get text from clicked li
           this.getTextFromLi(targetClosest);
         }
-
         if (type === 'mousemove' && !targetClosest.classList.contains(activeClass)) {
-          this.remAria(activeClassElement); // add aria to li
-
+          this.remAria(activeClassElement);
           this.setAria(targetClosest);
           this.index = this.indexLiSelected(targetClosest);
           this.onSelected({
@@ -559,44 +349,32 @@
           });
         }
       };
-
       this.getTextFromLi = element => {
         const {
           root,
           index,
           disable
         } = this;
-
         if (!element || this.matches.length === 0) {
-          // set default settings
           !disable && this.reset();
           return;
-        } // get first element from li and set it to root
-
-
-        getFirstElementFromLiAndAddToInput(element, root); // onSubmit passing text to function
-
+        }
+        getFirstElementFromLiAndAddToInput(element, root);
         this.onSubmit({
           index: index,
           element: root,
           object: this.matches[index],
           results: this.resultList
-        }); // set default settings
-
+        });
         if (!disable) {
           this.remAria(element);
           this.reset();
-        } // show clearBtn when select element
-
-
-        this.clearButton && this.cBtn.classList.remove('hidden'); // remove cache
-
+        }
+        this.clearButton && this.cBtn.classList.remove('hidden');
         this.cacheAct('remove');
       };
-
-      this.indexLiSelected = target => // get index of li element
+      this.indexLiSelected = target =>
       Array.prototype.indexOf.call(this.itemsLi, target);
-
       this.handleKeys = event => {
         const {
           root
@@ -606,136 +384,95 @@
         } = event;
         const resultList = this.resultWrap.classList.contains(this.isActive);
         const matchesLength = this.matches.length + 1;
-        this.selectedLi = document.querySelector("." + this.activeList); // switch between keys
-
+        this.selectedLi = document.querySelector("." + this.activeList);
         switch (keyCode) {
           case keyCodes.UP:
           case keyCodes.DOWN:
-            // Wrong cursor position in the input field #62
-            // Prevents the cursor from moving to the beginning
-            // of input as the cursor hovers over the results.
             event.preventDefault();
-
             if (matchesLength <= 1 && this.selectFirst || !resultList) {
               return;
-            } // if keyCode is up
-
-
+            }
             if (keyCode === keyCodes.UP) {
               if (this.index < 0) {
                 this.index = matchesLength - 1;
               }
-
               this.index -= 1;
             } else {
               this.index += 1;
-
               if (this.index >= matchesLength) {
                 this.index = 0;
               }
-            } // remove aria-selected
-
-
+            }
             this.remAria(this.selectedLi);
-
             if (matchesLength > 0 && this.index >= 0 && this.index < matchesLength - 1) {
-              // callback function
               this.onSelected({
                 index: this.index,
                 element: root,
                 object: this.matches[this.index]
-              }); // set aria-selected
-
+              });
               this.setAria(this.itemsLi[this.index]);
-
               if (this.toInput && resultList) {
                 getFirstElementFromLiAndAddToInput(this.itemsLi[this.index], root);
               }
             } else {
-              // catch action
               this.cacheAct();
               setAriaActivedescendant(root);
             }
-
             break;
-          // keycode enter
-
           case keyCodes.ENTER:
             this.getTextFromLi(this.selectedLi);
             break;
-          // keycode escape and keycode tab
-
           case keyCodes.TAB:
           case keyCodes.ESC:
             this.reset();
             break;
         }
       };
-
       this.setAria = target => {
-        const selectedOption = this.selectedOption + "-" + this.indexLiSelected(target); // set aria to li
-
+        const selectedOption = this.selectedOption + "-" + this.indexLiSelected(target);
         setAttributes(target, {
           id: selectedOption,
           'aria-selected': 'true',
           addClass: this.activeList
         });
-        setAriaActivedescendant(this.root, selectedOption); // scrollIntoView when press up/down arrows
-
+        setAriaActivedescendant(this.root, selectedOption);
         followActiveElement(target, this.outputUl, this.classGroup, this.resultList);
       };
-
       this.remAria = element => {
-        if (!element) return; // remove aria from li
-
+        if (!element) return;
         setAttributes(element, {
           id: '',
           removeClass: this.activeList,
           'aria-selected': 'false'
         });
       };
-
       this.clearbutton = () => {
-        // stop when clear button is disabled
         if (!this.clearButton) return;
         const {
           cBtn
-        } = this; // add aria to clear button
-
+        } = this;
         setAttributes(cBtn, {
           class: this.prefix + "-clear hidden",
           type: 'button',
           'aria-label': this.clearBtnAriLabel
-        }); // insert clear button after input - root
-
+        });
         this.root.insertAdjacentElement('afterend', cBtn);
       };
-
       this.destroy = () => {
         const {
           root
-        } = this; // if clear button is true then add class hidden
-
-        this.clearButton && this.cBtn.classList.add('hidden'); // clear value searchId
-
-        root.value = ''; // set focus
-
-        root.focus(); // remove li from ul
-
-        this.resultList.textContent = ''; // set default aria
-
-        this.reset(); // remove error if exist
-
-        this.error(); // callback function
-
-        this.onReset(root); // remove listener
-
+        } = this;
+        this.clearButton && this.cBtn.classList.add('hidden');
+        root.value = '';
+        root.focus();
+        this.resultList.textContent = '';
+        this.reset();
+        this.error();
+        this.onReset(root);
         root.removeEventListener('keydown', this.handleKeys);
-        root.removeEventListener('click', this.handleShowItems); // remove listener on click on document
-
+        root.removeEventListener('click', this.handleShowItems);
         document.removeEventListener('click', this.handleDocClick);
       };
-
       this.id = _element;
       this.root = document.getElementById(this.id);
       this.onSearch = isPromise(onSearch) ? onSearch : _ref4 => {
@@ -766,8 +503,7 @@
       this.prevClosing = classPreventClosing;
       this.clearBtnAriLabel = ariaLabelClear ? ariaLabelClear : 'clear text from input';
       this.prefix = classPrefix ? classPrefix + "-auto" : 'auto';
-      this.disable = disableCloseOnSelect; // default config
-
+      this.disable = disableCloseOnSelect;
       this.cache = cache;
       this.outputUl = this.prefix + "-" + this.id + "-results";
       this.cacheData = "data-cache-auto-" + this.id;
@@ -783,13 +519,9 @@
       this.cBtn = document.createElement('button');
       this.init();
     }
-    /**
-     * Initial function
-     */
-
-
   }
 
   return Autocomplete;
 
-}));
+})();
+//# sourceMappingURL=autocomplete.js.map

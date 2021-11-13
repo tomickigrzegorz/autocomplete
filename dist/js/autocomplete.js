@@ -252,6 +252,7 @@ var Autocomplete = (function () {
           results: this.resultList
         });
         addAriaToAllLiElements(this.itemsLi);
+        scrollResultsToTop(this.resultList, this.resultWrap);
       };
       this.handleDocClick = _ref3 => {
         let {

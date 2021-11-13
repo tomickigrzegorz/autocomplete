@@ -334,8 +334,6 @@ export default class Autocomplete {
 
     this.resultWrap.classList.add(this.isActive);
 
-    // scrollResultsToTop(this.resultList, this.resultWrap);
-
     const checkIfClassGroupExist = this.classGroup
       ? `:not(.${this.classGroup})`
       : '';
@@ -356,6 +354,10 @@ export default class Autocomplete {
 
     // adding role, tabindex and aria
     addAriaToAllLiElements(this.itemsLi);
+
+    // move the view item to the first item
+    // this.resultList.scrollTop = 0;
+    scrollResultsToTop(this.resultList, this.resultWrap);
   };
 
   /**
@@ -419,7 +421,12 @@ export default class Autocomplete {
     setAriaActivedescendant(root, `${selectedOption}-0`);
 
     // scrollIntoView when press up/down arrows
-    // this.follow(firstElementChild);
+    // followActiveElement(
+    //   firstElementChild,
+    //   this.outputUl,
+    //   this.classGroup,
+    //   this.resultList
+    // );
   };
 
   /**
@@ -459,6 +466,8 @@ export default class Autocomplete {
       // add isActive class to resultWrap
       resultWrap.classList.add(isActive);
 
+      // move the view item to the first item
+      // this.resultList.scrollTop = 0;
       scrollResultsToTop(resultList, resultWrap);
 
       // select first element

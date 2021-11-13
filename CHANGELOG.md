@@ -1,3 +1,8 @@
+## 2021-11-13 (v1.6.9)
+
+### Bug fixes
+- results do not scroll to the top [#111](https://github.com/tomik23/autocomplete/issues/111)
+
 ## 2021-11-12 (v1.6.8)
 
 ### Added

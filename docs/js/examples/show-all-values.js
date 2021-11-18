@@ -15,14 +15,27 @@ const phone = new Autocomplete('show-all-values', {
       fetch(api)
         .then((response) => response.json())
         .then((data) => {
-          // first, we sort by our group, in our case
-          // it will be the status, then we sort by name
-          // of course, it is not always necessary because
-          // such soroting may be obtained from REST API
+          // we are looking in two places "text" and "code"
+          // {
+          //   "text": "Poland",
+          //   "id": "7",
+          //   "flag": "https://flagcdn.com/w20/pl.png",
+          //   "code": "+48"
+          // },
+
           const result = data
             .sort((a, b) => a.text.localeCompare(b.text))
-            .filter((element) => {
-              return element.text.match(new RegExp(currentValue, 'gi'));
+            .filter((element, i) => {
+              if (
+                element.text
+                  .toLowerCase()
+                  .indexOf(currentValue.replace(/\\/g, '')) >= 0 ||
+                element.code
+                  .toLowerCase()
+                  .indexOf(currentValue.replace(/\\/g, '')) >= 0
+              ) {
+                return true;
+              } else false;
             });
           resolve(result);
         })

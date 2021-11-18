@@ -702,6 +702,8 @@ kbd {
   height: 20px;
   background: transparent;
   border: 0;
+  pointer-events: none;
+
   &:focus {
     outline: 1px solid #000;
   }

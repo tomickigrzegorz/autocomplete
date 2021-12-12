@@ -173,7 +173,7 @@ const output = (root, resultList, outputUl, resultWrap, prefix) => {
 
   // add class to wrap element
   setAttributes(resultWrap, {
-    addClass: `${prefix}-wrapper`,
+    addClass: `${prefix}-results-wrapper`,
   });
 
   // insert the results into the wrap element

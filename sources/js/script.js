@@ -50,7 +50,7 @@ export default class Autocomplete {
     }
   ) {
     this.id = element;
-    this.root = document.getElementById(this.id);
+    this.root = document.getElementById(element);
     this.onSearch = isPromise(onSearch)
       ? onSearch
       : ({ currentValue, element }) =>
@@ -153,23 +153,18 @@ export default class Autocomplete {
       return;
     }
 
+    // replace all special characters
     const regex = target.value.replace(this.regex, '\\$&');
 
     // update data attribute cache
     this.cacheAct('update', target);
 
-    // if showing all values is set on
-    // true we are no need timeout
-    if (this.showAll && type === 'click') {
-      this.reset();
-      this.searchItem(regex.trim());
-      return;
-    }
-
+    const delay = this.showAll ? 0 : this.delay;
+    // clear timeout
     clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
       this.searchItem(regex.trim());
-    }, this.delay);
+    }, delay);
   };
 
   /**
@@ -389,7 +384,7 @@ export default class Autocomplete {
    * Select first element
    */
   selectFirstEl = () => {
-    const { activeList, selectedOption, selectFirst, root } = this;
+    const { index, activeList, selectedOption, selectFirst, root } = this;
 
     this.remAria(document.querySelector(`.${activeList}`));
 
@@ -409,6 +404,13 @@ export default class Autocomplete {
       id: `${selectedOption}-0`,
       addClass: activeList,
       'aria-selected': 'true',
+    });
+
+    // calback function onSelect when first element is true
+    this.onSelected({
+      index,
+      element: root,
+      object: this.matches[index],
     });
 
     // add fisrst element to root input
@@ -485,6 +487,7 @@ export default class Autocomplete {
   /**
    * Adding text from the list when li is clicking
    * or adding aria-selected to li elements
+   *
    * @param {Event} event
    */
   handleMouse = (event) => {

@@ -28,7 +28,7 @@ export default [
     output: {
       name: 'Autocomplete',
       format: 'iife',
-      sourcemap: true,
+      sourcemap: false,
       file: 'dist/js/autocomplete.min.js',
       plugins: [terser()],
     },
@@ -44,7 +44,6 @@ export default [
       plugins: [
         terser({
           mangle: true,
-          compress: { drop_console: true, drop_debugger: true },
         }),
         !PRODUCTION && serve({ open: true, contentBase: ['docs'] }),
         !PRODUCTION && livereload(),
@@ -65,7 +64,7 @@ export default [
       {
         name: 'Autocomplete',
         format: 'umd',
-        sourcemap: true,
+        sourcemap: false,
         file: 'dist/js/autocomplete.umd.min.js',
         plugins: [
           terser({
@@ -90,7 +89,7 @@ export default [
       {
         name: 'Autocomplete',
         format: 'es',
-        sourcemap: true,
+        sourcemap: false,
         file: 'dist/js/autocomplete.esm.min.js',
         plugins: [
           terser({

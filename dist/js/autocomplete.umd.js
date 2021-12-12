@@ -74,7 +74,7 @@
       role: 'listbox'
     });
     setAttributes(resultWrap, {
-      addClass: prefix + "-wrapper"
+      addClass: prefix + "-results-wrapper"
     });
     resultWrap.insertAdjacentElement('beforeend', resultList);
     root.parentNode.insertBefore(resultWrap, root.nextSibling);
@@ -91,7 +91,7 @@
   class Autocomplete {
     constructor(_element, _ref) {
       let {
-        delay = 500,
+        delay: _delay = 500,
         clearButton = true,
         howManyCharacters = 1,
         selectFirst: _selectFirst = false,
@@ -148,15 +148,11 @@
         }
         const regex = target.value.replace(this.regex, '\\$&');
         this.cacheAct('update', target);
-        if (this.showAll && type === 'click') {
-          this.reset();
-          this.searchItem(regex.trim());
-          return;
-        }
+        const delay = this.showAll ? 0 : this.delay;
         clearTimeout(this.timeout);
         this.timeout = setTimeout(() => {
           this.searchItem(regex.trim());
-        }, this.delay);
+        }, delay);
       };
       this.reset = () => {
         var _this$matches;
@@ -273,6 +269,7 @@
       };
       this.selectFirstEl = () => {
         const {
+          index,
           activeList,
           selectedOption,
           selectFirst,
@@ -290,6 +287,11 @@
           id: selectedOption + "-0",
           addClass: activeList,
           'aria-selected': 'true'
+        });
+        this.onSelected({
+          index,
+          element: root,
+          object: this.matches[index]
         });
         setAriaActivedescendant(root, selectedOption + "-0");
       };
@@ -478,7 +480,7 @@
         document.removeEventListener('click', this.handleDocClick);
       };
       this.id = _element;
-      this.root = document.getElementById(this.id);
+      this.root = document.getElementById(_element);
       this.onSearch = isPromise(onSearch) ? onSearch : _ref4 => {
         let {
           currentValue,
@@ -497,7 +499,7 @@
       this.onReset = onReset;
       this.noResults = noResults;
       this.onClose = onClose;
-      this.delay = delay;
+      this.delay = _delay;
       this.characters = howManyCharacters;
       this.clearButton = clearButton;
       this.selectFirst = _selectFirst;

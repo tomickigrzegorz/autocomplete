@@ -229,7 +229,7 @@ h2 {
   border-bottom: 1px solid rgba(158, 158, 158, 0.2);
 }
 
-.auto-search {
+.auto-search-wrapper {
   h2 {
     margin-top: 0;
     padding-top: 0;
@@ -652,18 +652,18 @@ h1.loupe {
   pointer-events: all;
 }
 
-.auto-wrapper.auto-list-up {
+.auto-results-wrapper.auto-list-up {
   border-top: 1px solid #858585;
   border-bottom: none;
 }
 
-.auto-search {
+.auto-search-wrapper {
   max-width: 350px;
   margin: 20px 0;
 }
 
 .bottom-radius {
-  .auto-wrapper {
+  .auto-results-wrapper {
     border-radius: 0 0 10px 10px;
   }
 }

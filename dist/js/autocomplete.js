@@ -71,7 +71,7 @@ var Autocomplete = (function () {
       role: 'listbox'
     });
     setAttributes(resultWrap, {
-      addClass: prefix + "-wrapper"
+      addClass: prefix + "-results-wrapper"
     });
     resultWrap.insertAdjacentElement('beforeend', resultList);
     root.parentNode.insertBefore(resultWrap, root.nextSibling);
@@ -88,7 +88,7 @@ var Autocomplete = (function () {
   class Autocomplete {
     constructor(_element, _ref) {
       let {
-        delay = 500,
+        delay: _delay = 500,
         clearButton = true,
         howManyCharacters = 1,
         selectFirst: _selectFirst = false,
@@ -145,15 +145,11 @@ var Autocomplete = (function () {
         }
         const regex = target.value.replace(this.regex, '\\$&');
         this.cacheAct('update', target);
-        if (this.showAll && type === 'click') {
-          this.reset();
-          this.searchItem(regex.trim());
-          return;
-        }
+        const delay = this.showAll ? 0 : this.delay;
         clearTimeout(this.timeout);
         this.timeout = setTimeout(() => {
           this.searchItem(regex.trim());
-        }, this.delay);
+        }, delay);
       };
       this.reset = () => {
         var _this$matches;
@@ -270,6 +266,7 @@ var Autocomplete = (function () {
       };
       this.selectFirstEl = () => {
         const {
+          index,
           activeList,
           selectedOption,
           selectFirst,
@@ -287,6 +284,11 @@ var Autocomplete = (function () {
           id: selectedOption + "-0",
           addClass: activeList,
           'aria-selected': 'true'
+        });
+        this.onSelected({
+          index,
+          element: root,
+          object: this.matches[index]
         });
         setAriaActivedescendant(root, selectedOption + "-0");
       };
@@ -475,7 +477,7 @@ var Autocomplete = (function () {
         document.removeEventListener('click', this.handleDocClick);
       };
       this.id = _element;
-      this.root = document.getElementById(this.id);
+      this.root = document.getElementById(_element);
       this.onSearch = isPromise(onSearch) ? onSearch : _ref4 => {
         let {
           currentValue,
@@ -494,7 +496,7 @@ var Autocomplete = (function () {
       this.onReset = onReset;
       this.noResults = noResults;
       this.onClose = onClose;
-      this.delay = delay;
+      this.delay = _delay;
       this.characters = howManyCharacters;
       this.clearButton = clearButton;
       this.selectFirst = _selectFirst;

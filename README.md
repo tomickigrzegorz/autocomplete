@@ -63,7 +63,7 @@ Download from `docs` folder and insert to html:
 Basic code to display autocomplete correctly
 
 ```html
-<div class="auto-search">
+<div class="auto-search-wrapper">
   <input type="text" id="local" autocomplete="off" placeholder="Enter letter" />
 </div>
 ```

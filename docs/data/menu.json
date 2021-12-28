@@ -40,5 +40,9 @@
   {
     "link": "address-geocoding",
     "html": "Address geocoding"
+  },
+  {
+    "link": "bootstrap-modal",
+    "html": "Bootstrap with modal"
   }
 ]

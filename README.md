@@ -42,13 +42,13 @@ See the demo - [example](https://tomik23.github.io/autocomplete/)
 #### CSS
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.7.1/dist/css/autocomplete.min.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.7.2/dist/css/autocomplete.min.css"/>
 ```
 
 #### JavaScript
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.7.1/dist/js/autocomplete.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.7.2/dist/js/autocomplete.min.js"></script>
 ```
 
 ##### -- OR --

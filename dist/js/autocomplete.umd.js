@@ -430,6 +430,7 @@
             break;
           case keyCodes.TAB:
           case keyCodes.ESC:
+            event.stopPropagation();
             this.reset();
             break;
         }

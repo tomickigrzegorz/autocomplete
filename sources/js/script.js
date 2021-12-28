@@ -39,14 +39,14 @@ export default class Autocomplete {
       classPrefix,
       ariaLabelClear,
       onSearch,
-      onResults = () => {},
-      onSubmit = () => {},
-      onOpened = () => {},
-      onReset = () => {},
-      onRender = () => {},
-      onClose = () => {},
-      noResults = () => {},
-      onSelectedItem = () => {},
+      onResults = () => { },
+      onSubmit = () => { },
+      onOpened = () => { },
+      onReset = () => { },
+      onRender = () => { },
+      onClose = () => { },
+      noResults = () => { },
+      onSelectedItem = () => { },
     }
   ) {
     this.id = element;
@@ -54,7 +54,7 @@ export default class Autocomplete {
     this.onSearch = isPromise(onSearch)
       ? onSearch
       : ({ currentValue, element }) =>
-          Promise.resolve(onSearch({ currentValue, element }));
+        Promise.resolve(onSearch({ currentValue, element }));
     this.onResults = onResults;
     this.onRender = onRender;
     this.onSubmit = onSubmit;
@@ -317,15 +317,15 @@ export default class Autocomplete {
     this.resultList.innerHTML =
       this.matches.length === 0
         ? this.onResults({
-            currentValue: this.value,
-            matches: 0,
-            template,
-          })
+          currentValue: this.value,
+          matches: 0,
+          template,
+        })
         : this.onResults({
-            currentValue: this.value,
-            matches: this.matches,
-            classGroup: this.classGroup,
-          });
+          currentValue: this.value,
+          matches: this.matches,
+          classGroup: this.classGroup,
+        });
 
     this.resultWrap.classList.add(this.isActive);
 
@@ -652,6 +652,7 @@ export default class Autocomplete {
       // keycode escape and keycode tab
       case keyCodes.TAB:
       case keyCodes.ESC:
+        event.stopPropagation(); // #120
         this.reset();
 
         break;

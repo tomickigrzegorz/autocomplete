@@ -42,13 +42,13 @@ See the demo - [example](https://tomik23.github.io/autocomplete/)
 #### CSS
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.7.2/dist/css/autocomplete.min.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.7.3/dist/css/autocomplete.min.css"/>
 ```
 
 #### JavaScript
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.7.2/dist/js/autocomplete.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.7.3/dist/js/autocomplete.min.js"></script>
 ```
 
 ##### -- OR --
@@ -432,70 +432,28 @@ const auto = new Autocomplete('you-id', {
 auto.destroy();
 ```
 
-## Browsers support
+## Browser support
 
-| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png" alt="Opera" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Opera | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/vivaldi/vivaldi_48x48.png" alt="Vivaldi" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Vivaldi |
-| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Edge                                                                                                                                                                                                  | last 2 versions                                                                                                                                                                                                   | last 2 versions                                                                                                                                                                                               | last 2 versions                                                                                                                                                                                           | last 2 versions                                                                                                                                                                                                   |
+Autocomplete supports all major browsers including IE 10 and above
 
-> \* If you want the code to be supported in IE11 you need replace a few lines in `package.json`. Below what needs to be changed in the code and compile.
+Configuration for IE:
 
-Replace
+### local files
+- dist/js/polyfill.js
+- dist/js/autocomplete.ie.min.js
+- dist/css/autocomplete.ie.min.css
 
-```json
-"production": [
-  "defaults",
-  "not IE 11",
-  "maintained node versions"
-]
-```
+### cdn
 
-To this
+- https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.7.3/dist/js/polyfill.js
+- https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.7.3/dist/js/autocomplete.ie.min.js
+- https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.7.3/dist/css/autocomplete.ie.min.css
 
-```json
-"production": [
-  ">0.2%",
-  "not dead",
-  "not op_mini all"
-]
-```
+### cdn polyfill from npm
 
-### IE10, IE11
+- https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js
+- https://cdn.jsdelivr.net/npm/element-closest@3.0.2/browser.min.js
 
-Will work if you use polyfill for promise and closest.
-There are three ways to add this polyfill:
-
-1. Add the following script to your html in head
-
-```html
-<script type="text/javascript">
-  if (!('Promise' in window)) {
-    var script = document.createElement('script');
-    script.src = 'https://polyfill.io/v3/polyfill.min.js?features=Promise%2CElement.prototype.closest';
-    document.getElementsByTagName('head')[0].appendChild(script);
-  }
-</script>
-```
-
-2. Add the script below to head in html
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/element-closest@3.0.2/browser.min.js"></script>
-```
-
-3. Add pollyfill to Autocomplete.js and build the script again
-
-```javascript
-import 'promise-polyfill/src/polyfill';
-import './helpers/element-closest-polyfill.js';
-```
-
-4. You can download all polyfills from `docs/js/polyfill.js` and put in head html
-
-```html
-<script src="./polyfill.js"></script>
-```
 
 ## License
 

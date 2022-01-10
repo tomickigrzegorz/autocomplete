@@ -9,9 +9,9 @@ import {
   setAriaActivedescendant,
   setAttributes,
   showBtnToClearData,
-} from './utils/function';
+} from "./utils/function";
 
-import keyCodes from './utils/keyCodes';
+import keyCodes from "./utils/keyCodes";
 
 /**
  * @class Autocomplete
@@ -39,14 +39,14 @@ export default class Autocomplete {
       classPrefix,
       ariaLabelClear,
       onSearch,
-      onResults = () => { },
-      onSubmit = () => { },
-      onOpened = () => { },
-      onReset = () => { },
-      onRender = () => { },
-      onClose = () => { },
-      noResults = () => { },
-      onSelectedItem = () => { },
+      onResults = () => {},
+      onSubmit = () => {},
+      onOpened = () => {},
+      onReset = () => {},
+      onRender = () => {},
+      onClose = () => {},
+      noResults = () => {},
+      onSelectedItem = () => {},
     }
   ) {
     this.id = element;
@@ -54,7 +54,7 @@ export default class Autocomplete {
     this.onSearch = isPromise(onSearch)
       ? onSearch
       : ({ currentValue, element }) =>
-        Promise.resolve(onSearch({ currentValue, element }));
+          Promise.resolve(onSearch({ currentValue, element }));
     this.onResults = onResults;
     this.onRender = onRender;
     this.onSubmit = onSubmit;
@@ -74,8 +74,8 @@ export default class Autocomplete {
     this.prevClosing = classPreventClosing;
     this.clearBtnAriLabel = ariaLabelClear
       ? ariaLabelClear
-      : 'clear text from input';
-    this.prefix = classPrefix ? `${classPrefix}-auto` : 'auto';
+      : "clear text from input";
+    this.prefix = classPrefix ? `${classPrefix}-auto` : "auto";
     this.disable = disableCloseOnSelect;
 
     // default config
@@ -90,9 +90,9 @@ export default class Autocomplete {
     this.regex = /[|\\{}()[\]^$+*?.]/g;
     this.timeout = null;
 
-    this.resultWrap = document.createElement('div');
-    this.resultList = document.createElement('ul');
-    this.cBtn = document.createElement('button');
+    this.resultWrap = document.createElement("div");
+    this.resultList = document.createElement("ul");
+    this.cBtn = document.createElement("button");
 
     this.init();
   }
@@ -109,10 +109,10 @@ export default class Autocomplete {
 
     // default aria
     // this.reset();
-    root.addEventListener('input', this.handleInput);
+    root.addEventListener("input", this.handleInput);
 
     // show all values on click root input
-    this.showAll && root.addEventListener('click', this.handleInput);
+    this.showAll && root.addEventListener("click", this.handleInput);
 
     // calback functions
     this.onRender({
@@ -131,9 +131,9 @@ export default class Autocomplete {
     const root = this.root;
     if (!this.cache) return;
 
-    if (type === 'update') {
+    if (type === "update") {
       root.setAttribute(this.cacheData, target.value);
-    } else if (type === 'remove') {
+    } else if (type === "remove") {
       root.removeAttribute(this.cacheData);
     } else {
       root.value = root.getAttribute(this.cacheData);
@@ -147,17 +147,17 @@ export default class Autocomplete {
    */
   handleInput = ({ target, type }) => {
     if (
-      this.root.getAttribute('aria-expanded') === 'true' &&
-      type === 'click'
+      this.root.getAttribute("aria-expanded") === "true" &&
+      type === "click"
     ) {
       return;
     }
 
     // replace all special characters
-    const regex = target.value.replace(this.regex, '\\$&');
+    const regex = target.value.replace(this.regex, "\\$&");
 
     // update data attribute cache
-    this.cacheAct('update', target);
+    this.cacheAct("update", target);
 
     const delay = this.showAll ? 0 : this.delay;
     // clear timeout
@@ -173,12 +173,12 @@ export default class Autocomplete {
   reset = () => {
     // set attributes to root - input
     setAttributes(this.root, {
-      'aria-owns': `${this.id}-list`,
-      'aria-expanded': 'false',
-      'aria-autocomplete': 'list',
-      'aria-activedescendant': '',
-      role: 'combobox',
-      removeClass: 'auto-expanded',
+      "aria-owns": `${this.id}-list`,
+      "aria-expanded": "false",
+      "aria-autocomplete": "list",
+      "aria-activedescendant": "",
+      role: "combobox",
+      removeClass: "auto-expanded",
     });
 
     // remove class isActive
@@ -190,7 +190,7 @@ export default class Autocomplete {
 
     // remove result when lengh = 0 and insertToInput is false
     if ((this.matches?.length == 0 && !this.toInput) || this.showAll) {
-      this.resultList.innerHTML = '';
+      this.resultList.innerHTML = "";
     }
 
     // set index
@@ -217,7 +217,7 @@ export default class Autocomplete {
 
     // if there is no value and clearButton is true
     if (value.length == 0 && this.clearButton) {
-      this.cBtn.classList.add('hidden');
+      this.cBtn.classList.add("hidden");
     }
 
     // if declare characters more then value.len and showAll is false
@@ -242,11 +242,11 @@ export default class Autocomplete {
 
         // if use destroy() method
         if (resultLength == 0 && rootValueLength == 0) {
-          this.cBtn.classList.add('hidden');
+          this.cBtn.classList.add("hidden");
         }
 
         if (resultLength == 0 && rootValueLength) {
-          this.root.classList.remove('auto-expanded');
+          this.root.classList.remove("auto-expanded");
           this.reset();
           this.noResults({
             element: this.root,
@@ -272,7 +272,7 @@ export default class Autocomplete {
    * @param {Boolean} type
    */
   onLoading = (type) =>
-    this.root.parentNode.classList[type ? 'add' : 'remove'](this.isLoading);
+    this.root.parentNode.classList[type ? "add" : "remove"](this.isLoading);
 
   /**
    * Set error class to the root element
@@ -286,18 +286,18 @@ export default class Autocomplete {
     const { root, resultList } = this;
 
     // handle click on keydown [up, down, enter, tab, esc]
-    root.addEventListener('keydown', this.handleKeys);
+    root.addEventListener("keydown", this.handleKeys);
 
     //
-    root.addEventListener('click', this.handleShowItems);
+    root.addEventListener("click", this.handleShowItems);
 
     // temporarily disabled mouseleave
-    ['mousemove', 'click'].map((eventType) => {
+    ["mousemove", "click"].map((eventType) => {
       resultList.addEventListener(eventType, this.handleMouse);
     });
 
     // close expanded items
-    document.addEventListener('click', this.handleDocClick);
+    document.addEventListener("click", this.handleDocClick);
   };
 
   /**
@@ -309,7 +309,7 @@ export default class Autocomplete {
   results = (template) => {
     // set attribute to root
     setAttributes(this.root, {
-      'aria-expanded': 'true',
+      "aria-expanded": "true",
       addClass: `${this.prefix}-expanded`,
     });
 
@@ -317,21 +317,21 @@ export default class Autocomplete {
     this.resultList.innerHTML =
       this.matches.length === 0
         ? this.onResults({
-          currentValue: this.value,
-          matches: 0,
-          template,
-        })
+            currentValue: this.value,
+            matches: 0,
+            template,
+          })
         : this.onResults({
-          currentValue: this.value,
-          matches: this.matches,
-          classGroup: this.classGroup,
-        });
+            currentValue: this.value,
+            matches: this.matches,
+            classGroup: this.classGroup,
+          });
 
     this.resultWrap.classList.add(this.isActive);
 
     const checkIfClassGroupExist = this.classGroup
       ? `:not(.${this.classGroup})`
-      : '';
+      : "";
 
     this.itemsLi = document.querySelectorAll(
       `#${this.outputUl} > li${checkIfClassGroupExist}`
@@ -342,7 +342,7 @@ export default class Autocomplete {
 
     // action on open results
     this.onOpened({
-      type: 'results',
+      type: "results",
       element: this.root,
       results: this.resultList,
     });
@@ -366,7 +366,7 @@ export default class Autocomplete {
     // if 'target' is a ul and 'disableCloseOnSelect'
     // is a 'true' set 'disableClose' on true
     if (
-      (target.closest('ul') && this.disable) ||
+      (target.closest("ul") && this.disable) ||
       // when class classDisableClose
       // then do not not close results
       target.closest(`.${this.prevClosing}`)
@@ -403,7 +403,7 @@ export default class Autocomplete {
     setAttributes(classSelectFirst, {
       id: `${selectedOption}-0`,
       addClass: activeList,
-      'aria-selected': 'true',
+      "aria-selected": "true",
     });
 
     // calback function onSelect when first element is true
@@ -438,9 +438,9 @@ export default class Autocomplete {
    */
   setAttr = (el, object) => {
     for (let key in object) {
-      if (key === 'addClass') {
+      if (key === "addClass") {
         el.classList.add(object[key]);
-      } else if (key === 'removeClass') {
+      } else if (key === "removeClass") {
         el.classList.remove(object[key]);
       } else {
         el.setAttribute(key, object[key]);
@@ -461,7 +461,7 @@ export default class Autocomplete {
     ) {
       // set attribute to root
       setAttributes(root, {
-        'aria-expanded': 'true',
+        "aria-expanded": "true",
         addClass: `${this.prefix}-expanded`,
       });
 
@@ -477,7 +477,7 @@ export default class Autocomplete {
 
       // callback function
       this.onOpened({
-        type: 'showItems',
+        type: "showItems",
         element: root,
         results: resultList,
       });
@@ -494,8 +494,8 @@ export default class Autocomplete {
     event.preventDefault();
 
     const { target, type } = event;
-    const targetClosest = target.closest('li');
-    const targetClosestRole = targetClosest?.hasAttribute('role');
+    const targetClosest = target.closest("li");
+    const targetClosestRole = targetClosest?.hasAttribute("role");
     const activeClass = this.activeList;
     const activeClassElement = document.querySelector(`.${activeClass}`);
 
@@ -504,13 +504,13 @@ export default class Autocomplete {
     }
 
     // click on li get element
-    if (type === 'click') {
+    if (type === "click") {
       // get text from clicked li
       this.getTextFromLi(targetClosest);
     }
 
     if (
-      type === 'mousemove' &&
+      type === "mousemove" &&
       !targetClosest.classList.contains(activeClass)
     ) {
       this.remAria(activeClassElement);
@@ -560,10 +560,10 @@ export default class Autocomplete {
     }
 
     // show clearBtn when select element
-    this.clearButton && this.cBtn.classList.remove('hidden');
+    this.clearButton && this.cBtn.classList.remove("hidden");
 
     // remove cache
-    this.cacheAct('remove');
+    this.cacheAct("remove");
   };
 
   /**
@@ -674,7 +674,7 @@ export default class Autocomplete {
     // set aria to li
     setAttributes(target, {
       id: selectedOption,
-      'aria-selected': 'true',
+      "aria-selected": "true",
       addClass: this.activeList,
     });
 
@@ -699,9 +699,9 @@ export default class Autocomplete {
 
     // remove aria from li
     setAttributes(element, {
-      id: '',
+      id: "",
       removeClass: this.activeList,
-      'aria-selected': 'false',
+      "aria-selected": "false",
     });
   };
 
@@ -718,12 +718,12 @@ export default class Autocomplete {
     // add aria to clear button
     setAttributes(cBtn, {
       class: `${this.prefix}-clear hidden`,
-      type: 'button',
-      'aria-label': this.clearBtnAriLabel,
+      type: "button",
+      "aria-label": this.clearBtnAriLabel,
     });
 
     // insert clear button after input - root
-    this.root.insertAdjacentElement('afterend', cBtn);
+    this.root.insertAdjacentElement("afterend", cBtn);
   };
 
   /**
@@ -733,13 +733,13 @@ export default class Autocomplete {
   destroy = () => {
     const { root } = this;
     // if clear button is true then add class hidden
-    this.clearButton && this.cBtn.classList.add('hidden');
+    this.clearButton && this.cBtn.classList.add("hidden");
     // clear value searchId
-    root.value = '';
+    root.value = "";
     // set focus
     root.focus();
     // remove li from ul
-    this.resultList.textContent = '';
+    this.resultList.textContent = "";
     // set default aria
     this.reset();
     // remove error if exist
@@ -749,9 +749,9 @@ export default class Autocomplete {
     this.onReset(root);
 
     // remove listener
-    root.removeEventListener('keydown', this.handleKeys);
-    root.removeEventListener('click', this.handleShowItems);
+    root.removeEventListener("keydown", this.handleKeys);
+    root.removeEventListener("click", this.handleShowItems);
     // remove listener on click on document
-    document.removeEventListener('click', this.handleDocClick);
+    document.removeEventListener("click", this.handleDocClick);
   };
 }

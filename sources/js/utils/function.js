@@ -4,7 +4,7 @@
  * @returns {Boolean}
  */
 const isObject = (value) =>
-  value && typeof value === 'object' && value.constructor === Object;
+  value && typeof value === "object" && value.constructor === Object;
 
 /**
  * Check if is a Promise
@@ -13,7 +13,7 @@ const isObject = (value) =>
  * @param {Object} value
  * @returns {Boolean}
  */
-const isPromise = (value) => Boolean(value && typeof value.then === 'function');
+const isPromise = (value) => Boolean(value && typeof value.then === "function");
 
 /**
  * Set attributes to element
@@ -23,9 +23,9 @@ const isPromise = (value) => Boolean(value && typeof value.then === 'function');
  */
 const setAttributes = (el, object) => {
   for (let key in object) {
-    if (key === 'addClass') {
+    if (key === "addClass") {
       el.classList.add(object[key]);
-    } else if (key === 'removeClass') {
+    } else if (key === "removeClass") {
       el.classList.remove(object[key]);
     } else {
       el.setAttribute(key, object[key]);
@@ -72,11 +72,11 @@ const addAriaToAllLiElements = (itemsLi) => {
   // add role to all li elements
   for (let i = 0; i < itemsLi.length; i++) {
     setAttributes(itemsLi[i], {
-      role: 'option',
-      tabindex: '-1',
-      'aria-selected': 'false',
-      'aria-setsize': itemsLi.length,
-      'aria-posinset': i,
+      role: "option",
+      tabindex: "-1",
+      "aria-selected": "false",
+      "aria-setsize": itemsLi.length,
+      "aria-posinset": i,
     });
   }
 };
@@ -90,9 +90,9 @@ const addAriaToAllLiElements = (itemsLi) => {
 const showBtnToClearData = (clearButton = false, destroy) => {
   if (!clearButton) return;
 
-  clearButton.classList.remove('hidden');
+  clearButton.classList.remove("hidden");
   // add event to clear button
-  clearButton.addEventListener('click', destroy);
+  clearButton.addEventListener("click", destroy);
 };
 
 /**
@@ -102,7 +102,7 @@ const showBtnToClearData = (clearButton = false, destroy) => {
  * @param {String} type
  */
 const setAriaActivedescendant = (root, type) => {
-  root.setAttribute('aria-activedescendant', type || '');
+  root.setAttribute("aria-activedescendant", type || "");
 };
 
 /**
@@ -137,7 +137,7 @@ const followActiveElement = (target, outputUl, classGroup, resultList) => {
 
   const previusElementHeight = previusElement ? previusElement.offsetHeight : 0;
 
-  if (target.getAttribute('aria-posinset') == '0') {
+  if (target.getAttribute("aria-posinset") == "0") {
     resultList.scrollTop =
       target.offsetTop - getClassGroupHeight(outputUl, classGroup);
   }
@@ -167,8 +167,8 @@ const output = (root, resultList, outputUl, resultWrap, prefix) => {
   // set attribute to results-list
   setAttributes(resultList, {
     id: outputUl,
-    tabIndex: '0',
-    role: 'listbox',
+    tabIndex: "0",
+    role: "listbox",
   });
 
   // add class to wrap element
@@ -177,7 +177,7 @@ const output = (root, resultList, outputUl, resultWrap, prefix) => {
   });
 
   // insert the results into the wrap element
-  resultWrap.insertAdjacentElement('beforeend', resultList);
+  resultWrap.insertAdjacentElement("beforeend", resultList);
 
   // insert the wrap element after the search input
   root.parentNode.insertBefore(resultWrap, root.nextSibling);

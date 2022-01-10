@@ -42,44 +42,50 @@
             </p>
           </div>
           <div rel="HTML" class="html-class">
-            <pre><code class="language-html">&lt;!-- CSS file --&gt;
+            <pre><code class="language-html">&lt;!-- css --&gt;
 &lt;link rel=&quot;stylesheet&quot; href=&quot;path/to/autocomplete.min.css&quot;&gt;
 
-&lt;!-- JS file --&gt;
+&lt;!-- js --&gt;
 &lt;script src=&quot;path/to/autocomplete.min.js&quot;&gt;&lt;/script&gt;
 </code></pre>
           </div>
           -- OR CDN --
           <div rel="HTML" class="html-class">
-            <pre><code class="language-html">&lt;!-- CSS file --&gt;
-&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.7.2/dist/css/autocomplete.min.css&quot;/&gt;
+            <pre><code class="language-html">&lt;!-- css --&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.7.3/dist/css/autocomplete.min.css&quot;/&gt;
 
-&lt;!-- JS file --&gt;
-&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.7.2/dist/js/autocomplete.min.js&quot;&gt;&lt;/script&gt;
+&lt;!-- js --&gt;
+&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.7.3/dist/js/autocomplete.min.js&quot;&gt;&lt;/script&gt;
           </code></pre>
           </div>
 
-          <p>If you want on older browsers - IE use polyfills</p>
+          <h3>If you want to use the library in older browsers like IE</h3>
+          <h4>-- use local files from dist --</h4>
           <div rel="HTML" class="html-class">
-            <pre><code class="language-html">&lt;script&gt;
-  if (!('Promise' in window)) {
-    var script = document.createElement('script');
-    script.src =
-      'https://polyfill.io/v3/polyfill.min.js?features=Promise%2CElement.prototype.closest';
-    document.getElementsByTagName('head')[0].appendChild(script);
-  }
-&lt;/script&gt;
-</code></pre>
+            <pre><code class="language-html">&lt;!-- css --&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;path/to/autocomplete.ie.min.css&quot;&gt;
+
+&lt;!-- js --&gt;
+&lt;script src=&quot;path/to/js/polyfill.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;path/to/js/autocomplete.ie.min.js&quot;&gt;&lt;/script&gt;
+            </code></pre>
           </div>
-          -- OR --
+          <h4>-- use cdn --</h4>
           <div rel="HTML" class="html-class">
-            <pre><code class="language-html">&lt;script src=&quot;https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js&quot;&gt;&lt;/script&gt;
+            <pre><code class="language-html">&lt;!-- css --&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.7.3/dist/css/autocomplete.ie.min.css&quot;&gt;
+
+&lt;!-- js --&gt;
+&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.7.3/dist/js/polyfill.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.7.3/dist/js/autocomplete.ie.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+          </div>
+          <h4>-- use cdn polyfills from npm --</h4>
+          <div rel="HTML" class="html-class">
+            <pre><code class="language-html">&lt;!-- js --&gt;
+&lt;script src=&quot;https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js&quot;&gt;&lt;/script&gt; 
 &lt;script src=&quot;https://cdn.jsdelivr.net/npm/element-closest@3.0.2/browser.min.js&quot;&gt;&lt;/script&gt;</code></pre>
           </div>
-          -- OR --
-          <div rel="HTML" class="html-class">
-            <pre><code class="language-html">&lt;script src=&quot;path/to/polyfill.js&quot;&gt;&lt;/script&gt;</code></pre>
-          </div>
+          <p>in the docs folder you have an example using the IE library - ie.html</p>
         </article>
         <!-- Geting started end -->
 

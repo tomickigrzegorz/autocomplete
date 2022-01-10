@@ -1,3 +1,44 @@
+## 2022-01-10 (v1.7.3)
+
+### Build
+- new files for IE browsers (dist)
+- IE version, refactor section width plugins (rollup)
+
+### Styles
+- seting singleQuote to false (prettierrc)
+
+### Refactor
+- moved the configuration babel.config.js to rollup.config.js
+
+### Docs
+- section updated 'Gatting started' (index.html)
+- an example of using a library compatible with IE (docs/ie.html)
+
+
+## 2021-12-28 (v1.7.2)
+
+### Bug fixed
+- improve handing of ESC key #120
+
+## 2021-12-12 (v1.7.1)
+
+### Bug fixed
+- if `selectFirst: true` run callback function `onSelect`
+
+### Refactor
+- replace class auto-search -> auto-search-wrapper
+
+### Build
+- remove `*.map` from `*.min.js` file in dist folder
+
+## 2021-11-18 (v1.7.0)
+
+### Bug fixed*
+- arrow in example "show all values" don't open results #114
+
+### Changed
+- update example 'show-all-values'
+
 ## 2021-11-13 (v1.6.9)
 
 ### Bug fixes

@@ -1,10 +1,10 @@
-const isObject = value => value && typeof value === 'object' && value.constructor === Object;
-const isPromise = value => Boolean(value && typeof value.then === 'function');
+const isObject = value => value && typeof value === "object" && value.constructor === Object;
+const isPromise = value => Boolean(value && typeof value.then === "function");
 const setAttributes = (el, object) => {
   for (let key in object) {
-    if (key === 'addClass') {
+    if (key === "addClass") {
       el.classList.add(object[key]);
-    } else if (key === 'removeClass') {
+    } else if (key === "removeClass") {
       el.classList.remove(object[key]);
     } else {
       el.setAttribute(key, object[key]);
@@ -20,11 +20,11 @@ const scrollResultsToTop = (resultList, resultWrap) => {
 const addAriaToAllLiElements = itemsLi => {
   for (let i = 0; i < itemsLi.length; i++) {
     setAttributes(itemsLi[i], {
-      role: 'option',
-      tabindex: '-1',
-      'aria-selected': 'false',
-      'aria-setsize': itemsLi.length,
-      'aria-posinset': i
+      role: "option",
+      tabindex: "-1",
+      "aria-selected": "false",
+      "aria-setsize": itemsLi.length,
+      "aria-posinset": i
     });
   }
 };
@@ -33,11 +33,11 @@ const showBtnToClearData = function (clearButton, destroy) {
     clearButton = false;
   }
   if (!clearButton) return;
-  clearButton.classList.remove('hidden');
-  clearButton.addEventListener('click', destroy);
+  clearButton.classList.remove("hidden");
+  clearButton.addEventListener("click", destroy);
 };
 const setAriaActivedescendant = (root, type) => {
-  root.setAttribute('aria-activedescendant', type || '');
+  root.setAttribute("aria-activedescendant", type || "");
 };
 const getClassGroupHeight = (outputUl, classGroup) => {
   const allLi = document.querySelectorAll("#" + outputUl + " > li:not(." + classGroup + ")");
@@ -48,7 +48,7 @@ const getClassGroupHeight = (outputUl, classGroup) => {
 const followActiveElement = (target, outputUl, classGroup, resultList) => {
   const previusElement = resultList.previousSibling;
   const previusElementHeight = previusElement ? previusElement.offsetHeight : 0;
-  if (target.getAttribute('aria-posinset') == '0') {
+  if (target.getAttribute("aria-posinset") == "0") {
     resultList.scrollTop = target.offsetTop - getClassGroupHeight(outputUl, classGroup);
   }
   if (target.offsetTop - previusElementHeight < resultList.scrollTop) {
@@ -64,13 +64,13 @@ const followActiveElement = (target, outputUl, classGroup, resultList) => {
 const output = (root, resultList, outputUl, resultWrap, prefix) => {
   setAttributes(resultList, {
     id: outputUl,
-    tabIndex: '0',
-    role: 'listbox'
+    tabIndex: "0",
+    role: "listbox"
   });
   setAttributes(resultWrap, {
     addClass: prefix + "-results-wrapper"
   });
-  resultWrap.insertAdjacentElement('beforeend', resultList);
+  resultWrap.insertAdjacentElement("beforeend", resultList);
   root.parentNode.insertBefore(resultWrap, root.nextSibling);
 };
 
@@ -114,8 +114,8 @@ class Autocomplete {
       } = this;
       this.clearbutton();
       output(root, resultList, this.outputUl, this.resultWrap, this.prefix);
-      root.addEventListener('input', this.handleInput);
-      this.showAll && root.addEventListener('click', this.handleInput);
+      root.addEventListener("input", this.handleInput);
+      this.showAll && root.addEventListener("click", this.handleInput);
       this.onRender({
         element: root,
         results: resultList
@@ -124,9 +124,9 @@ class Autocomplete {
     this.cacheAct = (type, target) => {
       const root = this.root;
       if (!this.cache) return;
-      if (type === 'update') {
+      if (type === "update") {
         root.setAttribute(this.cacheData, target.value);
-      } else if (type === 'remove') {
+      } else if (type === "remove") {
         root.removeAttribute(this.cacheData);
       } else {
         root.value = root.getAttribute(this.cacheData);
@@ -137,11 +137,11 @@ class Autocomplete {
         target,
         type
       } = _ref2;
-      if (this.root.getAttribute('aria-expanded') === 'true' && type === 'click') {
+      if (this.root.getAttribute("aria-expanded") === "true" && type === "click") {
         return;
       }
-      const regex = target.value.replace(this.regex, '\\$&');
-      this.cacheAct('update', target);
+      const regex = target.value.replace(this.regex, "\\$&");
+      this.cacheAct("update", target);
       const delay = this.showAll ? 0 : this.delay;
       clearTimeout(this.timeout);
       this.timeout = setTimeout(() => {
@@ -151,16 +151,16 @@ class Autocomplete {
     this.reset = () => {
       var _this$matches;
       setAttributes(this.root, {
-        'aria-owns': this.id + "-list",
-        'aria-expanded': 'false',
-        'aria-autocomplete': 'list',
-        'aria-activedescendant': '',
-        role: 'combobox',
-        removeClass: 'auto-expanded'
+        "aria-owns": this.id + "-list",
+        "aria-expanded": "false",
+        "aria-autocomplete": "list",
+        "aria-activedescendant": "",
+        role: "combobox",
+        removeClass: "auto-expanded"
       });
       this.resultWrap.classList.remove(this.isActive);
       if (((_this$matches = this.matches) == null ? void 0 : _this$matches.length) == 0 && !this.toInput || this.showAll) {
-        this.resultList.innerHTML = '';
+        this.resultList.innerHTML = "";
       }
       this.index = this.selectFirst ? 0 : -1;
       this.onClose();
@@ -170,7 +170,7 @@ class Autocomplete {
       this.onLoading(true);
       showBtnToClearData(this.cBtn, this.destroy);
       if (value.length == 0 && this.clearButton) {
-        this.cBtn.classList.add('hidden');
+        this.cBtn.classList.add("hidden");
       }
       if (this.characters > value.length && !this.showAll) {
         this.onLoading();
@@ -186,10 +186,10 @@ class Autocomplete {
         this.onLoading();
         this.error();
         if (resultLength == 0 && rootValueLength == 0) {
-          this.cBtn.classList.add('hidden');
+          this.cBtn.classList.add("hidden");
         }
         if (resultLength == 0 && rootValueLength) {
-          this.root.classList.remove('auto-expanded');
+          this.root.classList.remove("auto-expanded");
           this.reset();
           this.noResults({
             element: this.root,
@@ -207,23 +207,23 @@ class Autocomplete {
         this.reset();
       });
     };
-    this.onLoading = type => this.root.parentNode.classList[type ? 'add' : 'remove'](this.isLoading);
+    this.onLoading = type => this.root.parentNode.classList[type ? "add" : "remove"](this.isLoading);
     this.error = () => this.root.classList.remove(this.err);
     this.events = () => {
       const {
         root,
         resultList
       } = this;
-      root.addEventListener('keydown', this.handleKeys);
-      root.addEventListener('click', this.handleShowItems);
-      ['mousemove', 'click'].map(eventType => {
+      root.addEventListener("keydown", this.handleKeys);
+      root.addEventListener("click", this.handleShowItems);
+      ["mousemove", "click"].map(eventType => {
         resultList.addEventListener(eventType, this.handleMouse);
       });
-      document.addEventListener('click', this.handleDocClick);
+      document.addEventListener("click", this.handleDocClick);
     };
     this.results = template => {
       setAttributes(this.root, {
-        'aria-expanded': 'true',
+        "aria-expanded": "true",
         addClass: this.prefix + "-expanded"
       });
       this.resultList.innerHTML = this.matches.length === 0 ? this.onResults({
@@ -236,11 +236,11 @@ class Autocomplete {
         classGroup: this.classGroup
       });
       this.resultWrap.classList.add(this.isActive);
-      const checkIfClassGroupExist = this.classGroup ? ":not(." + this.classGroup + ")" : '';
+      const checkIfClassGroupExist = this.classGroup ? ":not(." + this.classGroup + ")" : "";
       this.itemsLi = document.querySelectorAll("#" + this.outputUl + " > li" + checkIfClassGroupExist);
       this.selectFirstEl();
       this.onOpened({
-        type: 'results',
+        type: "results",
         element: this.root,
         results: this.resultList
       });
@@ -252,7 +252,7 @@ class Autocomplete {
         target
       } = _ref3;
       let disableClose = null;
-      if (target.closest('ul') && this.disable ||
+      if (target.closest("ul") && this.disable ||
       target.closest("." + this.prevClosing)) {
         disableClose = true;
       }
@@ -280,7 +280,7 @@ class Autocomplete {
       setAttributes(classSelectFirst, {
         id: selectedOption + "-0",
         addClass: activeList,
-        'aria-selected': 'true'
+        "aria-selected": "true"
       });
       this.onSelected({
         index,
@@ -291,9 +291,9 @@ class Autocomplete {
     };
     this.setAttr = (el, object) => {
       for (let key in object) {
-        if (key === 'addClass') {
+        if (key === "addClass") {
           el.classList.add(object[key]);
-        } else if (key === 'removeClass') {
+        } else if (key === "removeClass") {
           el.classList.remove(object[key]);
         } else {
           el.setAttribute(key, object[key]);
@@ -309,14 +309,14 @@ class Autocomplete {
       } = this;
       if (resultList.textContent.length > 0 && !resultWrap.classList.contains(isActive)) {
         setAttributes(root, {
-          'aria-expanded': 'true',
+          "aria-expanded": "true",
           addClass: this.prefix + "-expanded"
         });
         resultWrap.classList.add(isActive);
         scrollResultsToTop(resultList, resultWrap);
         this.selectFirstEl();
         this.onOpened({
-          type: 'showItems',
+          type: "showItems",
           element: root,
           results: resultList
         });
@@ -328,17 +328,17 @@ class Autocomplete {
         target,
         type
       } = event;
-      const targetClosest = target.closest('li');
-      const targetClosestRole = targetClosest == null ? void 0 : targetClosest.hasAttribute('role');
+      const targetClosest = target.closest("li");
+      const targetClosestRole = targetClosest == null ? void 0 : targetClosest.hasAttribute("role");
       const activeClass = this.activeList;
       const activeClassElement = document.querySelector("." + activeClass);
       if (!targetClosest || !targetClosestRole) {
         return;
       }
-      if (type === 'click') {
+      if (type === "click") {
         this.getTextFromLi(targetClosest);
       }
-      if (type === 'mousemove' && !targetClosest.classList.contains(activeClass)) {
+      if (type === "mousemove" && !targetClosest.classList.contains(activeClass)) {
         this.remAria(activeClassElement);
         this.setAria(targetClosest);
         this.index = this.indexLiSelected(targetClosest);
@@ -370,8 +370,8 @@ class Autocomplete {
         this.remAria(element);
         this.reset();
       }
-      this.clearButton && this.cBtn.classList.remove('hidden');
-      this.cacheAct('remove');
+      this.clearButton && this.cBtn.classList.remove("hidden");
+      this.cacheAct("remove");
     };
     this.indexLiSelected = target =>
     Array.prototype.indexOf.call(this.itemsLi, target);
@@ -433,7 +433,7 @@ class Autocomplete {
       const selectedOption = this.selectedOption + "-" + this.indexLiSelected(target);
       setAttributes(target, {
         id: selectedOption,
-        'aria-selected': 'true',
+        "aria-selected": "true",
         addClass: this.activeList
       });
       setAriaActivedescendant(this.root, selectedOption);
@@ -442,9 +442,9 @@ class Autocomplete {
     this.remAria = element => {
       if (!element) return;
       setAttributes(element, {
-        id: '',
+        id: "",
         removeClass: this.activeList,
-        'aria-selected': 'false'
+        "aria-selected": "false"
       });
     };
     this.clearbutton = () => {
@@ -454,25 +454,25 @@ class Autocomplete {
       } = this;
       setAttributes(cBtn, {
         class: this.prefix + "-clear hidden",
-        type: 'button',
-        'aria-label': this.clearBtnAriLabel
+        type: "button",
+        "aria-label": this.clearBtnAriLabel
       });
-      this.root.insertAdjacentElement('afterend', cBtn);
+      this.root.insertAdjacentElement("afterend", cBtn);
     };
     this.destroy = () => {
       const {
         root
       } = this;
-      this.clearButton && this.cBtn.classList.add('hidden');
-      root.value = '';
+      this.clearButton && this.cBtn.classList.add("hidden");
+      root.value = "";
       root.focus();
-      this.resultList.textContent = '';
+      this.resultList.textContent = "";
       this.reset();
       this.error();
       this.onReset(root);
-      root.removeEventListener('keydown', this.handleKeys);
-      root.removeEventListener('click', this.handleShowItems);
-      document.removeEventListener('click', this.handleDocClick);
+      root.removeEventListener("keydown", this.handleKeys);
+      root.removeEventListener("click", this.handleShowItems);
+      document.removeEventListener("click", this.handleDocClick);
     };
     this.id = _element;
     this.root = document.getElementById(_element);
@@ -502,8 +502,8 @@ class Autocomplete {
     this.showAll = showAllValues;
     this.classGroup = classGroup;
     this.prevClosing = classPreventClosing;
-    this.clearBtnAriLabel = ariaLabelClear ? ariaLabelClear : 'clear text from input';
-    this.prefix = classPrefix ? classPrefix + "-auto" : 'auto';
+    this.clearBtnAriLabel = ariaLabelClear ? ariaLabelClear : "clear text from input";
+    this.prefix = classPrefix ? classPrefix + "-auto" : "auto";
     this.disable = disableCloseOnSelect;
     this.cache = cache;
     this.outputUl = this.prefix + "-" + this.id + "-results";
@@ -515,9 +515,9 @@ class Autocomplete {
     this.err = this.prefix + "-error";
     this.regex = /[|\\{}()[\]^$+*?.]/g;
     this.timeout = null;
-    this.resultWrap = document.createElement('div');
-    this.resultList = document.createElement('ul');
-    this.cBtn = document.createElement('button');
+    this.resultWrap = document.createElement("div");
+    this.resultList = document.createElement("ul");
+    this.cBtn = document.createElement("button");
     this.init();
   }
 }

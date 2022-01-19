@@ -1,6 +1,6 @@
-const dropDownArrow = document.querySelector('.drop-down-arrow');
+const dropDownArrow = document.querySelector(".drop-down-arrow");
 
-const phone = new Autocomplete('show-all-values', {
+const phone = new Autocomplete("show-all-values", {
   clearButton: false,
   cache: true,
 
@@ -10,7 +10,7 @@ const phone = new Autocomplete('show-all-values', {
 
   onSearch: ({ currentValue }) => {
     // local data
-    const api = './phoneCodes.json';
+    const api = "./phoneCodes.json";
     return new Promise((resolve) => {
       fetch(api)
         .then((response) => response.json())
@@ -29,10 +29,10 @@ const phone = new Autocomplete('show-all-values', {
               if (
                 element.text
                   .toLowerCase()
-                  .indexOf(currentValue.replace(/\\/g, '')) >= 0 ||
+                  .indexOf(currentValue.replace(/\\/g, "")) >= 0 ||
                 element.code
                   .toLowerCase()
-                  .indexOf(currentValue.replace(/\\/g, '')) >= 0
+                  .indexOf(currentValue.replace(/\\/g, "")) >= 0
               ) {
                 return true;
               } else false;
@@ -54,26 +54,26 @@ const phone = new Autocomplete('show-all-values', {
           <li class="phone">
             <div class="phone__code">${el.code}</div>
             <div class="phone__country">${el.text.replace(
-              new RegExp(currentValue, 'gi'),
+              new RegExp(currentValue, "gi"),
               (str) => `<mark>${str}</mark>`
             )}</div>
             <div class="phone__flag"><img src="${el.flag}"></div>
           </li>`;
       })
-      .join('');
+      .join("");
   },
 
   onOpened: () => {
-    dropDownArrow.classList.add('arrow-up');
+    dropDownArrow.classList.add("arrow-up");
   },
 
   onClose: () => {
-    dropDownArrow.classList.remove('arrow-up');
+    dropDownArrow.classList.remove("arrow-up");
   },
 });
 
 // clear data
-const phoneClear = document.querySelector('.phone-clear');
-phoneClear.addEventListener('click', () => {
+const phoneClear = document.querySelector(".phone-clear");
+phoneClear.addEventListener("click", () => {
   phone.destroy();
 });

@@ -1,19 +1,19 @@
-new Autocomplete('dynamic-list-position', {
+new Autocomplete("dynamic-list-position", {
   insertToInput: true,
   cache: true,
 
   onSearch: ({ currentValue }) => {
     // local data
     const data = [
-      { name: 'Walter White' },
-      { name: 'Jesse Pinkman' },
-      { name: 'Skyler White' },
-      { name: 'Walter White Jr.' },
+      { name: "Walter White" },
+      { name: "Jesse Pinkman" },
+      { name: "Skyler White" },
+      { name: "Walter White Jr." },
     ];
     return data
       .sort((a, b) => a.name.localeCompare(b.name))
       .filter((element) => {
-        return element.name.match(new RegExp(currentValue, 'i'));
+        return element.name.match(new RegExp(currentValue, "i"));
       });
   },
 
@@ -29,14 +29,14 @@ new Autocomplete('dynamic-list-position', {
     if (position) {
       results.parentNode.style.bottom = `${element.offsetHeight - 1}px`;
     } else {
-      results.parentNode.removeAttribute('style');
+      results.parentNode.removeAttribute("style");
     }
 
     // when checking the parent element, we also add a class based
     // on which we format the appearance of the results and their posture
-    results.parentNode.classList[position ? 'add' : 'remove']('auto-list-up');
+    results.parentNode.classList[position ? "add" : "remove"]("auto-list-up");
   },
 
   onResults: ({ matches }) =>
-    matches.map((el) => `<li>${el.name}</li>`).join(''),
+    matches.map((el) => `<li>${el.name}</li>`).join(""),
 });

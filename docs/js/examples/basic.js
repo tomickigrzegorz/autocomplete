@@ -1,4 +1,4 @@
-new Autocomplete('basic', {
+new Autocomplete("basic", {
   onSearch: ({ currentValue }) => {
     const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(
       currentValue
@@ -16,5 +16,5 @@ new Autocomplete('basic', {
   },
 
   onResults: ({ matches }) =>
-    matches.map((el) => `<li>${el.name}</li>`).join(''),
+    matches.map((el) => `<li>${el.name}</li>`).join(""),
 });

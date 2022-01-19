@@ -1,14 +1,14 @@
-new Autocomplete('additional-elements', {
+new Autocomplete("additional-elements", {
   cache: true,
 
   // prevents results from hiding after
   // clicking on element with this class
   // footer/header elements have this class
   // of course, any class name
-  classPreventClosing: 'additional-elements',
+  classPreventClosing: "additional-elements",
 
   onSearch: ({ currentValue }) => {
-    const api = './characters.json';
+    const api = "./characters.json";
 
     return new Promise((resolve) => {
       fetch(api)
@@ -17,7 +17,7 @@ new Autocomplete('additional-elements', {
           const result = data
             .sort((a, b) => a.name.localeCompare(b.name))
             .filter((element) => {
-              return element.name.match(new RegExp(currentValue, 'gi'));
+              return element.name.match(new RegExp(currentValue, "gi"));
             });
           resolve(result);
         })
@@ -31,8 +31,8 @@ new Autocomplete('additional-elements', {
   // additional elements above and below the results
   onRender: ({ results }) => {
     const elements = [
-      { where: 'beforebegin', text: 'header element' },
-      { where: 'afterend', text: 'footer element' },
+      { where: "beforebegin", text: "header element" },
+      { where: "afterend", text: "footer element" },
     ];
 
     elements.map((element) => {
@@ -49,5 +49,5 @@ new Autocomplete('additional-elements', {
 
   // counting status elements
   onResults: ({ matches }) =>
-    matches.map((el) => `<li>${el.name}</li>`).join(''),
+    matches.map((el) => `<li>${el.name}</li>`).join(""),
 });

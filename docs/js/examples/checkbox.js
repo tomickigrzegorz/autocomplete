@@ -1,10 +1,10 @@
 let checkbox = [];
-const countNumberCheckbox = document.querySelector('.count-number-checkbox');
+const countNumberCheckbox = document.querySelector(".count-number-checkbox");
 
 // the place where we will add selected elements
-const selectedItem = document.querySelector('.selected-item-checkbox');
+const selectedItem = document.querySelector(".selected-item-checkbox");
 
-new Autocomplete('checkbox', {
+new Autocomplete("checkbox", {
   insertToInput: true,
   // insertToInput: true,
   // prevents results from hiding after
@@ -12,7 +12,7 @@ new Autocomplete('checkbox', {
   disableCloseOnSelect: true,
 
   onSearch: ({ currentValue }) => {
-    const api = './language.json';
+    const api = "./language.json";
     return new Promise((resolve) => {
       fetch(api)
         .then((response) => response.json())
@@ -24,7 +24,7 @@ new Autocomplete('checkbox', {
           const result = data
             .sort((a, b) => a.name.localeCompare(b.name))
             .filter((element) => {
-              return element.name.match(new RegExp(currentValue, 'gi'));
+              return element.name.match(new RegExp(currentValue, "gi"));
             });
           resolve(result);
         })
@@ -47,7 +47,7 @@ new Autocomplete('checkbox', {
               </label>
             </li>`;
           })
-          .join('');
+          .join("");
   },
 
   onOpened: ({ type, element, results }) => {
@@ -63,8 +63,8 @@ new Autocomplete('checkbox', {
       let inputElement = results.children[idx].firstElementChild.children[0];
       inputElement.checked = true;
       inputElement
-        .closest('.custom-element')
-        .classList.add('checkbox-selected');
+        .closest(".custom-element")
+        .classList.add("checkbox-selected");
     });
   },
 
@@ -84,17 +84,17 @@ new Autocomplete('checkbox', {
 
     function addRemoveClass(type) {
       inputElement
-        .closest('.custom-element')
-        .classList[type]('checkbox-selected');
+        .closest(".custom-element")
+        .classList[type]("checkbox-selected");
       // set false checbox
-      inputElement.checked = type === 'remove' ? false : true;
+      inputElement.checked = type === "remove" ? false : true;
     }
 
     let inputElement = results.children[index].firstElementChild.children[0];
 
     if (inputElement.checked) {
       // remove class
-      addRemoveClass('remove');
+      addRemoveClass("remove");
 
       // remove from array object
       removeItemFromArray(element.value);
@@ -113,27 +113,27 @@ new Autocomplete('checkbox', {
     }
 
     // set checbox on true and add class
-    addRemoveClass('add');
+    addRemoveClass("add");
 
     // add the selected item to the array
     checkbox.push(element.value);
 
     // create elements with names and buttons
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'remove-item';
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "remove-item";
     button.insertAdjacentHTML(
-      'beforeend',
+      "beforeend",
       '<svg aria-label="Remove name" height="16" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z"/></svg>'
     );
 
-    const item = document.createElement('div');
-    item.className = 'item';
+    const item = document.createElement("div");
+    item.className = "item";
 
     // add each item in the array to the div selectedItem
     checkbox.map((ele) => {
       item.textContent = ele;
-      item.insertAdjacentElement('beforeend', button);
+      item.insertAdjacentElement("beforeend", button);
       selectedItem.appendChild(item);
     });
 
@@ -141,10 +141,10 @@ new Autocomplete('checkbox', {
     countNumber(checkbox.length);
 
     // remove selected element
-    button.addEventListener('click', (e) => {
+    button.addEventListener("click", (e) => {
       e.preventDefault();
 
-      const element = e.target.closest('.item');
+      const element = e.target.closest(".item");
 
       // remove from array object
       removeItemFromArray(element.textContent);
@@ -153,7 +153,7 @@ new Autocomplete('checkbox', {
       [].slice.call(results.children).map((item, idx) => {
         let inputElement = results.children[idx].firstElementChild.children[0];
         inputElement.checked = false;
-        addRemoveClass('remove');
+        addRemoveClass("remove");
       });
 
       // update number count
@@ -166,7 +166,7 @@ new Autocomplete('checkbox', {
   },
 
   onReset: (element) => {
-    selectedItem.innerHTML = '';
+    selectedItem.innerHTML = "";
     // after clicking the 'x' button,
     // clear the table
     checkbox = [];

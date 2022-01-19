@@ -1,10 +1,10 @@
-new Autocomplete('group', {
+new Autocomplete("group", {
   // enter a class name, this class will
   // be added to the group name elements
-  classGroup: 'group-by',
+  classGroup: "group-by",
 
   onSearch: ({ currentValue }) => {
-    const api = './characters.json';
+    const api = "./characters.json";
     return new Promise((resolve) => {
       fetch(api)
         .then((response) => response.json())
@@ -19,7 +19,7 @@ new Autocomplete('group', {
                 a.status.localeCompare(b.status) || a.name.localeCompare(b.name)
             )
             .filter((element) => {
-              return element.name.match(new RegExp(currentValue, 'gi'));
+              return element.name.match(new RegExp(currentValue, "gi"));
             });
           resolve(result);
         })
@@ -49,18 +49,18 @@ new Autocomplete('group', {
                 ? `<li class="${classGroup}"><span>${el.status}</span> ${count(
                     el.status
                   )}</li>`
-                : '';
+                : "";
 
             return `
               ${group}
               <li class="icon loupe">
                 <p>${el.name.replace(
-                  new RegExp(currentValue, 'gi'),
+                  new RegExp(currentValue, "gi"),
                   (str) => `<b>${str}</b>`
                 )}</p>
               </li>`;
           })
-          .join('');
+          .join("");
   },
 
   onSelectedItem: ({ index, element, object }) => {

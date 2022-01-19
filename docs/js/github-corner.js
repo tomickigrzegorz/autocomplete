@@ -1,7 +1,7 @@
 const githubConrner = `
 <a href="https://github.com/tomik23/autocomplete" target="_blank" class="github-corner" aria-label="View source on GitHub"><svg
   width="50" height="50" viewBox="0 0 250 250"
-  style="fill:#FD6C6C; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
+  style="fill:#FD6C6C; color:#fff; position: absolute; top: 0; right: 0; border: 0;" aria-hidden="true">
   <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
   <path
     d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
@@ -13,15 +13,15 @@ const githubConrner = `
 `;
 
 // adding github-corner
-document.body.insertAdjacentHTML('beforeend', githubConrner);
+document.body.insertAdjacentHTML("beforeend", githubConrner);
 
-const dataSources = [...document.querySelectorAll('[data-source]')];
+const dataSources = [...document.querySelectorAll("[data-source]")];
 
 async function fetchData(url, type) {
   try {
     const response = await fetch(url);
     const data =
-      type === 'text' ? await response.text() : await response.json();
+      type === "text" ? await response.text() : await response.json();
     return data;
   } catch (err) {
     console.error(err);
@@ -29,33 +29,33 @@ async function fetchData(url, type) {
 }
 
 dataSources.forEach((datasource) => {
-  fetchData(datasource.dataset.source, 'text').then((data) => {
+  fetchData(datasource.dataset.source, "text").then((data) => {
     datasource.textContent = data;
   });
 });
 
-const sections = document.querySelectorAll('section');
-const sectionClass = document.querySelectorAll('.section');
+const sections = document.querySelectorAll("section");
+const sectionClass = document.querySelectorAll(".section");
 
-const htmlRoot = document.querySelectorAll('.search-element');
+const htmlRoot = document.querySelectorAll(".search-element");
 const htmlRootElement = document.querySelectorAll(
-  '.search-element > :nth-child(2)'
+  ".search-element > :nth-child(2)"
 );
 
 /**
  * menu
  */
 
-const menu = document.querySelector('.menu');
+const menu = document.querySelector(".menu");
 function generateMenu(data) {
   data.map((el, index) => {
-    const li = document.createElement('li');
+    const li = document.createElement("li");
     if (index === 0) {
-      li.className = 'active';
+      li.className = "active";
     }
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = `#${el.link}`;
-    a.insertAdjacentHTML('beforeend', el.html);
+    a.insertAdjacentHTML("beforeend", el.html);
     li.appendChild(a);
     menu.appendChild(li);
   });
@@ -63,7 +63,7 @@ function generateMenu(data) {
 
 function detectUrl(file) {
   let url;
-  if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+  if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
     url = `./data/${file}`;
   } else {
     url = `https://tomik23.github.io/autocomplete/data/${file}`;
@@ -71,7 +71,7 @@ function detectUrl(file) {
   return url;
 }
 
-fetchData(detectUrl('menu.json'), 'json')
+fetchData(detectUrl("menu.json"), "json")
   .then((data) => {
     generateMenu(data);
   })
@@ -79,17 +79,17 @@ fetchData(detectUrl('menu.json'), 'json')
     // IntersectionObserver section
     const options = {
       root: null,
-      rootMargin: '0px',
+      rootMargin: "0px",
       threshold: 0.1,
     };
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting && entry.intersectionRatio >= 0.1) {
-          document.querySelector('.active').classList.remove('active');
-          let id = entry.target.getAttribute('id');
+          document.querySelector(".active").classList.remove("active");
+          let id = entry.target.getAttribute("id");
           document
             .querySelector(`[href="#${id}"]`)
-            .parentNode.classList.add('active');
+            .parentNode.classList.add("active");
         }
       });
     }, options);
@@ -101,7 +101,7 @@ fetchData(detectUrl('menu.json'), 'json')
 // ----------
 
 htmlRootElement.forEach((element, index) => {
-  const htmlCode = element.cloneNode(true).outerHTML.replace(/^\s{1,12}/gm, '');
+  const htmlCode = element.cloneNode(true).outerHTML.replace(/^\s{1,12}/gm, "");
 
   const htmlConverter = htmlCode.replace(
     /[\u00A0-\u9999<>\\&]/gim,
@@ -110,50 +110,50 @@ htmlRootElement.forEach((element, index) => {
     }
   );
 
-  const preElement = document.createElement('pre');
-  const codeElement = document.createElement('code');
-  codeElement.className = 'language-html';
+  const preElement = document.createElement("pre");
+  const codeElement = document.createElement("code");
+  codeElement.className = "language-html";
 
   preElement.appendChild(codeElement);
 
-  codeElement.insertAdjacentHTML('beforeend', htmlConverter);
+  codeElement.insertAdjacentHTML("beforeend", htmlConverter);
 
   htmlRoot[index].nextElementSibling.appendChild(preElement);
 });
 
-document.addEventListener('click', (event) => {
+document.addEventListener("click", (event) => {
   const target = event.target;
-  if (target.classList.contains('copy-code')) {
+  if (target.classList.contains("copy-code")) {
     buttonCopy(target);
   }
 
   // toggle-button
-  if (target.classList.contains('toggle-menu')) {
-    document.body.classList.toggle('close');
+  if (target.classList.contains("toggle-menu")) {
+    document.body.classList.toggle("close");
   }
 
   // active menu elements
-  if (target.closest('li')) {
-    document.body.classList.remove('close');
+  if (target.closest("li")) {
+    document.body.classList.remove("close");
   }
 });
 
-const button = document.createElement('button');
-button.setAttribute('type', 'text');
-button.className = 'copy-code';
-button.textContent = 'copy';
+const button = document.createElement("button");
+button.setAttribute("type", "text");
+button.className = "copy-code";
+button.textContent = "copy";
 
-const highlights = document.querySelectorAll('.highlight > h4');
-const htmlClass = document.querySelectorAll('.html-class');
+const highlights = document.querySelectorAll(".highlight > h4");
+const htmlClass = document.querySelectorAll(".html-class");
 
 htmlClass.forEach((htmlCl) => {
   const buttonClone = button.cloneNode(true);
-  htmlCl.insertAdjacentElement('afterbegin', buttonClone);
+  htmlCl.insertAdjacentElement("afterbegin", buttonClone);
 });
 
 highlights.forEach((highlight) => {
   const buttonClone = button.cloneNode(true);
-  highlight.insertAdjacentElement('afterend', buttonClone);
+  highlight.insertAdjacentElement("afterend", buttonClone);
 });
 
 const buttonCopy = (target) => {
@@ -165,46 +165,46 @@ const buttonCopy = (target) => {
   selection.addRange(range);
 
   try {
-    document.execCommand('copy');
+    document.execCommand("copy");
     selection.removeAllRanges();
 
-    targetEl.classList.add('success-msg');
-    targetEl.textContent = 'copied!';
+    targetEl.classList.add("success-msg");
+    targetEl.textContent = "copied!";
 
     setTimeout(() => {
-      targetEl.classList.remove('success-msg');
-      targetEl.textContent = 'copy';
+      targetEl.classList.remove("success-msg");
+      targetEl.textContent = "copy";
     }, 1200);
   } catch (e) {
-    targetEl.classList.add('error-msg');
-    targetEl.textContent = 'error!';
+    targetEl.classList.add("error-msg");
+    targetEl.textContent = "error!";
 
     setTimeout(() => {
-      targetEl.classList.remove('error-msg');
-      targetEl.textContent = 'copy';
+      targetEl.classList.remove("error-msg");
+      targetEl.textContent = "copy";
     }, 1200);
   }
 };
 
-const topButton = document.createElement('a');
-topButton.href = '#';
-topButton.className = 'top-button';
-topButton.textContent = 'top';
+const topButton = document.createElement("a");
+topButton.href = "#";
+topButton.className = "top-button";
+topButton.textContent = "top";
 
-const section = document.querySelectorAll('section, article');
+const section = document.querySelectorAll("section, article");
 section.forEach((element) => {
-  element.insertAdjacentElement('beforeend', topButton.cloneNode(true));
+  element.insertAdjacentElement("beforeend", topButton.cloneNode(true));
 });
 
-const tablesNew = document.querySelectorAll('.table-new');
+const tablesNew = document.querySelectorAll(".table-new");
 
-const table = document.createElement('table');
-const thead = document.createElement('thead');
-const tbody = document.createElement('tbody');
+const table = document.createElement("table");
+const thead = document.createElement("thead");
+const tbody = document.createElement("tbody");
 
-const tr = document.createElement('tr');
-const th = document.createElement('th');
-const td = document.createElement('td');
+const tr = document.createElement("tr");
+const th = document.createElement("th");
+const td = document.createElement("td");
 
 tablesNew.forEach((tableRoot) => {
   const tableJson = tableRoot.dataset.json;
@@ -217,7 +217,7 @@ tablesNew.forEach((tableRoot) => {
   ta.appendChild(body);
   tableRoot.appendChild(ta);
 
-  fetchData(detectUrl(tableJson), 'json').then((data) => {
+  fetchData(detectUrl(tableJson), "json").then((data) => {
     configurationOfThePlugin(data);
   });
 

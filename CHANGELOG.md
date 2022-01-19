@@ -1,3 +1,8 @@
+## 2022-01-19 (v1.7.4)
+
+### Changed
+- clear button change [#124](https://github.com/tomik23/autocomplete/issues/124)
+
 ## 2022-01-10 (v1.7.3)
 
 ### Build
@@ -33,7 +38,7 @@
 
 ## 2021-11-18 (v1.7.0)
 
-### Bug fixed*
+### Bug fixed
 - arrow in example "show all values" don't open results #114
 
 ### Changed

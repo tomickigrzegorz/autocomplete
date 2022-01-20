@@ -91,10 +91,10 @@
       {
         "row": [
           { "column": "ariaLabelClear" },
-          { "column": "clear text from input" },
+          { "column": "clear the search query" },
           { "column": "" },
           {
-            "column": "Set aria-label attribute for the clear button"
+            "column": "Set aria-label attribute for the clear button <kbd>x</kbd>"
           }
         ]
       },

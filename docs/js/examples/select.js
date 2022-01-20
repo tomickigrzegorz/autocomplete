@@ -1,9 +1,9 @@
 let firstArray = [];
-const countNumber = document.querySelector('.count-number');
+const countNumber = document.querySelector(".count-number");
 
-new Autocomplete('select', {
+new Autocomplete("select", {
   onSearch: ({ currentValue }) => {
-    const api = './characters.json';
+    const api = "./characters.json";
     return new Promise((resolve) => {
       fetch(api)
         .then((response) => response.json())
@@ -15,7 +15,7 @@ new Autocomplete('select', {
           const result = data
             .sort((a, b) => a.name.localeCompare(b.name))
             .filter((element) => {
-              return element.name.match(new RegExp(currentValue, 'gi'));
+              return element.name.match(new RegExp(currentValue, "gi"));
             });
           resolve(result);
         })
@@ -26,14 +26,14 @@ new Autocomplete('select', {
   },
 
   onResults: ({ matches }) =>
-    matches.map((el) => `<li>${el.name}</li>`).join(''),
+    matches.map((el) => `<li>${el.name}</li>`).join(""),
 
   onOpened: ({ results }) => {
     // if the elements from the 'array' are identical to those
     // from the rendered elements add the 'selected' class
     [].slice.call(results.children).map((item) => {
       if (firstArray.includes(item.textContent)) {
-        item.classList.add('selected');
+        item.classList.add("selected");
       }
     });
   },
@@ -47,31 +47,31 @@ new Autocomplete('select', {
     firstArray.push(element.value);
 
     // the place where we will add selected elements
-    const selectedItem = document.querySelector('.selected-item');
+    const selectedItem = document.querySelector(".selected-item");
 
     // create elements with names and buttons
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'remove-item';
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "remove-item";
     button.insertAdjacentHTML(
-      'beforeend',
+      "beforeend",
       '<svg aria-label="Remove name" height="16" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z"/></svg>'
     );
 
-    const item = document.createElement('div');
-    item.className = 'item';
+    const item = document.createElement("div");
+    item.className = "item";
 
     // add each item in the array to the div selectedItem
     firstArray.map((itemText) => {
       item.textContent = itemText;
-      item.insertAdjacentElement('beforeend', button);
+      item.insertAdjacentElement("beforeend", button);
       selectedItem.appendChild(item);
     });
 
     function setAttributeType(type) {
       [].slice.call(results.children).map((item) => {
         if (item.textContent === button.parentNode.textContent) {
-          item.classList[type === 'remove' ? 'remove' : 'add']('selected');
+          item.classList[type === "remove" ? "remove" : "add"]("selected");
         }
       });
     }
@@ -80,7 +80,7 @@ new Autocomplete('select', {
     countNumber.textContent = firstArray.length;
 
     // remove selected element
-    button.addEventListener('click', (e) => {
+    button.addEventListener("click", (e) => {
       e.stopPropagation();
       const parentElement = button.parentNode;
 
@@ -88,7 +88,7 @@ new Autocomplete('select', {
       firstArray.splice(firstArray.indexOf(parentElement.textContent), 1);
 
       // remove disabled attr
-      setAttributeType('remove');
+      setAttributeType("remove");
 
       // update number count
       countNumber.textContent = firstArray.length;
@@ -102,8 +102,8 @@ new Autocomplete('select', {
   },
 
   onReset: (element) => {
-    const selectedItem = document.querySelector('.selected-item');
-    selectedItem.innerHTML = '';
+    const selectedItem = document.querySelector(".selected-item");
+    selectedItem.innerHTML = "";
     // after clicking the 'x' button,
     // clear the table
     firstArray = [];

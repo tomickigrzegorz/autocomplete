@@ -1,4 +1,4 @@
-const auto = new Autocomplete('complex', {
+const auto = new Autocomplete("complex", {
   // search delay
   delay: 1000,
 
@@ -24,7 +24,7 @@ const auto = new Autocomplete('complex', {
 
   // enter the name of the class by
   // which you will name the group element
-  classGroup: 'group-by',
+  classGroup: "group-by",
 
   // Function for user input. It can be a synchronous function or a promise
   // you can fetch data with jquery, axios, fetch, etc.
@@ -93,7 +93,7 @@ const auto = new Autocomplete('complex', {
   // on you how it will look
   onResults: ({ currentValue, matches, template, classGroup }) => {
     // const regex = new RegExp(^${input}`, 'gi'); // start with
-    const regex = new RegExp(currentValue, 'gi');
+    const regex = new RegExp(currentValue, "gi");
 
     // counting status elements
     function count(status) {
@@ -120,7 +120,7 @@ const auto = new Autocomplete('complex', {
                 ? `<li class="${classGroup}"><span>${el.status}</span> ${count(
                     el.status
                   )}</li>`
-                : '';
+                : "";
 
             // this part is responsible for the appearance
             // in the drop-down list - see the example in index.html
@@ -149,14 +149,14 @@ const auto = new Autocomplete('complex', {
               </div>
             </li>`;
           })
-          .join('');
+          .join("");
   },
 
   // the onSubmit function is executed when the user
   // submits their result by either selecting a result
   // from the list, or pressing enter or mouse button
   onSubmit: ({ index, element, object, results }) => {
-    console.log('complex: ', index, element, object, results);
+    console.log("complex: ", index, element, object, results);
     // window.open(`https://www.imdb.com/find?q=${encodeURI(input)}`)
   },
 
@@ -164,7 +164,7 @@ const auto = new Autocomplete('complex', {
   // hovering over li with the mouse or using
   // arrow keys ↓ | ↑
   onSelectedItem: ({ index, element, object }) => {
-    console.log('onSelectedItem:', index, element.value, object);
+    console.log("onSelectedItem:", index, element.value, object);
   },
 
   // the callback presents no results
@@ -174,7 +174,7 @@ const auto = new Autocomplete('complex', {
 });
 
 // clear data
-const complexClear = document.querySelector('.complex-clear');
-complexClear.addEventListener('click', () => {
+const complexClear = document.querySelector(".complex-clear");
+complexClear.addEventListener("click", () => {
   auto.destroy();
 });

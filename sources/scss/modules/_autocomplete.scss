@@ -64,7 +64,7 @@
 
 .auto-is-loading {
   &:after {
-    content: '';
+    content: "";
     box-sizing: border-box;
     position: absolute;
     top: 0px;
@@ -103,7 +103,7 @@ li.loupe:before {
 
   &:before {
     position: absolute;
-    content: '';
+    content: "";
     width: 17px;
     height: 17px;
     top: 0;

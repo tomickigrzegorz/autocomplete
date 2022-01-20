@@ -1,6 +1,6 @@
-const modalSearch = document.querySelector('.modal-search');
+const modalSearch = document.querySelector(".modal-search");
 
-new Autocomplete('modal-example', {
+new Autocomplete("modal-example", {
   insertToInput: true,
   cache: true,
 
@@ -8,47 +8,47 @@ new Autocomplete('modal-example', {
     // local data
     const data = [
       {
-        name: 'Walter White',
-        modal: '255,23,68',
+        name: "Walter White",
+        modal: "255,23,68",
       },
       {
-        name: 'Jesse Pinkman',
-        modal: '62,39,35',
+        name: "Jesse Pinkman",
+        modal: "62,39,35",
       },
       {
-        name: 'Skyler White',
-        modal: '118,255,3',
+        name: "Skyler White",
+        modal: "118,255,3",
       },
       {
-        name: 'Walter White Jr.',
-        modal: '48,79,254',
+        name: "Walter White Jr.",
+        modal: "48,79,254",
       },
     ];
     return data
       .sort((a, b) => a.name.localeCompare(b.name))
       .filter((element) => {
-        return element.name.match(new RegExp(currentValue, 'i'));
+        return element.name.match(new RegExp(currentValue, "i"));
       });
   },
 
   onResults: ({ matches }) =>
-    matches.map((el) => `<li>${el.name}</li>`).join(''),
+    matches.map((el) => `<li>${el.name}</li>`).join(""),
 
   // add 'active-modal' class to modal div
   onOpened: () => {
-    document.body.classList.add('active-modal');
-    modalSearch.setAttribute('style', 'z-index: 2');
+    document.body.classList.add("active-modal");
+    modalSearch.setAttribute("style", "z-index: 2");
   },
 
   // delete 'active-modal' class from modal if closing results
   onClose: () => {
-    document.body.classList.remove('active-modal');
-    modalSearch.removeAttribute('style');
+    document.body.classList.remove("active-modal");
+    modalSearch.removeAttribute("style");
   },
 
   onSelectedItem: ({ element, object }) => {
     const root = document.documentElement;
-    root.style.setProperty('--modal', object.modal);
+    root.style.setProperty("--modal", object.modal);
 
     element.value = object.name;
   },

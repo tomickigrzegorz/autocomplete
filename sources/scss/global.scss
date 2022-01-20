@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400&display=swap');
-@import './modules/colors';
-@import './modules/prism-theme';
-@import './modules/helper';
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400&display=swap");
+@import "./modules/colors";
+@import "./modules/prism-theme";
+@import "./modules/helper";
 
 :root {
   --toggle-menu: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3 13h18a1 1 0 0 0 0-2H3a1 1 0 0 0 0 2zm0-6h18a1 1 0 0 0 0-2H3a1 1 0 0 0 0 2zm0 12h18a1 1 0 0 0 0-2H3a1 1 0 0 0 0 2z'/%3E%3C/svg%3E");
@@ -36,7 +36,7 @@ html {
 
 body {
   position: relative;
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   background: #fbfbfb;
   padding: 0;
   line-height: 1.4;
@@ -94,7 +94,7 @@ a {
   }
   &:before {
     position: absolute;
-    content: '';
+    content: "";
     height: 100%;
     left: -5px;
     width: 4px;
@@ -126,7 +126,7 @@ aside {
     li:hover {
       a:before {
         position: absolute;
-        content: '';
+        content: "";
         height: 100%;
         top: 0;
         left: -5px;
@@ -184,7 +184,7 @@ aside {
 
   &:before {
     position: absolute;
-    content: '';
+    content: "";
     top: 0;
     left: 0;
     bottom: 0;
@@ -465,7 +465,7 @@ body,
 
   &::before {
     position: absolute;
-    content: '\2191';
+    content: "\2191";
     margin-top: -2px;
     left: 0;
   }
@@ -620,7 +620,7 @@ h1.loupe {
 }
 
 .top-button:after {
-  content: '↑';
+  content: "↑";
   position: absolute;
   right: 0;
   top: 0;
@@ -709,7 +709,7 @@ kbd {
   }
   &::after {
     position: absolute;
-    content: '';
+    content: "";
     top: 0px;
     bottom: 0;
     margin: auto;
@@ -753,10 +753,10 @@ kbd {
     position: relative;
     order: 3;
     &::before {
-      content: '(';
+      content: "(";
     }
     &::after {
-      content: ')';
+      content: ")";
     }
   }
 

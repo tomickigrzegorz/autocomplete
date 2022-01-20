@@ -74,7 +74,7 @@ export default class Autocomplete {
     this.prevClosing = classPreventClosing;
     this.clearBtnAriLabel = ariaLabelClear
       ? ariaLabelClear
-      : "clear text from input";
+      : "clear the search query";
     this.prefix = classPrefix ? `${classPrefix}-auto` : "auto";
     this.disable = disableCloseOnSelect;
 
@@ -713,13 +713,14 @@ export default class Autocomplete {
     // stop when clear button is disabled
     if (!this.clearButton) return;
 
-    const { cBtn } = this;
+    const { cBtn, clearBtnAriLabel } = this;
 
     // add aria to clear button
     setAttributes(cBtn, {
       class: `${this.prefix}-clear hidden`,
       type: "button",
-      "aria-label": this.clearBtnAriLabel,
+      title: clearBtnAriLabel,
+      "aria-label": clearBtnAriLabel,
     });
 
     // insert clear button after input - root

@@ -1,6 +1,6 @@
-new Autocomplete('no-results', {
+new Autocomplete("no-results", {
   onSearch: ({ currentValue }) => {
-    const api = './characters.json';
+    const api = "./characters.json";
     return new Promise((resolve) => {
       fetch(api)
         .then((response) => response.json())
@@ -8,7 +8,7 @@ new Autocomplete('no-results', {
           const result = data
             .sort((a, b) => a.name.localeCompare(b.name))
             .filter((element) => {
-              return element.name.match(new RegExp(currentValue, 'gi'));
+              return element.name.match(new RegExp(currentValue, "gi"));
             });
           resolve(result);
         })
@@ -23,7 +23,7 @@ new Autocomplete('no-results', {
     // take data from the noResults callback
     return matches === 0
       ? template
-      : matches.map((el) => `<li>${el.name}</li>`).join('');
+      : matches.map((el) => `<li>${el.name}</li>`).join("");
   },
 
   noResults: ({ element, template }) =>

@@ -456,12 +456,14 @@
       this.clearbutton = () => {
         if (!this.clearButton) return;
         const {
-          cBtn
+          cBtn,
+          clearBtnAriLabel
         } = this;
         setAttributes(cBtn, {
           class: this.prefix + "-clear hidden",
           type: "button",
-          "aria-label": this.clearBtnAriLabel
+          title: clearBtnAriLabel,
+          "aria-label": clearBtnAriLabel
         });
         this.root.insertAdjacentElement("afterend", cBtn);
       };
@@ -508,7 +510,7 @@
       this.showAll = showAllValues;
       this.classGroup = classGroup;
       this.prevClosing = classPreventClosing;
-      this.clearBtnAriLabel = ariaLabelClear ? ariaLabelClear : "clear text from input";
+      this.clearBtnAriLabel = ariaLabelClear ? ariaLabelClear : "clear the search query";
       this.prefix = classPrefix ? classPrefix + "-auto" : "auto";
       this.disable = disableCloseOnSelect;
       this.cache = cache;

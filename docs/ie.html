@@ -66,7 +66,7 @@
 
     <script>
       new Autocomplete('basic', {
-        onSearch: function onSearch(object) {
+        onSearch: function (object) {
           var api = 'https://breakingbadapi.com/api/characters?name=' + encodeURI(object.currentValue);
           return $.ajax({
             url: api,
@@ -80,7 +80,7 @@
             });
         },
 
-        onResults: function onResults(object) {
+        onResults: function (object) {
           return object.matches.map(function (el) {
             return '<li>' + el.name + '</li>'
           }).join('');

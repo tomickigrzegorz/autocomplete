@@ -53,7 +53,7 @@ See the demo - [example](https://tomik23.github.io/autocomplete/)
 
 ##### -- OR --
 
-Download from `docs` folder and insert to html:
+Download from `dist` folder and insert to html:
 
 - dist/css/autocomplete.css
 - dist/js/autocomplete.min.js

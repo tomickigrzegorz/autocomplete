@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>IE - example</title>
     <link rel="stylesheet" href="../dist/css/autocomplete.ie.min.css" />
     <script src="../dist/js/polyfill.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
     <style>
       body {
         background: #fbfbfb;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
+          Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
         font-size: 18px;
         line-height: 1.4;
         min-height: 100%;
@@ -39,7 +42,7 @@
     <div class="container">
       <h1>IE example</h1>
       <div class="auto-search-wrapper">
-        <input type="text" id="basic" placeholder="type w">
+        <input type="text" id="basic" placeholder="type w" />
       </div>
       <small>
         <h2>-- local files --</h2>
@@ -50,14 +53,24 @@
         </ul>
         <h2>-- cdn --</h2>
         <ul>
-          <li>https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.7.3/dist/js/polyfill.js</li>
-          <li>https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.7.3/dist/js/autocomplete.ie.min.js</li>
-          <li>https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.7.3/dist/css/autocomplete.ie.min.css</li>
+          <li>
+            https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.7.5/dist/js/polyfill.js
+          </li>
+          <li>
+            https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.7.5/dist/js/autocomplete.ie.min.js
+          </li>
+          <li>
+            https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.7.5/dist/css/autocomplete.ie.min.css
+          </li>
         </ul>
         <h2>-- cdn polyfill from npm --</h2>
         <ul>
-          <li>https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js</li>
-          <li>https://cdn.jsdelivr.net/npm/element-closest@3.0.2/browser.min.js</li>
+          <li>
+            https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js
+          </li>
+          <li>
+            https://cdn.jsdelivr.net/npm/element-closest@3.0.2/browser.min.js
+          </li>
         </ul>
       </small>
     </div>
@@ -65,12 +78,14 @@
     <script src="../dist/js/autocomplete.ie.min.js"></script>
 
     <script>
-      new Autocomplete('basic', {
+      new Autocomplete("basic", {
         onSearch: function (object) {
-          var api = 'https://breakingbadapi.com/api/characters?name=' + encodeURI(object.currentValue);
+          var api =
+            "https://breakingbadapi.com/api/characters?name=" +
+            encodeURI(object.currentValue);
           return $.ajax({
             url: api,
-            method: 'GET',
+            method: "GET",
           })
             .done(function (data) {
               return data;
@@ -81,12 +96,13 @@
         },
 
         onResults: function (object) {
-          return object.matches.map(function (el) {
-            return '<li>' + el.name + '</li>'
-          }).join('');
-        }
+          return object.matches
+            .map(function (el) {
+              return "<li>" + el.name + "</li>";
+            })
+            .join("");
+        },
       });
     </script>
   </body>
-
 </html>

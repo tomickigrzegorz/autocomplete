@@ -1,6 +1,6 @@
 {
   "name": "@tomik23/autocomplete",
-  "version": "1.7.4",
+  "version": "1.7.5",
   "description": "Simple autocomplete component in vanilla JS",
   "author": "Grzegorz Tomicki",
   "main": "dist/js/autocomplete.js",
@@ -11,14 +11,15 @@
   },
   "scripts": {
     "dev": "concurrently \"yarn sass:dev\" \"yarn sass:prod\" \"yarn watch\"",
-    "prod": "yarn build && yarn sass:prod && yarn postcss:global && yarn postcss:autocomplete && yarn postcss:ie",
+    "prod": "yarn build && yarn sass:prod && yarn postcss:global && yarn postcss:autocomplete && yarn postcss:ie && yarn lib:version",
     "build": "rollup -c --environment PRODUCTION",
     "watch": "rollup -c -w",
     "sass:prod": "sass --no-source-map sources/scss:docs/css",
     "sass:dev": "sass --watch sources/scss:docs/css",
     "postcss:global": "postcss docs/css --dir docs/css",
     "postcss:autocomplete": "postcss --ext min.css docs/css/autocomplete.css --dir dist/css/",
-    "postcss:ie": "postcss --u postcss-css-variables --no-map --ext ie.min.css docs/css/autocomplete.css --dir dist/css/"
+    "postcss:ie": "postcss --u postcss-css-variables --no-map --ext ie.min.css docs/css/autocomplete.css --dir dist/css/",
+    "lib:version": "node ./scripts/version.js"
   },
   "keywords": [
     "autocomplete",

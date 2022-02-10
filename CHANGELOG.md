@@ -1,3 +1,20 @@
+## 2022-02-10 (v1.7.5)
+### Build
+- added script to change library version everywhere during production build
+
+### Performance
+- reducing the size of the library by mangle properties and methods:
+```js
+mangle: {
+  properties: {
+    regex: /^_/,
+  },
+},
+```
+
+### Refactoring
+- removing duplicate method 'setAttr'
+
 ## 2022-01-19 (v1.7.4)
 
 ### Changed

@@ -183,8 +183,17 @@ const output = (root, resultList, outputUl, resultWrap, prefix) => {
   root.parentNode.insertBefore(resultWrap, root.nextSibling);
 };
 
+/**
+ * Create element
+ *
+ * @param {String} type - type of element
+ * @returns {HTMLDivElement}
+ */
+const createElement = (type) => document.createElement(type);
+
 export {
   addAriaToAllLiElements,
+  createElement,
   followActiveElement,
   getFirstElementFromLiAndAddToInput,
   isObject,

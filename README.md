@@ -42,18 +42,18 @@ See the demo - [example](https://tomik23.github.io/autocomplete/)
 #### CSS
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.7.4/dist/css/autocomplete.min.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.7.5/dist/css/autocomplete.min.css"/>
 ```
 
 #### JavaScript
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.7.4/dist/js/autocomplete.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.7.5/dist/js/autocomplete.min.js"></script>
 ```
 
 ##### -- OR --
 
-Download from `docs` folder and insert to html:
+Download from `dist` folder and insert to html:
 
 - dist/css/autocomplete.css
 - dist/js/autocomplete.min.js
@@ -154,7 +154,7 @@ npm run prod
 | cache                |  boolean   |               `false`               |         | The characters entered in the input field are cached                                                                                                                     |
 | howManyCharacters    |   number   |                 `1`                 |         | The number of characters entered should start searching                                                                                                                  |
 | delay                |   number   |                `500`                |         | Time in milliseconds that the component should wait after last keystroke before calling search function 1000 = 1s                                                        |
-| ariaLabelClear       |   string   |        `Clear the search query.`      |         | Set aria-label attribute for the clear button |
+| ariaLabelClear       |   string   |        `clear the search query.`      |         | Set aria-label attribute for the clear button |
 | classPreventClosing  |   string   |                                     |         | Prevents results from hiding after clicking on element with this class                                                                                                   |
 | classGroup           |   string   |                                     |         | Enter a class name, this class will be added to the group name elements                                                                                                  |
 | classPrefix          |   string   |                                     |         | Prefixing all autocomplete css class name, 'prefix-auto-', default 'auto-'                                                                                               |
@@ -415,7 +415,7 @@ const auto = new Autocomplete('you-id', {
   classGroup: '',
   classPrefix: 'auto',
   howManyCharacters: 1,
-  ariaLabelClear: 'clear text from input',
+  ariaLabelClear: 'clear the search query',
   delay: 500,
   onSearch: ({ currentValue, element }) => {},
   onResults: ({ currentValue, matches, template, classGroup }) => {},
@@ -445,9 +445,9 @@ Configuration for IE:
 
 ### cdn
 
-- https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.7.4/dist/js/polyfill.js
-- https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.7.4/dist/js/autocomplete.ie.min.js
-- https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.7.4/dist/css/autocomplete.ie.min.css
+- https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.7.5/dist/js/polyfill.js
+- https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.7.5/dist/js/autocomplete.ie.min.js
+- https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.7.5/dist/css/autocomplete.ie.min.css
 
 ### cdn polyfill from npm
 

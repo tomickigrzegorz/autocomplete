@@ -42,6 +42,14 @@ const pluginsConfig = (target) => [
   cleanup(),
 ];
 
+const terserConfig = {
+  mangle: {
+    properties: {
+      regex: /^_/,
+    },
+  },
+};
+
 export default [
   // --------------------------------------------------
   // iife
@@ -65,7 +73,7 @@ export default [
       format: "iife",
       sourcemap: false,
       file: "dist/js/autocomplete.min.js",
-      plugins: [terser()],
+      plugins: [terser({ ...terserConfig })],
     },
   },
   {
@@ -77,9 +85,7 @@ export default [
       sourcemap: true,
       file: "docs/js/autocomplete.min.js",
       plugins: [
-        terser({
-          mangle: true,
-        }),
+        terser({ ...terserConfig }),
         !PRODUCTION && serve({ open: true, contentBase: ["docs"] }),
         !PRODUCTION && livereload(),
       ],
@@ -105,7 +111,7 @@ export default [
         file: "dist/js/autocomplete.umd.min.js",
         plugins: [
           terser({
-            mangle: true,
+            ...terserConfig,
             compress: { drop_console: true, drop_debugger: true },
           }),
         ],
@@ -132,7 +138,7 @@ export default [
         file: "dist/js/autocomplete.esm.min.js",
         plugins: [
           terser({
-            mangle: true,
+            ...terserConfig,
             compress: { drop_console: true, drop_debugger: true },
           }),
         ],
@@ -150,7 +156,12 @@ export default [
       format: "iife",
       sourcemap: false,
       file: "dist/js/autocomplete.ie.min.js",
-      plugins: [terser()],
+      plugins: [
+        terser({
+          ...terserConfig,
+          compress: { drop_console: true, drop_debugger: true },
+        }),
+      ],
     },
   },
   {

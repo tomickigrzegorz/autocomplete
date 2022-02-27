@@ -233,13 +233,13 @@ var Autocomplete = (function () {
         this._resultWrap.classList.add(this._isActive);
         const checkIfClassGroupExist = this._classGroup ? ":not(." + this._classGroup + ")" : "";
         this._itemsLi = document.querySelectorAll("#" + this._outputUl + " > li" + checkIfClassGroupExist);
-        this._selectFirstEl();
+        addAriaToAllLiElements(this._itemsLi);
         this._onOpened({
           type: "results",
           element: this._root,
           results: this._resultList
         });
-        addAriaToAllLiElements(this._itemsLi);
+        this._selectFirstEl();
         scrollResultsToTop(this._resultList, this._resultWrap);
       };
       this._handleDocClick = _ref3 => {
@@ -265,15 +265,15 @@ var Autocomplete = (function () {
           firstElementChild
         } = this._resultList;
         const classSelectFirst = this._classGroup && this._matches.length > 0 && this._selectFirst ? firstElementChild.nextElementSibling : firstElementChild;
-        setAttributes(classSelectFirst, {
-          id: this._selectedOption + "-0",
-          addClass: this._activeList,
-          "aria-selected": "true"
-        });
         this._onSelected({
           index: this._index,
           element: this._root,
           object: this._matches[this._index]
+        });
+        setAttributes(classSelectFirst, {
+          id: this._selectedOption + "-0",
+          addClass: this._activeList,
+          "aria-selected": "true"
         });
         setAriaActivedescendant(this._root, this._selectedOption + "-0");
       };

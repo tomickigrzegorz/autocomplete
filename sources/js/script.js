@@ -339,8 +339,8 @@ export default class Autocomplete {
       `#${this._outputUl} > li${checkIfClassGroupExist}`
     );
 
-    // select first element
-    this._selectFirstEl();
+    // adding role, tabindex and aria
+    addAriaToAllLiElements(this._itemsLi);
 
     // action on open results
     this._onOpened({
@@ -349,8 +349,8 @@ export default class Autocomplete {
       results: this._resultList,
     });
 
-    // adding role, tabindex and aria
-    addAriaToAllLiElements(this._itemsLi);
+    // select first element
+    this._selectFirstEl();
 
     // move the view item to the first item
     // this.resultList.scrollTop = 0;
@@ -399,18 +399,18 @@ export default class Autocomplete {
         ? firstElementChild.nextElementSibling
         : firstElementChild;
 
-    // set attribute to first element
-    setAttributes(classSelectFirst, {
-      id: `${this._selectedOption}-0`,
-      addClass: this._activeList,
-      "aria-selected": "true",
-    });
-
     // calback function onSelect when first element is true
     this._onSelected({
       index: this._index,
       element: this._root,
       object: this._matches[this._index],
+    });
+
+    // set attribute to first element
+    setAttributes(classSelectFirst, {
+      id: `${this._selectedOption}-0`,
+      addClass: this._activeList,
+      "aria-selected": "true",
     });
 
     // set aria active descendant

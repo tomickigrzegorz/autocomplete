@@ -1,3 +1,4 @@
 .vscode
 .prettierignore
+reports/
 node_modules/

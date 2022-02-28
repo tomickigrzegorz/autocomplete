@@ -1,0 +1,9 @@
+{
+  "skipJsErrors": true,
+  "color": true,
+  "screenshots": {
+    "takeOnFails": true,
+    "thumbnails": false,
+    "path": "reports/screenshots/"
+  }
+}

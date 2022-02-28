@@ -1,5 +1,3 @@
-const dropDownArrow = document.querySelector(".drop-down-arrow");
-
 const phone = new Autocomplete("show-all-values", {
   clearButton: false,
   cache: true,
@@ -61,14 +59,6 @@ const phone = new Autocomplete("show-all-values", {
           </li>`;
       })
       .join("");
-  },
-
-  onOpened: () => {
-    dropDownArrow.classList.add("arrow-up");
-  },
-
-  onClose: () => {
-    dropDownArrow.classList.remove("arrow-up");
   },
 });
 

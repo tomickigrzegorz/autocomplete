@@ -6,8 +6,6 @@
 :root {
   --toggle-menu: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3 13h18a1 1 0 0 0 0-2H3a1 1 0 0 0 0 2zm0-6h18a1 1 0 0 0 0-2H3a1 1 0 0 0 0 2zm0 12h18a1 1 0 0 0 0-2H3a1 1 0 0 0 0 2z'/%3E%3C/svg%3E");
 
-  --drop-down-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Cpath d='M26.297 12.625L14.703 24.203a.99.99 0 01-1.406 0L1.703 12.625a1.009 1.009 0 010-1.422l2.594-2.578a.99.99 0 011.406 0L14 16.922l8.297-8.297a.99.99 0 011.406 0l2.594 2.578a1.009 1.009 0 010 1.422z'/%3E%3C/svg%3E");
-
   --shadow: 0 2.8px 2.2px rgba(223, 223, 223, 0.034),
     0 6.7px 5.3px rgba(192, 192, 192, 0.048),
     0 1.5px 1px rgba(144, 144, 144, 0.06), 0 2.3px 1.9px rgba(92, 92, 92, 0.072),
@@ -685,53 +683,6 @@ kbd {
   line-height: 11px;
   padding: 5px 7px;
   vertical-align: middle;
-}
-
-.drop-down {
-  position: relative;
-  input {
-    cursor: pointer;
-  }
-}
-
-.drop-down-arrow {
-  position: absolute;
-  left: 320px;
-  top: 32px;
-  width: 20px;
-  height: 20px;
-  background: transparent;
-  border: 0;
-  pointer-events: none;
-
-  &:focus {
-    outline: 1px solid #000;
-  }
-  &::after {
-    position: absolute;
-    content: "";
-    top: 0px;
-    bottom: 0;
-    margin: auto;
-    right: 0;
-    width: 20px;
-    height: 20px;
-    pointer-events: none;
-    background-image: var(--drop-down-arrow);
-  }
-
-  &.arrow-up {
-    &::after {
-      transform: rotate(180deg);
-      top: 4px;
-    }
-  }
-}
-
-.auto-is-loading {
-  .drop-down-arrow {
-    display: none;
-  }
 }
 
 .phone {

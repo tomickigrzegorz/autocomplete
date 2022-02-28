@@ -1,6 +1,6 @@
 {
   "name": "@tomik23/autocomplete",
-  "version": "1.7.6",
+  "version": "1.8.0",
   "description": "Simple autocomplete component in vanilla JS",
   "author": "Grzegorz Tomicki",
   "main": "dist/js/autocomplete.js",
@@ -19,7 +19,9 @@
     "postcss:global": "postcss docs/css --dir docs/css",
     "postcss:autocomplete": "postcss --ext min.css docs/css/autocomplete.css --dir dist/css/",
     "postcss:ie": "postcss --u postcss-css-variables --no-map --ext ie.min.css docs/css/autocomplete.css --dir dist/css/",
-    "lib:version": "node ./scripts/version.js"
+    "lib:version": "node ./scripts/version.js",
+    "test": "node ./scripts/test-simple.js",
+    "test:complex": "node ./scripts/test-complex.js"
   },
   "keywords": [
     "autocomplete",
@@ -51,7 +53,8 @@
     "rollup-plugin-livereload": "^2.0.5",
     "rollup-plugin-serve": "^1.1.0",
     "rollup-plugin-terser": "^7.0.2",
-    "sass": "^1.47.0"
+    "sass": "^1.47.0",
+    "testcafe": "^1.18.4"
   },
   "dependencies": {}
 }

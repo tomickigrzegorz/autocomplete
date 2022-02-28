@@ -1,3 +1,8 @@
+## 2020-02-28 (1.8.0)
+
+### Added
+- tests [testcafe](https://testcafe.io/)
+
 ## 2022-02-10 (v1.7.5)
 ### Build
 - added script to change library version everywhere during production build

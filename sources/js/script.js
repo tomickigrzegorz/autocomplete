@@ -589,6 +589,13 @@ export default class Autocomplete {
           this._index >= 0 &&
           this._index < matchesLength - 1
         ) {
+          if (this._toInput && resultList) {
+            getFirstElementFromLiAndAddToInput(
+              this._itemsLi[this._index],
+              this._root
+            );
+          }
+
           // callback function
           this._onSelected({
             index: this._index,
@@ -598,16 +605,16 @@ export default class Autocomplete {
 
           // set aria-selected
           this._setAria(this._itemsLi[this._index]);
-          if (this._toInput && resultList) {
-            getFirstElementFromLiAndAddToInput(
-              this._itemsLi[this._index],
-              this._root
-            );
-          }
         } else {
           // catch action
           this._cacheAct();
           setAriaActivedescendant(this._root);
+
+          this._onSelected({
+            index: null,
+            element: this._root,
+            object: null,
+          });
         }
 
         break;

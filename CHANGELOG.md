@@ -1,3 +1,7 @@
+## 2020-03-01 (1.8.1)
+### Bug fixes
+- Issue with 'selecFirst' + 'insertToInput' + 'cache' [#132](https://github.com/tomik23/autocomplete/issues/132)
+
 ## 2020-02-28 (1.8.0)
 
 ### Added

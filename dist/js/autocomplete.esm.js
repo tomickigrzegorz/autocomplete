@@ -365,18 +365,23 @@ class Autocomplete {
           }
           this._remAria(this._selectedLi);
           if (matchesLength > 0 && this._index >= 0 && this._index < matchesLength - 1) {
+            if (this._toInput && resultList) {
+              getFirstElementFromLiAndAddToInput(this._itemsLi[this._index], this._root);
+            }
             this._onSelected({
               index: this._index,
               element: this._root,
               object: this._matches[this._index]
             });
             this._setAria(this._itemsLi[this._index]);
-            if (this._toInput && resultList) {
-              getFirstElementFromLiAndAddToInput(this._itemsLi[this._index], this._root);
-            }
           } else {
             this._cacheAct();
             setAriaActivedescendant(this._root);
+            this._onSelected({
+              index: null,
+              element: this._root,
+              object: null
+            });
           }
           break;
         case keyCodes.ENTER:

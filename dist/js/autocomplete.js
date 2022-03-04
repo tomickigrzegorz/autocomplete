@@ -6,17 +6,15 @@ var Autocomplete = (function () {
   const setAttributes = (el, object) => {
     for (let key in object) {
       if (key === "addClass") {
-        el.classList.add(object[key]);
+        classList(el, "add", object[key]);
       } else if (key === "removeClass") {
-        el.classList.remove(object[key]);
+        classList(el, "remove", object[key]);
       } else {
         el.setAttribute(key, object[key]);
       }
     }
   };
-  const getFirstElement = element => element.firstElementChild || element;
-  const getFirstElementFromLiAndAddToInput = (element, root) =>
-  root.value = getFirstElement(element).textContent.trim();
+  const getFirstElement = element => (element.firstElementChild || element).textContent.trim();
   const scrollResultsToTop = (resultList, resultWrap) => {
     resultList.scrollTop = resultList.offsetTop - resultWrap.offsetHeight;
   };
@@ -36,16 +34,19 @@ var Autocomplete = (function () {
       clearButton = false;
     }
     if (!clearButton) return;
-    clearButton.classList.remove("hidden");
-    clearButton.addEventListener("click", destroy);
+    classList(clearButton, "remove", "hidden");
+    onEvent(clearButton, "click", destroy);
   };
+  const classList = (element, action, className) => element.classList[action](className);
   const setAriaActivedescendant = (root, type) => {
-    root.setAttribute("aria-activedescendant", type || "");
+    setAttributes(root, {
+      "aria-activedescendant": type || ""
+    });
   };
   const getClassGroupHeight = (outputUl, classGroup) => {
-    const allLi = document.querySelectorAll("#" + outputUl + " > li:not(." + classGroup + ")");
+    const allLiElements = document.querySelectorAll("#" + outputUl + " > li:not(." + classGroup + ")");
     let height = 0;
-    [].slice.call(allLi).map(el => height += el.offsetHeight);
+    [].slice.call(allLiElements).map(el => height += el.offsetHeight);
     return height;
   };
   const followActiveElement = (target, outputUl, classGroup, resultList) => {
@@ -77,6 +78,13 @@ var Autocomplete = (function () {
     root.parentNode.insertBefore(resultWrap, root.nextSibling);
   };
   const createElement = type => document.createElement(type);
+  const select = element => document.querySelector(element);
+  const onEvent = (element, action, callback) => {
+    element.addEventListener(action, callback);
+  };
+  const offEvent = (element, action, callback) => {
+    element.removeEventListener(action, callback);
+  };
 
   const keyCodes = {
     ESC: 27,
@@ -114,8 +122,8 @@ var Autocomplete = (function () {
       this._initial = () => {
         this._clearbutton();
         output(this._root, this._resultList, this._outputUl, this._resultWrap, this._prefix);
-        this._root.addEventListener("input", this._handleInput);
-        this._showAll && this._root.addEventListener("click", this._handleInput);
+        onEvent(this._root, "input", this._handleInput);
+        this._showAll && onEvent(this._root, "click", this._handleInput);
         this._onRender({
           element: this._root,
           results: this._resultList
@@ -148,7 +156,6 @@ var Autocomplete = (function () {
         }, delay);
       };
       this._reset = () => {
-        var _this$_matches;
         setAttributes(this._root, {
           "aria-owns": this._id + "-list",
           "aria-expanded": "false",
@@ -157,19 +164,16 @@ var Autocomplete = (function () {
           role: "combobox",
           removeClass: "auto-expanded"
         });
-        this._resultWrap.classList.remove(this._isActive);
-        if (((_this$_matches = this._matches) == null ? void 0 : _this$_matches.length) == 0 && !this._toInput || this._showAll) {
-          this._resultList.innerHTML = "";
-        }
+        classList(this._resultWrap, "remove", this._isActive);
         this._index = this._selectFirst ? 0 : -1;
         this._onClose();
       };
       this._searchItem = value => {
         this._value = value;
         this._onLoading(true);
-        showBtnToClearData(this._cBtn, this.destroy);
+        showBtnToClearData(this._clearBtn, this.destroy);
         if (value.length == 0 && this._clearButton) {
-          this._cBtn.classList.add("hidden");
+          classList(this._clearBtn, "add", "hidden");
         }
         if (this._characters > value.length && !this._showAll) {
           this._onLoading();
@@ -181,14 +185,14 @@ var Autocomplete = (function () {
         }).then(result => {
           const rootValueLength = this._root.value.length;
           const resultLength = result.length;
-          this._matches = Array.isArray(result) ? [...result] : JSON.parse(JSON.stringify(result));
+          this._matches = Array.isArray(result) ? result : JSON.parse(JSON.stringify(result));
           this._onLoading();
           this._error();
           if (resultLength == 0 && rootValueLength == 0) {
-            this._cBtn.classList.add("hidden");
+            classList(this._clearBtn, "add", "hidden");
           }
           if (resultLength == 0 && rootValueLength) {
-            this._root.classList.remove("auto-expanded");
+            classList(this._root, "remove", "auto-expanded");
             this._reset();
             this._noResults({
               element: this._root,
@@ -207,21 +211,22 @@ var Autocomplete = (function () {
         });
       };
       this._onLoading = type => this._root.parentNode.classList[type ? "add" : "remove"](this._isLoading);
-      this._error = () => this._root.classList.remove(this._err);
+      this._error = () => classList(this._root, "remove", this._err);
       this._events = () => {
-        this._root.addEventListener("keydown", this._handleKeys);
-        this._root.addEventListener("click", this._handleShowItems);
+        onEvent(this._root, "keydown", this._handleKeys);
+        onEvent(this._root, "click", this._handleShowItems);
         ["mousemove", "click"].map(eventType => {
-          this._resultList.addEventListener(eventType, this._handleMouse);
+          onEvent(this._resultList, eventType, this._handleMouse);
         });
-        document.addEventListener("click", this._handleDocClick);
+        onEvent(document, "click", this._handleDocClick);
       };
       this._results = template => {
         setAttributes(this._root, {
           "aria-expanded": "true",
           addClass: this._prefix + "-expanded"
         });
-        this._resultList.innerHTML = this._matches.length === 0 ? this._onResults({
+        this._resultList.textContent = "";
+        const dataResults = this._matches.length === 0 ? this._onResults({
           currentValue: this._value,
           matches: 0,
           template
@@ -230,7 +235,8 @@ var Autocomplete = (function () {
           matches: this._matches,
           classGroup: this._classGroup
         });
-        this._resultWrap.classList.add(this._isActive);
+        this._resultList.insertAdjacentHTML("afterbegin", dataResults);
+        classList(this._resultWrap, "add", this._isActive);
         const checkIfClassGroupExist = this._classGroup ? ":not(." + this._classGroup + ")" : "";
         this._itemsLi = document.querySelectorAll("#" + this._outputUl + " > li" + checkIfClassGroupExist);
         addAriaToAllLiElements(this._itemsLi);
@@ -239,7 +245,7 @@ var Autocomplete = (function () {
           element: this._root,
           results: this._resultList
         });
-        this._selectFirstEl();
+        this._selectFirstElement();
         scrollResultsToTop(this._resultList, this._resultWrap);
       };
       this._handleDocClick = _ref3 => {
@@ -256,8 +262,8 @@ var Autocomplete = (function () {
           return;
         }
       };
-      this._selectFirstEl = () => {
-        this._remAria(document.querySelector("." + this._activeList));
+      this._selectFirstElement = () => {
+        this._removeAria(select("." + this._activeList));
         if (!this._selectFirst) {
           return;
         }
@@ -278,14 +284,14 @@ var Autocomplete = (function () {
         setAriaActivedescendant(this._root, this._selectedOption + "-0");
       };
       this._handleShowItems = () => {
-        if (this._resultList.textContent.length > 0 && !this._resultWrap.classList.contains(this._isActive)) {
+        if (this._resultList.textContent.length > 0 && !classList(this._resultWrap, "contains", this._isActive)) {
           setAttributes(this._root, {
             "aria-expanded": "true",
             addClass: this._prefix + "-expanded"
           });
-          this._resultWrap.classList.add(this._isActive);
+          classList(this._resultWrap, "add", this._isActive);
           scrollResultsToTop(this._resultList, this._resultWrap);
-          this._selectFirstEl();
+          this._selectFirstElement();
           this._onOpened({
             type: "showItems",
             element: this._root,
@@ -302,15 +308,15 @@ var Autocomplete = (function () {
         const targetClosest = target.closest("li");
         const targetClosestRole = targetClosest == null ? void 0 : targetClosest.hasAttribute("role");
         const activeClass = this._activeList;
-        const activeClassElement = document.querySelector("." + activeClass);
+        const activeClassElement = select("." + activeClass);
         if (!targetClosest || !targetClosestRole) {
           return;
         }
         if (type === "click") {
           this._getTextFromLi(targetClosest);
         }
-        if (type === "mousemove" && !targetClosest.classList.contains(activeClass)) {
-          this._remAria(activeClassElement);
+        if (type === "mousemove" && !classList(targetClosest, "contains", activeClass)) {
+          this._removeAria(activeClassElement);
           this._setAria(targetClosest);
           this._index = this._indexLiSelected(targetClosest);
           this._onSelected({
@@ -325,7 +331,7 @@ var Autocomplete = (function () {
           !this._disable && this._reset();
           return;
         }
-        getFirstElementFromLiAndAddToInput(element, this._root);
+        this._root.value = getFirstElement(element);
         this._onSubmit({
           index: this._index,
           element: this._root,
@@ -333,10 +339,10 @@ var Autocomplete = (function () {
           results: this._resultList
         });
         if (!this._disable) {
-          this._remAria(element);
+          this._removeAria(element);
           this._reset();
         }
-        this._clearButton && this._cBtn.classList.remove("hidden");
+        this._clearButton && classList(this._clearBtn, "remove", "hidden");
         this._cacheAct("remove");
       };
       this._indexLiSelected = target =>
@@ -345,9 +351,9 @@ var Autocomplete = (function () {
         const {
           keyCode
         } = event;
-        const resultList = this._resultWrap.classList.contains(this._isActive);
+        const resultList = classList(this._resultWrap, "contains", this._isActive);
         const matchesLength = this._matches.length + 1;
-        this._selectedLi = document.querySelector("." + this._activeList);
+        this._selectedLi = select("." + this._activeList);
         switch (keyCode) {
           case keyCodes.UP:
           case keyCodes.DOWN:
@@ -366,10 +372,10 @@ var Autocomplete = (function () {
                 this._index = 0;
               }
             }
-            this._remAria(this._selectedLi);
-            if (matchesLength > 0 && this._index >= 0 && this._index < matchesLength - 1) {
+            this._removeAria(this._selectedLi);
+            if (this._index >= 0 && this._index < matchesLength - 1) {
               if (this._toInput && resultList) {
-                getFirstElementFromLiAndAddToInput(this._itemsLi[this._index], this._root);
+                this._root.value = getFirstElement(this._itemsLi[this._index]);
               }
               this._onSelected({
                 index: this._index,
@@ -407,7 +413,7 @@ var Autocomplete = (function () {
         setAriaActivedescendant(this._root, selectedOption);
         followActiveElement(target, this._outputUl, this._classGroup, this._resultList);
       };
-      this._remAria = element => {
+      this._removeAria = element => {
         if (!element) return;
         setAttributes(element, {
           id: "",
@@ -417,25 +423,25 @@ var Autocomplete = (function () {
       };
       this._clearbutton = () => {
         if (!this._clearButton) return;
-        setAttributes(this._cBtn, {
+        setAttributes(this._clearBtn, {
           class: this._prefix + "-clear hidden",
           type: "button",
           title: this._clearBtnAriLabel,
           "aria-label": this._clearBtnAriLabel
         });
-        this._root.insertAdjacentElement("afterend", this._cBtn);
+        this._root.insertAdjacentElement("afterend", this._clearBtn);
       };
       this.destroy = () => {
-        this._clearButton && this._cBtn.classList.add("hidden");
+        this._clearButton && classList(this._clearBtn, "add", "hidden");
         this._root.value = "";
         this._root.focus();
         this._resultList.textContent = "";
         this._reset();
         this._error();
         this._onReset(this._root);
-        this._root.removeEventListener("keydown", this._handleKeys);
-        this._root.removeEventListener("click", this._handleShowItems);
-        document.removeEventListener("click", this._handleDocClick);
+        offEvent(this._root, "keydown", this._handleKeys);
+        offEvent(this._root, "click", this._handleShowItems);
+        offEvent(document, "click", this._handleDocClick);
       };
       this._id = _element;
       this._root = document.getElementById(_element);
@@ -480,7 +486,7 @@ var Autocomplete = (function () {
       this._timeout = null;
       this._resultWrap = createElement("div");
       this._resultList = createElement("ul");
-      this._cBtn = createElement("button");
+      this._clearBtn = createElement("button");
       this._initial();
     }
   }

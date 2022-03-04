@@ -14,6 +14,7 @@ createTestCafe()
       runner
         .src("./tests/Autocomplete.complex.test.js")
         .browsers(browsers)
+        // .browsers("chrome:headless")
         // .reporter([{ name: "spec", output: "reports/report-complex.txt" }])
         .run()
     );

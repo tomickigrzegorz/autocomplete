@@ -7,9 +7,10 @@
     <link rel="stylesheet" href="../docs/css/autocomplete.css" />
     <title>COMPLEX TEST</title>
     <style>
+      @import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
+
       body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
-          Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+        font-family: "Lato", sans-serif;
         margin-top: 50px;
       }
 
@@ -163,6 +164,10 @@
         // enter the name of the class by
         // which you will name the group element
         classGroup: "group-by",
+
+        // the characters entered in
+        // the input field are cached
+        cache: true,
 
         onSearch: ({ currentValue }) => {
           // static file

@@ -24,9 +24,9 @@ const isPromise = (value) => Boolean(value && typeof value.then === "function");
 const setAttributes = (el, object) => {
   for (let key in object) {
     if (key === "addClass") {
-      el.classList.add(object[key]);
+      classList(el, "add", object[key]);
     } else if (key === "removeClass") {
-      el.classList.remove(object[key]);
+      classList(el, "remove", object[key]);
     } else {
       el.setAttribute(key, object[key]);
     }
@@ -39,18 +39,8 @@ const setAttributes = (el, object) => {
  * @param {HTMLElement} element
  * @returns {HTMLELement}
  */
-const getFirstElement = (element) => element.firstElementChild || element;
-
-/**
- * Set data from li to input
- *
- * @param {String} element
- * @param {HTMLElement} root
- * @returns {String}
- */
-const getFirstElementFromLiAndAddToInput = (element, root) =>
-  // get first element from li and add to input
-  (root.value = getFirstElement(element).textContent.trim());
+const getFirstElement = (element) =>
+  (element.firstElementChild || element).textContent.trim();
 
 /**
  * Scroll to top result-list
@@ -90,10 +80,20 @@ const addAriaToAllLiElements = (itemsLi) => {
 const showBtnToClearData = (clearButton = false, destroy) => {
   if (!clearButton) return;
 
-  clearButton.classList.remove("hidden");
+  classList(clearButton, "remove", "hidden");
   // add event to clear button
-  clearButton.addEventListener("click", destroy);
+  onEvent(clearButton, "click", destroy);
 };
+
+/**
+ * ClassList add/remove/contains
+ *
+ * @param {HTMLElement} element - html element
+ * @param {String} action - add/remove/contains
+ * @param {String} className - class name
+ */
+const classList = (element, action, className) =>
+  element.classList[action](className);
 
 /**
  * Set aria-activedescendant
@@ -102,7 +102,9 @@ const showBtnToClearData = (clearButton = false, destroy) => {
  * @param {String} type
  */
 const setAriaActivedescendant = (root, type) => {
-  root.setAttribute("aria-activedescendant", type || "");
+  setAttributes(root, {
+    "aria-activedescendant": type || "",
+  });
 };
 
 /**
@@ -114,11 +116,11 @@ const setAriaActivedescendant = (root, type) => {
  */
 const getClassGroupHeight = (outputUl, classGroup) => {
   // get height of ul without group class
-  const allLi = document.querySelectorAll(
+  const allLiElements = document.querySelectorAll(
     `#${outputUl} > li:not(.${classGroup})`
   );
   let height = 0;
-  [].slice.call(allLi).map((el) => (height += el.offsetHeight));
+  [].slice.call(allLiElements).map((el) => (height += el.offsetHeight));
 
   // return height
   return height;
@@ -191,15 +193,45 @@ const output = (root, resultList, outputUl, resultWrap, prefix) => {
  */
 const createElement = (type) => document.createElement(type);
 
+/**
+ * Get element
+ *
+ * @param {String} element
+ * @returns {HTMLElement}
+ */
+const select = (element) => document.querySelector(element);
+
+/**
+ * Event listeners
+ *
+ * @param {HTMLElement} element
+ * @param {String} action
+ * @param {Function} callback
+ */
+const onEvent = (element, action, callback) => {
+  element.addEventListener(action, callback);
+};
+
+/**
+ * Remove event listeners
+ */
+const offEvent = (element, action, callback) => {
+  element.removeEventListener(action, callback);
+};
+
 export {
   addAriaToAllLiElements,
+  classList,
   createElement,
   followActiveElement,
-  getFirstElementFromLiAndAddToInput,
+  getFirstElement,
   isObject,
   isPromise,
+  offEvent,
+  onEvent,
   output,
   scrollResultsToTop,
+  select,
   setAriaActivedescendant,
   setAttributes,
   showBtnToClearData,

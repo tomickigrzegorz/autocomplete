@@ -357,3 +357,46 @@ test("test 11: Press active-modal class exist", async (t) => {
     // take screenshot
     .takeScreenshot();
 });
+
+// --------------------------------------------------
+// test 12
+
+test("test 12: Check input field when press arrow down", async (t) => {
+  await t
+    // .setTestSpeed(0.1)
+    // set value to input "wal"
+    .typeText(rootInput, "wal")
+
+    // wait 2 seconds
+    .wait(2000)
+
+    // press down arrow
+    // expect Walter White in input
+    .pressKey("down")
+    .expect(rootInput.value)
+    .eql("Walter White")
+
+    // take screenshot
+    .takeScreenshot()
+
+    // press down arrow
+    // now you on input filed
+    .pressKey("down")
+    // get value from input
+    // this time is get data from cache
+    .expect(rootInput.value)
+    .eql("wal")
+
+    // take screenshot
+    .takeScreenshot()
+
+    // press down arrow
+    // expect Walter White Jr. in input
+    // and li also have class active
+    .pressKey("down")
+    .expect(rootInput.value)
+    .eql("Walter White Jr.")
+
+    // take screenshot
+    .takeScreenshot();
+});

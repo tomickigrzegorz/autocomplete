@@ -95,8 +95,8 @@ export default [
   // umd
   {
     input,
-    watch: false,
     plugins: pluginsConfig(targets),
+    watch: false,
     output: [
       {
         name: "Autocomplete",
@@ -122,8 +122,8 @@ export default [
   // esm
   {
     input,
-    watch: false,
     plugins: pluginsConfig(targets),
+    watch: false,
     output: [
       {
         name: "Autocomplete",

@@ -1,3 +1,15 @@
+## 2020-03-04 (1.8.2)
+
+### Added
+- test 12: Check input field when press arrow down
+
+### Build
+- reducing the size of the library
+
+### Changed
+- all instances of innerHTML onto insertAdjacentHTML
+
+
 ## 2020-03-01 (1.8.1)
 ### Bug fixes
 - Issue with 'selecFirst' + 'insertToInput' + 'cache' [#132](https://github.com/tomik23/autocomplete/issues/132)

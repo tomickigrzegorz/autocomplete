@@ -3,6 +3,9 @@
 ### Bug Fixes
 - Show all values [#136](https://github.com/tomik23/autocomplete/issues/136)
 
+### Changes
+- the look of the page with examples
+
 ## 2020-03-04 (1.8.2)
 
 ### Added

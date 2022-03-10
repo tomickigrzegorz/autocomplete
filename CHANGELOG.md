@@ -1,4 +1,4 @@
-## 2020-03-10 (1.8.3)
+## 2020-03-11 (1.8.3)
 
 ### Bug Fixes
 - Show all values [#136](https://github.com/tomik23/autocomplete/issues/136)

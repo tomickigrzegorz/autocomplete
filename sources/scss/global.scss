@@ -162,7 +162,7 @@ aside {
 .github-corner {
   position: fixed;
   top: 0;
-  right: 0;
+  right: 20px;
   z-index: 9;
 }
 
@@ -526,7 +526,7 @@ table {
 }
 
 tr {
-  border-bottom: 1px solid #b9b9b9;
+  border-bottom: 1px solid #dfdfdf;
 }
 
 tr:nth-child(even) {
@@ -535,8 +535,9 @@ tr:nth-child(even) {
 
 .table-new {
   overflow: auto;
-  border: 1px solid #b9b9b9;
+  border: 1px solid #dfdfdf;
   border-radius: 5px;
+  font-size: 16px;
 }
 
 table + table {
@@ -573,20 +574,15 @@ td code {
   line-height: 1.2;
 }
 
-@media (hover: hover) {
-  td:first-child {
-    width: 200px;
-  }
-}
+// @media (hover: hover) {
+//   td:first-child {
+//     width: 200px;
+//   }
+// }
 
-// .first-table td:nth-child(2),
 .first-table td:nth-child(3),
 .second-table td:nth-child(2) {
   text-align: center;
-}
-
-.first-table td:nth-child(2) {
-  font-size: 90%;
 }
 
 .table {
@@ -606,7 +602,7 @@ h1.loupe {
 
 .top-button {
   background: #fbfbfb;
-  bottom: -7px;
+  bottom: -8px;
   font-size: 0.8em;
   padding: 0 10px;
   position: absolute;

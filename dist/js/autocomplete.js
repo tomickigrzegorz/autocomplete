@@ -335,6 +335,7 @@ var Autocomplete = (function () {
           !this._disable && this._reset();
           return;
         }
+        this._clearButton && classList(this._clearBtn, "remove", "hidden");
         this._root.value = getFirstElement(element);
         this._onSubmit({
           index: this._index,
@@ -346,7 +347,6 @@ var Autocomplete = (function () {
           this._removeAria(element);
           this._reset();
         }
-        this._clearButton && classList(this._clearBtn, "remove", "hidden");
         this._cacheAct("remove");
       };
       this._indexLiSelected = target =>

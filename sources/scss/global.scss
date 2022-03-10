@@ -154,9 +154,8 @@ aside {
 
 .search-elements {
   margin-top: 50px;
-  margin-right: 20px;
-  margin-left: 340px;
-  padding-bottom: 50px;
+  margin-left: 330px;
+  padding: 0 20px 50px 20px;
   transition: transform 100ms ease;
 }
 
@@ -252,7 +251,7 @@ h3 {
   }
 
   .search-elements {
-    margin-left: 20px;
+    margin-left: 0;
   }
 }
 
@@ -523,14 +522,21 @@ body,
 table {
   width: 100%;
   min-width: 600px;
-}
-
-tr:nth-child(even) {
-  background-color: #f3f3f3;
+  border-collapse: collapse;
 }
 
 tr {
-  box-shadow: 0px 0px 1px rgba(143, 143, 143, 0.6);
+  border-bottom: 1px solid #b9b9b9;
+}
+
+tr:nth-child(even) {
+  background-color: #f6f6f6;
+}
+
+.table-new {
+  overflow: auto;
+  border: 1px solid #b9b9b9;
+  border-radius: 5px;
 }
 
 table + table {
@@ -551,6 +557,14 @@ td {
   vertical-align: top;
 }
 
+td + td {
+  border-left: 1px solid #e7e7e7;
+}
+
+th + th {
+  border-left: 1px solid #d1d1d1;
+}
+
 td code {
   background: none !important;
   padding: 0 !important;
@@ -565,7 +579,7 @@ td code {
   }
 }
 
-.first-table td:nth-child(2),
+// .first-table td:nth-child(2),
 .first-table td:nth-child(3),
 .second-table td:nth-child(2) {
   text-align: center;
@@ -591,8 +605,8 @@ h1.loupe {
 }
 
 .top-button {
-  background: #fff;
-  bottom: -12px;
+  background: #fbfbfb;
+  bottom: -7px;
   font-size: 0.8em;
   padding: 0 10px;
   position: absolute;

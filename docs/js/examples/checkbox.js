@@ -166,7 +166,7 @@ new Autocomplete("checkbox", {
   },
 
   onReset: (element) => {
-    selectedItem.innerHTML = "";
+    selectedItem.textContent = "";
     // after clicking the 'x' button,
     // clear the table
     checkbox = [];

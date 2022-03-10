@@ -191,6 +191,12 @@ export default class Autocomplete {
     // remove class isActive
     classList(this._resultWrap, "remove", this._isActive);
 
+    // remove result when lengh = 0 and insertToInput is false
+    // https://github.com/tomik23/autocomplete/issues/136
+    if ((this._matches?.length == 0 && !this._toInput) || this._showAll) {
+      this._resultList.textContent = "";
+    }
+
     // set index
     this._index = this._selectFirst ? 0 : -1;
 

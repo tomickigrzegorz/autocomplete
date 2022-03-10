@@ -156,6 +156,7 @@ var Autocomplete = (function () {
         }, delay);
       };
       this._reset = () => {
+        var _this$_matches;
         setAttributes(this._root, {
           "aria-owns": this._id + "-list",
           "aria-expanded": "false",
@@ -165,6 +166,9 @@ var Autocomplete = (function () {
           removeClass: "auto-expanded"
         });
         classList(this._resultWrap, "remove", this._isActive);
+        if (((_this$_matches = this._matches) == null ? void 0 : _this$_matches.length) == 0 && !this._toInput || this._showAll) {
+          this._resultList.textContent = "";
+        }
         this._index = this._selectFirst ? 0 : -1;
         this._onClose();
       };

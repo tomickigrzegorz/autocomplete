@@ -103,7 +103,7 @@ new Autocomplete("select", {
 
   onReset: (element) => {
     const selectedItem = document.querySelector(".selected-item");
-    selectedItem.innerHTML = "";
+    selectedItem.textContent = "";
     // after clicking the 'x' button,
     // clear the table
     firstArray = [];

@@ -191,6 +191,12 @@ export default class Autocomplete {
     // remove class isActive
     classList(this._resultWrap, "remove", this._isActive);
 
+    // remove result when lengh = 0 and insertToInput is false
+    // https://github.com/tomik23/autocomplete/issues/136
+    if ((this._matches?.length == 0 && !this._toInput) || this._showAll) {
+      this._resultList.textContent = "";
+    }
+
     // set index
     this._index = this._selectFirst ? 0 : -1;
 
@@ -507,6 +513,9 @@ export default class Autocomplete {
       return;
     }
 
+    // show clearBtn when select element
+    this._clearButton && classList(this._clearBtn, "remove", "hidden");
+
     // get first element from li and set it to root
     this._root.value = getFirstElement(element);
 
@@ -523,9 +532,6 @@ export default class Autocomplete {
       this._removeAria(element);
       this._reset();
     }
-
-    // show clearBtn when select element
-    this._clearButton && classList(this._clearBtn, "remove", "hidden");
 
     // remove cache
     this._cacheAct("remove");

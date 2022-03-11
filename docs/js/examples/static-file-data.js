@@ -1,3 +1,5 @@
+const info = document.querySelector(".info-d");
+
 new Autocomplete("static-file-data", {
   selectFirst: true,
 
@@ -49,14 +51,19 @@ new Autocomplete("static-file-data", {
     <p>status - ${status}</p>
     <div class="image"><img src="${img}"></div>`;
 
-    const info = document.querySelector(".info-d");
+    info.textContent = "";
     info.classList.add("active-data");
-    info.innerHTML = template;
+    info.insertAdjacentHTML("beforeend", template);
   },
 
   // get index and data from li element after
   // hovering over li with the mouse
   onSelectedItem: ({ index, element, object }) => {
     console.log("onSelectedItem:", index, element.value, object);
+  },
+
+  onReset: () => {
+    info.textContent = "";
+    info.classList.remove("active-data");
   },
 });

@@ -44,6 +44,7 @@ new Autocomplete("additional-elements", {
   },
 
   onSelectedItem: ({ element, object }) => {
+    if (!object) return;
     element.value = object.name;
   },
 

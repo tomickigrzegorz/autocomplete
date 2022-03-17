@@ -20,5 +20,8 @@ new Autocomplete("update-input", {
   onResults: ({ matches }) =>
     matches.map((el) => `<li>${el.name}</li>`).join(""),
 
-  onSelectedItem: ({ element, object }) => (element.value = object.name),
+  onSelectedItem: ({ element, object }) => {
+    if (!object) return;
+    element.value = object.name;
+  },
 });

@@ -48,8 +48,12 @@ new Autocomplete("modal-example", {
 
   onSelectedItem: ({ element, object }) => {
     const root = document.documentElement;
-    root.style.setProperty("--modal", object.modal);
 
-    element.value = object.name;
+    if (object) {
+      root.style.setProperty("--modal", object.modal);
+      element.value = object.name;
+    } else {
+      root.style.removeProperty("--modal");
+    }
   },
 });

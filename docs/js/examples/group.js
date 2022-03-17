@@ -64,7 +64,7 @@ new Autocomplete("group", {
   },
 
   onSelectedItem: ({ index, element, object }) => {
-    console.log(index, element, object);
+    console.dir({ index, element, object });
   },
 
   noResults: ({ currentValue, template }) =>

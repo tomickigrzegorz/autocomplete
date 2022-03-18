@@ -1,6 +1,6 @@
 // array initialization
 let secondArray = [];
-new Autocomplete("multiple-values", {
+new Autocomplete("multiple-choices", {
   onSearch: ({ element }) => {
     // first get all the items and split with a comma
     const lastElement = element.value.split(",").pop().trim();

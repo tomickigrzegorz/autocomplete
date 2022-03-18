@@ -24,6 +24,7 @@ See the demo - [example](https://tomik23.github.io/autocomplete/)
 
 ## Features
 
+- You're in full control of the DOM elements to output
 - Accessible, with full support for ARIA attributes and keyboard interactions
 - Customize your own CSS
 - Support for asynchronous data fetching
@@ -31,6 +32,7 @@ See the demo - [example](https://tomik23.github.io/autocomplete/)
 - Grouping of record results
 - Showing 'no results'
 - Show all values on click
+- Multiple choices
 - No dependencies
 - Very light library, packed gzip **only ~3KB**
 - And a lot more
@@ -405,18 +407,18 @@ new Autocomplete('complex', {
 
 ```js
 const auto = new Autocomplete('you-id', {
-  clearButton: false,
+  clearButton: true,
   selectFirst: false,
   insertToInput: false,
   disableCloseOnSelect: false,
   cache: false,
-  showAllValues: true,
-  classPreventClosing: '',
-  classGroup: '',
-  classPrefix: 'auto',
+  showAllValues: false,
   howManyCharacters: 1,
-  ariaLabelClear: 'clear the search query',
   delay: 500,
+  ariaLabelClear: "clear the search query",
+  classPreventClosing: "",
+  classGroup: "",
+  classPrefix: "auto",
   onSearch: ({ currentValue, element }) => {},
   onResults: ({ currentValue, matches, template, classGroup }) => {},
   onRender: ({ element, results }) => {},

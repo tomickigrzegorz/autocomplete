@@ -15,7 +15,7 @@
       {
         "row": [
           { "column": "clearButton" },
-          { "column": "false" },
+          { "column": "true" },
           { "column": "" },
           {
             "column": "A parameter set to 'true' adds a button to remove text from the input field. You can also use the <code>destroy</code> method - description below"

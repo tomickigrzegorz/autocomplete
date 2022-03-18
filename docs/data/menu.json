@@ -27,11 +27,11 @@
   },
   {
     "link": "select-item",
-    "html": "Select multiple values ver 1 <div><small>with count</small></div>"
+    "html": "Select multiple values <div><small>with count</small></div>"
   },
   {
-    "link": "select-multiple-values",
-    "html": "Select multiple values ver 2"
+    "link": "multiple-choices-section",
+    "html": "Multiple choices"
   },
   {
     "link": "select-item-checkbox",

@@ -13,14 +13,16 @@ createTestCafe()
     return (
       runner
         .src("./tests/Autocomplete.complex.test.js")
-        .browsers(browsers)
-        // .browsers("chrome:headless")
+        // .browsers(browsers)
+        .browsers("chrome:headless")
+        // .browsers("chrome")
         // .reporter([{ name: "spec", output: "reports/report-complex.txt" }])
         .run()
     );
   })
   .then((actualFailedCount) => {
     failedCount = actualFailedCount;
+    console.log("FAILED COUNT", actualFailedCount);
     return testcafe.close();
   })
   .then(() => process.exit(failedCount));

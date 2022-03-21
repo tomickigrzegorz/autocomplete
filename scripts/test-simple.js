@@ -13,7 +13,7 @@ createTestCafe()
         .src("./tests/Autocomplete.test.js")
         .browsers("chrome:headless")
         // .reporter([{ name: "spec", output: `reports/report-simple.txt` }])
-        .concurrency(3)
+        // .concurrency(3)
         .run()
     );
   })

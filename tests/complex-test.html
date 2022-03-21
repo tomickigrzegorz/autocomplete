@@ -32,6 +32,19 @@
         text-decoration: underline;
       }
 
+      textarea {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 300px;
+        border: 0;
+      }
+
+      .show-object {
+        border: 1px solid red;
+      }
+
       .container {
         max-width: 350px;
         margin: 0 auto;
@@ -137,6 +150,7 @@
             with swipe gestures.
           </div>
         </div>
+        <textarea name="textarea" id="show-object"></textarea>
       </section>
     </div>
 
@@ -275,7 +289,19 @@
         // hovering over li with the mouse or using
         // arrow keys ↓ | ↑
         onSelectedItem: ({ index, element, object }) => {
-          console.log("onSelectedItem:", index, element, object);
+          console.log({ index, element, object });
+
+          const showObject = document.querySelector(".show-object");
+          if (showObject) {
+            showObject.value = JSON.stringify(
+              {
+                index,
+                object,
+              },
+              null,
+              2
+            );
+          }
         },
 
         // callback function for the onChange event

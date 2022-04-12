@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Autosuggest</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/components/prism-core.min.js"></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/plugins/autoloader/prism-autoloader.min.js"></script>
     <link rel="stylesheet" href="./css/global.css" />
     <link rel="stylesheet" href="./css/autocomplete.css" />
   </head>
@@ -30,11 +28,17 @@
           <div class="info-section">
             <h2>Gatting started</h2>
             <h3>Include JS and CSS files</h3>
-            <p>The first thing you should do is download the <code><a
-                href="https://github.com/tomik23/autocomplete/archive/master.zip">autocomplete</a></code>
+            <p>
+              The first thing you should do is download the
+              <code
+                ><a
+                  href="https://github.com/tomik23/autocomplete/archive/master.zip"
+                  >autocomplete</a
+                ></code
+              >
               library files. All the necessary files are located in the
-              "dist/js" and "dist/css" folders.
-              If you want to make changes, the uncompiled javascript and sass files are in the sources folder.
+              "dist/js" and "dist/css" folders. If you want to make changes, the
+              uncompiled javascript and sass files are in the sources folder.
             </p>
           </div>
           <div rel="HTML" class="html-class">
@@ -48,10 +52,10 @@
           -- OR CDN --
           <div rel="HTML" class="html-class">
             <pre><code class="language-html">&lt;!-- css --&gt;
-&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.3/dist/css/autocomplete.min.css&quot;/&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.4/dist/css/autocomplete.min.css&quot;/&gt;
 
 &lt;!-- js --&gt;
-&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.3/dist/js/autocomplete.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.4/dist/js/autocomplete.min.js&quot;&gt;&lt;/script&gt;
           </code></pre>
           </div>
 
@@ -69,11 +73,11 @@
           <h4>-- use cdn --</h4>
           <div rel="HTML" class="html-class">
             <pre><code class="language-html">&lt;!-- css --&gt;
-&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.3/dist/css/autocomplete.ie.min.css&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.4/dist/css/autocomplete.ie.min.css&quot;&gt;
 
 &lt;!-- js --&gt;
-&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.3/dist/js/polyfill.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.3/dist/js/autocomplete.ie.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.4/dist/js/polyfill.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.4/dist/js/autocomplete.ie.min.js&quot;&gt;&lt;/script&gt;</code></pre>
           </div>
           <h4>-- use cdn polyfills from npm --</h4>
           <div rel="HTML" class="html-class">
@@ -81,26 +85,38 @@
 &lt;script src=&quot;https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js&quot;&gt;&lt;/script&gt; 
 &lt;script src=&quot;https://cdn.jsdelivr.net/npm/element-closest@3.0.2/browser.min.js&quot;&gt;&lt;/script&gt;</code></pre>
           </div>
-          <p>in the docs folder you have an example using the IE library - ie.html</p>
+          <p>
+            in the docs folder you have an example using the IE library -
+            ie.html
+          </p>
         </article>
         <!-- Geting started end -->
 
         <article>
           <div class="info-section">
-            <h2 id="configuration-of-the-plugin">Configuration of the plugin</h2>
+            <h2 id="configuration-of-the-plugin">
+              Configuration of the plugin
+            </h2>
             <div class="table">
               <h3>Settings:</h3>
-              <div data-json="table-one.json" class="table-new first-table"></div>
-              <br>
+              <div
+                data-json="table-one.json"
+                class="table-new first-table"
+              ></div>
+              <br />
               <h3>Callbacks function:</h3>
-              <div data-json="table-two.json" class="table-new second-table"></div>
-              <br>
+              <div
+                data-json="table-two.json"
+                class="table-new second-table"
+              ></div>
+              <br />
               <h3>Public methods:</h3>
               <div data-json="table-three.json" class="table-new"></div>
-              <br>
+              <br />
               <h3>Explanation of the variables:</h3>
               <div data-json="table-four.json" class="table-new"></div>
             </div>
+          </div>
         </article>
 
         <!-- Basic start -->
@@ -109,17 +125,22 @@
             <div class="info-section">
               <h2>Basic example</h2>
               <div class="sources">
-                <a href="./js/examples/basic.js" target="_blank">source: basic</a>
+                <a href="./js/examples/basic.js" target="_blank"
+                  >source: basic</a
+                >
               </div>
-              <p>In fact, the input
-                <code>&lt;input type="text" id="basic" placeholder="type w"&gt;</code>
-                field is
-                enough to add a
-                search engine. The div surrounding the input field controls
-                the appearance of this field and also the appearance of the <code>"loupe"</code> icons and the
-                button with which we
-                can clear the <kbd>x</kbd> field, as well as the possibility of an animation waiting for the
-                results before our <code>REST API</code> returns us.
+              <p>
+                In fact, the input
+                <code
+                  >&lt;input type="text" id="basic" placeholder="type
+                  w"&gt;</code
+                >
+                field is enough to add a search engine. The div surrounding the
+                input field controls the appearance of this field and also the
+                appearance of the <code>"loupe"</code> icons and the button with
+                which we can clear the <kbd>x</kbd> field, as well as the
+                possibility of an animation waiting for the results before our
+                <code>REST API</code> returns us.
               </p>
             </div>
             <div class="auto-search-wrapper">
@@ -127,7 +148,10 @@
             </div>
           </div>
           <div rel="docs/index.html" class="highlight html html-class"></div>
-          <div rel="docs/js/examples/basic.js" class="highlight javascript html-class">
+          <div
+            rel="docs/js/examples/basic.js"
+            class="highlight javascript html-class"
+          >
             <pre>
                 <code class="language-js" data-source="./js/examples/basic.js"></code>
               </pre>
@@ -141,29 +165,50 @@
             <div class="info-section">
               <h2>Complex example</h2>
               <div class="sources">
-                <a href="./js/examples/complex.js" target="_blank">source: complex</a>
+                <a href="./js/examples/complex.js" target="_blank"
+                  >source: complex</a
+                >
               </div>
-              <p><code>search</code> - this class is responsible for the appearance of the input field</p>
-              <p><code>max-height</code> - this class is responsible for the maximum height of the div in which the
-                results appear, if there are many results, we can also scroll using the up/down arrows</p>
-              <p><code>loupe</code> - this class shows a "loupe" icon that appears in the input field on
-                the left</p>
+              <p>
+                <code>search</code> - this class is responsible for the
+                appearance of the input field
+              </p>
+              <p>
+                <code>max-height</code> - this class is responsible for the
+                maximum height of the div in which the results appear, if there
+                are many results, we can also scroll using the up/down arrows
+              </p>
+              <p>
+                <code>loupe</code> - this class shows a "loupe" icon that
+                appears in the input field on the left
+              </p>
             </div>
             <div class="wrap">
               <div class="auto-search-wrapper max-height loupe">
-                <input type="text" id="complex" autocomplete="off" placeholder="type w" aria-describedby="instruction"
-                  aria-label="Search for a name" />
+                <input
+                  type="text"
+                  id="complex"
+                  autocomplete="off"
+                  placeholder="type w"
+                  aria-describedby="instruction"
+                  aria-label="Search for a name"
+                />
                 <div id="instruction" class="hidden">
                   When autocomplete results are available use up and down arrows
                   to review and enter to select. Touch device users, explore by
                   touch or with swipe gestures.
                 </div>
               </div>
-              <button class="clear-button complex-clear">clear<br><small>destroy() method</small></button>
+              <button class="clear-button complex-clear">
+                clear<br /><small>destroy() method</small>
+              </button>
             </div>
           </div>
           <div rel="docs/index.html" class="highlight html html-class"></div>
-          <div rel="docs/js/examples/complex.js" class="highlight javascript html-class">
+          <div
+            rel="docs/js/examples/complex.js"
+            class="highlight javascript html-class"
+          >
             <pre>
                 <code class="language-js" data-source="./js/examples/complex.js"></code>
               </pre>
@@ -177,15 +222,22 @@
             <div class="info-section">
               <h2>No results</h2>
               <div class="sources">
-                <a href="./js/examples/no-results.js" target="_blank">source: no-results</a>
+                <a href="./js/examples/no-results.js" target="_blank"
+                  >source: no-results</a
+                >
               </div>
-              <p>Adding no result is a bit more complicated, so it is included in the examples. First, add the
-                <code>noResults</code> method, then in the <code>onResults</code> method we check whether
-                <code>maches</code> returns zero results, if so, it is enough to make a comparison of <code>return matches === 0 ? template :
-                  matches</code>
+              <p>
+                Adding no result is a bit more complicated, so it is included in
+                the examples. First, add the <code>noResults</code> method, then
+                in the <code>onResults</code> method we check whether
+                <code>maches</code> returns zero results, if so, it is enough to
+                make a comparison of
+                <code>return matches === 0 ? template : matches</code>
               </p>
-              <p>Now you just need to type in non-existent text, and <code>no results</code> will be displayed, only "no
-                results" information.
+              <p>
+                Now you just need to type in non-existent text, and
+                <code>no results</code> will be displayed, only "no results"
+                information.
               </p>
             </div>
             <div class="auto-search-wrapper">
@@ -193,7 +245,10 @@
             </div>
           </div>
           <div rel="docs/index.html" class="highlight html html-class"></div>
-          <div rel="docs/js/examples/no-results.js" class="highlight javascript html-class">
+          <div
+            rel="docs/js/examples/no-results.js"
+            class="highlight javascript html-class"
+          >
             <div>
               <pre>
                 <code class="language-js" data-source="./js/examples/no-results.js"></code>
@@ -209,23 +264,37 @@
             <div class="info-section">
               <h2>Static file</h2>
               <div class="sources">
-                <a href="./js/examples/static.js" target="_blank">source: static</a>
+                <a href="./js/examples/static.js" target="_blank"
+                  >source: static</a
+                >
               </div>
-              <p>Instead of the REST API, you can use a static files
-                <code>const api='./characters.json'</code>Due to the fact that we
-                download the entire json file locally, we should add sorting and filtering the results.
+              <p>
+                Instead of the REST API, you can use a static files
+                <code>const api='./characters.json'</code>Due to the fact that
+                we download the entire json file locally, we should add sorting
+                and filtering the results.
               </p>
-              <p>We can add
-                sorting and filtering in two ways. In the <code>onSearch</code> or <code>onResults</code>
+              <p>
+                We can add sorting and filtering in two ways. In the
+                <code>onSearch</code> or <code>onResults</code>
                 method.
               </p>
             </div>
             <div class="auto-search-wrapper max-height loupe">
-              <input type="text" id="static" aria-label="Search for a name" autocomplete="off" placeholder="type c" />
+              <input
+                type="text"
+                id="static"
+                aria-label="Search for a name"
+                autocomplete="off"
+                placeholder="type c"
+              />
             </div>
           </div>
           <div rel="docs/index.html" class="highlight html html-class"></div>
-          <div rel="docs/js/examples/static.js" class="highlight javascript html-class">
+          <div
+            rel="docs/js/examples/static.js"
+            class="highlight javascript html-class"
+          >
             <div>
               <pre>
                 <code class="language-js" data-source="./js/examples/static.js"></code>
@@ -241,25 +310,38 @@
             <div class="info-section">
               <h2>Static file + data-elements</h2>
               <div class="sources">
-                <a href="./js/examples/static-file-data.js" target="_blank">source: static-file-data</a>
+                <a href="./js/examples/static-file-data.js" target="_blank"
+                  >source: static-file-data</a
+                >
               </div>
-              <p>You want to download all the data, nothing easier. You can do it in the <code>onSubmit</code>
-                method by clicking the mouse on the element, or by pressing enter when the element is selected, but also
-                in the <code>onSelectedItem</code> method.</p>
-              <p>That is, selecting an element, either with the mouse or
-                by jumping on the elements with the arrows.</p>
-              <p>Open the console and see what happens during these
-                events.
+              <p>
+                You want to download all the data, nothing easier. You can do it
+                in the <code>onSubmit</code> method by clicking the mouse on the
+                element, or by pressing enter when the element is selected, but
+                also in the <code>onSelectedItem</code> method.
               </p>
+              <p>
+                That is, selecting an element, either with the mouse or by
+                jumping on the elements with the arrows.
+              </p>
+              <p>Open the console and see what happens during these events.</p>
             </div>
             <div class="auto-search-wrapper max-height loupe">
-              <input type="text" id="static-file-data" aria-label="Search for a name" autocomplete="off"
-                placeholder="type w" />
+              <input
+                type="text"
+                id="static-file-data"
+                aria-label="Search for a name"
+                autocomplete="off"
+                placeholder="type w"
+              />
             </div>
             <div class="info-d"></div>
           </div>
           <div rel="docs/index.html" class="highlight html html-class"></div>
-          <div rel="docs/js/examples/static-file-data.js" class="highlight javascript html-class">
+          <div
+            rel="docs/js/examples/static-file-data.js"
+            class="highlight javascript html-class"
+          >
             <div>
               <pre>
                 <code class="language-js" data-source="./js/examples/static-file-data.js"></code>
@@ -275,29 +357,39 @@
             <div class="info-section">
               <h2>Data grouping</h2>
               <div class="sources">
-                <a href="./js/examples/group.js" target="_blank">source: group</a>
+                <a href="./js/examples/group.js" target="_blank"
+                  >source: group</a
+                >
               </div>
-              <p>First, we declare the class of group members <code>classGroup: 'group-by'</code></p>
-              <p>Then we sort by our group, in our case it will be <code>status ['Alive', 'Deceased', 'Presumed
-                  dead', 'Unknown']</code>,
-                then we
-                sort by
-                <code>name</code>.
-                Of course, it is not always needed, because we should get such soroting from our
+              <p>
+                First, we declare the class of group members
+                <code>classGroup: 'group-by'</code>
+              </p>
+              <p>
+                Then we sort by our group, in our case it will be
+                <code
+                  >status ['Alive', 'Deceased', 'Presumed dead',
+                  'Unknown']</code
+                >, then we sort by <code>name</code>. Of course, it is not
+                always needed, because we should get such soroting from our
                 <code>api 'REST API'</code>
               </p>
               <p>
-                The next thing is the <code>onResults</code> method which returns the third element of the group class
-                name which
-                will prevent moving between result records with the arrow and with the mouse.
-                This class should be added to the group items.</p>
+                The next thing is the <code>onResults</code> method which
+                returns the third element of the group class name which will
+                prevent moving between result records with the arrow and with
+                the mouse. This class should be added to the group items.
+              </p>
             </div>
             <div class="auto-search-wrapper max-height loupe">
               <input type="text" id="group" placeholder="type w" />
             </div>
           </div>
           <div rel="docs/index.html" class="highlight html html-class"></div>
-          <div rel="docs/js/examples/group.js" class="highlight javascript html-class">
+          <div
+            rel="docs/js/examples/group.js"
+            class="highlight javascript html-class"
+          >
             <div>
               <pre>
                 <code class="language-js" data-source="./js/examples/group.js"></code>
@@ -313,21 +405,32 @@
             <div class="info-section">
               <h2>Dynamic list position</h2>
               <div class="sources">
-                <a href="./js/examples/dynamic-list-position.js" target="_blank">source: dynamic-list-position</a>
+                <a href="./js/examples/dynamic-list-position.js" target="_blank"
+                  >source: dynamic-list-position</a
+                >
               </div>
-              <p>Dynamic display of results, and precisely the position of these results. The simplest thing is that the
-                results, if they do not fit in the page view, under the input field, will be displayed above this field.
-                <br><br>Move the page so that the input field is near the bottom of the window. Do a search, the results
-                should
-                appear above the input field.
+              <p>
+                Dynamic display of results, and precisely the position of these
+                results. The simplest thing is that the results, if they do not
+                fit in the page view, under the input field, will be displayed
+                above this field. <br /><br />Move the page so that the input
+                field is near the bottom of the window. Do a search, the results
+                should appear above the input field.
               </p>
             </div>
             <div class="auto-search-wrapper max-height">
-              <input type="text" id="dynamic-list-position" placeholder="type w" />
+              <input
+                type="text"
+                id="dynamic-list-position"
+                placeholder="type w"
+              />
             </div>
           </div>
           <div rel="docs/index.html" class="highlight html html-class"></div>
-          <div rel="docs/js/examples/dynamic-list-position.js" class="highlight javascript html-class">
+          <div
+            rel="docs/js/examples/dynamic-list-position.js"
+            class="highlight javascript html-class"
+          >
             <div>
               <pre>
                 <code class="language-js" data-source="./js/examples/dynamic-list-position.js"></code>
@@ -343,17 +446,28 @@
             <div class="info-section">
               <h2>Number of records from the result</h2>
               <div class="sources">
-                <a href="./js/examples/records-from-the-result.js" target="_blank">source: records-from-the-result</a>
+                <a
+                  href="./js/examples/records-from-the-result.js"
+                  target="_blank"
+                  >source: records-from-the-result</a
+                >
               </div>
-              <p>This example shows only the top 7 records of the total number of matched results.<br>
-                For example, when searching for 'w', it would find 13 records but only 7 records are shown.</p>
+              <p>
+                This example shows only the top 7 records of the total number of
+                matched results.<br />
+                For example, when searching for 'w', it would find 13 records
+                but only 7 records are shown.
+              </p>
             </div>
             <div class="auto-search-wrapper">
               <input type="text" id="records-result" placeholder="type w" />
             </div>
           </div>
           <div rel="docs/index.html" class="highlight html html-class"></div>
-          <div rel="docs/js/examples/records-from-the-result.js" class="highlight javascript html-class">
+          <div
+            rel="docs/js/examples/records-from-the-result.js"
+            class="highlight javascript html-class"
+          >
             <div>
               <pre>
                 <code class="language-js" data-source="./js/examples/records-from-the-result.js"></code>
@@ -363,25 +477,36 @@
         </section>
         <!-- records results end -->
 
-
         <!-- footer start -->
         <section id="footer" class="section">
           <div class="search-element">
             <div class="info-section">
               <h2>Header/Footer</h2>
               <div class="sources">
-                <a href="./js/examples/header-footer.js" target="_blank">source: header/footer</a>
+                <a href="./js/examples/header-footer.js" target="_blank"
+                  >source: header/footer</a
+                >
               </div>
-              <p>Add adding additional DOM elements to the code. A callback function is used for this
-                <code>onRender: ({ element, results }) {}</code> This function is only called once.
+              <p>
+                Add adding additional DOM elements to the code. A callback
+                function is used for this
+                <code>onRender: ({ element, results }) {}</code> This function
+                is only called once.
               </p>
             </div>
             <div class="auto-search-wrapper max-height bottom-radius">
-              <input type="text" id="additional-elements" placeholder="type w" />
+              <input
+                type="text"
+                id="additional-elements"
+                placeholder="type w"
+              />
             </div>
           </div>
           <div rel="docs/index.html" class="highlight html html-class"></div>
-          <div rel="docs/js/examples/header-footer.js" class="highlight javascript html-class">
+          <div
+            rel="docs/js/examples/header-footer.js"
+            class="highlight javascript html-class"
+          >
             <div>
               <pre>
                 <code class="language-js" data-source="./js/examples/header-footer.js"></code>
@@ -397,18 +522,25 @@
             <div class="info-section">
               <h2>Local data</h2>
               <div class="sources">
-                <a href="./js/examples/local.js" target="_blank">source: local</a>
+                <a href="./js/examples/local.js" target="_blank"
+                  >source: local</a
+                >
               </div>
-              <p>Not only <code>json file</code> or <code>rest api</code>, but also data can be downloaded locally.
-                Also
-                in this case, you need to sort and filter the data.</p>
+              <p>
+                Not only <code>json file</code> or <code>rest api</code>, but
+                also data can be downloaded locally. Also in this case, you need
+                to sort and filter the data.
+              </p>
             </div>
             <div class="auto-search-wrapper">
               <input type="text" id="local" placeholder="type w" />
             </div>
           </div>
           <div rel="docs/index.html" class="highlight html html-class"></div>
-          <div rel="docs/js/examples/local.js" class="highlight javascript html-class">
+          <div
+            rel="docs/js/examples/local.js"
+            class="highlight javascript html-class"
+          >
             <div>
               <pre>
                 <code class="language-js" data-source="./js/examples/local.js"></code>
@@ -418,19 +550,23 @@
         </section>
         <!-- Local data end -->
 
-
         <!-- modal -->
         <section id="modal" class="section">
           <div class="search-element">
             <div class="info-section">
               <h2>Modal</h2>
               <div class="sources">
-                <a href="./js/examples/modal.js" target="_blank">source: modal</a>
+                <a href="./js/examples/modal.js" target="_blank"
+                  >source: modal</a
+                >
               </div>
-              <p>To get this effect, add to html <code>&lt;div class=&quot;modal&quot;&gt;&lt;/div&gt;</code>
-                preferably somewhere at the bottom of the page. For this we also need<code>onOpened</code> and
-                <code>onClose</code>. Using the first function, we add a class that causes the modal to show up, and the
-                second class removes the visibility of the modal.
+              <p>
+                To get this effect, add to html
+                <code>&lt;div class=&quot;modal&quot;&gt;&lt;/div&gt;</code>
+                preferably somewhere at the bottom of the page. For this we also
+                need<code>onOpened</code> and <code>onClose</code>. Using the
+                first function, we add a class that causes the modal to show up,
+                and the second class removes the visibility of the modal.
               </p>
             </div>
             <div class="auto-search-wrapper modal-search">
@@ -438,7 +574,10 @@
             </div>
           </div>
           <div rel="docs/index.html" class="highlight html html-class"></div>
-          <div rel="docs/js/examples/modal.js" class="highlight javascript html-class">
+          <div
+            rel="docs/js/examples/modal.js"
+            class="highlight javascript html-class"
+          >
             <div>
               <pre>
                 <code class="language-js" data-source="./js/examples/modal.js"></code>
@@ -454,29 +593,39 @@
             <div class="info-section">
               <h2>Show all values</h2>
               <div class="sources">
-                <a href="./js/examples/show-all-values.js" target="_blank">source: show-all-values</a>
+                <a href="./js/examples/show-all-values.js" target="_blank"
+                  >source: show-all-values</a
+                >
               </div>
 
-              <p>This option will toggle showing all values when the input is clicked, like a default
-                dropdown.<br><br>Please note that only the first element is added to the input field, in this case we
-                want
-                only the country code to be
-                added.<br>
-                To get the following effect in the results, i.e. <strong>first the state flag, then the name of the
-                  country and
-                  then the code</strong>,
-                use the styles. Just use the <code>flex</code> + <code>order</code> property. Order is responsible for
-                the proper sorting of elements.</p>
+              <p>
+                This option will toggle showing all values when the input is
+                clicked, like a default dropdown.<br /><br />Please note that
+                only the first element is added to the input field, in this case
+                we want only the country code to be added.<br />
+                To get the following effect in the results, i.e.
+                <strong
+                  >first the state flag, then the name of the country and then
+                  the code</strong
+                >, use the styles. Just use the <code>flex</code> +
+                <code>order</code> property. Order is responsible for the proper
+                sorting of elements.
+              </p>
             </div>
             <div class="wrap drop-down">
               <div class="auto-search-wrapper max-height bottom-radius">
                 <input type="text" id="show-all-values" placeholder="click" />
               </div>
-              <button aria-label="clear data" class="clear-button phone-clear">clear</button>
+              <button aria-label="clear data" class="clear-button phone-clear">
+                clear
+              </button>
             </div>
           </div>
           <div rel="docs/index.html" class="highlight html html-class"></div>
-          <div rel="docs/js/examples/show-all-values.js" class="highlight javascript html-class">
+          <div
+            rel="docs/js/examples/show-all-values.js"
+            class="highlight javascript html-class"
+          >
             <div>
               <pre>
                 <code class="language-js" data-source="./js/examples/show-all-values.js"></code>
@@ -492,13 +641,23 @@
             <div class="info-section">
               <h2>Update input field on selected items</h2>
               <div class="sources">
-                <a href="./js/examples/update-input.js" target="_blank">source: update-input</a>
+                <a href="./js/examples/update-input.js" target="_blank"
+                  >source: update-input</a
+                >
               </div>
-              <p>Adding this parameter adds the selected data to the input field while navigating through the records
-                with the up/down arrows <code>insertToInput: true</code></p>
-              <p>If you want to be able to add data to the input field after hovering the mouse over the record, you can
-                do it using callback funciton
-                <code>onSelectedItem: ({ element, object }) => {element.value = object.name}</code>
+              <p>
+                Adding this parameter adds the selected data to the input field
+                while navigating through the records with the up/down arrows
+                <code>insertToInput: true</code>
+              </p>
+              <p>
+                If you want to be able to add data to the input field after
+                hovering the mouse over the record, you can do it using callback
+                funciton
+                <code
+                  >onSelectedItem: ({ element, object }) => {element.value =
+                  object.name}</code
+                >
               </p>
             </div>
             <div class="auto-search-wrapper">
@@ -506,9 +665,12 @@
             </div>
           </div>
           <div rel="docs/index.html" class="highlight html html-class"></div>
-          <div rel="docs/js/examples/update-input.js" class="highlight javascript html-class">
+          <div
+            rel="docs/js/examples/update-input.js"
+            class="highlight javascript html-class"
+          >
             <div>
-            <pre>
+              <pre>
               <code class="language-js" data-source="./js/examples/update-input.js"></code>
             </pre>
             </div>
@@ -516,19 +678,22 @@
         </section>
         <!-- update input end -->
 
-
         <!-- select item -->
         <section id="select-item" class="section">
           <div class="search-element">
             <div class="info-section">
               <h2>Select multiple values</h2>
               <div class="sources">
-                <a href="./js/examples/select.js" target="_blank">source: select</a>
+                <a href="./js/examples/select.js" target="_blank"
+                  >source: select</a
+                >
               </div>
-              <p>This example allows you to select multiple elements that are added below the input field. To remove all
-                elements just click button clear <kbd>x</kbd> or delete elements one by one by clicking the button
-                <kbd>x</kbd> which are
-                next to the name of the taken elements.
+              <p>
+                This example allows you to select multiple elements that are
+                added below the input field. To remove all elements just click
+                button clear <kbd>x</kbd> or delete elements one by one by
+                clicking the button <kbd>x</kbd> which are next to the name of
+                the taken elements.
               </p>
             </div>
             <div class="auto-search-wrapper max-height count">
@@ -538,7 +703,10 @@
             <div class="selected-item"></div>
           </div>
           <div rel="docs/index.html" class="highlight html html-class"></div>
-          <div rel="docs/js/examples/select.js" class="highlight javascript html-class">
+          <div
+            rel="docs/js/examples/select.js"
+            class="highlight javascript html-class"
+          >
             <div>
               <pre>
                 <code class="language-js" data-source="./js/examples/select.js"></code>
@@ -554,19 +722,26 @@
             <div class="info-section">
               <h2>Multiple choices</h2>
               <div class="sources">
-                <a href="./js/examples/multiple-choices.js" target="_blank">source: multiple-choices</a>
+                <a href="./js/examples/multiple-choices.js" target="_blank"
+                  >source: multiple-choices</a
+                >
               </div>
-              <p>This example allows you to select multiple choices that are added to the input field, to remove the
-                selected fields, clear them by pressing the clear <kbd>x</kbd> button or by removing the element or
-                elements from
-                the input field.</p>
+              <p>
+                This example allows you to select multiple choices that are
+                added to the input field, to remove the selected fields, clear
+                them by pressing the clear <kbd>x</kbd> button or by removing
+                the element or elements from the input field.
+              </p>
             </div>
             <div class="auto-search-wrapper max-height loupe">
               <input type="text" id="multiple-choices" placeholder="type w" />
             </div>
           </div>
           <div rel="docs/index.html" class="highlight html html-class"></div>
-          <div rel="docs/js/examples/multiple-choices.js" class="highlight javascript html-class">
+          <div
+            rel="docs/js/examples/multiple-choices.js"
+            class="highlight javascript html-class"
+          >
             <div>
               <pre>
                 <code class="language-js" data-source="./js/examples/multiple-choices.js"></code>
@@ -576,26 +751,36 @@
         </section>
         <!-- select multiple values -->
 
-
         <!-- checkbox -->
         <section id="select-item-checkbox" class="section">
           <div class="search-element">
             <div class="info-section">
               <h2>Checkboxes</h2>
               <div class="sources">
-                <a href="./js/examples/checkbox.js" target="_blank">source: checkbox</a>
+                <a href="./js/examples/checkbox.js" target="_blank"
+                  >source: checkbox</a
+                >
               </div>
-              <p>This example shows what you can use the <code>disableCloseOnSelect</code> variable - checkbox list.
+              <p>
+                This example shows what you can use the
+                <code>disableCloseOnSelect</code> variable - checkbox list.
               </p>
             </div>
             <div class="auto-search-wrapper max-height count checkoxes">
               <div class="count-number-checkbox">0</div>
-              <input type="text" id="checkbox" placeholder="write a programming language" />
+              <input
+                type="text"
+                id="checkbox"
+                placeholder="write a programming language"
+              />
             </div>
             <div class="selected-item-checkbox"></div>
           </div>
           <div rel="docs/index.html" class="highlight html html-class"></div>
-          <div rel="docs/js/examples/checkbox.js" class="highlight javascript html-class">
+          <div
+            rel="docs/js/examples/checkbox.js"
+            class="highlight javascript html-class"
+          >
             <div>
               <pre>
                 <code class="language-js" data-source="./js/examples/checkbox.js"></code>
@@ -609,11 +794,18 @@
         <article id="address-geocoding" class="section">
           <div class="info-section">
             <h2>Address geocoding</h2>
-            <p>Below is an example of how to combine city geocoding with the <code>AUTOCOMPLETE</code> library. In
-              fact, there are many ideas for using it ;)</p>
+            <p>
+              Below is an example of how to combine city geocoding with the
+              <code>AUTOCOMPLETE</code> library. In fact, there are many ideas
+              for using it ;)
+            </p>
           </div>
-          <iframe loading="lazy" class="iframe" src="https://tomik23.github.io/Leaflet.Autocomplete/"
-            frameborder="0"></iframe>
+          <iframe
+            loading="lazy"
+            class="iframe"
+            src="https://tomik23.github.io/Leaflet.Autocomplete/"
+            frameborder="0"
+          ></iframe>
         </article>
         <!-- Other usage ideas end -->
 
@@ -621,15 +813,29 @@
         <article id="bootstrap-modal" class="section">
           <div class="info-section">
             <h2>Bootstrap + modal</h2>
-            <p>Below is an example of a combination of the bootstrap + modal + autocomplete library.</p>
+            <p>
+              Below is an example of a combination of the bootstrap + modal +
+              autocomplete library.
+            </p>
           </div>
-          <iframe height="300" class="iframe" style="width: 100%;" scrolling="no"
+          <iframe
+            height="300"
+            class="iframe"
+            style="width: 100%"
+            scrolling="no"
             title="bootstrap + modal + autocomplete"
-            src="https://codepen.io/Tomik23/embed/JjrMxmE?default-tab=result&theme-id=light" frameborder="no"
-            loading="lazy" allowtransparency="true" allowfullscreen="true">
-            See the Pen <a href="https://codepen.io/Tomik23/pen/JjrMxmE">
-              bootstrap + modal + autocomplete</a> by Greg (<a href="https://codepen.io/Tomik23">@Tomik23</a>)
-            on <a href="https://codepen.io">CodePen</a>.
+            src="https://codepen.io/Tomik23/embed/JjrMxmE?default-tab=result&theme-id=light"
+            frameborder="no"
+            loading="lazy"
+            allowtransparency="true"
+            allowfullscreen="true"
+          >
+            See the Pen
+            <a href="https://codepen.io/Tomik23/pen/JjrMxmE">
+              bootstrap + modal + autocomplete</a
+            >
+            by Greg (<a href="https://codepen.io/Tomik23">@Tomik23</a>) on
+            <a href="https://codepen.io">CodePen</a>.
           </iframe>
         </article>
         <!-- boostrap end -->
@@ -637,7 +843,11 @@
 
       <!-- <div class="based"><a href="https://breakingbadapi.com/" target="_blank">BASED ON: The Breaking Bad API</a>
       </div> -->
-      <button class="toggle-menu" arial-label="toogle menu" title="tootle menu"></button>
+      <button
+        class="toggle-menu"
+        arial-label="toogle menu"
+        title="tootle menu"
+      ></button>
     </main>
 
     <script src="./js/github-corner.js"></script>
@@ -664,7 +874,5 @@
     <script async src="./js/examples/checkbox.js"></script>
 
     <div class="modal"></div>
-
   </body>
-
 </html>

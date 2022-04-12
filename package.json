@@ -1,6 +1,6 @@
 {
   "name": "@tomik23/autocomplete",
-  "version": "1.8.3",
+  "version": "1.8.4",
   "description": "Simple autocomplete component in vanilla JS",
   "author": "Grzegorz Tomicki",
   "main": "dist/js/autocomplete.js",

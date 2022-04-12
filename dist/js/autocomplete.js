@@ -405,7 +405,7 @@ var Autocomplete = (function () {
             break;
           case keyCodes.TAB:
           case keyCodes.ESC:
-            event.preventDefault();
+            event.stopPropagation();
             this._reset();
             break;
         }

@@ -633,7 +633,7 @@ export default class Autocomplete {
       // keycode escape and keycode tab
       case keyCodes.TAB:
       case keyCodes.ESC:
-        event.preventDefault(); // #120
+        event.stopPropagation();
         this._reset();
 
         break;

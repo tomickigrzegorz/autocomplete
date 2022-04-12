@@ -402,7 +402,7 @@ class Autocomplete {
           break;
         case keyCodes.TAB:
         case keyCodes.ESC:
-          event.preventDefault();
+          event.stopPropagation();
           this._reset();
           break;
       }

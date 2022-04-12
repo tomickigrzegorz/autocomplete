@@ -1,3 +1,7 @@
+## 2020-04-12 (1.8.4)
+### Bug Fixes
+- Reloaded site on click on enter [#145](https://github.com/tomik23/autocomplete/issues/145)
+
 ## 2020-03-21 (1.8.3)
 
 ### Test

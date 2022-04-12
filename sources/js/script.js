@@ -191,6 +191,9 @@ export default class Autocomplete {
     // remove class isActive
     classList(this._resultWrap, "remove", this._isActive);
 
+    // set default aria-selected, remove id and remove class 'auto-selected'
+    this._removeAria(select(`.${this._activeList}`));
+
     // remove result when lengh = 0 and insertToInput is false
     // https://github.com/tomik23/autocomplete/issues/136
     if ((this._matches?.length == 0 && !this._toInput) || this._showAll) {
@@ -591,8 +594,10 @@ export default class Autocomplete {
         this._removeAria(this._selectedLi);
 
         if (this._index >= 0 && this._index < matchesLength - 1) {
+          const selectedElement = this._itemsLi[this._index];
+
           if (this._toInput && resultList) {
-            this._root.value = getFirstElement(this._itemsLi[this._index]);
+            this._root.value = getFirstElement(selectedElement);
           }
 
           // callback function
@@ -603,7 +608,7 @@ export default class Autocomplete {
           });
 
           // set aria-selected
-          this._setAria(this._itemsLi[this._index]);
+          this._setAria(selectedElement);
         } else {
           // catch action
           this._cacheAct();
@@ -619,13 +624,16 @@ export default class Autocomplete {
         break;
       // keycode enter
       case keyCodes.ENTER:
+        // https:github.com/tomik23/autocomplete/issues/145
+        event.preventDefault();
+
         this._getTextFromLi(this._selectedLi);
         break;
 
       // keycode escape and keycode tab
       case keyCodes.TAB:
       case keyCodes.ESC:
-        event.stopPropagation(); // #120
+        event.preventDefault(); // #120
         this._reset();
 
         break;

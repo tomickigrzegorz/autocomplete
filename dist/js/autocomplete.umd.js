@@ -169,6 +169,7 @@
           removeClass: "auto-expanded"
         });
         classList(this._resultWrap, "remove", this._isActive);
+        this._removeAria(select("." + this._activeList));
         if (((_this$_matches = this._matches) == null ? void 0 : _this$_matches.length) == 0 && !this._toInput || this._showAll) {
           this._resultList.textContent = "";
         }
@@ -381,15 +382,16 @@
             }
             this._removeAria(this._selectedLi);
             if (this._index >= 0 && this._index < matchesLength - 1) {
+              const selectedElement = this._itemsLi[this._index];
               if (this._toInput && resultList) {
-                this._root.value = getFirstElement(this._itemsLi[this._index]);
+                this._root.value = getFirstElement(selectedElement);
               }
               this._onSelected({
                 index: this._index,
                 element: this._root,
                 object: this._matches[this._index]
               });
-              this._setAria(this._itemsLi[this._index]);
+              this._setAria(selectedElement);
             } else {
               this._cacheAct();
               setAriaActivedescendant(this._root);
@@ -401,11 +403,12 @@
             }
             break;
           case keyCodes.ENTER:
+            event.preventDefault();
             this._getTextFromLi(this._selectedLi);
             break;
           case keyCodes.TAB:
           case keyCodes.ESC:
-            event.stopPropagation();
+            event.preventDefault();
             this._reset();
             break;
         }

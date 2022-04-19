@@ -38,6 +38,10 @@
     "html": "Checkboxes"
   },
   {
+    "link": "special",
+    "html": "Special characters"
+  },
+  {
     "link": "address-geocoding",
     "html": "Address geocoding"
   },

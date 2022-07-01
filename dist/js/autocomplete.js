@@ -220,10 +220,10 @@ var Autocomplete = (function () {
       this._events = () => {
         onEvent(this._root, "keydown", this._handleKeys);
         onEvent(this._root, "click", this._handleShowItems);
+        onEvent(document, "click", this._handleDocClick);
         ["mousemove", "click"].map(eventType => {
           onEvent(this._resultList, eventType, this._handleMouse);
         });
-        onEvent(document, "click", this._handleDocClick);
       };
       this._results = template => {
         setAttributes(this._root, {
@@ -314,7 +314,7 @@ var Autocomplete = (function () {
         const targetClosestRole = targetClosest == null ? void 0 : targetClosest.hasAttribute("role");
         const activeClass = this._activeList;
         const activeClassElement = select("." + activeClass);
-        if (!targetClosest || !targetClosestRole) {
+        if (!targetClosest || !targetClosestRole || target.closest("." + this._prevClosing)) {
           return;
         }
         if (type === "click") {

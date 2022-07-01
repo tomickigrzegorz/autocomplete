@@ -1,13 +1,17 @@
-## 2020-04-12 (1.8.4)
+## 2022-07-01 (1.8.5)
+### Added
+- `classPreventClosing` now also works for all items as a result of searches not only in footer/header [footer-header-example](https://tomik23.github.io/autocomplete/#footer)
+
+## 2022-04-12 (1.8.4)
 ### Bug Fixes
 - Reloaded site on click on enter [#145](https://github.com/tomik23/autocomplete/issues/145)
 
-## 2020-03-21 (1.8.3)
+## 2022-03-21 (1.8.3)
 
 ### Test
 - samples updated
 
-## 2020-03-11 (1.8.3)
+## 2022-03-11 (1.8.3)
 
 ### Bug Fixes
 - Show all values [#136](https://github.com/tomik23/autocomplete/issues/136)
@@ -15,7 +19,7 @@
 ### Changes
 - the look of the page with examples
 
-## 2020-03-04 (1.8.2)
+## 2022-03-04 (1.8.2)
 
 ### Added
 - test 12: Check input field when press arrow down
@@ -27,11 +31,11 @@
 - all instances of innerHTML onto insertAdjacentHTML
 
 
-## 2020-03-01 (1.8.1)
+## 2022-03-01 (1.8.1)
 ### Bug fixes
 - Issue with 'selecFirst' + 'insertToInput' + 'cache' [#132](https://github.com/tomik23/autocomplete/issues/132)
 
-## 2020-02-28 (1.8.0)
+## 2022-02-28 (1.8.0)
 
 ### Added
 - tests [testcafe](https://testcafe.io/)

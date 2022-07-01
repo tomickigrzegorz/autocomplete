@@ -49,6 +49,17 @@ new Autocomplete("additional-elements", {
   },
 
   // counting status elements
-  onResults: ({ matches }) =>
-    matches.map((el) => `<li>${el.name}</li>`).join(""),
+  onResults: ({ matches }) => {
+    console.log(matches);
+    return matches
+      .map(
+        ({ name }) => `
+        <li class="flex">
+          <div class="name" title="clickable">${name}</div>
+          <div class="additional-elements" title="not clickable">
+            <span>not clickable place</span></div>
+        </li>`
+      )
+      .join("");
+  },
 });

@@ -295,13 +295,13 @@ export default class Autocomplete {
 
     onEvent(this._root, "click", this._handleShowItems);
 
+    // close expanded items
+    onEvent(document, "click", this._handleDocClick);
+
     // temporarily disabled mouseleave
     ["mousemove", "click"].map((eventType) => {
       onEvent(this._resultList, eventType, this._handleMouse);
     });
-
-    // close expanded items
-    onEvent(document, "click", this._handleDocClick);
   };
 
   /**
@@ -475,12 +475,16 @@ export default class Autocomplete {
     const activeClass = this._activeList;
     const activeClassElement = select(`.${activeClass}`);
 
-    if (!targetClosest || !targetClosestRole) {
+    if (
+      !targetClosest ||
+      !targetClosestRole ||
+      target.closest(`.${this._prevClosing}`)
+    ) {
       return;
     }
 
-    // click on li get element
     if (type === "click") {
+      // click on li get element
       // get text from clicked li
       this._getTextFromLi(targetClosest);
     }

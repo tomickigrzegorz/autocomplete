@@ -657,6 +657,21 @@ h1.loupe {
 .bottom-radius {
   .auto-results-wrapper {
     border-radius: 0 0 10px 10px;
+    li {
+      .additional-elements {
+        align-self: center;
+        margin-left: auto;
+        font-size: 70%;
+        border: 1px solid;
+        padding: 5px;
+        border-radius: 5px;
+        &:hover {
+          transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
+          background: #000;
+          color: #fff;
+        }
+      }
+    }
   }
 }
 

@@ -44,13 +44,13 @@ See the demo - [example](https://tomik23.github.io/autocomplete/)
 #### CSS
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.4/dist/css/autocomplete.min.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.5/dist/css/autocomplete.min.css"/>
 ```
 
 #### JavaScript
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.4/dist/js/autocomplete.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.5/dist/js/autocomplete.min.js"></script>
 ```
 
 ##### -- OR --
@@ -243,7 +243,6 @@ new Autocomplete('complex', {
 
   // prevents results from hiding after
   // clicking on element with this class
-  // footer/header elements have this class
   // of course, any class name
   // by default is empty ''
   classPreventClosing: 'additional-elements',
@@ -447,9 +446,9 @@ Configuration for IE:
 
 ### cdn
 
-- https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.4/dist/js/polyfill.js
-- https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.4/dist/js/autocomplete.ie.min.js
-- https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.4/dist/css/autocomplete.ie.min.css
+- https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.5/dist/js/polyfill.js
+- https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.5/dist/js/autocomplete.ie.min.js
+- https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.5/dist/css/autocomplete.ie.min.css
 
 ### cdn polyfill from npm
 

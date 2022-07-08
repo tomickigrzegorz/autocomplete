@@ -17,6 +17,10 @@
     "html": "Header/Footer"
   },
   {
+    "link": "recent-searches-example",
+    "html": "Recent Searches"
+  },
+  {
     "link": "modal",
     "html": "Modal"
   },

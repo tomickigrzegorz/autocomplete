@@ -750,3 +750,14 @@ aside::-webkit-scrollbar-thumb {
   border-radius: 10px;
   border: 3px solid #ffffff;
 }
+
+.hidden {
+  display: none;
+}
+
+.history-item {
+  align-items: center;
+  font-size: 70%;
+  color: #808080;
+  padding: 2px 0;
+}

@@ -33,6 +33,7 @@ export default class Autocomplete {
     {
       delay = 500,
       clearButton = true,
+      clearButtonOnInitial = false,
       howManyCharacters = 1,
       selectFirst = false,
       insertToInput = false,
@@ -72,6 +73,7 @@ export default class Autocomplete {
     this._delay = delay;
     this._characters = howManyCharacters;
     this._clearButton = clearButton;
+    this._clearButtonOnInitial = clearButtonOnInitial;
     this._selectFirst = selectFirst;
     this._toInput = insertToInput;
     this._showAll = showAllValues;
@@ -127,6 +129,11 @@ export default class Autocomplete {
       element: this._root,
       results: this._resultList,
     });
+
+    // show clear button if
+    if (this._clearButtonOnInitial) {
+      showBtnToClearData(this._clearBtn, this.destroy);
+    }
   };
 
   /**

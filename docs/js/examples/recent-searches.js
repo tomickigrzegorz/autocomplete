@@ -74,7 +74,6 @@ new Autocomplete("recent-searches", {
 
   // counting status elements
   onResults: ({ matches }) => {
-    console.log(matches);
     return matches
       .map(
         ({ name }) => `

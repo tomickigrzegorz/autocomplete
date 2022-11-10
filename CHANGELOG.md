@@ -1,3 +1,7 @@
+## 2022-11-10 (1.8.6)
+### Added
+- `clearButtonOnInitial` A parameter set to `true` adds a button to remove text from the input field visible on initial Autocomplete. [clear-button-on](https://tomik23.github.io/autocomplete/#basics-clear-button-on)
+
 ## 2022-07-01 (1.8.5)
 ### Added
 - `classPreventClosing` now also works for all items as a result of searches not only in footer/header [footer-header-example](https://tomik23.github.io/autocomplete/#footer)

@@ -24,6 +24,16 @@
       },
       {
         "row": [
+          { "column": "clearButtonOnInitial" },
+          { "column": "false" },
+          { "column": "" },
+          {
+            "column": "A parameter set to 'true' adds a button to remove text from the input field visible on initial Autocomplete. What to use for? For example, when we set value in the root field."
+          }
+        ]
+      },
+      {
+        "row": [
           { "column": "selectFirst" },
           { "column": "false" },
           { "column": "" },

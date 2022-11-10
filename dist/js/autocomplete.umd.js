@@ -102,6 +102,7 @@
       let {
         delay: _delay = 500,
         clearButton = true,
+        clearButtonOnInitial = false,
         howManyCharacters = 1,
         selectFirst = false,
         insertToInput = false,
@@ -131,6 +132,9 @@
           element: this._root,
           results: this._resultList
         });
+        if (this._clearButtonOnInitial) {
+          showBtnToClearData(this._clearBtn, this.destroy);
+        }
       };
       this._cacheAct = (type, target) => {
         if (!this._cache) return;
@@ -476,6 +480,7 @@
       this._delay = _delay;
       this._characters = howManyCharacters;
       this._clearButton = clearButton;
+      this._clearButtonOnInitial = clearButtonOnInitial;
       this._selectFirst = selectFirst;
       this._toInput = insertToInput;
       this._showAll = showAllValues;

@@ -52,10 +52,10 @@
           -- OR CDN --
           <div rel="HTML" class="html-class">
             <pre><code class="language-html">&lt;!-- css --&gt;
-&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.5/dist/css/autocomplete.min.css&quot;/&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.6/dist/css/autocomplete.min.css&quot;/&gt;
 
 &lt;!-- js --&gt;
-&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.5/dist/js/autocomplete.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.6/dist/js/autocomplete.min.js&quot;&gt;&lt;/script&gt;
           </code></pre>
           </div>
 
@@ -73,11 +73,11 @@
           <h4>-- use cdn --</h4>
           <div rel="HTML" class="html-class">
             <pre><code class="language-html">&lt;!-- css --&gt;
-&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.5/dist/css/autocomplete.ie.min.css&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.6/dist/css/autocomplete.ie.min.css&quot;&gt;
 
 &lt;!-- js --&gt;
-&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.5/dist/js/polyfill.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.5/dist/js/autocomplete.ie.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.6/dist/js/polyfill.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.6/dist/js/autocomplete.ie.min.js&quot;&gt;&lt;/script&gt;</code></pre>
           </div>
           <h4>-- use cdn polyfills from npm --</h4>
           <div rel="HTML" class="html-class">
@@ -215,6 +215,44 @@
           </div>
         </section>
         <!-- Complex example end -->
+
+        <!-- Clear button on -->
+        <section id="basics-clear-button-on" class="section">
+          <div class="search-element">
+            <div class="info-section">
+              <h2>Show clear button on initial</h2>
+              <div class="sources">
+                <a href="./js/examples/clear-button-on.js" target="_blank"
+                  >source: clear-button-on</a
+                >
+              </div>
+              <p>
+                A parameter <code>clearButtonOnInitial</code> set to
+                <code>true</code> adds a button to remove text from the input
+                field visible on initial Autocomplete. What to use for? For
+                example, when we set text in the root field.
+              </p>
+            </div>
+            <div class="auto-search-wrapper">
+              <input
+                type="text"
+                id="clear-button-on"
+                placeholder="type w"
+                value="Walter"
+              />
+            </div>
+          </div>
+          <div rel="docs/index.html" class="highlight html html-class"></div>
+          <div
+            rel="docs/js/examples/clear-button-on.js"
+            class="highlight javascript html-class"
+          >
+            <pre>
+                <code class="language-js" data-source="./js/examples/clear-button-on.js"></code>
+              </pre>
+          </div>
+        </section>
+        <!-- Clear button on end -->
 
         <!-- No results start -->
         <section id="no-results-example" class="section">
@@ -930,6 +968,7 @@
 
     <!-- examples -->
     <script async src="./js/examples/basic.js"></script>
+    <script async src="./js/examples/clear-button-on.js"></script>
     <script async src="./js/examples/complex.js"></script>
     <script async src="./js/examples/no-results.js"></script>
     <script async src="./js/examples/static.js"></script>

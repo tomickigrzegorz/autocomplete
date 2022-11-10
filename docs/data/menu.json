@@ -2,6 +2,7 @@
   { "link": "started", "html": "Geting started" },
   { "link": "basics", "html": "Basics example" },
   { "link": "complex-example", "html": "Complex example" },
+  { "link": "basics-clear-button-on", "html": "Clear button on initial" },
   { "link": "no-results-example", "html": "No results" },
   { "link": "static-file", "html": "Static file" },
   { "link": "data-elements", "html": "Static file + data-elelemts" },

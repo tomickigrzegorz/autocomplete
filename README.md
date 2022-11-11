@@ -212,6 +212,10 @@ new Autocomplete('complex', {
   // by default is true
   clearButton: false,
 
+  // show button 'x' to clear the text from
+  // the input filed on initial library
+  clearButtonOnInitial: false,
+
   // default selects the first item in
   // the list of results
   // by default is false
@@ -408,6 +412,7 @@ new Autocomplete('complex', {
 ```js
 const auto = new Autocomplete('you-id', {
   clearButton: true,
+  clearButtonOnInitial: false,
   selectFirst: false,
   insertToInput: false,
   disableCloseOnSelect: false,

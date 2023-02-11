@@ -3,14 +3,14 @@ new Autocomplete("clear-button-on", {
   clearButtonOnInitial: true,
 
   onSearch: ({ currentValue }) => {
-    const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(
+    const api = `https://rickandmortyapi.com/api/character?name=${encodeURI(
       currentValue
     )}`;
     return new Promise((resolve) => {
       fetch(api)
         .then((response) => response.json())
         .then((data) => {
-          resolve(data);
+          resolve(data.results);
         })
         .catch((error) => {
           console.error(error);
@@ -19,5 +19,5 @@ new Autocomplete("clear-button-on", {
   },
 
   onResults: ({ matches }) =>
-    matches.map((el) => `<li>${el.name}</li>`).join(""),
+    matches.map(({ name }) => `<li>${name}</li>`).join(""),
 });

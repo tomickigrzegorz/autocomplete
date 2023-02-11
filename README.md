@@ -275,7 +275,7 @@ new Autocomplete('complex', {
     // OR -------------------------------
 
     // your REST API
-    const api = `https://breakingbadapi.com/api/characters?name=${encodeURI(currentValue)}`;
+    const api = `https://rickandmortyapi.com/api/character?name=${encodeURI(currentValue)}`;
     /**
      * jquery
      * If you want to use jquery you have to add the
@@ -287,7 +287,7 @@ new Autocomplete('complex', {
       method: 'GET',
     })
       .done(function (data) {
-        return data;
+        return data.results;
       })
       .fail(function (xhr) {
         console.error(xhr);
@@ -304,7 +304,7 @@ new Autocomplete('complex', {
     return axios
       .get(api)
       .then((response) => {
-        return response.data;
+        return response.data.results;
       })
       .catch((error) => {
         console.log(error);
@@ -319,7 +319,7 @@ new Autocomplete('complex', {
       fetch(api)
         .then((response) => response.json())
         .then((data) => {
-          resolve(data);
+          resolve(data.results);
         })
         .catch((error) => {
           console.error(error);
@@ -372,12 +372,12 @@ new Autocomplete('complex', {
                 </h2>
                 <div style="display: flex;">
                   <div style="margin-right: 10px;">
-                    <img src="${el.img}" style="max-width: 67px;max-height:95px">
+                    <img src="${el.image}" style="max-width: 67px;max-height:95px">
                   </div>
                   <div class="info">
                     <h4>${el.name}</h4>
-                    <div><b>nickname:</b> - ${el.nickname}</div>
-                    <div><b>birthday:</b> - ${el.birthday}</div>
+                    <div><b>gender:</b> - ${el.gender}</div>
+                    <div><b>species:</b> - ${el.species}</div>
                     <div><b>status:</b> - ${el.status}</div>
                   </div>
                 </div>

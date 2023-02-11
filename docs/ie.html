@@ -81,7 +81,7 @@
       new Autocomplete("basic", {
         onSearch: function (object) {
           var api =
-            "https://breakingbadapi.com/api/characters?name=" +
+            "https://rickandmortyapi.com/api/character?name=" +
             encodeURI(object.currentValue);
           return $.ajax({
             url: api,
@@ -96,7 +96,8 @@
         },
 
         onResults: function (object) {
-          return object.matches
+          console.log(object)
+          return object.matches.results
             .map(function (el) {
               return "<li>" + el.name + "</li>";
             })

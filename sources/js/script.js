@@ -202,7 +202,7 @@ export default class Autocomplete {
     this._removeAria(select(`.${this._activeList}`));
 
     // remove result when lengh = 0 and insertToInput is false
-    // https://github.com/tomik23/autocomplete/issues/136
+    // https://github.com/tomickigrzegorz/autocomplete/issues/136
     if ((this._matches?.length == 0 && !this._toInput) || this._showAll) {
       this._resultList.textContent = "";
     }
@@ -315,7 +315,7 @@ export default class Autocomplete {
    * Results
    *
    * @param {HTMLElement|String} template - html or string returned from the function,
-   * look at the example - https://github.com/tomik23/autocomplete/blob/master/docs/js/examples/no-results.js#L30
+   * look at the example - https://github.com/tomickigrzegorz/autocomplete/blob/master/docs/js/examples/no-results.js#L30
    */
   _results = (template) => {
     // set attribute to root
@@ -635,7 +635,7 @@ export default class Autocomplete {
         break;
       // keycode enter
       case keyCodes.ENTER:
-        // https:github.com/tomik23/autocomplete/issues/145
+        // https:github.com/tomickigrzegorz/autocomplete/issues/145
         event.preventDefault();
 
         this._getTextFromLi(this._selectedLi);

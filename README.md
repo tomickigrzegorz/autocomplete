@@ -7,8 +7,8 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/github/package-json/v/tomik23/autocomplete">
-  <img src="https://img.shields.io/github/size/tomik23/autocomplete/dist/js/autocomplete.min.js">
+  <img src="https://img.shields.io/github/package-json/v/tomickigrzegorz/autocomplete">
+  <img src="https://img.shields.io/github/size/tomickigrzegorz/autocomplete/dist/js/autocomplete.min.js">
   <a href="LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-green.svg">
   </a>
@@ -20,7 +20,7 @@
 
 ## Demo
 
-See the demo - [example](https://tomik23.github.io/autocomplete/)
+See the demo - [example](https://tomickigrzegorz.github.io/autocomplete/)
 
 ## Features
 
@@ -44,13 +44,13 @@ See the demo - [example](https://tomik23.github.io/autocomplete/)
 #### CSS
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.6/dist/css/autocomplete.min.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.8.6/dist/css/autocomplete.min.css"/>
 ```
 
 #### JavaScript
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.6/dist/js/autocomplete.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.8.6/dist/js/autocomplete.min.js"></script>
 ```
 
 ##### -- OR --
@@ -108,7 +108,7 @@ window.addEventListener('DOMContentLoaded', function () {
 Before the first use, clone this repository and install node dependencies:
 
 ```js
-git clone https://github.com/tomik23/autocomplete.git
+git clone https://github.com/tomickigrzegorz/autocomplete.git
 
 yarn
 // or
@@ -163,7 +163,7 @@ npm run prod
 | classPrefix          |   string   |                                     |         | Prefixing all autocomplete css class name, 'prefix-auto-', default 'auto-'                                                                                               |
 | ~~instruction~~      | ~~string~~ | ~~`When autocomplete results ...`~~ |         | ~~aria-describedby [attribute](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-describedby_attribute) A full text below~~ |
 
-**instructions** - has been removed from the library, [see how to add to html](https://tomik23.github.io/autocomplete/#complex-example)
+**instructions** - has been removed from the library, [see how to add to html](https://tomickigrzegorz.github.io/autocomplete/#complex-example)
 
 ## How do I add data to the input field?
 
@@ -452,9 +452,9 @@ Configuration for IE:
 
 ### cdn
 
-- https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.6/dist/js/polyfill.js
-- https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.6/dist/js/autocomplete.ie.min.js
-- https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.6/dist/css/autocomplete.ie.min.css
+- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.8.6/dist/js/polyfill.js
+- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.8.6/dist/js/autocomplete.ie.min.js
+- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.8.6/dist/css/autocomplete.ie.min.css
 
 ### cdn polyfill from npm
 

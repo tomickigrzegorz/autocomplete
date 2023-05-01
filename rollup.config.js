@@ -6,6 +6,8 @@ import cleanup from "rollup-plugin-cleanup";
 
 import pkg from "./package.json";
 
+const banner = `/*!\n* @name autocomplete\n* @version ${pkg.version}\n* @author ${pkg.author}\n* @link https://github.com/tomickigrzegorz/autocomplete\n* @license MIT\n*/`;
+
 const { PRODUCTION } = process.env;
 const input = "sources/js/script.js";
 
@@ -55,60 +57,70 @@ export default [
   // iife
   {
     input,
-    plugins: pluginsConfig(targets),
     watch: false,
+    plugins: pluginsConfig(targets),
     output: {
-      name: "Autocomplete",
-      format: "iife",
+      banner,
       file: pkg.main,
+      format: "iife",
+      name: "Autocomplete",
       sourcemap: true,
     },
   },
   {
     input,
-    plugins: pluginsConfig(targets),
     watch: false,
+    plugins: pluginsConfig(targets),
     output: {
-      name: "Autocomplete",
-      format: "iife",
-      sourcemap: false,
+      banner,
       file: "dist/js/autocomplete.min.js",
-      plugins: [terser({ ...terserConfig })],
+      format: "iife",
+      name: "Autocomplete",
+      sourcemap: false,
+      plugins: [
+        terser({
+          ...terserConfig,
+          compress: { drop_console: true, drop_debugger: true },
+        }),
+      ],
     },
   },
   {
     input,
-    plugins: pluginsConfig(targets),
+    plugins: [
+      pluginsConfig(targets),
+      !PRODUCTION && serve({ open: true, contentBase: ["docs"] }),
+      !PRODUCTION && livereload(),
+    ],
     output: {
-      name: "Autocomplete",
-      format: "iife",
-      sourcemap: true,
+      banner,
       file: "docs/js/autocomplete.min.js",
-      plugins: [
-        terser({ ...terserConfig }),
-        !PRODUCTION && serve({ open: true, contentBase: ["docs"] }),
-        !PRODUCTION && livereload(),
-      ],
+      format: "iife",
+      name: "Autocomplete",
+      sourcemap: true,
+      plugins: [terser({ ...terserConfig })],
     },
   },
   // --------------------------------------------------
   // umd
   {
     input,
-    plugins: pluginsConfig(targets),
     watch: false,
+    plugins: pluginsConfig(targets),
     output: [
       {
-        name: "Autocomplete",
-        format: "umd",
-        sourcemap: true,
+        banner,
         file: "dist/js/autocomplete.umd.js",
+        format: "umd",
+        name: "Autocomplete",
+        sourcemap: true,
       },
       {
+        banner,
         name: "Autocomplete",
+        file: "dist/js/autocomplete.umd.min.js",
         format: "umd",
         sourcemap: false,
-        file: "dist/js/autocomplete.umd.min.js",
         plugins: [
           terser({
             ...terserConfig,
@@ -126,16 +138,18 @@ export default [
     watch: false,
     output: [
       {
-        name: "Autocomplete",
-        format: "es",
-        sourcemap: true,
+        banner,
         file: "dist/js/autocomplete.esm.js",
+        format: "es",
+        name: "Autocomplete",
+        sourcemap: true,
       },
       {
-        name: "Autocomplete",
-        format: "es",
-        sourcemap: false,
+        banner,
         file: "dist/js/autocomplete.esm.min.js",
+        format: "es",
+        name: "Autocomplete",
+        sourcemap: false,
         plugins: [
           terser({
             ...terserConfig,
@@ -152,10 +166,11 @@ export default [
     plugins: pluginsConfig(targetsIE),
     watch: false,
     output: {
-      name: "Autocomplete",
-      format: "iife",
-      sourcemap: false,
+      banner,
       file: "dist/js/autocomplete.ie.min.js",
+      format: "iife",
+      name: "Autocomplete",
+      sourcemap: false,
       plugins: [
         terser({
           ...terserConfig,
@@ -168,8 +183,9 @@ export default [
     input: "sources/js/polyfill.js",
     watch: false,
     output: {
-      format: "es",
+      banner,
       file: "dist/js/polyfill.js",
+      format: "es",
     },
   },
 ];

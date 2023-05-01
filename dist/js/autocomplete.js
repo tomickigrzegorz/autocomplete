@@ -1,3 +1,10 @@
+/*!
+* @name autocomplete
+* @version 1.8.6
+* @author Grzegorz Tomicki
+* @link https://github.com/tomickigrzegorz/autocomplete
+* @license MIT
+*/
 var Autocomplete = (function () {
   'use strict';
 
@@ -44,7 +51,7 @@ var Autocomplete = (function () {
     });
   };
   const getClassGroupHeight = (outputUl, classGroup) => {
-    const allLiElements = document.querySelectorAll("#" + outputUl + " > li:not(." + classGroup + ")");
+    const allLiElements = document.querySelectorAll(`#${outputUl} > li:not(.${classGroup})`);
     let height = 0;
     [].slice.call(allLiElements).map(el => height += el.offsetHeight);
     return height;
@@ -72,7 +79,7 @@ var Autocomplete = (function () {
       role: "listbox"
     });
     setAttributes(resultWrap, {
-      addClass: prefix + "-results-wrapper"
+      addClass: `${prefix}-results-wrapper`
     });
     resultWrap.insertAdjacentElement("beforeend", resultList);
     root.parentNode.insertBefore(resultWrap, root.nextSibling);
@@ -160,9 +167,8 @@ var Autocomplete = (function () {
         }, delay);
       };
       this._reset = () => {
-        var _this$_matches;
         setAttributes(this._root, {
-          "aria-owns": this._id + "-list",
+          "aria-owns": `${this._id}-list`,
           "aria-expanded": "false",
           "aria-autocomplete": "list",
           "aria-activedescendant": "",
@@ -170,8 +176,8 @@ var Autocomplete = (function () {
           removeClass: "auto-expanded"
         });
         classList(this._resultWrap, "remove", this._isActive);
-        this._removeAria(select("." + this._activeList));
-        if (((_this$_matches = this._matches) == null ? void 0 : _this$_matches.length) == 0 && !this._toInput || this._showAll) {
+        this._removeAria(select(`.${this._activeList}`));
+        if (this._matches?.length == 0 && !this._toInput || this._showAll) {
           this._resultList.textContent = "";
         }
         this._index = this._selectFirst ? 0 : -1;
@@ -232,7 +238,7 @@ var Autocomplete = (function () {
       this._results = template => {
         setAttributes(this._root, {
           "aria-expanded": "true",
-          addClass: this._prefix + "-expanded"
+          addClass: `${this._prefix}-expanded`
         });
         this._resultList.textContent = "";
         const dataResults = this._matches.length === 0 ? this._onResults({
@@ -246,8 +252,8 @@ var Autocomplete = (function () {
         });
         this._resultList.insertAdjacentHTML("afterbegin", dataResults);
         classList(this._resultWrap, "add", this._isActive);
-        const checkIfClassGroupExist = this._classGroup ? ":not(." + this._classGroup + ")" : "";
-        this._itemsLi = document.querySelectorAll("#" + this._outputUl + " > li" + checkIfClassGroupExist);
+        const checkIfClassGroupExist = this._classGroup ? `:not(.${this._classGroup})` : "";
+        this._itemsLi = document.querySelectorAll(`#${this._outputUl} > li${checkIfClassGroupExist}`);
         addAriaToAllLiElements(this._itemsLi);
         this._onOpened({
           type: "results",
@@ -263,7 +269,7 @@ var Autocomplete = (function () {
         } = _ref3;
         let disableClose = null;
         if (target.closest("ul") && this._disable ||
-        target.closest("." + this._prevClosing)) {
+        target.closest(`.${this._prevClosing}`)) {
           disableClose = true;
         }
         if (target.id !== this._id && !disableClose) {
@@ -272,7 +278,7 @@ var Autocomplete = (function () {
         }
       };
       this._selectFirstElement = () => {
-        this._removeAria(select("." + this._activeList));
+        this._removeAria(select(`.${this._activeList}`));
         if (!this._selectFirst) {
           return;
         }
@@ -286,17 +292,17 @@ var Autocomplete = (function () {
           object: this._matches[this._index]
         });
         setAttributes(classSelectFirst, {
-          id: this._selectedOption + "-0",
+          id: `${this._selectedOption}-0`,
           addClass: this._activeList,
           "aria-selected": "true"
         });
-        setAriaActivedescendant(this._root, this._selectedOption + "-0");
+        setAriaActivedescendant(this._root, `${this._selectedOption}-0`);
       };
       this._handleShowItems = () => {
         if (this._resultList.textContent.length > 0 && !classList(this._resultWrap, "contains", this._isActive)) {
           setAttributes(this._root, {
             "aria-expanded": "true",
-            addClass: this._prefix + "-expanded"
+            addClass: `${this._prefix}-expanded`
           });
           classList(this._resultWrap, "add", this._isActive);
           scrollResultsToTop(this._resultList, this._resultWrap);
@@ -315,10 +321,10 @@ var Autocomplete = (function () {
           type
         } = event;
         const targetClosest = target.closest("li");
-        const targetClosestRole = targetClosest == null ? void 0 : targetClosest.hasAttribute("role");
+        const targetClosestRole = targetClosest?.hasAttribute("role");
         const activeClass = this._activeList;
-        const activeClassElement = select("." + activeClass);
-        if (!targetClosest || !targetClosestRole || target.closest("." + this._prevClosing)) {
+        const activeClassElement = select(`.${activeClass}`);
+        if (!targetClosest || !targetClosestRole || target.closest(`.${this._prevClosing}`)) {
           return;
         }
         if (type === "click") {
@@ -362,7 +368,7 @@ var Autocomplete = (function () {
         } = event;
         const resultList = classList(this._resultWrap, "contains", this._isActive);
         const matchesLength = this._matches.length + 1;
-        this._selectedLi = select("." + this._activeList);
+        this._selectedLi = select(`.${this._activeList}`);
         switch (keyCode) {
           case keyCodes.UP:
           case keyCodes.DOWN:
@@ -415,7 +421,7 @@ var Autocomplete = (function () {
         }
       };
       this._setAria = target => {
-        const selectedOption = this._selectedOption + "-" + this._indexLiSelected(target);
+        const selectedOption = `${this._selectedOption}-${this._indexLiSelected(target)}`;
         setAttributes(target, {
           id: selectedOption,
           "aria-selected": "true",
@@ -435,7 +441,7 @@ var Autocomplete = (function () {
       this._clearbutton = () => {
         if (!this._clearButton) return;
         setAttributes(this._clearBtn, {
-          class: this._prefix + "-clear hidden",
+          class: `${this._prefix}-clear hidden`,
           type: "button",
           title: this._clearBtnAriLabel,
           "aria-label": this._clearBtnAriLabel
@@ -484,16 +490,16 @@ var Autocomplete = (function () {
       this._classGroup = classGroup;
       this._prevClosing = classPreventClosing;
       this._clearBtnAriLabel = ariaLabelClear ? ariaLabelClear : "clear the search query";
-      this._prefix = classPrefix ? classPrefix + "-auto" : "auto";
+      this._prefix = classPrefix ? `${classPrefix}-auto` : "auto";
       this._disable = disableCloseOnSelect;
       this._cache = cache;
-      this._outputUl = this._prefix + "-" + this._id + "-results";
-      this._cacheData = "data-cache-auto-" + this._id;
-      this._isLoading = this._prefix + "-is-loading";
-      this._isActive = this._prefix + "-is-active";
-      this._activeList = this._prefix + "-selected";
-      this._selectedOption = this._prefix + "-selected-option";
-      this._err = this._prefix + "-error";
+      this._outputUl = `${this._prefix}-${this._id}-results`;
+      this._cacheData = `data-cache-auto-${this._id}`;
+      this._isLoading = `${this._prefix}-is-loading`;
+      this._isActive = `${this._prefix}-is-active`;
+      this._activeList = `${this._prefix}-selected`;
+      this._selectedOption = `${this._prefix}-selected-option`;
+      this._err = `${this._prefix}-error`;
       this._regex = /[|\\{}()[\]^$+*?.]/g;
       this._timeout = null;
       this._resultWrap = createElement("div");

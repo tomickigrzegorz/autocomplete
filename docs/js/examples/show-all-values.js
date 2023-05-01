@@ -51,16 +51,22 @@ const phone = new Autocomplete("show-all-values", {
         return `
           <li class="phone">
             <div class="phone__code">${el.code}</div>
-            <div class="phone__country">${el.text.replace(
-              new RegExp(currentValue, "gi"),
-              (str) => `<mark>${str}</mark>`
-            )}</div>
+            <div class="phone__country">${showMark(el.text, currentValue)}</div>
             <div class="phone__flag"><img src="${el.flag}"></div>
           </li>`;
       })
       .join("");
   },
 });
+
+function showMark(text, currentValue) {
+  return currentValue
+    ? text.replace(
+        new RegExp(currentValue, "gi"),
+        (str) => `<mark>${str}</mark>`
+      )
+    : text;
+}
 
 // clear data
 const phoneClear = document.querySelector(".phone-clear");

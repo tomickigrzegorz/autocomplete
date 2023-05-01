@@ -1,3 +1,9 @@
+## 2023-05-01 (1.8.7)
+### Added
+- add banner
+### Changes
+- remove multiple 'mark' [items](https://tomickigrzegorz.github.io/autocomplete/#showAllValues)
+
 ## 2022-11-10 (1.8.6)
 ### Added
 - `clearButtonOnInitial` A parameter set to `true` adds a button to remove text from the input field visible on initial Autocomplete. [clear-button-on](https://tomik23.github.io/autocomplete/#basics-clear-button-on)

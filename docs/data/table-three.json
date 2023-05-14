@@ -13,6 +13,16 @@
             "column": "Removes the autocomplete instance and its bindings, <span>how to use:</span> <code>const auto = new Autocomplete('id', {...});</code> <code><b>auto.destroy();</b>"
           }
         ]
+      },
+      {
+        "row": [
+          {
+            "column": "<b>rerender</b>"
+          },
+          {
+            "column": "This method allows you to re-render the results without modifying the input field.<br>If we pass text <code>rerender(string);</code> then we render the results again and also replace the text in the input field."
+          }
+        ]
       }
     ]
   }

@@ -464,6 +464,9 @@ export default class Autocomplete {
         element: this._root,
         results: this._resultList,
       });
+
+      if (!this._cache) return;
+      this._cacheAct("update", this._root);
     }
   };
 
@@ -715,6 +718,19 @@ export default class Autocomplete {
 
     // insert clear button after input - root
     this._root.insertAdjacentElement("afterend", this._clearBtn);
+  };
+
+  /**
+   * Rerender rows without remove root input and close elements
+   */
+  rerender = (inputValue) => {
+    const text = inputValue?.trim() ? inputValue.trim() : this._root.value;
+    if (inputValue?.trim()) {
+      this._root.value = inputValue.trim();
+      this._cacheAct("update", this._root);
+    }
+    const regexText = text.replace(this._regex, "\\$&");
+    this._searchItem(regexText.trim());
   };
 
   /**

@@ -1,6 +1,6 @@
 /*!
 * @name autocomplete
-* @version 1.8.7
+* @version 1.8.8
 * @author Grzegorz Tomicki
 * @link https://github.com/tomickigrzegorz/autocomplete
 * @license MIT
@@ -315,6 +315,8 @@
             element: this._root,
             results: this._resultList
           });
+          if (!this._cache) return;
+          this._cacheAct("update", this._root);
         }
       };
       this._handleMouse = event => {
@@ -450,6 +452,15 @@
           "aria-label": this._clearBtnAriLabel
         });
         this._root.insertAdjacentElement("afterend", this._clearBtn);
+      };
+      this.rerender = inputValue => {
+        const text = inputValue?.trim() ? inputValue.trim() : this._root.value;
+        if (inputValue?.trim()) {
+          this._root.value = inputValue.trim();
+          this._cacheAct("update", this._root);
+        }
+        const regexText = text.replace(this._regex, "\\$&");
+        this._searchItem(regexText.trim());
       };
       this.destroy = () => {
         this._clearButton && classList(this._clearBtn, "add", "hidden");

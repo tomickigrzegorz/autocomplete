@@ -18,6 +18,10 @@
     "html": "Header/Footer"
   },
   {
+    "link": "rerender",
+    "html": "Rerender"
+  },
+  {
     "link": "recent-searches-example",
     "html": "Recent Searches"
   },

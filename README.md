@@ -44,13 +44,13 @@ See the demo - [example](https://tomickigrzegorz.github.io/autocomplete/)
 #### CSS
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.8.7/dist/css/autocomplete.min.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.8.8/dist/css/autocomplete.min.css"/>
 ```
 
 #### JavaScript
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.8.7/dist/js/autocomplete.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.8.8/dist/js/autocomplete.min.js"></script>
 ```
 
 ##### -- OR --
@@ -148,6 +148,7 @@ npm run prod
 | onClose              |  function  |                                     |         | e.g. delete class after close results, see example modal                                                                                                                 |
 | noResults            |  function  |                                     |         | Showing information: "no results"                                                                                                                                        |
 | destroy              |   method   |                                     |         | Removes the autocomplete instance and its bindings                                                                                                                       |
+| rerender             |   method   |                                     |         | This method allows you to re-render the results without modifying the input field. Of course, we can also send the string we want to search for to the method. render(string);                                                                                                                       |
 | clearButton          |  boolean   |               `true`                |         | A parameter set to 'true' adds a button to remove text from the input field                                                                                              |
 | clearButtonOnInitial |  boolean   |               `false`               |         | A parameter set to 'true' adds a button to remove text from the input field visible on initial Autocomplete lib.                                                         |
 | selectFirst          |  boolean   |               `false`               |         | Default selects the first item in the list of results                                                                                                                    |
@@ -421,9 +422,9 @@ const auto = new Autocomplete('you-id', {
   howManyCharacters: 1,
   delay: 500,
   ariaLabelClear: "clear the search query",
-  classPreventClosing: "",
-  classGroup: "",
-  classPrefix: "auto",
+  classPreventClosing: "", // don't use empty value
+  classGroup: "", // don't use empty value
+  classPrefix: "", // don't use empty value
   onSearch: ({ currentValue, element }) => {},
   onResults: ({ currentValue, matches, template, classGroup }) => {},
   onRender: ({ element, results }) => {},
@@ -437,6 +438,9 @@ const auto = new Autocomplete('you-id', {
 
 // public methods
 auto.destroy();
+auto.rerender();
+// pass string to search
+auto.rerender(string);
 ```
 
 ## Browser support
@@ -452,9 +456,9 @@ Configuration for IE:
 
 ### cdn
 
-- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.8.7/dist/js/polyfill.js
-- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.8.7/dist/js/autocomplete.ie.min.js
-- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.8.7/dist/css/autocomplete.ie.min.css
+- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.8.8/dist/js/polyfill.js
+- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.8.8/dist/js/autocomplete.ie.min.js
+- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.8.8/dist/css/autocomplete.ie.min.css
 
 ### cdn polyfill from npm
 

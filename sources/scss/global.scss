@@ -761,3 +761,14 @@ aside::-webkit-scrollbar-thumb {
   color: #808080;
   padding: 2px 0;
 }
+
+[data-clone="true"] {
+  background: rgb(0, 149, 255);
+  color: #fff;
+  &.auto-selected {
+    background: rgb(150, 211, 255);
+  }
+  &:hover {
+    background: rgb(41, 166, 255);
+  }
+}

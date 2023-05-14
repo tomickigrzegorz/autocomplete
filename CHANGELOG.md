@@ -1,3 +1,9 @@
+## 2023-05-01 (1.8.8)
+### Added
+
+- `rerender()` This method allows you to re-render the results without modifying the input field.
+If we pass text rerender(string); then we render the results again and also replace the text in the input field. [rerender](https://tomickigrzegorz.github.io/autocomplete/#rerendr)
+
 ## 2023-05-01 (1.8.7)
 ### Added
 - add banner

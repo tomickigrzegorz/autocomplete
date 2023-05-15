@@ -1,4 +1,4 @@
-## 2023-05-01 (1.8.8)
+## 2023-05-14 (1.8.8)
 ### Added
 
 - `rerender()` This method allows you to re-render the results without modifying the input field.

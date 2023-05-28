@@ -40,6 +40,7 @@ export default class Autocomplete {
       showAllValues = false,
       cache = false,
       disableCloseOnSelect = false,
+      preventScrollUp = false,
       classGroup,
       classPreventClosing,
       classPrefix,
@@ -84,6 +85,7 @@ export default class Autocomplete {
       : "clear the search query";
     this._prefix = classPrefix ? `${classPrefix}-auto` : "auto";
     this._disable = disableCloseOnSelect;
+    this._preventScrollUp = preventScrollUp;
 
     // default config
     this._cache = cache;
@@ -370,6 +372,7 @@ export default class Autocomplete {
 
     // move the view item to the first item
     // this.resultList.scrollTop = 0;
+    if (this._preventScrollUp) return;
     scrollResultsToTop(this._resultList, this._resultWrap);
   };
 
@@ -453,7 +456,9 @@ export default class Autocomplete {
 
       // move the view item to the first item
       // this.resultList.scrollTop = 0;
-      scrollResultsToTop(this._resultList, this._resultWrap);
+      if (!this._preventScrollUp) {
+        scrollResultsToTop(this._resultList, this._resultWrap);
+      }
 
       // select first element
       this._selectFirstElement();

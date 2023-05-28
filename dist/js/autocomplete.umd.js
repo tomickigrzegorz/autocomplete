@@ -1,6 +1,6 @@
 /*!
 * @name autocomplete
-* @version 1.8.8
+* @version 1.8.9
 * @author Grzegorz Tomicki
 * @link https://github.com/tomickigrzegorz/autocomplete
 * @license MIT
@@ -116,6 +116,7 @@
         showAllValues = false,
         cache = false,
         disableCloseOnSelect = false,
+        preventScrollUp = false,
         classGroup,
         classPreventClosing,
         classPrefix,
@@ -264,6 +265,7 @@
           results: this._resultList
         });
         this._selectFirstElement();
+        if (this._preventScrollUp) return;
         scrollResultsToTop(this._resultList, this._resultWrap);
       };
       this._handleDocClick = _ref3 => {
@@ -308,7 +310,9 @@
             addClass: `${this._prefix}-expanded`
           });
           classList(this._resultWrap, "add", this._isActive);
-          scrollResultsToTop(this._resultList, this._resultWrap);
+          if (!this._preventScrollUp) {
+            scrollResultsToTop(this._resultList, this._resultWrap);
+          }
           this._selectFirstElement();
           this._onOpened({
             type: "showItems",
@@ -506,6 +510,7 @@
       this._clearBtnAriLabel = ariaLabelClear ? ariaLabelClear : "clear the search query";
       this._prefix = classPrefix ? `${classPrefix}-auto` : "auto";
       this._disable = disableCloseOnSelect;
+      this._preventScrollUp = preventScrollUp;
       this._cache = cache;
       this._outputUl = `${this._prefix}-${this._id}-results`;
       this._cacheData = `data-cache-auto-${this._id}`;

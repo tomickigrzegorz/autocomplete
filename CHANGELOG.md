@@ -1,3 +1,8 @@
+## 2023-05-28 (1.8.9)
+### Added
+
+- preventScrollUp - parameter prevents the results from scrolling up when we have scrolling. It also works when we click a second time when we have results. The results are shown in the same place.
+
 ## 2023-05-14 (1.8.8)
 ### Added
 

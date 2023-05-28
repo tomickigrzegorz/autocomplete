@@ -44,13 +44,13 @@ See the demo - [example](https://tomickigrzegorz.github.io/autocomplete/)
 #### CSS
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.8.8/dist/css/autocomplete.min.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.8.9/dist/css/autocomplete.min.css"/>
 ```
 
 #### JavaScript
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.8.8/dist/js/autocomplete.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.8.9/dist/js/autocomplete.min.js"></script>
 ```
 
 ##### -- OR --
@@ -154,6 +154,7 @@ npm run prod
 | selectFirst          |  boolean   |               `false`               |         | Default selects the first item in the list of results                                                                                                                    |
 | insertToInput        |  boolean   |               `false`               |         | Adding an element selected with arrows to the input field                                                                                                                |
 | disableCloseOnSelect |  boolean   |               `false`               |         | Prevents results from hiding after clicking on an item from the results list                                                                                             |
+| preventScrollUp      |  boolean   |               `false`               |         | Prevents the results from scrolling up when we have scrolling. It also works when we click a second time when we have results. The results are shown in the same place.                                                                                             |
 | showAllValues        |  boolean   |               `false`               |         | This option will toggle showing all values when the input is clicked, like a default dropdown                                                                            |
 | cache                |  boolean   |               `false`               |         | The characters entered in the input field are cached                                                                                                                     |
 | howManyCharacters    |   number   |                 `1`                 |         | The number of characters entered should start searching                                                                                                                  |
@@ -266,6 +267,12 @@ new Autocomplete('complex', {
   // set aria-label attribute for the clear button
   // by default is 'clear text from input'
   ariaLabelClear: 'insert your text if you want ;)'
+
+  // parameter prevents the results from scrolling 
+  // up when we have scrolling. It also works when we
+  // click a second time when we have results. 
+  // The results are shown in the same place.
+  preventScrollUp: false,
 
   // Function for user input. It can be a synchronous function or a promise
   // you can fetch data with jquery, axios, fetch, etc.
@@ -420,6 +427,7 @@ const auto = new Autocomplete('you-id', {
   cache: false,
   showAllValues: false,
   howManyCharacters: 1,
+  preventScrollUp: false,
   delay: 500,
   ariaLabelClear: "clear the search query",
   classPreventClosing: "", // don't use empty value
@@ -456,9 +464,9 @@ Configuration for IE:
 
 ### cdn
 
-- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.8.8/dist/js/polyfill.js
-- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.8.8/dist/js/autocomplete.ie.min.js
-- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.8.8/dist/css/autocomplete.ie.min.css
+- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.8.9/dist/js/polyfill.js
+- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.8.9/dist/js/autocomplete.ie.min.js
+- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.8.9/dist/css/autocomplete.ie.min.css
 
 ### cdn polyfill from npm
 

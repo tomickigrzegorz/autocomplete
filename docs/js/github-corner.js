@@ -37,7 +37,6 @@ const htmlRootElement = document.querySelectorAll(
 /**
  * menu
  */
-
 const menu = document.querySelector(".menu");
 function generateMenu(data) {
   data.map((el, index) => {
@@ -93,6 +92,8 @@ fetchData(detectUrl("menu.json"), "json")
 // ----------
 
 htmlRootElement.forEach((element, index) => {
+  const staticFile = element.classList.contains("static-file");
+
   const htmlCode = element.cloneNode(true).outerHTML.replace(/^\s{1,12}/gm, "");
 
   const htmlConverter = htmlCode.replace(
@@ -102,13 +103,30 @@ htmlRootElement.forEach((element, index) => {
     }
   );
 
+  let htmlConverterNextElement = "";
+  if (staticFile) {
+    let nextElement = element.nextElementSibling
+      .cloneNode(true)
+      .outerHTML.replace(/^\s{1,12}/gm, "");
+
+    htmlConverterNextElement = nextElement.replace(
+      /[\u00A0-\u9999<>\\&]/gim,
+      function (i) {
+        return `&#${i.charCodeAt(0)};`;
+      }
+    );
+  }
+
   const preElement = document.createElement("pre");
   const codeElement = document.createElement("code");
   codeElement.className = "language-html";
 
   preElement.appendChild(codeElement);
 
-  codeElement.insertAdjacentHTML("beforeend", htmlConverter);
+  codeElement.insertAdjacentHTML(
+    "beforeend",
+    `${htmlConverter} \n${htmlConverterNextElement}`
+  );
 
   htmlRoot[index].nextElementSibling.appendChild(preElement);
 });

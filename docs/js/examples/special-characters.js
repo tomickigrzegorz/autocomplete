@@ -16,8 +16,13 @@ new Autocomplete("special-characters", {
         // https://stackoverflow.com/a/37511463/10424385
         const elementNormalize = element.name
           .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "");
-        return elementNormalize.match(new RegExp(currentValue, "i"));
+          .replace(/\p{Diacritic}/gu, "");
+
+        const currentValueNormalize = currentValue
+          .normalize("NFD")
+          .replace(/\p{Diacritic}/gu, "");
+
+        return elementNormalize.match(new RegExp(currentValueNormalize, "i"));
       });
   },
 

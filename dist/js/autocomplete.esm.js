@@ -1,6 +1,6 @@
 /*!
 * @name autocomplete
-* @version 1.8.9
+* @version 1.9.0
 * @author Grzegorz Tomicki
 * @link https://github.com/tomickigrzegorz/autocomplete
 * @license MIT
@@ -165,20 +165,27 @@ class Autocomplete {
       }, delay);
     };
     this._reset = () => {
-      setAttributes(this._root, {
+      var _this$_matches;
+      classList(this._resultWrap, "remove", this._isActive);
+      const ariaAcrivedescentDefault = {
         "aria-owns": `${this._id}-list`,
         "aria-expanded": "false",
         "aria-autocomplete": "list",
-        "aria-activedescendant": "",
         role: "combobox",
         removeClass: "auto-expanded"
-      });
-      classList(this._resultWrap, "remove", this._isActive);
-      this._removeAria(select(`.${this._activeList}`));
-      if (this._matches?.length == 0 && !this._toInput || this._showAll) {
+      };
+      const ariaAcrivedescent = this._preventScrollUp ? ariaAcrivedescentDefault : {
+        ...ariaAcrivedescentDefault,
+        "aria-activedescendant": ""
+      };
+      setAttributes(this._root, ariaAcrivedescent);
+      if (!this._preventScrollUp) {
+        this._removeAria(select(`.${this._activeList}`));
+        this._index = this._selectFirst ? 0 : -1;
+      }
+      if (((_this$_matches = this._matches) == null ? void 0 : _this$_matches.length) == 0 && !this._toInput || this._showAll) {
         this._resultList.textContent = "";
       }
-      this._index = this._selectFirst ? 0 : -1;
       this._onClose();
     };
     this._searchItem = value => {
@@ -259,7 +266,6 @@ class Autocomplete {
         results: this._resultList
       });
       this._selectFirstElement();
-      if (this._preventScrollUp) return;
       scrollResultsToTop(this._resultList, this._resultWrap);
     };
     this._handleDocClick = _ref3 => {
@@ -306,8 +312,8 @@ class Autocomplete {
         classList(this._resultWrap, "add", this._isActive);
         if (!this._preventScrollUp) {
           scrollResultsToTop(this._resultList, this._resultWrap);
+          this._selectFirstElement();
         }
-        this._selectFirstElement();
         this._onOpened({
           type: "showItems",
           element: this._root,
@@ -324,7 +330,7 @@ class Autocomplete {
         type
       } = event;
       const targetClosest = target.closest("li");
-      const targetClosestRole = targetClosest?.hasAttribute("role");
+      const targetClosestRole = targetClosest == null ? void 0 : targetClosest.hasAttribute("role");
       const activeClass = this._activeList;
       const activeClassElement = select(`.${activeClass}`);
       if (!targetClosest || !targetClosestRole || target.closest(`.${this._prevClosing}`)) {
@@ -358,7 +364,9 @@ class Autocomplete {
         results: this._resultList
       });
       if (!this._disable) {
-        this._removeAria(element);
+        if (!this._preventScrollUp) {
+          this._removeAria(element);
+        }
         this._reset();
       }
       this._cacheAct("remove");
@@ -452,8 +460,8 @@ class Autocomplete {
       this._root.insertAdjacentElement("afterend", this._clearBtn);
     };
     this.rerender = inputValue => {
-      const text = inputValue?.trim() ? inputValue.trim() : this._root.value;
-      if (inputValue?.trim()) {
+      const text = inputValue != null && inputValue.trim() ? inputValue.trim() : this._root.value;
+      if (inputValue != null && inputValue.trim()) {
         this._root.value = inputValue.trim();
         this._cacheAct("update", this._root);
       }

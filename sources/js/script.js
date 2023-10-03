@@ -54,7 +54,7 @@ export default class Autocomplete {
       onClose = () => {},
       noResults = () => {},
       onSelectedItem = () => {},
-    }
+    },
   ) {
     this._id = element;
     this._root = document.getElementById(element);
@@ -117,7 +117,7 @@ export default class Autocomplete {
       this._resultList,
       this._outputUl,
       this._resultWrap,
-      this._prefix
+      this._prefix,
     );
 
     // default aria
@@ -187,30 +187,37 @@ export default class Autocomplete {
    * Default aria
    */
   _reset = () => {
-    // set attributes to root - input
-    setAttributes(this._root, {
-      "aria-owns": `${this._id}-list`,
-      "aria-expanded": "false",
-      "aria-autocomplete": "list",
-      "aria-activedescendant": "",
-      role: "combobox",
-      removeClass: "auto-expanded",
-    });
-
     // remove class isActive
     classList(this._resultWrap, "remove", this._isActive);
 
-    // set default aria-selected, remove id and remove class 'auto-selected'
-    this._removeAria(select(`.${this._activeList}`));
+    const ariaAcrivedescentDefault = {
+      "aria-owns": `${this._id}-list`,
+      "aria-expanded": "false",
+      "aria-autocomplete": "list",
+      role: "combobox",
+      removeClass: "auto-expanded",
+    };
+
+    const ariaAcrivedescent = this._preventScrollUp
+      ? ariaAcrivedescentDefault
+      : { ...ariaAcrivedescentDefault, "aria-activedescendant": "" };
+
+    // set attributes to root - input
+    setAttributes(this._root, ariaAcrivedescent);
+
+    if (!this._preventScrollUp) {
+      // set default aria-selected, remove id and remove class 'auto-selected'
+      this._removeAria(select(`.${this._activeList}`));
+
+      // set index
+      this._index = this._selectFirst ? 0 : -1;
+    }
 
     // remove result when lengh = 0 and insertToInput is false
     // https://github.com/tomickigrzegorz/autocomplete/issues/136
     if ((this._matches?.length == 0 && !this._toInput) || this._showAll) {
       this._resultList.textContent = "";
     }
-
-    // set index
-    this._index = this._selectFirst ? 0 : -1;
 
     // callback function
     this._onClose();
@@ -354,7 +361,7 @@ export default class Autocomplete {
       : "";
 
     this._itemsLi = document.querySelectorAll(
-      `#${this._outputUl} > li${checkIfClassGroupExist}`
+      `#${this._outputUl} > li${checkIfClassGroupExist}`,
     );
 
     // adding role, tabindex and aria
@@ -372,7 +379,7 @@ export default class Autocomplete {
 
     // move the view item to the first item
     // this.resultList.scrollTop = 0;
-    if (this._preventScrollUp) return;
+    // if (this._preventScrollUp) return;
     scrollResultsToTop(this._resultList, this._resultWrap);
   };
 
@@ -458,10 +465,9 @@ export default class Autocomplete {
       // this.resultList.scrollTop = 0;
       if (!this._preventScrollUp) {
         scrollResultsToTop(this._resultList, this._resultWrap);
+        // select first element
+        this._selectFirstElement();
       }
-
-      // select first element
-      this._selectFirstElement();
 
       // callback function
       this._onOpened({
@@ -551,7 +557,9 @@ export default class Autocomplete {
 
     // set default settings
     if (!this._disable) {
-      this._removeAria(element);
+      if (!this._preventScrollUp) {
+        this._removeAria(element);
+      }
       this._reset();
     }
 
@@ -668,7 +676,7 @@ export default class Autocomplete {
    */
   _setAria = (target) => {
     const selectedOption = `${this._selectedOption}-${this._indexLiSelected(
-      target
+      target,
     )}`;
 
     // set aria to li
@@ -685,7 +693,7 @@ export default class Autocomplete {
       target,
       this._outputUl,
       this._classGroup,
-      this._resultList
+      this._resultList,
     );
   };
 

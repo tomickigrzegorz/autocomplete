@@ -22,7 +22,7 @@
     "html": "Rerender"
   },
   {
-    "link": "preventScrollUp",
+    "link": "prevent-scroll-up-example",
     "html": "Prevent scroll up"
   },
   {

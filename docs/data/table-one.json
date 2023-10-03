@@ -100,6 +100,16 @@
       },
       {
         "row": [
+          { "column": "preventScrollUp" },
+          { "column": "false" },
+          { "column": "" },
+          {
+            "column": "The parameter prevents the results from scrolling up when scrolling after reopening the results. The results are displayed in the same place. The selected item does not disappear and is still selected."
+          }
+        ]
+      },
+      {
+        "row": [
           { "column": "ariaLabelClear" },
           { "column": "clear the search query" },
           { "column": "" },

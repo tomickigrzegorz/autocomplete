@@ -24,10 +24,10 @@ new Autocomplete("preventScrollUp-output", {
   onResults: ({ matches }) => {
     return matches
       .map(
-        ({ id, name, clone }) => `
-        <li data-id="${id}" data-clone="${clone ?? false}" class="flex">
+        ({ name }) => `
+        <li class="flex">
           <div class="name" title="clickable">${name}</div>
-        </li>`
+        </li>`,
       )
       .join("");
   },

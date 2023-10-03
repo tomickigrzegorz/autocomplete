@@ -24,7 +24,7 @@ const autoRerender = new Autocomplete("rerender-output", {
           <div class="name" title="clickable">${name}</div>
           <div class="additional-elements" title="not clickable">
             <span>${button ?? "CLICK"}</span></div>
-        </li>`
+        </li>`,
       )
       .join("");
   },
@@ -42,9 +42,9 @@ document.addEventListener("click", ({ target }) => {
   if (!preventClose) return;
 
   const cloneRow = target.closest(".flex");
-  const rowId = +cloneRow.dataset.id;
+  const rowId = +cloneRow?.dataset.id;
 
-  const rowClone = cloneRow.dataset.clone;
+  const rowClone = cloneRow?.dataset.clone;
 
   if (rowClone == "true") {
     cloneRow.remove();

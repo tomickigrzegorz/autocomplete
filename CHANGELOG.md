@@ -1,3 +1,9 @@
+## 2023-10-03 (1.9.0)
+### Added
+
+- preventScrollUp - the parameter has been extended in such a way that the selected item (gray rows) is still visible after reopening the results.
+
+
 ## 2023-05-28 (1.8.9)
 ### Added
 

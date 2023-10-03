@@ -44,13 +44,13 @@ See the demo - [example](https://tomickigrzegorz.github.io/autocomplete/)
 #### CSS
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.8.9/dist/css/autocomplete.min.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.9.0/dist/css/autocomplete.min.css"/>
 ```
 
 #### JavaScript
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.8.9/dist/js/autocomplete.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.9.0/dist/js/autocomplete.min.js"></script>
 ```
 
 ##### -- OR --
@@ -154,7 +154,7 @@ npm run prod
 | selectFirst          |  boolean   |               `false`               |         | Default selects the first item in the list of results                                                                                                                    |
 | insertToInput        |  boolean   |               `false`               |         | Adding an element selected with arrows to the input field                                                                                                                |
 | disableCloseOnSelect |  boolean   |               `false`               |         | Prevents results from hiding after clicking on an item from the results list                                                                                             |
-| preventScrollUp      |  boolean   |               `false`               |         | Prevents the results from scrolling up when we have scrolling. It also works when we click a second time when we have results. The results are shown in the same place.                                                                                             |
+| preventScrollUp      |  boolean   |               `false`               |         | The parameter prevents the results from scrolling up when scrolling after reopening the results. The results are displayed in the same place. The selected item does not disappear and is still selected.                                                                                             |
 | showAllValues        |  boolean   |               `false`               |         | This option will toggle showing all values when the input is clicked, like a default dropdown                                                                            |
 | cache                |  boolean   |               `false`               |         | The characters entered in the input field are cached                                                                                                                     |
 | howManyCharacters    |   number   |                 `1`                 |         | The number of characters entered should start searching                                                                                                                  |
@@ -464,9 +464,9 @@ Configuration for IE:
 
 ### cdn
 
-- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.8.9/dist/js/polyfill.js
-- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.8.9/dist/js/autocomplete.ie.min.js
-- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.8.9/dist/css/autocomplete.ie.min.css
+- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.9.0/dist/js/polyfill.js
+- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.9.0/dist/js/autocomplete.ie.min.js
+- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.9.0/dist/css/autocomplete.ie.min.css
 
 ### cdn polyfill from npm
 

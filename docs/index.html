@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,14 +9,47 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/plugins/autoloader/prism-autoloader.min.js"></script>
     <link rel="stylesheet" href="./css/global.css" />
     <link rel="stylesheet" href="./css/autocomplete.css" />
+    <script>
+      let localStor = localStorage.getItem("theme");
+      let themeToSet = localStor;
+      if (!localStor) {
+        themeToSet = window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light";
+      }
+
+      document.documentElement.setAttribute("data-theme", themeToSet);
+    </script>
   </head>
 
   <body>
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+      <symbol id="icon-sun" viewBox="0 0 32 32">
+        <path
+          d="M16 9c-3.859 0-7 3.141-7 7s3.141 7 7 7 7-3.141 7-7-3.141-7-7-7zm0 12c-2.762 0-5-2.238-5-5s2.238-5 5-5 5 2.238 5 5-2.238 5-5 5zm0-14a1 1 0 001-1V4a1 1 0 00-2 0v2a1 1 0 001 1zm0 18a1 1 0 00-1 1v2a1 1 0 002 0v-2a1 1 0 00-1-1zm7.777-15.365l1.414-1.414a.999.999 0 10-1.414-1.414l-1.414 1.414a.999.999 0 101.414 1.414zM8.223 22.365l-1.414 1.414a.999.999 0 101.414 1.414l1.414-1.414a.999.999 0 10-1.414-1.414zM7 16a1 1 0 00-1-1H4a1 1 0 000 2h2a1 1 0 001-1zm21-1h-2a1 1 0 000 2h2a1 1 0 000-2zM8.221 9.635a.999.999 0 101.414-1.414L8.221 6.807a.999.999 0 10-1.414 1.414l1.414 1.414zm15.558 12.728a.999.999 0 10-1.414 1.414l1.414 1.414a.999.999 0 101.414-1.414l-1.414-1.414z"
+        ></path>
+      </symbol>
+      <symbol id="icon-moon" viewBox="0 0 32 32">
+        <path
+          d="M21.866 21.447c-3.117 3.12-8.193 3.12-11.313 0s-3.12-8.195 0-11.314a7.952 7.952 0 012.989-1.863.998.998 0 011.039.237.995.995 0 01.237 1.039c-.784 2.211-.25 4.604 1.391 6.245 1.638 1.639 4.031 2.172 6.245 1.391a.996.996 0 011.039.237.995.995 0 01.236 1.039 7.907 7.907 0 01-1.863 2.989zm-9.899-9.9a6.007 6.007 0 000 8.486c2.5 2.501 6.758 2.276 8.937-.51-2.247.141-4.461-.671-6.109-2.318s-2.458-3.861-2.318-6.108c-.18.141-.35.29-.51.451z"
+        ></path>
+      </symbol>
+    </svg>
     <main class="container">
       <header>
         <h1 class="loupe">
           autocomplete <sup><small>v1.9.0</small></sup>
         </h1>
+        <div class="switch-theme">
+          <button class="theme theme-head" aria-label="change theme">
+            <svg class="theme-light">
+              <use xlink:href="#icon-sun"></use>
+            </svg>
+            <svg class="theme-dark">
+              <use xlink:href="#icon-moon"></use>
+            </svg>
+          </button>
+        </div>
       </header>
       <!-- menu start -->
       <aside>

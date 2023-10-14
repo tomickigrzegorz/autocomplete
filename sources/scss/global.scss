@@ -1,3 +1,43 @@
+:root {
+  --page-bg: #fbfbfb;
+  --font-color: #2d2d2d;
+  --info-section-bg: #f9f2f4;
+  --info-section-color: #c7254e;
+  --info-section-border-bottom: #c7254e;
+  --active-color: #0095ff;
+  --active-bg-color: #e5f4ff;
+  --active-bg-before: #0095ff;
+  --scroll-track: #fff;
+  --scroll-thumb-color: #ababab;
+  --scroll-thumb-border: #fff;
+  --top-button-bg: #fbfbfb;
+  --row-even: #f6f6f6;
+  --th-bg: #e2e2e2;
+  --table-new-border: #dfdfdf;
+  --tr-bottom-border: #dfdfdf;
+  --border-left: #d1d1d1;
+}
+
+:root[data-theme="dark"] {
+  --page-bg: #1d1d1d;
+  --font-color: #cdcdcd;
+  --info-section-bg: #000;
+  --info-section-color: #ffbece;
+  --info-section-border-bottom: #cc6f86;
+  --active-color: #f4f4f4;
+  --active-bg-color: #000000;
+  --scroll-track: transparent;
+  --scroll-thumb-color: #717171;
+  --scroll-thumb-border: #101010;
+  --top-button-bg: #1d1d1d;
+  --top-button-color: #fff;
+  --row-even: #151515;
+  --th-bg: #626262;
+  --table-new-border: #626262;
+  --tr-bottom-border: #626262;
+  --border-left: #626262;
+}
+
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@400&display=swap");
 @import "./modules/colors";
 @import "./modules/prism-theme";
@@ -35,7 +75,8 @@ html {
 body {
   position: relative;
   font-family: "Lato", sans-serif;
-  background: #fbfbfb;
+  background: var(--page-bg);
+  color: var(--font-color);
   padding: 0;
   line-height: 1.4;
   font-size: 18px;
@@ -53,7 +94,7 @@ header {
   height: 50px;
   z-index: 9;
   padding: 0 20px;
-  background: #fff;
+  background: var(--page-bg);
   border-bottom: 1px solid #333;
 }
 
@@ -87,9 +128,9 @@ a {
   position: relative;
   a {
     position: relative;
-    color: #0095ff;
+    color: var(--active-color);
     font-weight: bold;
-    background: #e5f4ff;
+    background: var(--active-bg-color);
   }
   &:before {
     position: absolute;
@@ -98,7 +139,7 @@ a {
     top: 0;
     left: -5px;
     width: 4px;
-    background: #0095ff;
+    background: var(--active-bg-before);
   }
 }
 
@@ -119,13 +160,13 @@ aside {
   height: calc(100% - 50px);
   padding: 20px 0 20px 20px;
   border-right: 1px solid #333;
-  background: #fff;
+  background: var(--page-bg);
   z-index: 10;
   box-shadow: 0 0 10px rgba(51, 51, 51, 0.2);
 
   ul {
     list-style: none;
-    background: #fff;
+    background: var(--page-bg);
 
     li {
       a {
@@ -204,6 +245,10 @@ article,
   position: relative;
   padding: 0 0 40px;
   max-width: 1000px;
+}
+
+.section ul {
+  color: #000;
 }
 
 h2 {
@@ -416,12 +461,12 @@ body,
   a {
     padding: 2px 0;
     font-size: 90%;
-    color: #c7254e;
-    background-color: #f9f2f4;
+    color: var(--info-section-color);
+    background-color: var(--info-section-bg);
   }
 
   a {
-    border-bottom: 1px solid #c7254e;
+    border-bottom: 1px solid var(--info-section-border-bottom);
   }
 
   p + p {
@@ -526,16 +571,16 @@ table {
 }
 
 tr {
-  border-bottom: 1px solid #dfdfdf;
+  border-bottom: 1px solid var(--tr-border-bottom);
 }
 
 tr:nth-child(even) {
-  background-color: #f6f6f6;
+  background-color: var(--row-even);
 }
 
 .table-new {
   overflow: auto;
-  border: 1px solid #dfdfdf;
+  border: 1px solid var(--table-new-border);
   border-radius: 5px;
   font-size: 16px;
 }
@@ -545,7 +590,7 @@ table + table {
 }
 
 th {
-  background: #e2e2e2;
+  background: var(--th-bg);
   font-weight: normal !important;
   text-align: left;
   font-size: 80%;
@@ -559,11 +604,11 @@ td {
 }
 
 td + td {
-  border-left: 1px solid #e7e7e7;
+  border-left: 1px solid var(--border-left);
 }
 
 th + th {
-  border-left: 1px solid #d1d1d1;
+  border-left: 1px solid var(--border-left);
 }
 
 td code {
@@ -593,6 +638,7 @@ td code {
   font-size: 90%;
   a {
     line-height: 1;
+    color: var(--font-color);
   }
 }
 
@@ -601,12 +647,13 @@ h1.loupe {
 }
 
 .top-button {
-  background: #fbfbfb;
+  background: var(--top-button-bg);
   bottom: -8px;
   font-size: 0.8em;
   padding: 0 10px;
   position: absolute;
   right: 0;
+  color: var(--top-button-color);
   text-decoration: none;
   z-index: 1;
 }
@@ -666,7 +713,9 @@ h1.loupe {
         padding: 5px;
         border-radius: 5px;
         &:hover {
-          transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
+          transition:
+            background 0.2s ease-in-out,
+            color 0.2s ease-in-out;
           background: #000;
           color: #fff;
         }
@@ -687,8 +736,14 @@ kbd {
   box-shadow: inset 0 -1px 0 #dbdbdb;
   color: #000;
   display: inline-block;
-  font: 11px ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas,
-    Liberation Mono, monospace;
+  font:
+    11px ui-monospace,
+    SFMono-Regular,
+    SF Mono,
+    Menlo,
+    Consolas,
+    Liberation Mono,
+    monospace;
   line-height: 11px;
   padding: 5px 7px;
   vertical-align: middle;
@@ -742,13 +797,13 @@ aside::-webkit-scrollbar {
 }
 
 aside::-webkit-scrollbar-track {
-  background: #ffffff;
+  background: var(--scroll-track);
 }
 
 aside::-webkit-scrollbar-thumb {
-  background-color: #ababab;
+  background-color: var(--scroll-thumb-color);
   border-radius: 10px;
-  border: 3px solid #ffffff;
+  border: 3px solid var(--scroll-thumb-border);
 }
 
 .hidden {
@@ -770,5 +825,36 @@ aside::-webkit-scrollbar-thumb {
   }
   &:hover {
     background: rgb(41, 166, 255);
+  }
+}
+
+.switch-theme {
+  margin-top: 5px;
+  margin-right: 50px;
+
+  button {
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+  }
+  svg {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.theme-light {
+  fill: #fff;
+}
+
+[data-theme="dark"] {
+  .theme-dark {
+    display: none;
+  }
+  .github-corner {
+    fill: #fff;
+  }
+  .loupe::before {
+    filter: brightness(1);
   }
 }

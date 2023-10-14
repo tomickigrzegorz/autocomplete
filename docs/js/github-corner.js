@@ -31,7 +31,7 @@ const sectionClass = document.querySelectorAll(".section");
 
 const htmlRoot = document.querySelectorAll(".search-element");
 const htmlRootElement = document.querySelectorAll(
-  ".search-element > :nth-child(2)"
+  ".search-element > :nth-child(2)",
 );
 
 /**
@@ -100,7 +100,7 @@ htmlRootElement.forEach((element, index) => {
     /[\u00A0-\u9999<>\\&]/gim,
     function (i) {
       return `&#${i.charCodeAt(0)};`;
-    }
+    },
   );
 
   let htmlConverterNextElement = "";
@@ -113,7 +113,7 @@ htmlRootElement.forEach((element, index) => {
       /[\u00A0-\u9999<>\\&]/gim,
       function (i) {
         return `&#${i.charCodeAt(0)};`;
-      }
+      },
     );
   }
 
@@ -125,7 +125,7 @@ htmlRootElement.forEach((element, index) => {
 
   codeElement.insertAdjacentHTML(
     "beforeend",
-    `${htmlConverter} \n${htmlConverterNextElement}`
+    `${htmlConverter} \n${htmlConverterNextElement}`,
   );
 
   htmlRoot[index].nextElementSibling.appendChild(preElement);
@@ -260,3 +260,20 @@ tablesNew.forEach((tableRoot) => {
     });
   }
 });
+
+/**
+ * Switch theme
+ */
+const switchTheme = () => {
+  const rootElemet = document.documentElement;
+  let dataTheme = rootElemet.getAttribute("data-theme");
+  let newTheme;
+
+  newTheme = dataTheme === "light" ? "dark" : "light";
+
+  rootElemet.setAttribute("data-theme", newTheme);
+
+  localStorage.setItem("theme", newTheme);
+};
+
+document.querySelector(".switch-theme").addEventListener("click", switchTheme);

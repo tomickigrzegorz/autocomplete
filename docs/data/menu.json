@@ -1,25 +1,32 @@
 [
   { "link": "started", "html": "Geting started" },
-  { "link": "basics", "html": "Basics example" },
+  { "link": "basics-example", "html": "Basics example" },
   { "link": "complex-example", "html": "Complex example" },
-  { "link": "basics-clear-button-on", "html": "Clear button on initial" },
-  { "link": "no-results-example", "html": "No results" },
-  { "link": "static-file", "html": "Static file" },
-  { "link": "data-elements", "html": "Static file + data-elelemts" },
-  { "link": "groups", "html": "Data grouping" },
-  { "link": "local-data", "html": "Local data" },
-  { "link": "dynamic-list", "html": "Dynamic list position" },
   {
-    "link": "records-from-the-result",
+    "link": "basics-clear-button-on-example",
+    "html": "Clear button on initial"
+  },
+  { "link": "no-results-example", "html": "No results" },
+  { "link": "static-file-example", "html": "Static file" },
+  { "link": "data-elements-example", "html": "Static file + data-elelemts" },
+  { "link": "groups-example", "html": "Data grouping" },
+  { "link": "local-data-example", "html": "Local data" },
+  { "link": "dynamic-list-example", "html": "Dynamic list position" },
+  {
+    "link": "records-from-the-result-example",
     "html": "Number of records from the result"
   },
   {
-    "link": "footer",
+    "link": "footer-example",
     "html": "Header/Footer"
   },
   {
-    "link": "rerender",
+    "link": "rerender-example",
     "html": "Rerender"
+  },
+  {
+    "link": "remove-results-example",
+    "html": "Remove results when input is empty"
   },
   {
     "link": "prevent-scroll-up-example",
@@ -30,36 +37,36 @@
     "html": "Recent Searches"
   },
   {
-    "link": "modal",
+    "link": "modal-example",
     "html": "Modal"
   },
-  { "link": "showAllValues", "html": "Show all values" },
+  { "link": "show-all-values-example", "html": "Show all values" },
   {
-    "link": "update-input-data",
+    "link": "update-input-data-example",
     "html": "Update input field on selected items"
   },
   {
-    "link": "select-item",
+    "link": "select-item-example",
     "html": "Select multiple values <div><small>with count</small></div>"
   },
   {
-    "link": "multiple-choices-section",
+    "link": "multiple-choices-example",
     "html": "Multiple choices"
   },
   {
-    "link": "select-item-checkbox",
+    "link": "select-item-checkbox-example",
     "html": "Checkboxes"
   },
   {
-    "link": "special",
+    "link": "special-example",
     "html": "Special characters"
   },
   {
-    "link": "address-geocoding",
+    "link": "address-geocoding-example",
     "html": "Address geocoding"
   },
   {
-    "link": "bootstrap-modal",
+    "link": "bootstrap-modal-example",
     "html": "Bootstrap with modal"
   }
 ]

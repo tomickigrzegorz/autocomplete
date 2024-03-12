@@ -41,6 +41,7 @@ export default class Autocomplete {
       cache = false,
       disableCloseOnSelect = false,
       preventScrollUp = false,
+      removeResultsWhenInputIsEmpty = false,
       classGroup,
       classPreventClosing,
       classPrefix,
@@ -86,6 +87,7 @@ export default class Autocomplete {
     this._prefix = classPrefix ? `${classPrefix}-auto` : "auto";
     this._disable = disableCloseOnSelect;
     this._preventScrollUp = preventScrollUp;
+    this._removeResultsWhenInputIsEmpty = removeResultsWhenInputIsEmpty;
 
     // default config
     this._cache = cache;
@@ -179,6 +181,15 @@ export default class Autocomplete {
     // clear timeout
     clearTimeout(this._timeout);
     this._timeout = setTimeout(() => {
+      // removeResultsWhenInputIsEmpty
+      // remove results when input is empty
+      if (this._removeResultsWhenInputIsEmpty) {
+        if (target.value.length === 0) {
+          this.destroy();
+          return;
+        }
+      }
+
       this._searchItem(regex.trim());
     }, delay);
   };

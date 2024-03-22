@@ -165,7 +165,6 @@ npm run prod
 | classPreventClosing  |   string   |                                     |         | Prevents results from hiding after clicking on element with this class                                                                                                   |
 | classGroup           |   string   |                                     |         | Enter a class name, this class will be added to the group name elements                                                                                                  |
 | classPrefix          |   string   |                                     |         | Prefixing all autocomplete css class name, 'prefix-auto-', default 'auto-'                                                                                               |
-| ~~instruction~~      | ~~string~~ | ~~`When autocomplete results ...`~~ |         | ~~aria-describedby [attribute](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-describedby_attribute) A full text below~~ |
 
 **instructions** - has been removed from the library, [see how to add to html](https://tomickigrzegorz.github.io/autocomplete/#complex-example)
 
@@ -445,6 +444,8 @@ const auto = new Autocomplete('you-id', {
   preventScrollUp: false,
   delay: 500,
   ariaLabelClear: "clear the search query",
+  regex: { expression: /[\|\\{}()[\]^$+*?]/g, replacement: "\\$&" },
+  removeResultsWhenInputIsEmpty: false,
   classPreventClosing: "", // don't use empty value
   classGroup: "", // don't use empty value
   classPrefix: "", // don't use empty value

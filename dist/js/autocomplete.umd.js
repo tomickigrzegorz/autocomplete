@@ -1,6 +1,6 @@
 /*!
 * @name autocomplete
-* @version 1.9.0
+* @version 2.0.0
 * @author Grzegorz Tomicki
 * @link https://github.com/tomickigrzegorz/autocomplete
 * @license MIT
@@ -117,6 +117,11 @@
         cache = false,
         disableCloseOnSelect = false,
         preventScrollUp = false,
+        removeResultsWhenInputIsEmpty = false,
+        regex: _regex = {
+          expression: /[|\\{}()[\]^$+*?]/g,
+          replacement: "\\$&"
+        },
         classGroup,
         classPreventClosing,
         classPrefix,
@@ -162,16 +167,21 @@
         if (this._root.getAttribute("aria-expanded") === "true" && type === "click") {
           return;
         }
-        const regex = target.value.replace(this._regex, "\\$&");
+        const regex = target.value.replace(this._regex.expression, this._regex.replacement);
         this._cacheAct("update", target);
         const delay = this._showAll ? 0 : this._delay;
         clearTimeout(this._timeout);
         this._timeout = setTimeout(() => {
+          if (this._removeResultsWhenInputIsEmpty) {
+            if (target.value.length === 0) {
+              this.destroy();
+              return;
+            }
+          }
           this._searchItem(regex.trim());
         }, delay);
       };
       this._reset = () => {
-        var _this$_matches;
         classList(this._resultWrap, "remove", this._isActive);
         const ariaAcrivedescentDefault = {
           "aria-owns": `${this._id}-list`,
@@ -189,7 +199,7 @@
           this._removeAria(select(`.${this._activeList}`));
           this._index = this._selectFirst ? 0 : -1;
         }
-        if (((_this$_matches = this._matches) == null ? void 0 : _this$_matches.length) == 0 && !this._toInput || this._showAll) {
+        if (this._matches?.length == 0 && !this._toInput || this._showAll) {
           this._resultList.textContent = "";
         }
         this._onClose();
@@ -336,7 +346,7 @@
           type
         } = event;
         const targetClosest = target.closest("li");
-        const targetClosestRole = targetClosest == null ? void 0 : targetClosest.hasAttribute("role");
+        const targetClosestRole = targetClosest?.hasAttribute("role");
         const activeClass = this._activeList;
         const activeClassElement = select(`.${activeClass}`);
         if (!targetClosest || !targetClosestRole || target.closest(`.${this._prevClosing}`)) {
@@ -466,12 +476,12 @@
         this._root.insertAdjacentElement("afterend", this._clearBtn);
       };
       this.rerender = inputValue => {
-        const text = inputValue != null && inputValue.trim() ? inputValue.trim() : this._root.value;
-        if (inputValue != null && inputValue.trim()) {
+        const text = inputValue?.trim() ? inputValue.trim() : this._root.value;
+        if (inputValue?.trim()) {
           this._root.value = inputValue.trim();
           this._cacheAct("update", this._root);
         }
-        const regexText = text.replace(this._regex, "\\$&");
+        const regexText = text.replace(this._regex.expression, this._regex.replacement);
         this._searchItem(regexText.trim());
       };
       this.destroy = () => {
@@ -482,6 +492,7 @@
         this._reset();
         this._error();
         this._onReset(this._root);
+        this._onLoading();
         offEvent(this._root, "keydown", this._handleKeys);
         offEvent(this._root, "click", this._handleShowItems);
         offEvent(document, "click", this._handleDocClick);
@@ -519,7 +530,9 @@
       this._prefix = classPrefix ? `${classPrefix}-auto` : "auto";
       this._disable = disableCloseOnSelect;
       this._preventScrollUp = preventScrollUp;
+      this._removeResultsWhenInputIsEmpty = removeResultsWhenInputIsEmpty;
       this._cache = cache;
+      this._timeout = null;
       this._outputUl = `${this._prefix}-${this._id}-results`;
       this._cacheData = `data-cache-auto-${this._id}`;
       this._isLoading = `${this._prefix}-is-loading`;
@@ -527,11 +540,20 @@
       this._activeList = `${this._prefix}-selected`;
       this._selectedOption = `${this._prefix}-selected-option`;
       this._err = `${this._prefix}-error`;
-      this._regex = /[|\\{}()[\]^$+*?.]/g;
-      this._timeout = null;
       this._resultWrap = createElement("div");
       this._resultList = createElement("ul");
       this._clearBtn = createElement("button");
+      this._regex = _regex;
+      this._defaultExpression = {
+        expression: /[|\\{}()[\]^$+*?]/g,
+        replacement: "\\$&"
+      };
+      if (!this._regex.replacement) {
+        this._regex.replacement = this._defaultExpression.replacement;
+      }
+      if (!this._regex.expression) {
+        this._regex.expression = this._defaultExpression.expression;
+      }
       this._initial();
     }
   }

@@ -117,7 +117,7 @@ const setAriaActivedescendant = (root, type) => {
 const getClassGroupHeight = (outputUl, classGroup) => {
   // get height of ul without group class
   const allLiElements = document.querySelectorAll(
-    `#${outputUl} > li:not(.${classGroup})`
+    `#${outputUl} > li:not(.${classGroup})`,
   );
   let height = 0;
   [].slice.call(allLiElements).map((el) => (height += el.offsetHeight));

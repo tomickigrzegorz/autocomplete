@@ -149,13 +149,15 @@ npm run prod
 | noResults            |  function  |                                     |         | Showing information: "no results"                                                                                                                                        |
 | destroy              |   method   |                                     |         | Removes the autocomplete instance and its bindings                                                                                                                       |
 | rerender             |   method   |                                     |         | This method allows you to re-render the results without modifying the input field. Of course, we can also send the string we want to search for to the method. render(string);                                                                                                                       |
-| clearButton          |  boolean   |               `true`                |         | A parameter set to 'true' adds a button to remove text from the input field                                                                                              |
+| clearButton          |  boolean   |               `true`                |         | A parameter set to 'true' adds a button to remove text from the input field                                                                                              |GitHub Markdown Preview
 | clearButtonOnInitial |  boolean   |               `false`               |         | A parameter set to 'true' adds a button to remove text from the input field visible on initial Autocomplete lib.                                                         |
 | selectFirst          |  boolean   |               `false`               |         | Default selects the first item in the list of results                                                                                                                    |
 | insertToInput        |  boolean   |               `false`               |         | Adding an element selected with arrows to the input field                                                                                                                |
 | disableCloseOnSelect |  boolean   |               `false`               |         | Prevents results from hiding after clicking on an item from the results list                                                                                             |
 | preventScrollUp      |  boolean   |               `false`               |         | The parameter prevents the results from scrolling up when scrolling after reopening the results. The results are displayed in the same place. The selected item does not disappear and is still selected.                                                                                             |
 | showAllValues        |  boolean   |               `false`               |         | This option will toggle showing all values when the input is clicked, like a default dropdown                                                                            |
+| removeResultsWhenInputIsEmpty        |  boolean   |               `false`               |         | set to true deletes the results when input is empty. We use the `destroy()` method which removes the results from the DOM and returns everything to its original state |
+| regex        |  object   |  `{ expression: /[\|\\{}()[\]^$+*?]/g, replacement: "\\$&" }`  |         | the parameter allows you modify string before search. For example, we can remove special characters from the string. Default value is object `{ expression: /[\|\\{}()[\]^$+*?]/g, replacement: "\\$&" }` You can add only `expression` or only `replacement`. |
 | cache                |  boolean   |               `false`               |         | The characters entered in the input field are cached                                                                                                                     |
 | howManyCharacters    |   number   |                 `1`                 |         | The number of characters entered should start searching                                                                                                                  |
 | delay                |   number   |                `500`                |         | Time in milliseconds that the component should wait after last keystroke before calling search function 1000 = 1s                                                        |
@@ -273,6 +275,19 @@ new Autocomplete('complex', {
   // click a second time when we have results. 
   // The results are shown in the same place.
   preventScrollUp: false,
+
+  // set to true deletes the results when input is empty.
+  // We use the `destroy()` method which removes the
+  // results from the DOM and returns everything to its
+  // original state
+  removeResultsWhenInputIsEmpty: false,
+
+  // parameter allows you modify string before search.
+  // For example, we can remove special characters from
+  // the string. Default value is object
+  // `{ expression: /[|\\{}()[\]^$+*?]/g, replacement: "\\$&" }`
+  // You can add only `expression` or only `replacement`.
+  regex: { expression: /[\|\\{}()[\]^$+*?]/g, replacement: "\\$&" },
 
   // Function for user input. It can be a synchronous function or a promise
   // you can fetch data with jquery, axios, fetch, etc.

@@ -3,8 +3,8 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: ["eslint:recommended", "prettier"],
-  plugins: ["prettier"],
+  extends: ["eslint:recommended", "prettier", "plugin:testcafe/recommended"],
+  plugins: ["prettier", "testcafe"],
   rules: {
     "prettier/prettier": "error",
     "comma-dangle": ["error", "only-multiline"],

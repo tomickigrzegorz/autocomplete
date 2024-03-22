@@ -42,6 +42,7 @@ export default class Autocomplete {
       disableCloseOnSelect = false,
       preventScrollUp = false,
       removeResultsWhenInputIsEmpty = false,
+      regex = { expression: /[|\\{}()[\]^$+*?]/g, replacement: "\\$&" },
       classGroup,
       classPreventClosing,
       classPrefix,
@@ -91,6 +92,7 @@ export default class Autocomplete {
 
     // default config
     this._cache = cache;
+    this._timeout = null;
     this._outputUl = `${this._prefix}-${this._id}-results`;
     this._cacheData = `data-cache-auto-${this._id}`;
     this._isLoading = `${this._prefix}-is-loading`;
@@ -98,12 +100,30 @@ export default class Autocomplete {
     this._activeList = `${this._prefix}-selected`;
     this._selectedOption = `${this._prefix}-selected-option`;
     this._err = `${this._prefix}-error`;
-    this._regex = /[|\\{}()[\]^$+*?.]/g;
-    this._timeout = null;
-
     this._resultWrap = createElement("div");
     this._resultList = createElement("ul");
     this._clearBtn = createElement("button");
+
+    // ----------------------------------------
+    // regex
+
+    this._regex = regex;
+    this._defaultExpression = {
+      expression: /[|\\{}()[\]^$+*?]/g,
+      replacement: "\\$&",
+    };
+
+    // if regex is don't have replacement then set default
+    if (!this._regex.replacement) {
+      this._regex.replacement = this._defaultExpression.replacement;
+    }
+
+    // if regex is don't have expression then set default
+    if (!this._regex.expression) {
+      this._regex.expression = this._defaultExpression.expression;
+    }
+
+    // ----------------------------------------
 
     this._initial();
   }
@@ -172,7 +192,10 @@ export default class Autocomplete {
     }
 
     // replace all special characters
-    const regex = target.value.replace(this._regex, "\\$&");
+    const regex = target.value.replace(
+      this._regex.expression,
+      this._regex.replacement,
+    );
 
     // update data attribute cache
     this._cacheAct("update", target);
@@ -753,7 +776,10 @@ export default class Autocomplete {
       this._root.value = inputValue.trim();
       this._cacheAct("update", this._root);
     }
-    const regexText = text.replace(this._regex, "\\$&");
+    const regexText = text.replace(
+      this._regex.expression,
+      this._regex.replacement,
+    );
     this._searchItem(regexText.trim());
   };
 
@@ -774,9 +800,10 @@ export default class Autocomplete {
     this._reset();
     // remove error if exist
     this._error();
-
     // callback function
     this._onReset(this._root);
+    // remove animation on loading
+    this._onLoading();
 
     // remove listener
     offEvent(this._root, "keydown", this._handleKeys);

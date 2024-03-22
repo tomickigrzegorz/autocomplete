@@ -38,7 +38,7 @@
     <main class="container">
       <header>
         <h1 class="loupe">
-          autocomplete <sup><small>v1.9.0</small></sup>
+          autocomplete <sup><small>v2.0.0</small></sup>
         </h1>
         <div class="switch-theme">
           <button class="theme theme-head" aria-label="change theme">
@@ -87,10 +87,10 @@
           -- OR CDN --
           <div rel="HTML" class="html-class">
             <pre><code class="language-html">&lt;!-- css --&gt;
-&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.9.0/dist/css/autocomplete.min.css&quot;/&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.0/dist/css/autocomplete.min.css&quot;/&gt;
 
 &lt;!-- js --&gt;
-&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.9.0/dist/js/autocomplete.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.0/dist/js/autocomplete.min.js&quot;&gt;&lt;/script&gt;
           </code></pre>
           </div>
 
@@ -108,11 +108,11 @@
           <h4>-- use cdn --</h4>
           <div rel="HTML" class="html-class">
             <pre><code class="language-html">&lt;!-- css --&gt;
-&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.9.0/dist/css/autocomplete.ie.min.css&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.0/dist/css/autocomplete.ie.min.css&quot;&gt;
 
 &lt;!-- js --&gt;
-&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.9.0/dist/js/polyfill.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.9.0/dist/js/autocomplete.ie.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.0/dist/js/polyfill.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.0/dist/js/autocomplete.ie.min.js&quot;&gt;&lt;/script&gt;</code></pre>
           </div>
           <h4>-- use cdn polyfills from npm --</h4>
           <div rel="HTML" class="html-class">
@@ -640,9 +640,11 @@
                 >
               </div>
               <p>
-                Set to true, this parameter deletes the results. We use the
-                destroy() method which removes the results from the DOM and
-                returns everything to its original state.
+                Set to true, this parameter
+                <code>removeResultsWhenInputIsEmpty</code>
+                deletes the results. We use the <code>destroy()</code> method
+                which removes the results from the DOM and returns everything to
+                its original state.
               </p>
             </div>
             <div class="auto-search-wrapper">
@@ -660,6 +662,44 @@
           </div>
         </section>
         <!-- Remove results end -->
+
+        <!-- Regex start -->
+        <section id="regex-example" class="section">
+          <div class="search-element">
+            <div class="info-section">
+              <h2>Regex</h2>
+              <div class="sources">
+                <a href="./js/examples/regex.js" target="_blank"
+                  >source: regex</a
+                >
+              </div>
+              <p>
+                <code>regex</code> - the parameter allows you modify string
+                before search. For example, we can remove special characters
+                from the string. Default value is object
+                <code
+                  >{ expression: /[|\\{}()[\]^$+*?]/g, replacement: "\\$&"
+                  }</code
+                >
+                You can add only <code>expression</code> or only
+                <code>replacement</code>.
+              </p>
+            </div>
+            <div class="auto-search-wrapper">
+              <input type="text" id="regex" placeholder="type aaa" />
+            </div>
+          </div>
+          <div rel="docs/index.html" class="highlight html html-class"></div>
+          <div
+            rel="docs/js/examples/regex.js"
+            class="highlight javascript html-class"
+          >
+            <pre>
+                <code class="language-js" data-source="./js/examples/regex.js"></code>
+              </pre>
+          </div>
+        </section>
+        <!-- Regex end -->
 
         <!-- rerender start -->
         <section id="prevent-scroll-up-example" class="section">
@@ -1126,6 +1166,7 @@
     <script async src="./js/examples/header-footer.js"></script>
     <script async src="./js/examples/rerender.js"></script>
     <script async src="./js/examples/remove-results.js"></script>
+    <script async src="./js/examples/regex.js"></script>
     <script async src="./js/examples/prevent-scroll-up.js"></script>
     <script async src="./js/examples/modal.js"></script>
     <script async src="./js/examples/show-all-values.js"></script>

@@ -29,6 +29,10 @@
     "html": "Remove results when input is empty"
   },
   {
+    "link": "regex-example",
+    "html": "Regex"
+  },
+  {
     "link": "prevent-scroll-up-example",
     "html": "Prevent scroll up"
   },

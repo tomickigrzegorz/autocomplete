@@ -214,7 +214,7 @@ new Autocomplete('complex', {
   // add button 'x' to clear the text from
   // the input filed
   // by default is true
-  clearButton: false,
+  clearButton: true,
 
   // show button 'x' to clear the text from
   // the input filed on initial library
@@ -223,27 +223,27 @@ new Autocomplete('complex', {
   // default selects the first item in
   // the list of results
   // by default is false
-  selectFirst: true,
+  selectFirst: false,
 
   // add text to the input field as you move through
   // the results with the up/down cursors
   // by default is false
-  insertToInput: true,
+  insertToInput: false,
 
   // the number of characters entered
   // should start searching
   // by default is 1
-  howManyCharacters: 2,
+  howManyCharacters: 1,
 
   // the characters entered in
   // the input field are cached
   // by default is false
-  cache: true,
+  cache: false,
 
   // prevents results from hiding after
   // clicking on an item from the list
   // by default is false
-  disableCloseOnSelect: true,
+  disableCloseOnSelect: false,
 
   // enter the name of the class by
   // which you will name the group element
@@ -264,7 +264,7 @@ new Autocomplete('complex', {
   // values when the input is clicked,
   // like a default dropdown
   // by default is false
-  showAllValues: true,
+  showAllValues: false,
 
   // set aria-label attribute for the clear button
   // by default is 'clear text from input'

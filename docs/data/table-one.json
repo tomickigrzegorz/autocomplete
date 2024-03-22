@@ -24,7 +24,9 @@
       },
       {
         "row": [
-          { "column": "clearButtonOnInitial" },
+          {
+            "column": "<a href=\"#basics-clear-button-on-example\">clearButtonOnInitial</a>"
+          },
           { "column": "false" },
           { "column": "" },
           {
@@ -52,7 +54,9 @@
       },
       {
         "row": [
-          { "column": "disableCloseOnSelect" },
+          {
+            "column": "<a href=\"#select-item-checkbox-example\">disableCloseOnSelect</a>"
+          },
           { "column": "false" },
           { "column": "" },
           {
@@ -70,7 +74,9 @@
       },
       {
         "row": [
-          { "column": "showAllValues" },
+          {
+            "column": "<a href=\"#show-all-values-example\">showAllValues</a>"
+          },
           { "column": "false" },
           { "column": "" },
           {
@@ -100,11 +106,37 @@
       },
       {
         "row": [
-          { "column": "preventScrollUp" },
+          {
+            "column": "<a href=\"#prevent-scroll-up-example\">preventScrollUp</a>"
+          },
           { "column": "false" },
           { "column": "" },
           {
             "column": "The parameter prevents the results from scrolling up when scrolling after reopening the results. The results are displayed in the same place. The selected item does not disappear and is still selected."
+          }
+        ]
+      },
+      {
+        "row": [
+          {
+            "column": "<a href=\"#remove-results-example\">removeResultsWhenInputIsEmpty</a>"
+          },
+          { "column": "false" },
+          { "column": "" },
+          {
+            "column": "Set to \"true\", deletes the results when input is empty.We use the `destroy()` method which removes the results from the DOM and returns everything to its original state."
+          }
+        ]
+      },
+      {
+        "row": [
+          { "column": "<a href=\"#regex-example\">regex</a>" },
+          {
+            "column": "regex: { expression: /[|\\{}()[\\]^$+*?]/g, replacement: \"\\\\$&\" }"
+          },
+          { "column": "" },
+          {
+            "column": "Parameter allows you modify string before search. For example, we can remove special characters from the string. <code>regex: { expression: /aaa/g, replacement: \"Dr. Wong\" }</code> You can add only <code>expression</code> or only <code>replacement</code>."
           }
         ]
       },
@@ -120,11 +152,11 @@
       },
       {
         "row": [
-          { "column": "classPreventClosing" },
+          { "column": "<a href=\"#footer-example\">classPreventClosing</a>" },
           { "column": "\"\"" },
           { "column": "" },
           {
-            "column": "Prevents results from hiding after clicking on element with this class. See the <code><a href=\"#footer\">Footer/Header</a>"
+            "column": "Prevents results from hiding after clicking on element with this class. See the <code><a href=\"#footer-example\">Footer/Header</a>"
           }
         ]
       },

@@ -31,7 +31,7 @@
           { "column": "<b>onRender</b>: ({ element, results }) => {}" },
           { "column": "" },
           {
-            "column": "When we want to add additional elements, e.g. some buttons or plain text. See the <code><a href=\"#footer\">Footer/Header</a></code> example. This function is only called once."
+            "column": "When we want to add additional elements, e.g. some buttons or plain text. See the <code><a href=\"#footer-example\">Footer/Header</a></code> example. This function is only called once."
           }
         ]
       },

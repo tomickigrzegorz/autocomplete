@@ -44,13 +44,13 @@ See the demo - [example](https://tomickigrzegorz.github.io/autocomplete/)
 #### CSS
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.9.0/dist/css/autocomplete.min.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.0/dist/css/autocomplete.min.css"/>
 ```
 
 #### JavaScript
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.9.0/dist/js/autocomplete.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.0/dist/js/autocomplete.min.js"></script>
 ```
 
 ##### -- OR --
@@ -464,9 +464,9 @@ Configuration for IE:
 
 ### cdn
 
-- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.9.0/dist/js/polyfill.js
-- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.9.0/dist/js/autocomplete.ie.min.js
-- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@1.9.0/dist/css/autocomplete.ie.min.css
+- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.0/dist/js/polyfill.js
+- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.0/dist/js/autocomplete.ie.min.js
+- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.0/dist/css/autocomplete.ie.min.css
 
 ### cdn polyfill from npm
 

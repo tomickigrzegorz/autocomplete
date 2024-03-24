@@ -1,6 +1,6 @@
 /*!
 * @name autocomplete
-* @version 2.0.0
+* @version 2.0.1
 * @author Grzegorz Tomicki
 * @link https://github.com/tomickigrzegorz/autocomplete
 * @license MIT
@@ -35,7 +35,7 @@
         tabindex: "-1",
         "aria-selected": "false",
         "aria-setsize": itemsLi.length,
-        "aria-posinset": i
+        "aria-posinset": i + 1
       });
     }
   };
@@ -95,6 +95,15 @@
   const offEvent = (element, action, callback) => {
     element.removeEventListener(action, callback);
   };
+  const ariaActiveDescendantDefault = id => {
+    return {
+      "aria-owns": id,
+      "aria-expanded": "false",
+      "aria-autocomplete": "list",
+      role: "combobox",
+      removeClass: "auto-expanded"
+    };
+  };
 
   const keyCodes = {
     ESC: 27,
@@ -138,6 +147,8 @@
       } = _ref;
       this._initial = () => {
         this._clearbutton();
+        const ariaAcrivedescentDefault = ariaActiveDescendantDefault(this._outputUl);
+        setAttributes(this._root, ariaAcrivedescentDefault);
         output(this._root, this._resultList, this._outputUl, this._resultWrap, this._prefix);
         onEvent(this._root, "input", this._handleInput);
         this._showAll && onEvent(this._root, "click", this._handleInput);
@@ -183,13 +194,7 @@
       };
       this._reset = () => {
         classList(this._resultWrap, "remove", this._isActive);
-        const ariaAcrivedescentDefault = {
-          "aria-owns": `${this._id}-list`,
-          "aria-expanded": "false",
-          "aria-autocomplete": "list",
-          role: "combobox",
-          removeClass: "auto-expanded"
-        };
+        const ariaAcrivedescentDefault = ariaActiveDescendantDefault(this._outputUl);
         const ariaAcrivedescent = this._preventScrollUp ? ariaAcrivedescentDefault : {
           ...ariaAcrivedescentDefault,
           "aria-activedescendant": ""

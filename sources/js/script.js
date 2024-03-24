@@ -14,6 +14,7 @@ import {
   setAriaActivedescendant,
   setAttributes,
   showBtnToClearData,
+  ariaActiveDescendantDefault,
 } from "./utils/function";
 
 import keyCodes from "./utils/keyCodes";
@@ -134,6 +135,11 @@ export default class Autocomplete {
   _initial = () => {
     this._clearbutton();
 
+    const ariaAcrivedescentDefault = ariaActiveDescendantDefault(
+      this._outputUl,
+    );
+    setAttributes(this._root, ariaAcrivedescentDefault);
+
     output(
       this._root,
       this._resultList,
@@ -224,13 +230,9 @@ export default class Autocomplete {
     // remove class isActive
     classList(this._resultWrap, "remove", this._isActive);
 
-    const ariaAcrivedescentDefault = {
-      "aria-owns": `${this._id}-list`,
-      "aria-expanded": "false",
-      "aria-autocomplete": "list",
-      role: "combobox",
-      removeClass: "auto-expanded",
-    };
+    const ariaAcrivedescentDefault = ariaActiveDescendantDefault(
+      this._outputUl,
+    );
 
     const ariaAcrivedescent = this._preventScrollUp
       ? ariaAcrivedescentDefault
@@ -769,6 +771,7 @@ export default class Autocomplete {
 
   /**
    * Rerender rows without remove root input and close elements
+   * @param {String} inputValue
    */
   rerender = (inputValue) => {
     const text = inputValue?.trim() ? inputValue.trim() : this._root.value;

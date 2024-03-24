@@ -1,3 +1,9 @@
+## 2024-03-24 (2.0.1)
+### Bug Fixes
+- set default aria on initial input field
+- aria-posinset start from 0, should be 1
+
+
 ## 2024-03-20 (2.0.0)
 ## Added
 - removeResultsWhenInputIsEmpty - the parameter deletes the results. We use the `destroy()` method which removes the results from the DOM and returns everything to its original state.

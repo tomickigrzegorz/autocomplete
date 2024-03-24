@@ -3,7 +3,7 @@
  * @param {Object} value
  * @returns {Boolean}
  */
-const isObject = (value) =>
+export const isObject = (value) =>
   value && typeof value === "object" && value.constructor === Object;
 
 /**
@@ -13,7 +13,8 @@ const isObject = (value) =>
  * @param {Object} value
  * @returns {Boolean}
  */
-const isPromise = (value) => Boolean(value && typeof value.then === "function");
+export const isPromise = (value) =>
+  Boolean(value && typeof value.then === "function");
 
 /**
  * Set attributes to element
@@ -21,7 +22,7 @@ const isPromise = (value) => Boolean(value && typeof value.then === "function");
  * @param {HTMLElement} el
  * @param {Object} object
  */
-const setAttributes = (el, object) => {
+export const setAttributes = (el, object) => {
   for (let key in object) {
     if (key === "addClass") {
       classList(el, "add", object[key]);
@@ -39,7 +40,7 @@ const setAttributes = (el, object) => {
  * @param {HTMLElement} element
  * @returns {HTMLELement}
  */
-const getFirstElement = (element) =>
+export const getFirstElement = (element) =>
   (element.firstElementChild || element).textContent.trim();
 
 /**
@@ -47,7 +48,7 @@ const getFirstElement = (element) =>
  * @param {HTMLElement} resultList
  * @param {HTMLElement} resultWrap
  */
-const scrollResultsToTop = (resultList, resultWrap) => {
+export const scrollResultsToTop = (resultList, resultWrap) => {
   // if there is an overflow of ul element, after
   // opening we always move ul to the top of the results
   resultList.scrollTop = resultList.offsetTop - resultWrap.offsetHeight;
@@ -58,7 +59,7 @@ const scrollResultsToTop = (resultList, resultWrap) => {
  *
  * @param {HTMLElement} itemsLi
  */
-const addAriaToAllLiElements = (itemsLi) => {
+export const addAriaToAllLiElements = (itemsLi) => {
   // add role to all li elements
   for (let i = 0; i < itemsLi.length; i++) {
     setAttributes(itemsLi[i], {
@@ -66,7 +67,8 @@ const addAriaToAllLiElements = (itemsLi) => {
       tabindex: "-1",
       "aria-selected": "false",
       "aria-setsize": itemsLi.length,
-      "aria-posinset": i,
+      // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-posinset
+      "aria-posinset": i + 1,
     });
   }
 };
@@ -77,7 +79,7 @@ const addAriaToAllLiElements = (itemsLi) => {
  * @param {HTMLElement} clearButton - button to clear data
  * @param {Function} destroy - destroy function
  */
-const showBtnToClearData = (clearButton = false, destroy) => {
+export const showBtnToClearData = (clearButton = false, destroy) => {
   if (!clearButton) return;
 
   classList(clearButton, "remove", "hidden");
@@ -92,7 +94,7 @@ const showBtnToClearData = (clearButton = false, destroy) => {
  * @param {String} action - add/remove/contains
  * @param {String} className - class name
  */
-const classList = (element, action, className) =>
+export const classList = (element, action, className) =>
   element.classList[action](className);
 
 /**
@@ -101,7 +103,7 @@ const classList = (element, action, className) =>
  * @param {HTMLElement} root - search input
  * @param {String} type
  */
-const setAriaActivedescendant = (root, type) => {
+export const setAriaActivedescendant = (root, type) => {
   setAttributes(root, {
     "aria-activedescendant": type || "",
   });
@@ -114,7 +116,7 @@ const setAriaActivedescendant = (root, type) => {
  * @param {String} classGroup
  * @returns {Number}
  */
-const getClassGroupHeight = (outputUl, classGroup) => {
+export const getClassGroupHeight = (outputUl, classGroup) => {
   // get height of ul without group class
   const allLiElements = document.querySelectorAll(
     `#${outputUl} > li:not(.${classGroup})`,
@@ -134,7 +136,12 @@ const getClassGroupHeight = (outputUl, classGroup) => {
  * @param {String} classGroup
  * @param {HTMLElement} resultList
  */
-const followActiveElement = (target, outputUl, classGroup, resultList) => {
+export const followActiveElement = (
+  target,
+  outputUl,
+  classGroup,
+  resultList,
+) => {
   const previusElement = resultList.previousSibling;
 
   const previusElementHeight = previusElement ? previusElement.offsetHeight : 0;
@@ -165,7 +172,7 @@ const followActiveElement = (target, outputUl, classGroup, resultList) => {
  * @param {HTMLElement} resultWrap - wrapper ul element
  * @param {String} prefix - add prefix to all class auto
  */
-const output = (root, resultList, outputUl, resultWrap, prefix) => {
+export const output = (root, resultList, outputUl, resultWrap, prefix) => {
   // set attribute to results-list
   setAttributes(resultList, {
     id: outputUl,
@@ -191,7 +198,7 @@ const output = (root, resultList, outputUl, resultWrap, prefix) => {
  * @param {String} type - type of element
  * @returns {HTMLDivElement}
  */
-const createElement = (type) => document.createElement(type);
+export const createElement = (type) => document.createElement(type);
 
 /**
  * Get element
@@ -199,7 +206,7 @@ const createElement = (type) => document.createElement(type);
  * @param {String} element
  * @returns {HTMLElement}
  */
-const select = (element) => document.querySelector(element);
+export const select = (element) => document.querySelector(element);
 
 /**
  * Event listeners
@@ -208,31 +215,33 @@ const select = (element) => document.querySelector(element);
  * @param {String} action
  * @param {Function} callback
  */
-const onEvent = (element, action, callback) => {
+export const onEvent = (element, action, callback) => {
   element.addEventListener(action, callback);
 };
 
 /**
  * Remove event listeners
+ *
+ * @param {HTMLElement} element
+ * @param {String} action
+ * @param {Function} callback
  */
-const offEvent = (element, action, callback) => {
+export const offEvent = (element, action, callback) => {
   element.removeEventListener(action, callback);
 };
 
-export {
-  addAriaToAllLiElements,
-  classList,
-  createElement,
-  followActiveElement,
-  getFirstElement,
-  isObject,
-  isPromise,
-  offEvent,
-  onEvent,
-  output,
-  scrollResultsToTop,
-  select,
-  setAriaActivedescendant,
-  setAttributes,
-  showBtnToClearData,
+/**
+ * Add event listeners to all elements
+ *
+ * @param {HTMLElement} id
+ *
+ */
+export const ariaActiveDescendantDefault = (id) => {
+  return {
+    "aria-owns": id,
+    "aria-expanded": "false",
+    "aria-autocomplete": "list",
+    role: "combobox",
+    removeClass: "auto-expanded",
+  };
 };

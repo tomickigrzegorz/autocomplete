@@ -5,7 +5,7 @@
 
 
 ## 2024-03-20 (2.0.0)
-## Added
+### Added
 - removeResultsWhenInputIsEmpty - the parameter deletes the results. We use the `destroy()` method which removes the results from the DOM and returns everything to its original state.
 - regex - the parameter allows you modify string before search. For example, we can remove special characters from the string. Default value is object `{ expression: /[|\\{}()[\]^$+*?]/g, replacement: "\\$&" }`
 

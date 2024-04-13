@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -47,7 +47,8 @@
       new Autocomplete("simple", {
         onSearch: ({ currentValue }) => {
           // static file
-          const api = "../docs/characters.json";
+          const api =
+            "https://raw.githubusercontent.com/tomickigrzegorz/autocomplete/master/docs/characters.json";
 
           return new Promise((resolve) => {
             fetch(api)
@@ -73,7 +74,7 @@
                 <li>
                   <p>${el.name.replace(
                     new RegExp(currentValue, "gi"),
-                    (str) => `<b>${str}</b>`
+                    (str) => `<b>${str}</b>`,
                   )}</p>
                 </li>`;
             })

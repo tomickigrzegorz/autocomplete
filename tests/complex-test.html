@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -185,7 +185,8 @@
 
         onSearch: ({ currentValue }) => {
           // static file
-          const api = "../docs/characters.json";
+          const api =
+            "https://raw.githubusercontent.com/tomickigrzegorz/autocomplete/master/docs/characters.json";
 
           return new Promise((resolve) => {
             fetch(api)
@@ -223,7 +224,7 @@
                 .sort(
                   (a, b) =>
                     a.status.localeCompare(b.status) ||
-                    a.name.localeCompare(b.name)
+                    a.name.localeCompare(b.name),
                 )
                 .map((el, index, array) => {
                   // we create an element of the group
@@ -240,7 +241,7 @@
                     <h2 style="margin-bottom: 10px;">
                       ${el.name.replace(
                         regex,
-                        (str) => `<b style="color: red;">${str}</b>`
+                        (str) => `<b style="color: red;">${str}</b>`,
                       )}
                     </h2>
                     <div style="display: flex;">
@@ -271,7 +272,7 @@
 
           results.insertAdjacentHTML(
             linkToAPI.where,
-            `<div class="additional-elements">${linkToAPI.text}</div>`
+            `<div class="additional-elements">${linkToAPI.text}</div>`,
           );
         },
 
@@ -299,7 +300,7 @@
                 object,
               },
               null,
-              2
+              2,
             );
           }
         },

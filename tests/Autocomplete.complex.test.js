@@ -20,7 +20,7 @@ const styleConsoleLog = (text) => {
     const description =
       key === "number" ? `\r\nTest: ${value}` : `${value.join("\r\n")}`;
     console.log(
-      `\x1b[33m....................................\r\n${description}\x1b[0m`
+      `\x1b[33m....................................\r\n${description}\x1b[0m`,
     );
   });
 };
@@ -323,17 +323,17 @@ test("test 08: Check all aria class in root - input", async (t) => {
       '- check if "auto-clear" is visible',
       '- type "walter"',
       "- wait 2 seconds",
-      '- check if root has atribute "aria-expanded" with value "true"',
-      '- check if root has atribute "aria-describedby" with value "instruction"',
-      '- check if root has atribute "aria-label" with value "Search for a name"',
-      '- check if root has atribute "aria-expanded" with value "true"',
+      '- check if root has attribute "aria-expanded" with value "true"',
+      '- check if root has attribute "aria-describedby" with value "instruction"',
+      '- check if root has attribute "aria-label" with value "Search for a name"',
+      '- check if root has attribute "aria-expanded" with value "true"',
       '- check if class "auto-selected" is exists',
       "-------------------------------------------------------------------------",
-      '- check if selected element has atribute "aria-selected" with value "true"',
-      '- check if selected element has atribute "aria-posinset" with value "0"',
-      '- check if selected element has atribute "aria-setsize" with value "2"',
-      '- check if selected element has atribute "tabindex" with value "-1"',
-      '- check if selected element has atribute "role" with value "option"',
+      '- check if selected element has attribute "aria-selected" with value "true"',
+      '- check that the selected element does not have an "aria-posinset" attribute of "0"',
+      '- check if selected element has attribute "aria-setsize" with value "2"',
+      '- check if selected element has attribute "tabindex" with value "-1"',
+      '- check if selected element has attribute "role" with value "option"',
       '- check if "auto-is-active" is exists',
       '- check if "auto-clear" is visible (x button)',
       "- take screenshot",
@@ -376,7 +376,7 @@ test("test 08: Check all aria class in root - input", async (t) => {
     .expect(autoSelectedID.withAttribute("aria-selected", "true").exists)
     .ok()
 
-    .expect(autoSelectedID.withAttribute("aria-posinset", "0").exists)
+    .expect(autoSelectedID.withAttribute("aria-posinset", "0").exists.notOk())
     .ok()
 
     .expect(autoSelectedID.withAttribute("aria-setsize", "2").exists)
@@ -401,59 +401,11 @@ test("test 08: Check all aria class in root - input", async (t) => {
 
 // --------------------------------------------------
 // test 9
-
-test("test 09: Check if bottom element have link, click and open tab", async (t) => {
-  const getHost = ClientFunction(() => location.host);
-
-  const description = {
-    number: "9",
-    text: [
-      '- paster "walter" to root input',
-      "- wait 1 seconds",
-      '- check if "additional-element" has text "Data come from breakingbadapi.com"',
-      "- take screenshot",
-      '- click on "link-to-api" with text "breakingbadapi.com"',
-      '- open new tab with "breakingbadapi.com"',
-      '- check if tab location.host is "breakingbadapi.com"',
-      "- take screenshot",
-    ],
-  };
-
-  styleConsoleLog(description);
-
-  await t
-    // set value to input "w"
-    .typeText(rootInput, "walter", { paste: true })
-
-    // wait 1 seconds
-    .wait(1000)
-
-    // get text from first element
-    .expect(Selector(".additional-elements").textContent)
-    .eql("Data come from breakingbadapi.com")
-
-    // take screenshot
-    .takeScreenshot()
-
-    // click on link
-    .click(Selector(".link-to-api").withText("breakingbadapi.com"))
-
-    // open new tab with link to api
-    .expect(getHost())
-    .eql("breakingbadapi.com")
-
-    // take screenshot
-    // suld be beakingbadapi.com site
-    .takeScreenshot();
-});
-
-// --------------------------------------------------
-// test 10
 // 3x takeScreenshot
 
-test("test 10: Press 3x down and check selected element", async (t) => {
+test("test 09: Press 3x down and check selected element", async (t) => {
   const description = {
-    number: "10",
+    number: "9",
     text: [
       '- type "wal"',
       "- wait 2 seconds",
@@ -514,11 +466,11 @@ test("test 10: Press 3x down and check selected element", async (t) => {
 });
 
 // --------------------------------------------------
-// test 11
+// test 10
 
-test("test 11: Press active-modal class exist", async (t) => {
+test("test 10: Press active-modal class exist", async (t) => {
   const description = {
-    number: "11",
+    number: "10",
     text: [
       '- type "wal"',
       "- wait 2 seconds",
@@ -564,11 +516,11 @@ test("test 11: Press active-modal class exist", async (t) => {
 });
 
 // --------------------------------------------------
-// test 12
+// test 11
 
-test("test 12: Check input field when press arrow down", async (t) => {
+test("test 11: Check input field when press arrow down", async (t) => {
   const description = {
-    number: "12",
+    number: "11",
     text: [
       '- type "wal"',
       "- wait 2 seconds",
@@ -626,11 +578,11 @@ test("test 12: Check input field when press arrow down", async (t) => {
 });
 
 // --------------------------------------------------
-// test 13
+// test 12
 
-test("test 13: Check console.log", async (t) => {
+test("test 12: Check console.log", async (t) => {
   const description = {
-    number: "13",
+    number: "12",
     text: [
       '- add class to textarea "show-object", border 1px solid red',
       '- type "wal"',

@@ -172,8 +172,7 @@ aside {
       a {
         display: block;
         width: 100%;
-        padding: 10px;
-        font-size: 14px;
+        padding: 7px 10px;
       }
       &:hover {
         a {
@@ -619,12 +618,6 @@ td code {
   line-height: 1.2;
 }
 
-// @media (hover: hover) {
-//   td:first-child {
-//     width: 200px;
-//   }
-// }
-
 .first-table td:nth-child(3),
 .second-table td:nth-child(2) {
   text-align: center;
@@ -635,7 +628,6 @@ td code {
 }
 
 .menu {
-  font-size: 90%;
   a {
     line-height: 1;
     color: var(--font-color);

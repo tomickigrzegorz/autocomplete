@@ -44,13 +44,13 @@ See the demo - [example](https://tomickigrzegorz.github.io/autocomplete/)
 #### CSS
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.1/dist/css/autocomplete.min.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.2/dist/css/autocomplete.min.css"/>
 ```
 
 #### JavaScript
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.1/dist/js/autocomplete.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.2/dist/js/autocomplete.min.js"></script>
 ```
 
 ##### -- OR --
@@ -155,7 +155,8 @@ npm run prod
 | insertToInput        |  boolean   |               `false`               |         | Adding an element selected with arrows to the input field                                                                                                                |
 | disableCloseOnSelect |  boolean   |               `false`               |         | Prevents results from hiding after clicking on an item from the results list                                                                                             |
 | preventScrollUp      |  boolean   |               `false`               |         | The parameter prevents the results from scrolling up when scrolling after reopening the results. The results are displayed in the same place. The selected item does not disappear and is still selected.                                                                                             |
-| showAllValues        |  boolean   |               `false`               |         | This option will toggle showing all values when the input is clicked, like a default dropdown                                                                            |
+| showAllValuesOnClick |  boolean   |               `false`               |         | This option will toggle showing all values when the input is clicked, like a default dropdown                                                                            |
+| showAllValues        |  boolean   |               `false`               |         | This option displays all results without clicking on the input field                                                                            |
 | removeResultsWhenInputIsEmpty        |  boolean   |               `false`               |         | set to true deletes the results when input is empty. We use the `destroy()` method which removes the results from the DOM and returns everything to its original state |
 | cache                |  boolean   |               `false`               |         | The characters entered in the input field are cached                                                                                                                     |
 | regex        |  object   |  `{ expression: /[\|\\{}()[\]^$+*?]/g, replacement: "\\$&" }`  |         | the parameter allows you modify string before search. For example, we can remove special characters from the string. Default value is object `{ expression: /[\|\\{}()[\]^$+*?]/g, replacement: "\\$&" }` You can add only `expression` or only `replacement`. |
@@ -263,6 +264,10 @@ new Autocomplete('complex', {
   // values when the input is clicked,
   // like a default dropdown
   // by default is false
+  showAllValuesOnClick: false,
+
+  // this option displays all results
+  // without clicking on the input field
   showAllValues: false,
 
   // set aria-label attribute for the clear button
@@ -439,6 +444,7 @@ const auto = new Autocomplete('you-id', {
   insertToInput: false,
   disableCloseOnSelect: false,
   cache: false,
+  showAllValuesOnClick: false,
   showAllValues: false,
   howManyCharacters: 1,
   preventScrollUp: false,
@@ -480,9 +486,9 @@ Configuration for IE:
 
 ### cdn
 
-- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.1/dist/js/polyfill.js
-- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.1/dist/js/autocomplete.ie.min.js
-- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.1/dist/css/autocomplete.ie.min.css
+- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.2/dist/js/polyfill.js
+- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.2/dist/js/autocomplete.ie.min.js
+- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.2/dist/css/autocomplete.ie.min.css
 
 ### cdn polyfill from npm
 

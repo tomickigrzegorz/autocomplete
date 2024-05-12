@@ -1,3 +1,9 @@
+## 2024-05-12 (2.0.2)
+### Added
+- showAllValues - this option displays all results without clicking on the input field
+### Changed
+- "showAllValues" changes name to "showAllValuesOnClick" this option will toggle showing all values when the input is clicked, like a default dropdown
+
 ## 2024-03-24 (2.0.1)
 ### Bug Fixes
 - set default aria on initial input field

@@ -41,10 +41,14 @@
     "html": "Recent Searches"
   },
   {
-    "link": "modal-example",
+    "link": "modal-example-example",
     "html": "Modal"
   },
-  { "link": "show-all-values-example", "html": "Show all values" },
+  {
+    "link": "show-all-values-on-click-example",
+    "html": "Show all values on click"
+  },
+  { "link": "show-values-example", "html": "Show all values" },
   {
     "link": "update-input-data-example",
     "html": "Update input field on selected items"

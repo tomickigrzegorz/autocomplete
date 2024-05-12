@@ -1,10 +1,10 @@
-const phone = new Autocomplete("show-all-values", {
+const phone = new Autocomplete("show-all-values-on-click", {
   clearButton: false,
   cache: true,
 
   // this option will toggle showing all values when
   // the input is clicked, like a default dropdown
-  showAllValues: true,
+  showValuesOnClick: true,
 
   onSearch: ({ currentValue }) => {
     // local data
@@ -63,7 +63,7 @@ function showMark(text, currentValue) {
   return currentValue
     ? text.replace(
         new RegExp(currentValue, "gi"),
-        (str) => `<mark>${str}</mark>`
+        (str) => `<mark>${str}</mark>`,
       )
     : text;
 }

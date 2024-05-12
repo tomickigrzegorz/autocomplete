@@ -812,7 +812,7 @@
         <!-- Local data end -->
 
         <!-- modal -->
-        <section id="modal-example" class="section">
+        <section id="modal-example-example" class="section">
           <div class="search-element">
             <div class="info-section">
               <h2>Modal</h2>
@@ -849,13 +849,15 @@
         <!-- modal -->
 
         <!-- show all values start -->
-        <section id="show-all-values-example" class="section">
+        <section id="show-all-values-on-click-example" class="section">
           <div class="search-element">
             <div class="info-section">
-              <h2>Show all values</h2>
+              <h2>Show all values on click</h2>
               <div class="sources">
-                <a href="./js/examples/show-all-values.js" target="_blank"
-                  >source: show-all-values</a
+                <a
+                  href="./js/examples/show-all-values-on-click.js"
+                  target="_blank"
+                  >source: show-all-values-on-click</a
                 >
               </div>
 
@@ -875,7 +877,11 @@
             </div>
             <div class="wrap drop-down">
               <div class="auto-search-wrapper max-height bottom-radius">
-                <input type="text" id="show-all-values" placeholder="click" />
+                <input
+                  type="text"
+                  id="show-all-values-on-click"
+                  placeholder="click"
+                />
               </div>
               <button aria-label="clear data" class="clear-button phone-clear">
                 clear
@@ -884,12 +890,59 @@
           </div>
           <div rel="docs/index.html" class="highlight html html-class"></div>
           <div
-            rel="docs/js/examples/show-all-values.js"
+            rel="docs/js/examples/show-all-values-on-click.js"
             class="highlight javascript html-class"
           >
             <div>
               <pre>
-                <code class="language-js" data-source="./js/examples/show-all-values.js"></code>
+                <code class="language-js" data-source="./js/examples/show-all-values-on-click.js"></code>
+              </pre>
+            </div>
+          </div>
+        </section>
+        <!-- show all values end -->
+
+        <!-- show all values start -->
+        <section id="show-values-example" class="section">
+          <div class="search-element">
+            <div class="info-section">
+              <h2>Show all values</h2>
+              <div class="sources">
+                <a href="./js/examples/show-values.js" target="_blank"
+                  >source: show-all-values2</a
+                >
+              </div>
+
+              <p>
+                This option will toggle showing all values when the input is
+                clicked, like a default dropdown.<br /><br />Please note that
+                only the first element is added to the input field, in this case
+                we want only the country code to be added.<br />
+                To get the following effect in the results, i.e.
+                <strong
+                  >first the state flag, then the name of the country and then
+                  the code</strong
+                >, use the styles. Just use the <code>flex</code> +
+                <code>order</code> property. Order is responsible for the proper
+                sorting of elements.
+              </p>
+            </div>
+            <div class="wrap drop-down">
+              <div
+                class="auto-search-wrapper show-values max-height bottom-radius"
+              >
+                <input type="text" id="show-values" placeholder="click" />
+              </div>
+            </div>
+          </div>
+          <div rel="docs/index.html" class="highlight html html-class"></div>
+          <div
+            rel="docs/js/examples/show-values.js"
+            class="highlight javascript html-class"
+          >
+            <div>
+              <pre>
+                <code class="language-js" data-source="./js/examples/show-values.js"></code>
               </pre>
             </div>
           </div>
@@ -1169,7 +1222,8 @@
     <script async src="./js/examples/regex.js"></script>
     <script async src="./js/examples/prevent-scroll-up.js"></script>
     <script async src="./js/examples/modal.js"></script>
-    <script async src="./js/examples/show-all-values.js"></script>
+    <script async src="./js/examples/show-all-values-on-click.js"></script>
+    <script async src="./js/examples/show-values.js"></script>
     <script async src="./js/examples/update-input.js"></script>
     <script async src="./js/examples/select.js"></script>
     <script async src="./js/examples/special-characters.js"></script>

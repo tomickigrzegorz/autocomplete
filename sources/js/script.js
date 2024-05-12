@@ -38,6 +38,7 @@ export default class Autocomplete {
       howManyCharacters = 1,
       selectFirst = false,
       insertToInput = false,
+      showValuesOnClick = false,
       showAllValues = false,
       cache = false,
       disableCloseOnSelect = false,
@@ -80,7 +81,8 @@ export default class Autocomplete {
     this._clearButtonOnInitial = clearButtonOnInitial;
     this._selectFirst = selectFirst;
     this._toInput = insertToInput;
-    this._showAll = showAllValues;
+    this._showValuesOnClick = showValuesOnClick;
+    this._showAllValues = showAllValues;
     this._classGroup = classGroup;
     this._prevClosing = classPreventClosing;
     this._clearBtnAriLabel = ariaLabelClear
@@ -152,7 +154,13 @@ export default class Autocomplete {
     onEvent(this._root, "input", this._handleInput);
 
     // show all values on click root input
-    this._showAll && onEvent(this._root, "click", this._handleInput);
+    this._showValuesOnClick && onEvent(this._root, "click", this._handleInput);
+
+    // sgow all values
+    if (this._showAllValues) {
+      const config = { root: this._root, type: "load" };
+      onEvent(this._root, "DOMContentLoaded", this._handleInput(config));
+    }
 
     // calback functions
     this._onRender({
@@ -176,7 +184,7 @@ export default class Autocomplete {
     if (!this._cache) return;
 
     if (type === "update") {
-      this._root.setAttribute(this._cacheData, target.value);
+      this._root.setAttribute(this._cacheData, target?.value);
     } else if (type === "remove") {
       this._root.removeAttribute(this._cacheData);
     } else {
@@ -190,6 +198,8 @@ export default class Autocomplete {
    * @param {Event} object
    */
   _handleInput = ({ target, type }) => {
+    // const { target, type } = e;
+
     if (
       this._root.getAttribute("aria-expanded") === "true" &&
       type === "click"
@@ -198,7 +208,7 @@ export default class Autocomplete {
     }
 
     // replace all special characters
-    const regex = target.value.replace(
+    const regex = target?.value.replace(
       this._regex.expression,
       this._regex.replacement,
     );
@@ -206,20 +216,21 @@ export default class Autocomplete {
     // update data attribute cache
     this._cacheAct("update", target);
 
-    const delay = this._showAll ? 0 : this._delay;
+    const delay =
+      this._showValuesOnClick || this._showAllValues ? 0 : this._delay;
     // clear timeout
     clearTimeout(this._timeout);
     this._timeout = setTimeout(() => {
       // removeResultsWhenInputIsEmpty
       // remove results when input is empty
       if (this._removeResultsWhenInputIsEmpty) {
-        if (target.value.length === 0) {
+        if (target?.value.length === 0) {
           this.destroy();
           return;
         }
       }
 
-      this._searchItem(regex.trim());
+      this._searchItem(regex?.trim());
     }, delay);
   };
 
@@ -251,7 +262,10 @@ export default class Autocomplete {
 
     // remove result when lengh = 0 and insertToInput is false
     // https://github.com/tomickigrzegorz/autocomplete/issues/136
-    if ((this._matches?.length == 0 && !this._toInput) || this._showAll) {
+    if (
+      (this._matches?.length == 0 && !this._toInput) ||
+      this._showValuesOnClick
+    ) {
       this._resultList.textContent = "";
     }
 
@@ -275,13 +289,17 @@ export default class Autocomplete {
     showBtnToClearData(this._clearBtn, this.destroy);
 
     // if there is no value and clearButton is true
-    if (value.length == 0 && this._clearButton) {
+    if (value?.length == 0 && this._clearButton) {
       classList(this._clearBtn, "add", "hidden");
     }
 
     // if declare characters more then value.len and showAll is false
     // remove class isActive
-    if (this._characters > value.length && !this._showAll) {
+    if (
+      this._characters > value?.length &&
+      !this._showValuesOnClick &&
+      !this._showAllValues
+    ) {
       this._onLoading();
       return;
     }
@@ -348,7 +366,9 @@ export default class Autocomplete {
     onEvent(this._root, "click", this._handleShowItems);
 
     // close expanded items
-    onEvent(document, "click", this._handleDocClick);
+    if (!this._showAllValues) {
+      onEvent(document, "click", this._handleDocClick);
+    }
 
     // temporarily disabled mouseleave
     ["mousemove", "click"].map((eventType) => {
@@ -697,7 +717,9 @@ export default class Autocomplete {
       case keyCodes.TAB:
       case keyCodes.ESC:
         event.stopPropagation();
-        this._reset();
+        if (!this._showAllValues) {
+          this._reset();
+        }
 
         break;
       default:

@@ -58,7 +58,7 @@
       {
         "row": [
           {
-            "column": "<b>onSelectedItem</b>: ({ index, element, object }) => {}"
+            "column": "<b>onSelectedItem</b>: ({ index, element, object, currentValue }) => {}"
           },
           { "column": "" },
           {

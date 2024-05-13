@@ -424,7 +424,7 @@ new Autocomplete('complex', {
   // get index and data from li element after
   // hovering over li with the mouse or using
   // arrow keys ↓ | ↑
-  onSelectedItem: ({ index, element, object }) => {
+  onSelectedItem: ({ index, element, object, currentValue }) => {
     console.log('onSelectedItem:', index, element.value, object);
   },
 
@@ -460,7 +460,7 @@ const auto = new Autocomplete('you-id', {
   onRender: ({ element, results }) => {},
   onSubmit: ({ index, element, object, results }) => {},
   onOpened: ({ type, element, results }) => {},
-  onSelectedItem: ({ index, element, object }) => {},
+  onSelectedItem: ({ index, element, object, currentValue }) => {},
   onReset: (element) => {},
   onClose: () => {},
   noResults: ({ element, currentValue, template }) => {},

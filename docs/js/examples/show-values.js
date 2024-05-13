@@ -1,17 +1,23 @@
 const showAllValues = new Autocomplete("show-values", {
   disableCloseOnSelect: true,
-
+  insertToInput: true,
   // this option showing all values
   showAllValues: true,
 
   onSearch: ({ currentValue }) => {
-    const searchText = currentValue ? `?name=${encodeURI(currentValue)}` : "";
-    const api = `https://rickandmortyapi.com/api/character${searchText}`;
+    const api =
+      "https://raw.githubusercontent.com/tomickigrzegorz/autocomplete/master/docs/characters.json";
     return new Promise((resolve) => {
       fetch(api)
         .then((response) => response.json())
         .then((data) => {
-          resolve(data.results);
+          const result = data
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .filter((element) => {
+              return element.name.match(new RegExp(currentValue, "gi"));
+            });
+
+          resolve(result);
         })
         .catch((error) => {
           console.error(error);
@@ -22,15 +28,6 @@ const showAllValues = new Autocomplete("show-values", {
   onResults: ({ matches }) =>
     matches.map(({ name }) => `<li>${name}</li>`).join(""),
 });
-
-function showMark(text, currentValue) {
-  return currentValue
-    ? text.replace(
-        new RegExp(currentValue, "gi"),
-        (str) => `<mark>${str}</mark>`,
-      )
-    : text;
-}
 
 document.addEventListener("click", (event) => {
   if (event.target.closest(".auto-clear")) {

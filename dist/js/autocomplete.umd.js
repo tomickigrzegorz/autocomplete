@@ -1,6 +1,6 @@
 /*!
 * @name autocomplete
-* @version 2.0.1
+* @version 2.0.2
 * @author Grzegorz Tomicki
 * @link https://github.com/tomickigrzegorz/autocomplete
 * @license MIT
@@ -221,7 +221,7 @@
         this._value = value;
         this._onLoading(true);
         showBtnToClearData(this._clearBtn, this.destroy);
-        if (value?.length == 0 && this._clearButton) {
+        if ((!value || value?.length === 0) && this._clearButton) {
           classList(this._clearBtn, "add", "hidden");
         }
         if (this._characters > value?.length && !this._showValuesOnClick && !this._showAllValues) {
@@ -237,10 +237,10 @@
           this._matches = Array.isArray(result) ? result : JSON.parse(JSON.stringify(result));
           this._onLoading();
           this._error();
-          if (resultLength == 0 && rootValueLength == 0) {
+          if (resultLength === 0 && rootValueLength === 0) {
             classList(this._clearBtn, "add", "hidden");
           }
-          if (resultLength == 0 && rootValueLength) {
+          if (resultLength === 0 && rootValueLength) {
             classList(this._root, "remove", "auto-expanded");
             this._reset();
             this._noResults({
@@ -325,7 +325,8 @@
         this._onSelected({
           index: this._index,
           element: this._root,
-          object: this._matches[this._index]
+          object: this._matches[this._index],
+          currentValue: this._root.value
         });
         setAttributes(classSelectFirst, {
           id: `${this._selectedOption}-0`,
@@ -379,6 +380,9 @@
             element: this._root,
             object: this._matches[this._index]
           });
+          if (this._root.value.length > 0) {
+            this._clearButton && classList(this._clearBtn, "remove", "hidden");
+          }
         }
       };
       this._getTextFromLi = element => {
@@ -434,6 +438,7 @@
               const selectedElement = this._itemsLi[this._index];
               if (this._toInput && resultList) {
                 this._root.value = getFirstElement(selectedElement);
+                this._clearButton && classList(this._clearBtn, "remove", "hidden");
               }
               this._onSelected({
                 index: this._index,
@@ -486,7 +491,6 @@
         if (!this._clearButton) return;
         setAttributes(this._clearBtn, {
           class: `${this._prefix}-clear hidden`,
-          type: "button",
           title: this._clearBtnAriLabel,
           "aria-label": this._clearBtnAriLabel
         });

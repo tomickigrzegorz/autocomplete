@@ -198,8 +198,6 @@ export default class Autocomplete {
    * @param {Event} object
    */
   _handleInput = ({ target, type }) => {
-    // const { target, type } = e;
-
     if (
       this._root.getAttribute("aria-expanded") === "true" &&
       type === "click"
@@ -289,7 +287,7 @@ export default class Autocomplete {
     showBtnToClearData(this._clearBtn, this.destroy);
 
     // if there is no value and clearButton is true
-    if (value?.length == 0 && this._clearButton) {
+    if ((!value || value?.length === 0) && this._clearButton) {
       classList(this._clearBtn, "add", "hidden");
     }
 
@@ -318,11 +316,11 @@ export default class Autocomplete {
         this._error();
 
         // if use destroy() method
-        if (resultLength == 0 && rootValueLength == 0) {
+        if (resultLength === 0 && rootValueLength === 0) {
           classList(this._clearBtn, "add", "hidden");
         }
 
-        if (resultLength == 0 && rootValueLength) {
+        if (resultLength === 0 && rootValueLength) {
           classList(this._root, "remove", "auto-expanded");
           this._reset();
           this._noResults({
@@ -482,10 +480,12 @@ export default class Autocomplete {
         : firstElementChild;
 
     // calback function onSelect when first element is true
+
     this._onSelected({
       index: this._index,
       element: this._root,
       object: this._matches[this._index],
+      currentValue: this._root.value,
     });
 
     // set attribute to first element
@@ -581,6 +581,10 @@ export default class Autocomplete {
         element: this._root,
         object: this._matches[this._index],
       });
+
+      if (this._root.value.length > 0) {
+        this._clearButton && classList(this._clearBtn, "remove", "hidden");
+      }
     }
   };
 
@@ -681,6 +685,8 @@ export default class Autocomplete {
 
           if (this._toInput && resultList) {
             this._root.value = getFirstElement(selectedElement);
+
+            this._clearButton && classList(this._clearBtn, "remove", "hidden");
           }
 
           // callback function
@@ -720,8 +726,8 @@ export default class Autocomplete {
         if (!this._showAllValues) {
           this._reset();
         }
-
         break;
+
       default:
         break;
     }
@@ -782,7 +788,6 @@ export default class Autocomplete {
     // add aria to clear button
     setAttributes(this._clearBtn, {
       class: `${this._prefix}-clear hidden`,
-      type: "button",
       title: this._clearBtnAriLabel,
       "aria-label": this._clearBtnAriLabel,
     });

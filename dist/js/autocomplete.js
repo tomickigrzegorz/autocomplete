@@ -218,7 +218,7 @@ var Autocomplete = (function () {
         this._value = value;
         this._onLoading(true);
         showBtnToClearData(this._clearBtn, this.destroy);
-        if ((!value || value?.length === 0) && this._clearButton) {
+        if ((!value || value?.length === 0) && this._clearButton && !this._clearButtonOnInitial) {
           classList(this._clearBtn, "add", "hidden");
         }
         if (this._characters > value?.length && !this._showValuesOnClick && !this._showAllValues) {

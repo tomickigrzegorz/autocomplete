@@ -287,7 +287,11 @@ export default class Autocomplete {
     showBtnToClearData(this._clearBtn, this.destroy);
 
     // if there is no value and clearButton is true
-    if ((!value || value?.length === 0) && this._clearButton) {
+    if (
+      (!value || value?.length === 0) &&
+      this._clearButton &&
+      !this._clearButtonOnInitial
+    ) {
       classList(this._clearBtn, "add", "hidden");
     }
 

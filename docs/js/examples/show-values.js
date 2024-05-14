@@ -1,6 +1,7 @@
 const showAllValues = new Autocomplete("show-values", {
   disableCloseOnSelect: true,
   insertToInput: true,
+
   // this option showing all values
   showAllValues: true,
 
@@ -29,6 +30,7 @@ const showAllValues = new Autocomplete("show-values", {
     matches.map(({ name }) => `<li>${name}</li>`).join(""),
 });
 
+// re-render the component when the clear button is clicked
 document.addEventListener("click", (event) => {
   if (event.target.closest(".auto-clear")) {
     showAllValues.rerender();

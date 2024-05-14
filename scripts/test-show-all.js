@@ -1,4 +1,4 @@
-const tests = ["tests/Autocomplete.complex.test.js"];
+const tests = ["tests/Autocomplete.show.all.test.js"];
 
 (async () => {
   const createTestCafe = require("testcafe");
@@ -16,7 +16,7 @@ const tests = ["tests/Autocomplete.complex.test.js"];
     .src(tests)
     .browsers("chrome:headless")
     // .browsers("chrome") // open browser
-    .reporter([{ name: "spec", output: `reports/report-simple-complex.txt` }])
+    .reporter([{ name: "spec", output: `reports/report-show-all.txt` }])
     .run();
 
   await testcafe.close();

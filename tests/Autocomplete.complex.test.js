@@ -376,7 +376,7 @@ test("test 08: Check all aria class in root - input", async (t) => {
     .expect(autoSelectedID.withAttribute("aria-selected", "true").exists)
     .ok()
 
-    .expect(autoSelectedID.withAttribute("aria-posinset", "0").exists.notOk())
+    .expect(autoSelectedID.withAttribute("aria-posinset").exists)
     .ok()
 
     .expect(autoSelectedID.withAttribute("aria-setsize", "2").exists)
@@ -394,8 +394,6 @@ test("test 08: Check all aria class in root - input", async (t) => {
     .expect(Selector(".auto-clear").visible)
     .ok()
 
-    // take screenshot
-    // suld be beakingbadapi.com site
     .takeScreenshot();
 });
 
@@ -593,7 +591,6 @@ test("test 12: Check console.log", async (t) => {
       "{ index: 0, countObject: 1 }",
       "{ index: 1, countObject: 1 }",
       "{ index: null, countObject: 'not exist' }",
-      "....................................",
     ],
   };
 

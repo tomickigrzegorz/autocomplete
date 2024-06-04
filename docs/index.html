@@ -903,46 +903,39 @@
         <!-- show all values end -->
 
         <!-- show all values start -->
-        <section id="show-values-example" class="section">
+        <section id="show-inline-example" class="section">
           <div class="search-element">
             <div class="info-section">
-              <h2>Show all values</h2>
+              <h2>Show inline</h2>
               <div class="sources">
-                <a href="./js/examples/show-values.js" target="_blank"
-                  >source: show-all-values2</a
+                <a href="./js/examples/show-inline.js" target="_blank"
+                  >source: show-inline</a
                 >
               </div>
-
               <p>
-                This option will toggle showing all values when the input is
-                clicked, like a default dropdown.<br /><br />Please note that
-                only the first element is added to the input field, in this case
-                we want only the country code to be added.<br />
-                To get the following effect in the results, i.e.
-                <strong
-                  >first the state flag, then the name of the country and then
-                  the code</strong
-                >, use the styles. Just use the <code>flex</code> +
-                <code>order</code> property. Order is responsible for the proper
-                sorting of elements.
+                Using the <code>"inline:true"</code> option causes the results
+                to appear immediately below the input field. It should be
+                mentioned that loading the first results does not take into
+                account the <code>"delay"</code> parameter, only the search
+                takes this parameter into account.
               </p>
             </div>
             <div class="wrap drop-down">
               <div
                 class="auto-search-wrapper show-values max-height bottom-radius"
               >
-                <input type="text" id="show-values" placeholder="click" />
+                <input type="text" id="show-inline" placeholder="write text" />
               </div>
             </div>
           </div>
           <div rel="docs/index.html" class="highlight html html-class"></div>
           <div
-            rel="docs/js/examples/show-values.js"
+            rel="docs/js/examples/show-inline.js"
             class="highlight javascript html-class"
           >
             <div>
               <pre>
-                <code class="language-js" data-source="./js/examples/show-values.js"></code>
+                <code class="language-js" data-source="./js/examples/show-inline.js"></code>
               </pre>
             </div>
           </div>
@@ -1223,7 +1216,7 @@
     <script async src="./js/examples/prevent-scroll-up.js"></script>
     <script async src="./js/examples/modal.js"></script>
     <script async src="./js/examples/show-all-values-on-click.js"></script>
-    <script async src="./js/examples/show-values.js"></script>
+    <script async src="./js/examples/show-inline.js"></script>
     <script async src="./js/examples/update-input.js"></script>
     <script async src="./js/examples/select.js"></script>
     <script async src="./js/examples/special-characters.js"></script>

@@ -75,12 +75,24 @@
       {
         "row": [
           {
-            "column": "<a href=\"#show-all-values-example\">showAllValues</a>"
+            "column": "<a href=\"#show-all-values-on-click-example\">showValuesOnClick</a>"
           },
           { "column": "false" },
           { "column": "" },
           {
             "column": "This option will toggle showing all values when the input is clicked, like a default dropdown"
+          }
+        ]
+      },
+      {
+        "row": [
+          {
+            "column": "<a href=\"#show-inline-example\">inline</a>"
+          },
+          { "column": "false" },
+          { "column": "" },
+          {
+            "column": "This option causes the results to appear immediately below the input field. It should be mentioned that loading the first results does not take into account the \"delay\" parameter, only the search takes this parameter into account."
           }
         ]
       },

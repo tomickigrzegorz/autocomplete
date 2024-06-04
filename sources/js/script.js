@@ -39,7 +39,7 @@ export default class Autocomplete {
       selectFirst = false,
       insertToInput = false,
       showValuesOnClick = false,
-      showAllValues = false,
+      inline = false,
       cache = false,
       disableCloseOnSelect = false,
       preventScrollUp = false,
@@ -82,7 +82,7 @@ export default class Autocomplete {
     this._selectFirst = selectFirst;
     this._toInput = insertToInput;
     this._showValuesOnClick = showValuesOnClick;
-    this._showAllValues = showAllValues;
+    this._inline = inline;
     this._classGroup = classGroup;
     this._prevClosing = classPreventClosing;
     this._clearBtnAriLabel = ariaLabelClear
@@ -156,10 +156,10 @@ export default class Autocomplete {
     // show all values on click root input
     this._showValuesOnClick && onEvent(this._root, "click", this._handleInput);
 
-    // sgow all values
-    if (this._showAllValues) {
+    // show all values
+    if (this._inline) {
       const config = { root: this._root, type: "load" };
-      onEvent(this._root, "DOMContentLoaded", this._handleInput(config));
+      onEvent(this._root, "load", this._handleInput(config));
     }
 
     // calback functions
@@ -205,18 +205,25 @@ export default class Autocomplete {
       return;
     }
 
+    // if inline is true then set root to target
+    target = this._inline ? this._root : target;
+
     // replace all special characters
     const regex = target?.value.replace(
       this._regex.expression,
       this._regex.replacement,
     );
 
+    console.log(regex);
+
     // update data attribute cache
     this._cacheAct("update", target);
 
     const delay =
-      this._showValuesOnClick || this._showAllValues ? 0 : this._delay;
-    // clear timeout
+      this._showValuesOnClick || (this._inline && type === "load")
+        ? 0
+        : this._delay;
+
     clearTimeout(this._timeout);
     this._timeout = setTimeout(() => {
       // removeResultsWhenInputIsEmpty
@@ -300,7 +307,7 @@ export default class Autocomplete {
     if (
       this._characters > value?.length &&
       !this._showValuesOnClick &&
-      !this._showAllValues
+      !this._inline
     ) {
       this._onLoading();
       return;
@@ -368,7 +375,7 @@ export default class Autocomplete {
     onEvent(this._root, "click", this._handleShowItems);
 
     // close expanded items
-    if (!this._showAllValues) {
+    if (!this._inline) {
       onEvent(document, "click", this._handleDocClick);
     }
 
@@ -727,7 +734,7 @@ export default class Autocomplete {
       case keyCodes.TAB:
       case keyCodes.ESC:
         event.stopPropagation();
-        if (!this._showAllValues) {
+        if (!this._inline) {
           this._reset();
         }
         break;

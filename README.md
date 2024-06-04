@@ -156,7 +156,7 @@ npm run prod
 | disableCloseOnSelect |  boolean   |               `false`               |         | Prevents results from hiding after clicking on an item from the results list                                                                                             |
 | preventScrollUp      |  boolean   |               `false`               |         | The parameter prevents the results from scrolling up when scrolling after reopening the results. The results are displayed in the same place. The selected item does not disappear and is still selected.                                                                                             |
 | showAllValuesOnClick |  boolean   |               `false`               |         | This option will toggle showing all values when the input is clicked, like a default dropdown                                                                            |
-| showAllValues        |  boolean   |               `false`               |         | This option displays all results without clicking on the input field                                                                            |
+| inline        |  boolean   |               `false`               |         | This option displays all results without clicking on the input field                                                                            |
 | removeResultsWhenInputIsEmpty        |  boolean   |               `false`               |         | set to true deletes the results when input is empty. We use the `destroy()` method which removes the results from the DOM and returns everything to its original state |
 | cache                |  boolean   |               `false`               |         | The characters entered in the input field are cached                                                                                                                     |
 | regex        |  object   |  `{ expression: /[\|\\{}()[\]^$+*?]/g, replacement: "\\$&" }`  |         | the parameter allows you modify string before search. For example, we can remove special characters from the string. Default value is object `{ expression: /[\|\\{}()[\]^$+*?]/g, replacement: "\\$&" }` You can add only `expression` or only `replacement`. |
@@ -268,7 +268,7 @@ new Autocomplete('complex', {
 
   // this option displays all results
   // without clicking on the input field
-  showAllValues: false,
+  inline: false,
 
   // set aria-label attribute for the clear button
   // by default is 'clear text from input'
@@ -445,7 +445,7 @@ const auto = new Autocomplete('you-id', {
   disableCloseOnSelect: false,
   cache: false,
   showAllValuesOnClick: false,
-  showAllValues: false,
+  inline: false,
   howManyCharacters: 1,
   preventScrollUp: false,
   delay: 500,

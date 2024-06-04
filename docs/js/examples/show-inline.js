@@ -1,18 +1,22 @@
-const showAllValues = new Autocomplete("show-values", {
+const inline = new Autocomplete("show-inline", {
   disableCloseOnSelect: true,
   insertToInput: true,
 
   // this option showing all values
-  showAllValues: true,
+  inline: true,
 
   onSearch: ({ currentValue }) => {
-    const api =
-      "https://raw.githubusercontent.com/tomickigrzegorz/autocomplete/master/docs/characters.json";
+    const currentValueCheck = currentValue
+      ? `?name=${encodeURI(currentValue)}`
+      : "";
+
+    const api = `https://rickandmortyapi.com/api/character${currentValueCheck}`;
+
     return new Promise((resolve) => {
       fetch(api)
         .then((response) => response.json())
         .then((data) => {
-          const result = data
+          const result = data.results
             .sort((a, b) => a.name.localeCompare(b.name))
             .filter((element) => {
               return element.name.match(new RegExp(currentValue, "gi"));
@@ -33,6 +37,6 @@ const showAllValues = new Autocomplete("show-values", {
 // re-render the component when the clear button is clicked
 document.addEventListener("click", (event) => {
   if (event.target.closest(".auto-clear")) {
-    showAllValues.rerender();
+    inline.rerender();
   }
 });

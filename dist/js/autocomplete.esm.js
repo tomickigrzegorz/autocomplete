@@ -117,7 +117,7 @@ class Autocomplete {
       selectFirst = false,
       insertToInput = false,
       showValuesOnClick = false,
-      showAllValues = false,
+      inline = false,
       cache = false,
       disableCloseOnSelect = false,
       preventScrollUp = false,
@@ -147,12 +147,12 @@ class Autocomplete {
       output(this._root, this._resultList, this._outputUl, this._resultWrap, this._prefix);
       onEvent(this._root, "input", this._handleInput);
       this._showValuesOnClick && onEvent(this._root, "click", this._handleInput);
-      if (this._showAllValues) {
+      if (this._inline) {
         const config = {
           root: this._root,
           type: "load"
         };
-        onEvent(this._root, "DOMContentLoaded", this._handleInput(config));
+        onEvent(this._root, "load", this._handleInput(config));
       }
       this._onRender({
         element: this._root,
@@ -180,9 +180,11 @@ class Autocomplete {
       if (this._root.getAttribute("aria-expanded") === "true" && type === "click") {
         return;
       }
+      target = this._inline ? this._root : target;
       const regex = target?.value.replace(this._regex.expression, this._regex.replacement);
+      console.log(regex);
       this._cacheAct("update", target);
-      const delay = this._showValuesOnClick || this._showAllValues ? 0 : this._delay;
+      const delay = this._showValuesOnClick || this._inline && type === "load" ? 0 : this._delay;
       clearTimeout(this._timeout);
       this._timeout = setTimeout(() => {
         if (this._removeResultsWhenInputIsEmpty) {
@@ -218,7 +220,7 @@ class Autocomplete {
       if ((!value || value?.length === 0) && this._clearButton && !this._clearButtonOnInitial) {
         classList(this._clearBtn, "add", "hidden");
       }
-      if (this._characters > value?.length && !this._showValuesOnClick && !this._showAllValues) {
+      if (this._characters > value?.length && !this._showValuesOnClick && !this._inline) {
         this._onLoading();
         return;
       }
@@ -258,7 +260,7 @@ class Autocomplete {
     this._events = () => {
       onEvent(this._root, "keydown", this._handleKeys);
       onEvent(this._root, "click", this._handleShowItems);
-      if (!this._showAllValues) {
+      if (!this._inline) {
         onEvent(document, "click", this._handleDocClick);
       }
       ["mousemove", "click"].map(eventType => {
@@ -457,7 +459,7 @@ class Autocomplete {
         case keyCodes.TAB:
         case keyCodes.ESC:
           event.stopPropagation();
-          if (!this._showAllValues) {
+          if (!this._inline) {
             this._reset();
           }
           break;
@@ -539,7 +541,7 @@ class Autocomplete {
     this._selectFirst = selectFirst;
     this._toInput = insertToInput;
     this._showValuesOnClick = showValuesOnClick;
-    this._showAllValues = showAllValues;
+    this._inline = inline;
     this._classGroup = classGroup;
     this._prevClosing = classPreventClosing;
     this._clearBtnAriLabel = ariaLabelClear ? ariaLabelClear : "clear the search query";

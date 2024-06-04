@@ -1,6 +1,6 @@
-## 2024-05-12 (2.0.2)
+## 2024-06-04 (2.0.2)
 ### Added
-- showAllValues - this option displays all results without clicking on the input field
+- inline - this option displays all results without clicking on the input field
 ### Changed
 - "showAllValues" changes name to "showAllValuesOnClick" this option will toggle showing all values when the input is clicked, like a default dropdown
 

@@ -44,11 +44,11 @@
 
     <script src="../docs/js/autocomplete.min.js"></script>
     <script>
-      const showAllValues = new Autocomplete("show-all", {
+      const inline = new Autocomplete("show-all", {
         disableCloseOnSelect: true,
         insertToInput: true,
 
-        showAllValues: true,
+        inline: true,
 
         onSearch: ({ currentValue }) => {
           // static file
@@ -89,7 +89,7 @@
 
       document.addEventListener("click", (event) => {
         if (event.target.closest(".auto-clear")) {
-          showAllValues.rerender();
+          inline.rerender();
         }
       });
     </script>

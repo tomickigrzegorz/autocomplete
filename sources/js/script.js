@@ -833,8 +833,10 @@ export default class Autocomplete {
     this._root.focus();
     // remove li from ul
     this._resultList.textContent = "";
-    // set default aria
-    this._reset();
+    // if inline: true don't reset
+    if (!this._inline) this._reset();
+    // if inline: true keep onClose method
+    if (this._inline) this._onClose();
     // remove error if exist
     this._error();
     // callback function

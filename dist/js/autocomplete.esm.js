@@ -505,7 +505,8 @@ class Autocomplete {
       this._root.value = "";
       this._root.focus();
       this._resultList.textContent = "";
-      this._reset();
+      if (!this._inline) this._reset();
+      if (this._inline) this._onClose();
       this._error();
       this._onReset(this._root);
       this._onLoading();

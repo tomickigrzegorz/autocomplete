@@ -74,7 +74,6 @@ export default class Autocomplete {
     this._onReset = onReset;
     this._noResults = noResults;
     this._onClose = onClose;
-
     this._delay = delay;
     this._characters = howManyCharacters;
     this._clearButton = clearButton;
@@ -207,14 +206,11 @@ export default class Autocomplete {
 
     // if inline is true then set root to target
     target = this._inline ? this._root : target;
-
     // replace all special characters
     const regex = target?.value.replace(
       this._regex.expression,
       this._regex.replacement,
     );
-
-    console.log(regex);
 
     // update data attribute cache
     this._cacheAct("update", target);

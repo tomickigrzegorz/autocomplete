@@ -188,7 +188,6 @@
         }
         target = this._inline ? this._root : target;
         const regex = target?.value.replace(this._regex.expression, this._regex.replacement);
-        console.log(regex);
         this._cacheAct("update", target);
         const delay = this._showValuesOnClick || this._inline && type === "load" ? 0 : this._delay;
         clearTimeout(this._timeout);

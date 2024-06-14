@@ -67,8 +67,7 @@
     content: "";
     box-sizing: border-box;
     position: absolute;
-    top: 0px;
-    bottom: 0;
+    top: 12px;
     margin: auto;
     right: 10px;
     width: 20px;
@@ -126,11 +125,10 @@ li.loupe:before {
   justify-content: center;
   align-items: center;
   top: 0;
-  bottom: 0;
   right: 0;
   margin: auto;
   width: 40px;
-  height: auto;
+  height: 44px;
   cursor: pointer;
   background-color: transparent;
   border: none;
@@ -164,7 +162,7 @@ li.loupe:before {
     position: absolute;
     width: 100%;
     margin-top: -1px;
-    z-index: 99999;
+    z-index: 99;
   }
 }
 

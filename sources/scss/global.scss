@@ -92,7 +92,7 @@ header {
   min-width: 100%;
   top: 0;
   height: 50px;
-  z-index: 9;
+  z-index: 999;
   padding: 0 20px;
   background: var(--page-bg);
   border-bottom: 1px solid #333;
@@ -203,7 +203,7 @@ aside {
   position: fixed;
   top: 0;
   right: 20px;
-  z-index: 9;
+  z-index: 9999;
 }
 
 .toggle-menu {
@@ -849,4 +849,12 @@ aside::-webkit-scrollbar-thumb {
   .loupe::before {
     filter: brightness(1);
   }
+}
+
+.show-values .auto-results-wrapper {
+  position: relative !important;
+}
+
+.inline-block {
+  height: 500px;
 }

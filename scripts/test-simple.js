@@ -17,7 +17,6 @@ const tests = ["tests/Autocomplete.test.js"];
     .browsers("chrome:headless")
     // .browsers("chrome") // open browser
     .reporter([{ name: "spec", output: `reports/report-simple.txt` }])
-    .concurrency(3)
     .run();
 
   await testcafe.close();

@@ -1,6 +1,6 @@
 /*!
 * @name autocomplete
-* @version 2.0.1
+* @version 2.0.2
 * @author Grzegorz Tomicki
 * @link https://github.com/tomickigrzegorz/autocomplete
 * @license MIT
@@ -119,7 +119,8 @@ var Autocomplete = (function () {
         howManyCharacters = 1,
         selectFirst = false,
         insertToInput = false,
-        showAllValues = false,
+        showValuesOnClick = false,
+        inline = false,
         cache = false,
         disableCloseOnSelect = false,
         preventScrollUp = false,
@@ -148,7 +149,14 @@ var Autocomplete = (function () {
         setAttributes(this._root, ariaAcrivedescentDefault);
         output(this._root, this._resultList, this._outputUl, this._resultWrap, this._prefix);
         onEvent(this._root, "input", this._handleInput);
-        this._showAll && onEvent(this._root, "click", this._handleInput);
+        this._showValuesOnClick && onEvent(this._root, "click", this._handleInput);
+        if (this._inline) {
+          const config = {
+            root: this._root,
+            type: "load"
+          };
+          onEvent(this._root, "load", this._handleInput(config));
+        }
         this._onRender({
           element: this._root,
           results: this._resultList
@@ -160,7 +168,7 @@ var Autocomplete = (function () {
       this._cacheAct = (type, target) => {
         if (!this._cache) return;
         if (type === "update") {
-          this._root.setAttribute(this._cacheData, target.value);
+          this._root.setAttribute(this._cacheData, target?.value);
         } else if (type === "remove") {
           this._root.removeAttribute(this._cacheData);
         } else {
@@ -175,18 +183,19 @@ var Autocomplete = (function () {
         if (this._root.getAttribute("aria-expanded") === "true" && type === "click") {
           return;
         }
-        const regex = target.value.replace(this._regex.expression, this._regex.replacement);
+        target = this._inline ? this._root : target;
+        const regex = target?.value.replace(this._regex.expression, this._regex.replacement);
         this._cacheAct("update", target);
-        const delay = this._showAll ? 0 : this._delay;
+        const delay = this._showValuesOnClick || this._inline && type === "load" ? 0 : this._delay;
         clearTimeout(this._timeout);
         this._timeout = setTimeout(() => {
           if (this._removeResultsWhenInputIsEmpty) {
-            if (target.value.length === 0) {
+            if (target?.value.length === 0) {
               this.destroy();
               return;
             }
           }
-          this._searchItem(regex.trim());
+          this._searchItem(regex?.trim());
         }, delay);
       };
       this._reset = () => {
@@ -201,7 +210,7 @@ var Autocomplete = (function () {
           this._removeAria(select(`.${this._activeList}`));
           this._index = this._selectFirst ? 0 : -1;
         }
-        if (this._matches?.length == 0 && !this._toInput || this._showAll) {
+        if (this._matches?.length == 0 && !this._toInput || this._showValuesOnClick) {
           this._resultList.textContent = "";
         }
         this._onClose();
@@ -210,10 +219,10 @@ var Autocomplete = (function () {
         this._value = value;
         this._onLoading(true);
         showBtnToClearData(this._clearBtn, this.destroy);
-        if (value.length == 0 && this._clearButton) {
+        if ((!value || value?.length === 0) && this._clearButton && !this._clearButtonOnInitial) {
           classList(this._clearBtn, "add", "hidden");
         }
-        if (this._characters > value.length && !this._showAll) {
+        if (this._characters > value?.length && !this._showValuesOnClick && !this._inline) {
           this._onLoading();
           return;
         }
@@ -226,10 +235,10 @@ var Autocomplete = (function () {
           this._matches = Array.isArray(result) ? result : JSON.parse(JSON.stringify(result));
           this._onLoading();
           this._error();
-          if (resultLength == 0 && rootValueLength == 0) {
+          if (resultLength === 0 && rootValueLength === 0) {
             classList(this._clearBtn, "add", "hidden");
           }
-          if (resultLength == 0 && rootValueLength) {
+          if (resultLength === 0 && rootValueLength) {
             classList(this._root, "remove", "auto-expanded");
             this._reset();
             this._noResults({
@@ -253,7 +262,9 @@ var Autocomplete = (function () {
       this._events = () => {
         onEvent(this._root, "keydown", this._handleKeys);
         onEvent(this._root, "click", this._handleShowItems);
-        onEvent(document, "click", this._handleDocClick);
+        if (!this._inline) {
+          onEvent(document, "click", this._handleDocClick);
+        }
         ["mousemove", "click"].map(eventType => {
           onEvent(this._resultList, eventType, this._handleMouse);
         });
@@ -312,7 +323,8 @@ var Autocomplete = (function () {
         this._onSelected({
           index: this._index,
           element: this._root,
-          object: this._matches[this._index]
+          object: this._matches[this._index],
+          currentValue: this._root.value
         });
         setAttributes(classSelectFirst, {
           id: `${this._selectedOption}-0`,
@@ -366,6 +378,9 @@ var Autocomplete = (function () {
             element: this._root,
             object: this._matches[this._index]
           });
+          if (this._root.value.length > 0) {
+            this._clearButton && classList(this._clearBtn, "remove", "hidden");
+          }
         }
       };
       this._getTextFromLi = element => {
@@ -421,6 +436,7 @@ var Autocomplete = (function () {
               const selectedElement = this._itemsLi[this._index];
               if (this._toInput && resultList) {
                 this._root.value = getFirstElement(selectedElement);
+                this._clearButton && classList(this._clearBtn, "remove", "hidden");
               }
               this._onSelected({
                 index: this._index,
@@ -445,7 +461,9 @@ var Autocomplete = (function () {
           case keyCodes.TAB:
           case keyCodes.ESC:
             event.stopPropagation();
-            this._reset();
+            if (!this._inline) {
+              this._reset();
+            }
             break;
         }
       };
@@ -471,7 +489,6 @@ var Autocomplete = (function () {
         if (!this._clearButton) return;
         setAttributes(this._clearBtn, {
           class: `${this._prefix}-clear hidden`,
-          type: "button",
           title: this._clearBtnAriLabel,
           "aria-label": this._clearBtnAriLabel
         });
@@ -491,7 +508,8 @@ var Autocomplete = (function () {
         this._root.value = "";
         this._root.focus();
         this._resultList.textContent = "";
-        this._reset();
+        if (!this._inline) this._reset();
+        if (this._inline) this._onClose();
         this._error();
         this._onReset(this._root);
         this._onLoading();
@@ -525,7 +543,8 @@ var Autocomplete = (function () {
       this._clearButtonOnInitial = clearButtonOnInitial;
       this._selectFirst = selectFirst;
       this._toInput = insertToInput;
-      this._showAll = showAllValues;
+      this._showValuesOnClick = showValuesOnClick;
+      this._inline = inline;
       this._classGroup = classGroup;
       this._prevClosing = classPreventClosing;
       this._clearBtnAriLabel = ariaLabelClear ? ariaLabelClear : "clear the search query";

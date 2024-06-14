@@ -38,7 +38,8 @@ export default class Autocomplete {
       howManyCharacters = 1,
       selectFirst = false,
       insertToInput = false,
-      showAllValues = false,
+      showValuesOnClick = false,
+      inline = false,
       cache = false,
       disableCloseOnSelect = false,
       preventScrollUp = false,
@@ -73,14 +74,14 @@ export default class Autocomplete {
     this._onReset = onReset;
     this._noResults = noResults;
     this._onClose = onClose;
-
     this._delay = delay;
     this._characters = howManyCharacters;
     this._clearButton = clearButton;
     this._clearButtonOnInitial = clearButtonOnInitial;
     this._selectFirst = selectFirst;
     this._toInput = insertToInput;
-    this._showAll = showAllValues;
+    this._showValuesOnClick = showValuesOnClick;
+    this._inline = inline;
     this._classGroup = classGroup;
     this._prevClosing = classPreventClosing;
     this._clearBtnAriLabel = ariaLabelClear
@@ -152,7 +153,13 @@ export default class Autocomplete {
     onEvent(this._root, "input", this._handleInput);
 
     // show all values on click root input
-    this._showAll && onEvent(this._root, "click", this._handleInput);
+    this._showValuesOnClick && onEvent(this._root, "click", this._handleInput);
+
+    // show all values
+    if (this._inline) {
+      const config = { root: this._root, type: "load" };
+      onEvent(this._root, "load", this._handleInput(config));
+    }
 
     // calback functions
     this._onRender({
@@ -176,7 +183,7 @@ export default class Autocomplete {
     if (!this._cache) return;
 
     if (type === "update") {
-      this._root.setAttribute(this._cacheData, target.value);
+      this._root.setAttribute(this._cacheData, target?.value);
     } else if (type === "remove") {
       this._root.removeAttribute(this._cacheData);
     } else {
@@ -197,8 +204,10 @@ export default class Autocomplete {
       return;
     }
 
+    // if inline is true then set root to target
+    target = this._inline ? this._root : target;
     // replace all special characters
-    const regex = target.value.replace(
+    const regex = target?.value.replace(
       this._regex.expression,
       this._regex.replacement,
     );
@@ -206,20 +215,23 @@ export default class Autocomplete {
     // update data attribute cache
     this._cacheAct("update", target);
 
-    const delay = this._showAll ? 0 : this._delay;
-    // clear timeout
+    const delay =
+      this._showValuesOnClick || (this._inline && type === "load")
+        ? 0
+        : this._delay;
+
     clearTimeout(this._timeout);
     this._timeout = setTimeout(() => {
       // removeResultsWhenInputIsEmpty
       // remove results when input is empty
       if (this._removeResultsWhenInputIsEmpty) {
-        if (target.value.length === 0) {
+        if (target?.value.length === 0) {
           this.destroy();
           return;
         }
       }
 
-      this._searchItem(regex.trim());
+      this._searchItem(regex?.trim());
     }, delay);
   };
 
@@ -251,7 +263,10 @@ export default class Autocomplete {
 
     // remove result when lengh = 0 and insertToInput is false
     // https://github.com/tomickigrzegorz/autocomplete/issues/136
-    if ((this._matches?.length == 0 && !this._toInput) || this._showAll) {
+    if (
+      (this._matches?.length == 0 && !this._toInput) ||
+      this._showValuesOnClick
+    ) {
       this._resultList.textContent = "";
     }
 
@@ -275,13 +290,21 @@ export default class Autocomplete {
     showBtnToClearData(this._clearBtn, this.destroy);
 
     // if there is no value and clearButton is true
-    if (value.length == 0 && this._clearButton) {
+    if (
+      (!value || value?.length === 0) &&
+      this._clearButton &&
+      !this._clearButtonOnInitial
+    ) {
       classList(this._clearBtn, "add", "hidden");
     }
 
     // if declare characters more then value.len and showAll is false
     // remove class isActive
-    if (this._characters > value.length && !this._showAll) {
+    if (
+      this._characters > value?.length &&
+      !this._showValuesOnClick &&
+      !this._inline
+    ) {
       this._onLoading();
       return;
     }
@@ -300,11 +323,11 @@ export default class Autocomplete {
         this._error();
 
         // if use destroy() method
-        if (resultLength == 0 && rootValueLength == 0) {
+        if (resultLength === 0 && rootValueLength === 0) {
           classList(this._clearBtn, "add", "hidden");
         }
 
-        if (resultLength == 0 && rootValueLength) {
+        if (resultLength === 0 && rootValueLength) {
           classList(this._root, "remove", "auto-expanded");
           this._reset();
           this._noResults({
@@ -348,7 +371,9 @@ export default class Autocomplete {
     onEvent(this._root, "click", this._handleShowItems);
 
     // close expanded items
-    onEvent(document, "click", this._handleDocClick);
+    if (!this._inline) {
+      onEvent(document, "click", this._handleDocClick);
+    }
 
     // temporarily disabled mouseleave
     ["mousemove", "click"].map((eventType) => {
@@ -462,10 +487,12 @@ export default class Autocomplete {
         : firstElementChild;
 
     // calback function onSelect when first element is true
+
     this._onSelected({
       index: this._index,
       element: this._root,
       object: this._matches[this._index],
+      currentValue: this._root.value,
     });
 
     // set attribute to first element
@@ -561,6 +588,10 @@ export default class Autocomplete {
         element: this._root,
         object: this._matches[this._index],
       });
+
+      if (this._root.value.length > 0) {
+        this._clearButton && classList(this._clearBtn, "remove", "hidden");
+      }
     }
   };
 
@@ -661,6 +692,8 @@ export default class Autocomplete {
 
           if (this._toInput && resultList) {
             this._root.value = getFirstElement(selectedElement);
+
+            this._clearButton && classList(this._clearBtn, "remove", "hidden");
           }
 
           // callback function
@@ -697,9 +730,11 @@ export default class Autocomplete {
       case keyCodes.TAB:
       case keyCodes.ESC:
         event.stopPropagation();
-        this._reset();
-
+        if (!this._inline) {
+          this._reset();
+        }
         break;
+
       default:
         break;
     }
@@ -760,7 +795,6 @@ export default class Autocomplete {
     // add aria to clear button
     setAttributes(this._clearBtn, {
       class: `${this._prefix}-clear hidden`,
-      type: "button",
       title: this._clearBtnAriLabel,
       "aria-label": this._clearBtnAriLabel,
     });
@@ -799,8 +833,10 @@ export default class Autocomplete {
     this._root.focus();
     // remove li from ul
     this._resultList.textContent = "";
-    // set default aria
-    this._reset();
+    // if inline: true don't reset
+    if (!this._inline) this._reset();
+    // if inline: true keep onClose method
+    if (this._inline) this._onClose();
     // remove error if exist
     this._error();
     // callback function

@@ -4,7 +4,7 @@ new Autocomplete("clear-button-on", {
 
   onSearch: ({ currentValue }) => {
     const api = `https://rickandmortyapi.com/api/character?name=${encodeURI(
-      currentValue
+      currentValue,
     )}`;
     return new Promise((resolve) => {
       fetch(api)

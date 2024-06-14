@@ -38,7 +38,7 @@
     <main class="container">
       <header>
         <h1 class="loupe">
-          autocomplete <sup><small>v2.0.1</small></sup>
+          autocomplete <sup><small>v2.0.2</small></sup>
         </h1>
         <div class="switch-theme">
           <button class="theme theme-head" aria-label="change theme">
@@ -87,10 +87,10 @@
           -- OR CDN --
           <div rel="HTML" class="html-class">
             <pre><code class="language-html">&lt;!-- css --&gt;
-&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.1/dist/css/autocomplete.min.css&quot;/&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.2/dist/css/autocomplete.min.css&quot;/&gt;
 
 &lt;!-- js --&gt;
-&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.1/dist/js/autocomplete.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.2/dist/js/autocomplete.min.js&quot;&gt;&lt;/script&gt;
           </code></pre>
           </div>
 
@@ -108,11 +108,11 @@
           <h4>-- use cdn --</h4>
           <div rel="HTML" class="html-class">
             <pre><code class="language-html">&lt;!-- css --&gt;
-&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.1/dist/css/autocomplete.ie.min.css&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.2/dist/css/autocomplete.ie.min.css&quot;&gt;
 
 &lt;!-- js --&gt;
-&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.1/dist/js/polyfill.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.1/dist/js/autocomplete.ie.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.2/dist/js/polyfill.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.2/dist/js/autocomplete.ie.min.js&quot;&gt;&lt;/script&gt;</code></pre>
           </div>
           <h4>-- use cdn polyfills from npm --</h4>
           <div rel="HTML" class="html-class">
@@ -812,7 +812,7 @@
         <!-- Local data end -->
 
         <!-- modal -->
-        <section id="modal-example" class="section">
+        <section id="modal-examples" class="section">
           <div class="search-element">
             <div class="info-section">
               <h2>Modal</h2>
@@ -849,13 +849,15 @@
         <!-- modal -->
 
         <!-- show all values start -->
-        <section id="show-all-values-example" class="section">
+        <section id="show-all-values-on-click-example" class="section">
           <div class="search-element">
             <div class="info-section">
-              <h2>Show all values</h2>
+              <h2>Show all values on click</h2>
               <div class="sources">
-                <a href="./js/examples/show-all-values.js" target="_blank"
-                  >source: show-all-values</a
+                <a
+                  href="./js/examples/show-all-values-on-click.js"
+                  target="_blank"
+                  >source: show-all-values-on-click</a
                 >
               </div>
 
@@ -875,7 +877,11 @@
             </div>
             <div class="wrap drop-down">
               <div class="auto-search-wrapper max-height bottom-radius">
-                <input type="text" id="show-all-values" placeholder="click" />
+                <input
+                  type="text"
+                  id="show-all-values-on-click"
+                  placeholder="click"
+                />
               </div>
               <button aria-label="clear data" class="clear-button phone-clear">
                 clear
@@ -884,12 +890,56 @@
           </div>
           <div rel="docs/index.html" class="highlight html html-class"></div>
           <div
-            rel="docs/js/examples/show-all-values.js"
+            rel="docs/js/examples/show-all-values-on-click.js"
             class="highlight javascript html-class"
           >
             <div>
               <pre>
-                <code class="language-js" data-source="./js/examples/show-all-values.js"></code>
+                <code class="language-js" data-source="./js/examples/show-all-values-on-click.js"></code>
+              </pre>
+            </div>
+          </div>
+        </section>
+        <!-- show all values end -->
+
+        <!-- show all values start -->
+        <section id="show-inline-example" class="section">
+          <div class="search-element">
+            <div class="info-section">
+              <h2>Show inline</h2>
+              <div class="sources">
+                <a href="./js/examples/show-inline.js" target="_blank"
+                  >source: show-inline</a
+                >
+              </div>
+              <p>
+                Using the <code>"inline:true"</code> option causes the results
+                to appear immediately below the input field. It should be
+                mentioned that loading the first results does not take into
+                account the <code>"delay"</code> parameter, only the search
+                takes this parameter into account.
+              </p>
+            </div>
+            <div class="drop-down inline-block">
+              <!-- you should override the absolute styles for .auto-results-wrapper, 
+              these are the styles for search results
+              .show-values .auto-results-wrapper { position: relative !important; } 
+              -->
+              <div
+                class="auto-search-wrapper show-values max-height bottom-radius"
+              >
+                <input type="text" id="show-inline" placeholder="write text" />
+              </div>
+            </div>
+          </div>
+          <div rel="docs/index.html" class="highlight html html-class"></div>
+          <div
+            rel="docs/js/examples/show-inline.js"
+            class="highlight javascript html-class"
+          >
+            <div>
+              <pre>
+                <code class="language-js" data-source="./js/examples/show-inline.js"></code>
               </pre>
             </div>
           </div>
@@ -1169,7 +1219,8 @@
     <script async src="./js/examples/regex.js"></script>
     <script async src="./js/examples/prevent-scroll-up.js"></script>
     <script async src="./js/examples/modal.js"></script>
-    <script async src="./js/examples/show-all-values.js"></script>
+    <script async src="./js/examples/show-all-values-on-click.js"></script>
+    <script async src="./js/examples/show-inline.js"></script>
     <script async src="./js/examples/update-input.js"></script>
     <script async src="./js/examples/select.js"></script>
     <script async src="./js/examples/special-characters.js"></script>

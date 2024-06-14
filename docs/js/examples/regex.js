@@ -1,7 +1,8 @@
 new Autocomplete("regex", {
   // default /[|\\{}()[\]^$+*?]/g
   // we are replace "aaa" string with "Dr. Wong"
-
+  insertToInput: true,
+  selectFirst: true,
   regex: { expression: /aaa/g, replacement: "Dr. Wong" },
 
   onSearch: ({ currentValue }) => {

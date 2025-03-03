@@ -1,6 +1,6 @@
 /*!
 * @name autocomplete
-* @version 2.0.2
+* @version 2.0.3
 * @author Grzegorz Tomicki
 * @link https://github.com/tomickigrzegorz/autocomplete
 * @license MIT
@@ -105,7 +105,7 @@
     };
   };
 
-  const keyCodes = {
+  const KEY_CODES = {
     ESC: 27,
     ENTER: 13,
     UP: 38,
@@ -417,13 +417,13 @@
         const matchesLength = this._matches.length + 1;
         this._selectedLi = select(`.${this._activeList}`);
         switch (keyCode) {
-          case keyCodes.UP:
-          case keyCodes.DOWN:
+          case KEY_CODES.UP:
+          case KEY_CODES.DOWN:
             event.preventDefault();
             if (matchesLength <= 1 && this._selectFirst || !resultList) {
               return;
             }
-            if (keyCode === keyCodes.UP) {
+            if (keyCode === KEY_CODES.UP) {
               if (this._index < 0) {
                 this._index = matchesLength - 1;
               }
@@ -457,12 +457,12 @@
               });
             }
             break;
-          case keyCodes.ENTER:
+          case KEY_CODES.ENTER:
             event.preventDefault();
             this._getTextFromLi(this._selectedLi);
             break;
-          case keyCodes.TAB:
-          case keyCodes.ESC:
+          case KEY_CODES.TAB:
+          case KEY_CODES.ESC:
             event.stopPropagation();
             if (!this._inline) {
               this._reset();

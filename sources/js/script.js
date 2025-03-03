@@ -17,7 +17,7 @@ import {
   ariaActiveDescendantDefault,
 } from "./utils/function";
 
-import keyCodes from "./utils/keyCodes";
+import KEY_CODES from "./utils/keyCodes";
 
 /**
  * @class Autocomplete
@@ -660,8 +660,8 @@ export default class Autocomplete {
 
     // switch between keys
     switch (keyCode) {
-      case keyCodes.UP:
-      case keyCodes.DOWN:
+      case KEY_CODES.UP:
+      case KEY_CODES.DOWN:
         // Wrong cursor position in the input field #62
         // Prevents the cursor from moving to the beginning
         // of input as the cursor hovers over the results.
@@ -672,7 +672,7 @@ export default class Autocomplete {
         }
 
         // if keyCode is up
-        if (keyCode === keyCodes.UP) {
+        if (keyCode === KEY_CODES.UP) {
           if (this._index < 0) {
             this._index = matchesLength - 1;
           }
@@ -719,7 +719,7 @@ export default class Autocomplete {
 
         break;
       // keycode enter
-      case keyCodes.ENTER:
+      case KEY_CODES.ENTER:
         // https:github.com/tomickigrzegorz/autocomplete/issues/145
         event.preventDefault();
 
@@ -727,8 +727,8 @@ export default class Autocomplete {
         break;
 
       // keycode escape and keycode tab
-      case keyCodes.TAB:
-      case keyCodes.ESC:
+      case KEY_CODES.TAB:
+      case KEY_CODES.ESC:
         event.stopPropagation();
         if (!this._inline) {
           this._reset();

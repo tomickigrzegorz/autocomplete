@@ -1,7 +1,7 @@
 /**
  * Key codes
  */
-const keyCodes = {
+const KEY_CODES = {
   ESC: 27,
   ENTER: 13,
   UP: 38,
@@ -9,4 +9,4 @@ const keyCodes = {
   TAB: 9,
 };
 
-export default keyCodes;
+export default KEY_CODES;

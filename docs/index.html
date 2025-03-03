@@ -38,7 +38,7 @@
     <main class="container">
       <header>
         <h1 class="loupe">
-          autocomplete <sup><small>v2.0.2</small></sup>
+          autocomplete <sup><small>v2.0.3</small></sup>
         </h1>
         <div class="switch-theme">
           <button class="theme theme-head" aria-label="change theme">
@@ -87,10 +87,10 @@
           -- OR CDN --
           <div rel="HTML" class="html-class">
             <pre><code class="language-html">&lt;!-- css --&gt;
-&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.2/dist/css/autocomplete.min.css&quot;/&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.3/dist/css/autocomplete.min.css&quot;/&gt;
 
 &lt;!-- js --&gt;
-&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.2/dist/js/autocomplete.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.3/dist/js/autocomplete.min.js&quot;&gt;&lt;/script&gt;
           </code></pre>
           </div>
 
@@ -108,11 +108,11 @@
           <h4>-- use cdn --</h4>
           <div rel="HTML" class="html-class">
             <pre><code class="language-html">&lt;!-- css --&gt;
-&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.2/dist/css/autocomplete.ie.min.css&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.3/dist/css/autocomplete.ie.min.css&quot;&gt;
 
 &lt;!-- js --&gt;
-&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.2/dist/js/polyfill.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.2/dist/js/autocomplete.ie.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.3/dist/js/polyfill.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.3/dist/js/autocomplete.ie.min.js&quot;&gt;&lt;/script&gt;</code></pre>
           </div>
           <h4>-- use cdn polyfills from npm --</h4>
           <div rel="HTML" class="html-class">
@@ -902,6 +902,48 @@
         </section>
         <!-- show all values end -->
 
+        <!-- cache start -->
+        <section id="cache-example" class="section">
+          <div class="search-element">
+            <div class="info-section">
+              <h2>Cache data</h2>
+              <div class="sources">
+                <a href="./js/examples/cache.js" target="_blank">source: cache</a>
+              </div>
+                The <code>fetchDataWithSessionCache</code> function implements caching of search results in sessionStorage, which speeds up data loading and reduces the number of API requests.<br><br>
+                <ol class="ms-2">
+                  <li><b>CACHE_TTL:</b> Defines the cache's time-to-live (TTL) as 60 seconds.</li>
+                  <li><b>Cache Check:</b>
+                    <ul class="ms-2">
+                      <li>The function checks if the query (query) exists in sessionStorage and if it is not outdated (i.e., not older than 60 seconds).</li>
+                      <li>If the data is still valid, it is returned directly from the cache.</li>
+                    </ul>
+                  </li>
+                  <li><b>Fetching Data from the API:</b>
+                    <ul class="ms-2">
+                      <li>If the data is not in the cache or is outdated, the function makes a request to the API (in this case, the "Rick and Morty" API).</li>
+                      <li>The retrieved results are saved to sessionStorage with the current timestamp.</li>
+                  </li>
+                </ol>
+                Open devTools in chrome. Find Application -> Session storage and see how the data is saved. Of course, the data is only in the session, so if I close the tab, the data is deleted. You can change it to Local storage or even save it in memory, but it's up to you how you save the data.
+              </p>
+            </div>
+            <div class="auto-search-wrapper">
+              <input type="text" id="cache" placeholder="type war" />
+            </div>
+          </div>
+          <div rel="docs/index.html" class="highlight html html-class"></div>
+          <div
+            rel="docs/js/examples/cache.js"
+            class="highlight javascript html-class"
+          >
+            <pre>
+                <code class="language-js" data-source="./js/examples/cache.js"></code>
+              </pre>
+          </div>
+        </section>
+        <!-- cache end -->
+
         <!-- show all values start -->
         <section id="show-inline-example" class="section">
           <div class="search-element">
@@ -1226,6 +1268,7 @@
     <script async src="./js/examples/special-characters.js"></script>
     <script async src="./js/examples/multiple-choices.js"></script>
     <script async src="./js/examples/checkbox.js"></script>
+    <script async src="./js/examples/cache.js"></script>
 
     <div class="modal"></div>
   </body>

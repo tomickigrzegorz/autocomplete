@@ -48,6 +48,10 @@
     "link": "show-all-values-on-click-example",
     "html": "Show all values on click"
   },
+  {
+    "link": "cache-example",
+    "html": "Cache"
+  },
   { "link": "show-inline-example", "html": "Inline" },
   {
     "link": "update-input-data-example",

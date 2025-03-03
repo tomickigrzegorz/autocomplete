@@ -1,3 +1,7 @@
+## 2025-03-03 (2.0.3)
+### Added
+- cache example - new example showing how to use the [data cache](https://tomickigrzegorz.github.io/autocomplete/#cache-example)
+
 ## 2024-06-04 (2.0.2)
 ### Added
 - inline - this option displays all results without clicking on the input field

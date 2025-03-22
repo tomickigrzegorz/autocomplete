@@ -914,13 +914,13 @@
                 <ol class="ms-2">
                   <li><b>CACHE_TTL:</b> Defines the cache's time-to-live (TTL) as 60 seconds.</li>
                   <li><b>Cache Check:</b>
-                    <ul class="ms-2">
+                    <ol class="ms-2">
                       <li>The function checks if the query (query) exists in sessionStorage and if it is not outdated (i.e., not older than 60 seconds).</li>
                       <li>If the data is still valid, it is returned directly from the cache.</li>
-                    </ul>
+                    </ol>
                   </li>
                   <li><b>Fetching Data from the API:</b>
-                    <ul class="ms-2">
+                    <ol class="ms-2">
                       <li>If the data is not in the cache or is outdated, the function makes a request to the API (in this case, the "Rick and Morty" API).</li>
                       <li>The retrieved results are saved to sessionStorage with the current timestamp.</li>
                   </li>

@@ -7,11 +7,6 @@
   "module": "dist/js/autocomplete.esm.js",
   "types": "dist/js/autocomplete.d.ts",
   "license": "MIT",
-  "browserslist": [
-    "last 2 versions",
-    "not dead",
-    "> 0.2%"
-  ],
   "exports": {
     ".": {
       "require": "./dist/js/autocomplete.js",

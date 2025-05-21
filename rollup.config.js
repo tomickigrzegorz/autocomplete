@@ -14,13 +14,7 @@ const input = "sources/js/script.js";
 
 const targets = {
   targets: {
-    browsers: ["defaults", "not IE 11", "maintained node versions"],
-  },
-};
-
-const targetsIE = {
-  targets: {
-    browsers: [">0.2%", "not dead", "not op_mini all"],
+    browsers: ["last 2 versions", "not dead", "> 0.2%"],
   },
 };
 
@@ -172,34 +166,5 @@ export default [
         ],
       },
     ],
-  },
-  // --------------------------------------------------
-  // ie section
-  {
-    input,
-    plugins: pluginsConfig(targetsIE),
-    watch: false,
-    output: {
-      banner,
-      file: "dist/js/autocomplete.ie.min.js",
-      format: "iife",
-      name: "Autocomplete",
-      sourcemap: !PRODUCTION,
-      plugins: [
-        terser({
-          ...terserConfig,
-          compress: { drop_console: true, drop_debugger: true },
-        }),
-      ],
-    },
-  },
-  {
-    input: "sources/js/polyfill.js",
-    watch: false,
-    output: {
-      banner,
-      file: "dist/js/polyfill.js",
-      format: "es",
-    },
   },
 ];

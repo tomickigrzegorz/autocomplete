@@ -1,16 +1,17 @@
 ## 2025-05-21 (3.0.0)
 ### Added
-- typeScript definitions for `keyCodes.js` (`keyCodes.d.ts`).
-- typeScript definitions for `function.js` (`function.d.ts`).
-- improved immutability in `AutocompleteOptions` by using `Readonly`.
-- add type "button" to the clear button.
-- package.json - added `types` field to point to the TypeScript definition file.
-- added `autocomplete.d.ts` file for TypeScript definitions. 
+- typeScript definitions for `keyCodes.js` (`keyCodes.d.ts`)
+- typeScript definitions for `function.js` (`function.d.ts`)
+- improved immutability in `AutocompleteOptions` by using `Readonly`
+- add type "button" to the clear button
+- package.json - added `types` field to point to the TypeScript definition file
+- added `autocomplete.d.ts` file for TypeScript definitions.
+- remove IE support from the library
 
 ### Fixed
-- ensured consistency between `autocomplete.d.ts` and `script.d.ts`.
-- added missing types for utility functions in `function.js`.
-- added JSDoc types for `keyCodes.js`.
+- ensured consistency between `autocomplete.d.ts` and `script.d.ts`
+- added missing types for utility functions in `function.js`
+- added JSDoc types for `keyCodes.js`
 - remove tabindex for result wrapper ul
 
 

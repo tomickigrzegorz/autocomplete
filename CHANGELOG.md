@@ -1,3 +1,19 @@
+## 2025-05-21 (3.0.0)
+### Added
+- typeScript definitions for `keyCodes.js` (`keyCodes.d.ts`).
+- typeScript definitions for `function.js` (`function.d.ts`).
+- improved immutability in `AutocompleteOptions` by using `Readonly`.
+- add type "button" to the clear button.
+- package.json - added `types` field to point to the TypeScript definition file.
+- added `autocomplete.d.ts` file for TypeScript definitions. 
+
+### Fixed
+- ensured consistency between `autocomplete.d.ts` and `script.d.ts`.
+- added missing types for utility functions in `function.js`.
+- added JSDoc types for `keyCodes.js`.
+- remove tabindex for result wrapper ul
+
+
 ## 2025-03-03 (2.0.3)
 ### Added
 - cache example - new example showing how to use the [data cache](https://tomickigrzegorz.github.io/autocomplete/#cache-example)
@@ -773,10 +789,3 @@ mangle: {
 
 - remove special characters from input
 - searchBy - searching by element
-
-## 2019-05-04
-
-### Added
-
-- eslint and prettier adding
-- source-map dev/prod

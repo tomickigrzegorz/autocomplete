@@ -1,3 +1,7 @@
+@use "./modules/colors";
+@use "./modules/prism-theme";
+@use "./modules/helper";
+
 :root {
   --page-bg: #fbfbfb;
   --font-color: #2d2d2d;
@@ -39,9 +43,6 @@
 }
 
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@400&display=swap");
-@import "./modules/colors";
-@import "./modules/prism-theme";
-@import "./modules/helper";
 
 :root {
   --toggle-menu: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M3 13h18a1 1 0 0 0 0-2H3a1 1 0 0 0 0 2zm0-6h18a1 1 0 0 0 0-2H3a1 1 0 0 0 0 2zm0 12h18a1 1 0 0 0 0-2H3a1 1 0 0 0 0 2z'/%3E%3C/svg%3E");
@@ -821,14 +822,14 @@ aside::-webkit-scrollbar-thumb {
 }
 
 .switch-theme {
-  margin-top: 5px;
-  margin-right: 50px;
+  margin: 5px 50px 0 0;
 
   button {
-    background-color: transparent;
-    border: 0;
+    background: none;
+    border: none;
     cursor: pointer;
   }
+
   svg {
     width: 40px;
     height: 40px;
@@ -843,9 +844,11 @@ aside::-webkit-scrollbar-thumb {
   .theme-dark {
     display: none;
   }
+
   .github-corner {
     fill: #fff;
   }
+
   .loupe::before {
     filter: brightness(1);
   }

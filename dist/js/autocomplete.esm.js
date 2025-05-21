@@ -1,42 +1,37 @@
 /*!
 * @name autocomplete
-* @version 2.0.3
+* @version 3.0.0
 * @author Grzegorz Tomicki
 * @link https://github.com/tomickigrzegorz/autocomplete
 * @license MIT
 */
 const isObject = value => value && typeof value === "object" && value.constructor === Object;
 const isPromise = value => Boolean(value && typeof value.then === "function");
-const setAttributes = (el, object) => {
-  for (let key in object) {
-    if (key === "addClass") {
-      classList(el, "add", object[key]);
-    } else if (key === "removeClass") {
-      classList(el, "remove", object[key]);
+const setAttributes = (el, attributes) => {
+  Object.entries(attributes).forEach(([key, value]) => {
+    if (key === "addClass" || key === "removeClass") {
+      classList(el, key === "addClass" ? "add" : "remove", value);
     } else {
-      el.setAttribute(key, object[key]);
+      el.setAttribute(key, value);
     }
-  }
+  });
 };
 const getFirstElement = element => (element.firstElementChild || element).textContent.trim();
 const scrollResultsToTop = (resultList, resultWrap) => {
   resultList.scrollTop = resultList.offsetTop - resultWrap.offsetHeight;
 };
 const addAriaToAllLiElements = itemsLi => {
-  for (let i = 0; i < itemsLi.length; i++) {
-    setAttributes(itemsLi[i], {
+  itemsLi.forEach((item, index) => {
+    setAttributes(item, {
       role: "option",
       tabindex: "-1",
       "aria-selected": "false",
       "aria-setsize": itemsLi.length,
-      "aria-posinset": i + 1
+      "aria-posinset": index + 1
     });
-  }
+  });
 };
-const showBtnToClearData = function (clearButton, destroy) {
-  if (clearButton === void 0) {
-    clearButton = false;
-  }
+const showBtnToClearData = (clearButton, destroy) => {
   if (!clearButton) return;
   classList(clearButton, "remove", "hidden");
   onEvent(clearButton, "click", destroy);
@@ -49,20 +44,18 @@ const setAriaActivedescendant = (root, type) => {
 };
 const getClassGroupHeight = (outputUl, classGroup) => {
   const allLiElements = document.querySelectorAll(`#${outputUl} > li:not(.${classGroup})`);
-  let height = 0;
-  [].slice.call(allLiElements).map(el => height += el.offsetHeight);
-  return height;
+  return Array.from(allLiElements).reduce((height, el) => height + el.offsetHeight, 0);
 };
 const followActiveElement = (target, outputUl, classGroup, resultList) => {
-  const previusElement = resultList.previousSibling;
-  const previusElementHeight = previusElement ? previusElement.offsetHeight : 0;
-  if (target.getAttribute("aria-posinset") == "0") {
+  const previousElement = resultList.previousSibling;
+  const previousElementHeight = previousElement ? previousElement.offsetHeight : 0;
+  if (target.getAttribute("aria-posinset") === "0") {
     resultList.scrollTop = target.offsetTop - getClassGroupHeight(outputUl, classGroup);
   }
-  if (target.offsetTop - previusElementHeight < resultList.scrollTop) {
-    resultList.scrollTop = target.offsetTop - previusElementHeight;
+  if (target.offsetTop - previousElementHeight < resultList.scrollTop) {
+    resultList.scrollTop = target.offsetTop - previousElementHeight;
   } else {
-    const offsetBottom = target.offsetTop + target.offsetHeight - previusElementHeight;
+    const offsetBottom = target.offsetTop + target.offsetHeight - previousElementHeight;
     const scrollBottom = resultList.scrollTop + resultList.offsetHeight;
     if (offsetBottom > scrollBottom) {
       resultList.scrollTop = offsetBottom - resultList.offsetHeight;
@@ -72,7 +65,6 @@ const followActiveElement = (target, outputUl, classGroup, resultList) => {
 const output = (root, resultList, outputUl, resultWrap, prefix) => {
   setAttributes(resultList, {
     id: outputUl,
-    tabIndex: "0",
     role: "listbox"
   });
   setAttributes(resultWrap, {
@@ -82,64 +74,61 @@ const output = (root, resultList, outputUl, resultWrap, prefix) => {
   root.parentNode.insertBefore(resultWrap, root.nextSibling);
 };
 const createElement = type => document.createElement(type);
-const select = element => document.querySelector(element);
+const select = selector => document.querySelector(selector);
 const onEvent = (element, action, callback) => {
   element.addEventListener(action, callback);
 };
 const offEvent = (element, action, callback) => {
   element.removeEventListener(action, callback);
 };
-const ariaActiveDescendantDefault = id => {
-  return {
-    "aria-owns": id,
-    "aria-expanded": "false",
-    "aria-autocomplete": "list",
-    role: "combobox",
-    removeClass: "auto-expanded"
-  };
-};
+const ariaActiveDescendantDefault = id => ({
+  "aria-owns": id,
+  "aria-expanded": "false",
+  "aria-autocomplete": "list",
+  role: "combobox",
+  removeClass: "auto-expanded"
+});
 
-const KEY_CODES = {
+const KEY_CODES = Object.freeze({
   ESC: 27,
   ENTER: 13,
   UP: 38,
   DOWN: 40,
   TAB: 9
-};
+});
 
 class Autocomplete {
-  constructor(_element, _ref) {
-    let {
-      delay: _delay = 500,
-      clearButton = true,
-      clearButtonOnInitial = false,
-      howManyCharacters = 1,
-      selectFirst = false,
-      insertToInput = false,
-      showValuesOnClick = false,
-      inline = false,
-      cache = false,
-      disableCloseOnSelect = false,
-      preventScrollUp = false,
-      removeResultsWhenInputIsEmpty = false,
-      regex: _regex = {
-        expression: /[|\\{}()[\]^$+*?]/g,
-        replacement: "\\$&"
-      },
-      classGroup,
-      classPreventClosing,
-      classPrefix,
-      ariaLabelClear,
-      onSearch,
-      onResults = () => {},
-      onSubmit = () => {},
-      onOpened = () => {},
-      onReset = () => {},
-      onRender = () => {},
-      onClose = () => {},
-      noResults = () => {},
-      onSelectedItem = () => {}
-    } = _ref;
+  constructor(_element, {
+    delay: _delay = 500,
+    clearButton = true,
+    clearButtonOnInitial = false,
+    howManyCharacters = 1,
+    selectFirst = false,
+    insertToInput = false,
+    showValuesOnClick = false,
+    inline = false,
+    cache = false,
+    disableCloseOnSelect = false,
+    preventScrollUp = false,
+    removeResultsWhenInputIsEmpty = false,
+    regex: _regex = {
+      expression: /[|\\{}()[\]^$+*?]/g,
+      replacement: "\\$&"
+    },
+    classGroup,
+    classPreventClosing,
+    classPrefix,
+    ariaLabelClear,
+    onSearch,
+    onResults = () => {},
+    onSubmit = () => {},
+    onOpened = () => {},
+    onReset = () => {},
+    onRender = () => {},
+    onClose = () => {},
+    noResults = () => {},
+    onSelectedItem = () => {}
+  }) {
     this._initial = () => {
       this._clearbutton();
       const ariaAcrivedescentDefault = ariaActiveDescendantDefault(this._outputUl);
@@ -172,11 +161,10 @@ class Autocomplete {
         this._root.value = this._root.getAttribute(this._cacheData);
       }
     };
-    this._handleInput = _ref2 => {
-      let {
-        target,
-        type
-      } = _ref2;
+    this._handleInput = ({
+      target,
+      type
+    }) => {
       if (this._root.getAttribute("aria-expanded") === "true" && type === "click") {
         return;
       }
@@ -294,10 +282,9 @@ class Autocomplete {
       this._selectFirstElement();
       scrollResultsToTop(this._resultList, this._resultWrap);
     };
-    this._handleDocClick = _ref3 => {
-      let {
-        target
-      } = _ref3;
+    this._handleDocClick = ({
+      target
+    }) => {
       let disableClose = null;
       if (target.closest("ul") && this._disable ||
       target.closest(`.${this._prevClosing}`)) {
@@ -485,6 +472,7 @@ class Autocomplete {
     this._clearbutton = () => {
       if (!this._clearButton) return;
       setAttributes(this._clearBtn, {
+        type: "button",
         class: `${this._prefix}-clear hidden`,
         title: this._clearBtnAriLabel,
         "aria-label": this._clearBtnAriLabel
@@ -516,16 +504,13 @@ class Autocomplete {
     };
     this._id = _element;
     this._root = document.getElementById(_element);
-    this._onSearch = isPromise(onSearch) ? onSearch : _ref4 => {
-      let {
-        currentValue,
-        element
-      } = _ref4;
-      return Promise.resolve(onSearch({
-        currentValue,
-        element
-      }));
-    };
+    this._onSearch = isPromise(onSearch) ? onSearch : ({
+      currentValue,
+      element
+    }) => Promise.resolve(onSearch({
+      currentValue,
+      element
+    }));
     this._onResults = onResults;
     this._onRender = onRender;
     this._onSubmit = onSubmit;
@@ -561,10 +546,12 @@ class Autocomplete {
     this._resultWrap = createElement("div");
     this._resultList = createElement("ul");
     this._clearBtn = createElement("button");
-    this._regex = _regex;
-    this._defaultExpression = {
-      expression: /[|\\{}()[\]^$+*?]/g,
-      replacement: "\\$&"
+    this._regex = {
+      ...{
+        expression: /[|\\{}()[\]^$+*?]/g,
+        replacement: "\\$&"
+      },
+      ..._regex
     };
     if (!this._regex.replacement) {
       this._regex.replacement = this._defaultExpression.replacement;
@@ -577,4 +564,3 @@ class Autocomplete {
 }
 
 export { Autocomplete as default };
-//# sourceMappingURL=autocomplete.esm.js.map

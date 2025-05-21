@@ -473,29 +473,6 @@ auto.rerender();
 auto.rerender(string);
 ```
 
-## Browser support
-
-Autocomplete supports all major browsers including IE 10 and above
-
-Configuration for IE:
-
-### local files
-- dist/js/polyfill.js
-- dist/js/autocomplete.ie.min.js
-- dist/css/autocomplete.ie.min.css
-
-### cdn
-
-- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.0.0/dist/js/polyfill.js
-- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.0.0/dist/js/autocomplete.ie.min.js
-- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.0.0/dist/css/autocomplete.ie.min.css
-
-### cdn polyfill from npm
-
-- https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js
-- https://cdn.jsdelivr.net/npm/element-closest@3.0.2/browser.min.js
-
-
 ## License
 
 This project is available under the [MIT](https://opensource.org/licenses/mit-license.php) license.

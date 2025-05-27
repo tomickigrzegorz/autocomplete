@@ -6,12 +6,18 @@
   "main": "dist/js/autocomplete.js",
   "module": "dist/js/autocomplete.esm.js",
   "types": "dist/js/autocomplete.d.ts",
+  "style": "dist/css/autocomplete.css",
   "license": "MIT",
+  "files": [
+    "dist/"
+  ],
   "exports": {
     ".": {
       "require": "./dist/js/autocomplete.js",
       "import": "./dist/js/autocomplete.esm.js",
-      "types": "./dist/js/autocomplete.d.ts"
+      "types": "./dist/js/autocomplete.d.ts",
+      "umd": "./dist/js/autocomplete.umd.js",
+      "style": "./dist/css/autocomplete.css"
     }
   },
   "sideEffects": false,
@@ -24,14 +30,13 @@
   },
   "scripts": {
     "dev": "concurrently \"yarn sass:dev\" \"yarn sass:prod\" \"yarn watch\"",
-    "prod": "yarn build && yarn sass:prod && yarn postcss:global && yarn postcss:autocomplete && yarn postcss:ie && yarn lib:version",
+    "prod": "yarn build && yarn sass:prod && yarn postcss:global && yarn postcss:autocomplete && yarn lib:version",
     "build": "rollup -c --environment PRODUCTION --bundleConfigAsCjs",
     "watch": "rollup -c -w --bundleConfigAsCjs",
     "sass:prod": "sass --no-source-map sources/scss:docs/css",
     "sass:dev": "sass --watch sources/scss:docs/css",
     "postcss:global": "postcss docs/css --dir docs/css",
     "postcss:autocomplete": "postcss --ext min.css docs/css/autocomplete.css --dir dist/css/",
-    "postcss:ie": "postcss --u postcss-css-variables --no-map --ext ie.min.css docs/css/autocomplete.css --dir dist/css/",
     "lib:version": "node ./scripts/version.js",
     "test:simple": "node ./scripts/test-simple.js",
     "test:complex": "node ./scripts/test-complex.js",

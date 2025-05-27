@@ -17,7 +17,10 @@
   "sideEffects": false,
   "repository": {
     "type": "git",
-    "url": "https://github.com/tomik23/autocomplete.git"
+    "url": "https://github.com/tomickigrzegorz/autocomplete.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tomickigrzegorz/autocomplete/issues"
   },
   "scripts": {
     "dev": "concurrently \"yarn sass:dev\" \"yarn sass:prod\" \"yarn watch\"",
@@ -36,14 +39,27 @@
   },
   "keywords": [
     "autocomplete",
-    "WAI-ARIA",
     "search",
+    "dropdown",
+    "vanilla-js",
     "javascript",
-    "promise+fetch",
-    "axios"
+    "async",
+    "fetch",
+    "axios",
+    "WAI-ARIA",
+    "accessibility",
+    "keyboard-navigation",
+    "lightweight",
+    "no-dependencies",
+    "input",
+    "suggestions",
+    "typeahead",
+    "autosuggest",
+    "frontend",
+    "UI-component"
   ],
   "devDependencies": {
-    "@babel/core": "^7.27.1",
+    "@babel/core": "^7.27.3",
     "@babel/eslint-parser": "^7.27.1",
     "@babel/plugin-proposal-class-properties": "^7.18.6",
     "@babel/plugin-transform-parameters": "^7.27.1",
@@ -62,13 +78,12 @@
     "postcss-cli": "^11.0.1",
     "postcss-css-variables": "^0.19.0",
     "prettier": "^3.5.3",
-    "rollup": "^4.41.0",
+    "rollup": "^4.41.1",
     "rollup-plugin-cleanup": "^3.2.1",
     "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-livereload": "^2.0.5",
     "rollup-plugin-serve": "^3.0.0",
     "sass": "^1.89.0",
     "testcafe": "^3.7.2"
-  },
-  "dependencies": {}
+  }
 }

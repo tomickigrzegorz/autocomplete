@@ -1,7 +1,7 @@
 {
   "name": "@tomickigrzegorz/autocomplete",
   "version": "3.0.0",
-  "description": "Simple autocomplete component in vanilla JS",
+  "description": "A lightweight, dependency-free autocomplete component in vanilla JavaScript with WAI-ARIA support.",
   "author": "Grzegorz Tomicki",
   "main": "dist/js/autocomplete.js",
   "module": "dist/js/autocomplete.esm.js",
@@ -48,8 +48,6 @@
     "dropdown",
     "vanilla-js",
     "javascript",
-    "async",
-    "fetch",
     "axios",
     "WAI-ARIA",
     "accessibility",

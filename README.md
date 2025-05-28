@@ -1,5 +1,5 @@
 <h1 align="center">
-  autocomplete
+  Autocomplete
 </h1>
 
 <p align="center">
@@ -39,7 +39,21 @@ See the demo - [example](https://tomickigrzegorz.github.io/autocomplete/)
 
 ## Installation
 
-### CDN
+### Using npm
+
+Install the library via npm:
+
+```bash
+npm install @tomickigrzegorz/autocomplete
+```
+
+Or using Yarn:
+
+```bash
+yarn add @tomickigrzegorz/autocomplete
+```
+
+### Using a CDN
 
 #### CSS
 
@@ -55,10 +69,10 @@ See the demo - [example](https://tomickigrzegorz.github.io/autocomplete/)
 
 ##### -- OR --
 
-Download from `dist` folder and insert to html:
+Download from `dist` folder and insert to HTML:
 
-- dist/css/autocomplete.css
-- dist/js/autocomplete.min.js
+- `dist/css/autocomplete.css`
+- `dist/js/autocomplete.min.js`
 
 #### HTML
 

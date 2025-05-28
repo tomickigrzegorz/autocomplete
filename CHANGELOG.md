@@ -1,4 +1,4 @@
-## 2025-05-21 (3.0.0)
+## 2025-05-27 (3.0.0)
 ### Added
 - typeScript definitions for `keyCodes.js` (`keyCodes.d.ts`)
 - typeScript definitions for `function.js` (`function.d.ts`)

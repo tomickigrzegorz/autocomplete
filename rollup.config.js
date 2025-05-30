@@ -3,6 +3,7 @@ import terser from "@rollup/plugin-terser";
 import serve from "rollup-plugin-serve";
 import livereload from "rollup-plugin-livereload";
 import cleanup from "rollup-plugin-cleanup";
+import copy from "rollup-plugin-copy";
 
 import pkg from "./package.json";
 
@@ -13,13 +14,7 @@ const input = "sources/js/script.js";
 
 const targets = {
   targets: {
-    browsers: ["defaults", "not IE 11", "maintained node versions"],
-  },
-};
-
-const targetsIE = {
-  targets: {
-    browsers: [">0.2%", "not dead", "not op_mini all"],
+    browsers: ["last 2 versions", "not dead", "> 0.2%"],
   },
 };
 
@@ -64,7 +59,7 @@ export default [
       file: pkg.main,
       format: "iife",
       name: "Autocomplete",
-      sourcemap: true,
+      sourcemap: !PRODUCTION,
     },
   },
   {
@@ -97,7 +92,7 @@ export default [
       file: "docs/js/autocomplete.min.js",
       format: "iife",
       name: "Autocomplete",
-      sourcemap: true,
+      sourcemap: !PRODUCTION,
       plugins: [terser({ ...terserConfig })],
     },
   },
@@ -113,14 +108,14 @@ export default [
         file: "dist/js/autocomplete.umd.js",
         format: "umd",
         name: "Autocomplete",
-        sourcemap: true,
+        sourcemap: !PRODUCTION,
       },
       {
         banner,
         name: "Autocomplete",
         file: "dist/js/autocomplete.umd.min.js",
         format: "umd",
-        sourcemap: false,
+        sourcemap: !PRODUCTION,
         plugins: [
           terser({
             ...terserConfig,
@@ -134,7 +129,20 @@ export default [
   // esm
   {
     input,
-    plugins: pluginsConfig(targets),
+    plugins: [
+      ...pluginsConfig(targets),
+      copy({
+        targets: [
+          {
+            src: "sources/js/script.d.ts",
+            dest: "dist/js",
+            rename: "autocomplete.d.ts",
+          },
+        ],
+        hook: "writeBundle",
+        verbose: true,
+      }),
+    ],
     watch: false,
     output: [
       {
@@ -142,14 +150,14 @@ export default [
         file: "dist/js/autocomplete.esm.js",
         format: "es",
         name: "Autocomplete",
-        sourcemap: true,
+        sourcemap: !PRODUCTION,
       },
       {
         banner,
         file: "dist/js/autocomplete.esm.min.js",
         format: "es",
         name: "Autocomplete",
-        sourcemap: false,
+        sourcemap: !PRODUCTION,
         plugins: [
           terser({
             ...terserConfig,
@@ -158,34 +166,5 @@ export default [
         ],
       },
     ],
-  },
-  // --------------------------------------------------
-  // ie section
-  {
-    input,
-    plugins: pluginsConfig(targetsIE),
-    watch: false,
-    output: {
-      banner,
-      file: "dist/js/autocomplete.ie.min.js",
-      format: "iife",
-      name: "Autocomplete",
-      sourcemap: false,
-      plugins: [
-        terser({
-          ...terserConfig,
-          compress: { drop_console: true, drop_debugger: true },
-        }),
-      ],
-    },
-  },
-  {
-    input: "sources/js/polyfill.js",
-    watch: false,
-    output: {
-      banner,
-      file: "dist/js/polyfill.js",
-      format: "es",
-    },
   },
 ];

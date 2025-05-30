@@ -1,8 +1,17 @@
-:root {
-  --close-button: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M18.984 6.422L13.406 12l5.578 5.578-1.406 1.406L12 13.406l-5.578 5.578-1.406-1.406L10.594 12 5.016 6.422l1.406-1.406L12 10.594l5.578-5.578z'/%3E%3C/svg%3E%0A");
+@use "sass:color";
 
-  --loupe-icon: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"%3E%3Cpath fill="%23929292" d="M16.041 15.856a.995.995 0 00-.186.186A6.97 6.97 0 0111 18c-1.933 0-3.682-.782-4.95-2.05S4 12.933 4 11s.782-3.682 2.05-4.95S9.067 4 11 4s3.682.782 4.95 2.05S18 9.067 18 11a6.971 6.971 0 01-1.959 4.856zm5.666 4.437l-3.675-3.675A8.967 8.967 0 0020 11c0-2.485-1.008-4.736-2.636-6.364S13.485 2 11 2 6.264 3.008 4.636 4.636 2 8.515 2 11s1.008 4.736 2.636 6.364S8.515 20 11 20a8.967 8.967 0 005.618-1.968l3.675 3.675a.999.999 0 101.414-1.414z"/%3E%3C/svg%3E');
+:root {
+  --autocomplete-close-button: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M18.984 6.422L13.406 12l5.578 5.578-1.406 1.406L12 13.406l-5.578 5.578-1.406-1.406L10.594 12 5.016 6.422l1.406-1.406L12 10.594l5.578-5.578z'/%3E%3C/svg%3E%0A");
+  --autocomplete-loupe-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23929292' d='M16.041 15.856a.995.995 0 00-.186.186A6.97 6.97 0 0111 18c-1.933 0-3.682-.782-4.95-2.05S4 12.933 4 11s.782-3.682 2.05-4.95S9.067 4 11 4s3.682.782 4.95 2.05S18 9.067 18 11a6.971 6.971 0 01-1.959 4.856zm5.666 4.437l-3.675-3.675A8.967 8.967 0 0020 11c0-2.485-1.008-4.736-2.636-6.364S13.485 2 11 2 6.264 3.008 4.636 4.636 2 8.515 2 11s1.008 4.736 2.636 6.364S8.515 20 11 20a8.967 8.967 0 005.618-1.968l3.675 3.675a.999.999 0 101.414-1.414z'/%3E%3C/svg%3E");
 }
+
+$autocomplete-color-gray: #808080;
+$autocomplete-color-gray-active: #e6e6e6;
+$autocomplete-color-light-gray: #d7d7d7;
+$autocomplete-color-dark-gray: #858585;
+$autocomplete-color-light-gray-1: #ececec;
+$autocomplete-color-error: #ff0000;
+$autocomplete-color-white: #ffffff;
 
 .auto-search-wrapper {
   position: relative;
@@ -13,12 +22,12 @@
     font-size: 16px;
     width: 100%;
     padding: 12px 45px 12px 10px;
-    border: 1px solid #d7d7d7;
+    border: 1px solid $autocomplete-color-light-gray;
     box-shadow: none;
     box-sizing: border-box;
 
     &:focus {
-      border: 1px solid #858585;
+      border: 1px solid $autocomplete-color-dark-gray;
       outline: none;
     }
 
@@ -48,12 +57,12 @@
     li[disabled] {
       pointer-events: none;
       opacity: 0.5;
-      background: #ececec;
+      background: $autocomplete-color-light-gray-1;
     }
   }
 
   .auto-expanded {
-    border: 1px solid #858585;
+    border: 1px solid $autocomplete-color-dark-gray;
     outline: none;
   }
 
@@ -73,9 +82,9 @@
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    border: 2px solid $color-gray;
-    border-left-color: lighten($color-gray, 35%);
-    border-top-color: lighten($color-gray, 35%);
+    border: 2px solid $autocomplete-color-gray;
+    border-left-color: color.scale($autocomplete-color-gray, $lightness: 35%);
+    border-top-color: color.scale($autocomplete-color-gray, $lightness: 35%);
     animation: auto-spinner 0.6s linear infinite;
   }
 
@@ -109,7 +118,7 @@ li.loupe:before {
     bottom: 0;
     left: 10px;
     margin: auto;
-    background-image: var(--loupe-icon);
+    background-image: var(--autocomplete-loupe-icon);
   }
 }
 
@@ -134,7 +143,7 @@ li.loupe:before {
   border: none;
 
   &:before {
-    content: var(--close-button);
+    content: var(--autocomplete-close-button);
     line-height: 100%;
     height: 24px;
     width: 24px;
@@ -147,11 +156,11 @@ li.loupe:before {
 
 .auto-results-wrapper {
   display: none;
-  border: 1px solid #858585;
+  border: 1px solid $autocomplete-color-dark-gray;
   border-top: none;
   overflow: hidden;
   box-sizing: border-box;
-  background-color: $color-white;
+  background-color: $autocomplete-color-white;
 
   ul > .loupe {
     padding-left: 40px;
@@ -167,17 +176,20 @@ li.loupe:before {
 }
 
 .auto-selected {
-  background-color: lighten($color-gray, 40%);
+  background-color: color.scale(
+    $autocomplete-color-gray-active,
+    $lightness: 40%
+  );
   + li:before {
     border-top: none;
   }
 }
 
 .auto-error {
-  border: 1px solid lighten($color-error, 11%);
+  border: 1px solid color.scale($autocomplete-color-error, $lightness: 11%);
 
   &::placeholder {
-    color: lighten($color-error, 20%);
+    color: color.scale($autocomplete-color-error, $lightness: 20%);
     opacity: 1;
   }
 }

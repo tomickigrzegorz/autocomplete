@@ -35,7 +35,8 @@ const inline = new Autocomplete("show-inline", {
 });
 
 // re-render the component when the clear button is clicked
-document.addEventListener("click", (event) => {
+const showValues = document.querySelector(".show-values");
+showValues.addEventListener("click", (event) => {
   if (event.target.closest(".auto-clear")) {
     inline.rerender();
   }

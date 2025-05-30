@@ -1,5 +1,5 @@
 <h1 align="center">
-  autocomplete
+  Autocomplete
 </h1>
 
 <p align="center">
@@ -39,26 +39,40 @@ See the demo - [example](https://tomickigrzegorz.github.io/autocomplete/)
 
 ## Installation
 
-### CDN
+### Using npm
+
+Install the library via npm:
+
+```bash
+npm install @tomickigrzegorz/autocomplete
+```
+
+Or using Yarn:
+
+```bash
+yarn add @tomickigrzegorz/autocomplete
+```
+
+### Using a CDN
 
 #### CSS
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.3/dist/css/autocomplete.min.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.0.0/dist/css/autocomplete.min.css"/>
 ```
 
 #### JavaScript
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.3/dist/js/autocomplete.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.0.0/dist/js/autocomplete.min.js"></script>
 ```
 
 ##### -- OR --
 
-Download from `dist` folder and insert to html:
+Download from `dist` folder and insert to HTML:
 
-- dist/css/autocomplete.css
-- dist/js/autocomplete.min.js
+- `dist/css/autocomplete.css`
+- `dist/js/autocomplete.min.js`
 
 #### HTML
 
@@ -472,29 +486,6 @@ auto.rerender();
 // pass string to search
 auto.rerender(string);
 ```
-
-## Browser support
-
-Autocomplete supports all major browsers including IE 10 and above
-
-Configuration for IE:
-
-### local files
-- dist/js/polyfill.js
-- dist/js/autocomplete.ie.min.js
-- dist/css/autocomplete.ie.min.css
-
-### cdn
-
-- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.3/dist/js/polyfill.js
-- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.3/dist/js/autocomplete.ie.min.js
-- https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@2.0.3/dist/css/autocomplete.ie.min.css
-
-### cdn polyfill from npm
-
-- https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js
-- https://cdn.jsdelivr.net/npm/element-closest@3.0.2/browser.min.js
-
 
 ## License
 

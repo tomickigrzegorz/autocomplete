@@ -20,14 +20,50 @@ import {
 import KEY_CODES from "./utils/keyCodes";
 
 /**
+ * @typedef {Object} RegexConfig
+ * @property {RegExp} expression - Regular expression for matching.
+ * @property {string} replacement - Replacement string for matches.
+ */
+
+/**
+ * @typedef {Object} AutocompleteOptions
+ * @property {number} [delay=500] - Delay in milliseconds before searching.
+ * @property {boolean} [clearButton=true] - Whether to show a clear button.
+ * @property {boolean} [clearButtonOnInitial=false] - Show clear button initially.
+ * @property {number} [howManyCharacters=1] - Minimum characters to trigger search.
+ * @property {boolean} [selectFirst=false] - Automatically select the first result.
+ * @property {boolean} [insertToInput=false] - Insert selected value into input.
+ * @property {boolean} [showValuesOnClick=false] - Show all values on input click.
+ * @property {boolean} [inline=false] - Inline mode for autocomplete.
+ * @property {boolean} [cache=false] - Enable caching of results.
+ * @property {boolean} [disableCloseOnSelect=false] - Prevent closing on selection.
+ * @property {boolean} [preventScrollUp=false] - Prevent scrolling to the top.
+ * @property {boolean} [removeResultsWhenInputIsEmpty=false] - Remove results when input is empty.
+ * @property {RegexConfig} [regex] - Configuration for regex matching.
+ * @property {string} [classGroup] - CSS class for grouping results.
+ * @property {string} [classPreventClosing] - CSS class to prevent closing.
+ * @property {string} [classPrefix] - Prefix for CSS classes.
+ * @property {string} [ariaLabelClear] - ARIA label for the clear button.
+ * @property {Function} onSearch - Callback for search.
+ * @property {Function} [onResults] - Callback for rendering results.
+ * @property {Function} [onSubmit] - Callback for submitting a result.
+ * @property {Function} [onOpened] - Callback when results are opened.
+ * @property {Function} [onReset] - Callback when reset is triggered.
+ * @property {Function} [onRender] - Callback for rendering the component.
+ * @property {Function} [onClose] - Callback when results are closed.
+ * @property {Function} [noResults] - Callback when no results are found.
+ * @property {Function} [onSelectedItem] - Callback when an item is selected.
+ */
+
+/**
  * @class Autocomplete
  */
 export default class Autocomplete {
   /**
    * Constructor
    *
-   * @param {String} element
-   * @param {Object} object
+   * @param {string} element - ID of the root element.
+   * @param {AutocompleteOptions} object - Configuration options.
    */
   constructor(
     element,
@@ -60,61 +96,98 @@ export default class Autocomplete {
       onSelectedItem = () => {},
     },
   ) {
+    /** @type {string} */
     this._id = element;
+    /** @type {HTMLElement} */
     this._root = document.getElementById(element);
+    /** @type {Function} */
     this._onSearch = isPromise(onSearch)
       ? onSearch
       : ({ currentValue, element }) =>
           Promise.resolve(onSearch({ currentValue, element }));
+    /** @type {Function} */
     this._onResults = onResults;
+    /** @type {Function} */
     this._onRender = onRender;
+    /** @type {Function} */
     this._onSubmit = onSubmit;
+    /** @type {Function} */
     this._onSelected = onSelectedItem;
+    /** @type {Function} */
     this._onOpened = onOpened;
+    /** @type {Function} */
     this._onReset = onReset;
+    /** @type {Function} */
     this._noResults = noResults;
+    /** @type {Function} */
     this._onClose = onClose;
+    /** @type {number} */
     this._delay = delay;
+    /** @type {number} */
     this._characters = howManyCharacters;
+    /** @type {boolean} */
     this._clearButton = clearButton;
+    /** @type {boolean} */
     this._clearButtonOnInitial = clearButtonOnInitial;
+    /** @type {boolean} */
     this._selectFirst = selectFirst;
+    /** @type {boolean} */
     this._toInput = insertToInput;
+    /** @type {boolean} */
     this._showValuesOnClick = showValuesOnClick;
+    /** @type {boolean} */
     this._inline = inline;
+    /** @type {string|undefined} */
     this._classGroup = classGroup;
+    /** @type {string|undefined} */
     this._prevClosing = classPreventClosing;
+    /** @type {string} */
     this._clearBtnAriLabel = ariaLabelClear
       ? ariaLabelClear
       : "clear the search query";
+    /** @type {string} */
     this._prefix = classPrefix ? `${classPrefix}-auto` : "auto";
+    /** @type {boolean} */
     this._disable = disableCloseOnSelect;
+    /** @type {boolean} */
     this._preventScrollUp = preventScrollUp;
+    /** @type {boolean} */
     this._removeResultsWhenInputIsEmpty = removeResultsWhenInputIsEmpty;
 
     // default config
+    /** @type {boolean} */
     this._cache = cache;
+    /** @type {number|null} */
     this._timeout = null;
+    /** @type {string} */
     this._outputUl = `${this._prefix}-${this._id}-results`;
+    /** @type {string} */
     this._cacheData = `data-cache-auto-${this._id}`;
+    /** @type {string} */
     this._isLoading = `${this._prefix}-is-loading`;
+    /** @type {string} */
     this._isActive = `${this._prefix}-is-active`;
+    /** @type {string} */
     this._activeList = `${this._prefix}-selected`;
+    /** @type {string} */
     this._selectedOption = `${this._prefix}-selected-option`;
+    /** @type {string} */
     this._err = `${this._prefix}-error`;
+    /** @type {HTMLElement} */
     this._resultWrap = createElement("div");
+    /** @type {HTMLElement} */
     this._resultList = createElement("ul");
+    /** @type {HTMLElement} */
     this._clearBtn = createElement("button");
 
     // ----------------------------------------
     // regex
 
-    this._regex = regex;
-    this._defaultExpression = {
-      expression: /[|\\{}()[\]^$+*?]/g,
-      replacement: "\\$&",
+    /** @type {RegexConfig} */
+    this._regex = {
+      ...{ expression: /[|\\{}()[\]^$+*?]/g, replacement: "\\$&" },
+      ...regex,
     };
-
     // if regex is don't have replacement then set default
     if (!this._regex.replacement) {
       this._regex.replacement = this._defaultExpression.replacement;
@@ -789,17 +862,13 @@ export default class Autocomplete {
    * removing text from the input field
    */
   _clearbutton = () => {
-    // stop when clear button is disabled
     if (!this._clearButton) return;
-
-    // add aria to clear button
     setAttributes(this._clearBtn, {
+      type: "button",
       class: `${this._prefix}-clear hidden`,
       title: this._clearBtnAriLabel,
       "aria-label": this._clearBtnAriLabel,
     });
-
-    // insert clear button after input - root
     this._root.insertAdjacentElement("afterend", this._clearBtn);
   };
 

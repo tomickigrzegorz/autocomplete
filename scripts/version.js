@@ -24,7 +24,7 @@ function updateVersion(file, newVersion) {
 
 // ------------------------------------------------------------
 
-const someFiles = ["README.md", "docs/index.html", "docs/ie.html"];
+const someFiles = ["README.md", "docs/index.html"];
 
 someFiles.forEach((file) => {
   updateVersion(file, newVersion);

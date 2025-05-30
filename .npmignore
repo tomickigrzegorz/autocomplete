@@ -1,0 +1,26 @@
+# Exclude development and configuration files
+node_modules/
+src/
+scripts/
+tests/
+.github/
+.vscode/
+rollup.config.js
+babel.config.js
+.eslintrc.js
+.prettierrc
+.prettierignore
+package-lock.json
+yarn.lock
+
+# Exclude documentation and examples
+docs/
+CHANGELOG.md
+README.md
+
+# Exclude temporary and system files
+*.log
+*.tmp
+*.swp
+.DS_Store
+Thumbs.db

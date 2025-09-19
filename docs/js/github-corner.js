@@ -40,6 +40,24 @@ const htmlRootElement = document.querySelectorAll(
 const menu = document.querySelector(".menu");
 function generateMenu(data) {
   data.map((el, index) => {
+    const typeNew =
+      el.type === "new"
+        ? ' <span class="new-item" aria-label="New">new</span>'
+        : "";
+    el.html = el.html + typeNew;
+
+    if (el.type === "new") {
+      const section = document.querySelector(`#${el.link} h2`);
+      console.log("section", section);
+      // adding "new" label to the section title
+      if (section) {
+        section.insertAdjacentHTML(
+          "beforeend",
+          ' <span class="new-item" aria-label="New">new</span>',
+        );
+      }
+    }
+
     const li = document.createElement("li");
     if (index === 0) {
       li.className = "active";

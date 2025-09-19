@@ -47,10 +47,11 @@
 :root {
   --toggle-menu: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M3 13h18a1 1 0 0 0 0-2H3a1 1 0 0 0 0 2zm0-6h18a1 1 0 0 0 0-2H3a1 1 0 0 0 0 2zm0 12h18a1 1 0 0 0 0-2H3a1 1 0 0 0 0 2z'/%3E%3C/svg%3E");
 
-  --shadow: 0 2.8px 2.2px rgba(223, 223, 223, 0.034),
+  --shadow:
+    0 2.8px 2.2px rgba(223, 223, 223, 0.034),
     0 6.7px 5.3px rgba(192, 192, 192, 0.048),
-    0 1.5px 1px rgba(144, 144, 144, 0.06), 0 2.3px 1.9px rgba(92, 92, 92, 0.072),
-    0 2.8px 1px rgba(63, 63, 63, 0.086);
+    0 1.5px 1px rgba(144, 144, 144, 0.06),
+    0 2.3px 1.9px rgba(92, 92, 92, 0.072), 0 2.8px 1px rgba(63, 63, 63, 0.086);
 
   --modal: 171, 108, 253;
 }
@@ -629,6 +630,9 @@ td code {
 }
 
 .menu {
+  > li {
+    position: relative;
+  }
   a {
     line-height: 1;
     color: var(--font-color);
@@ -876,4 +880,32 @@ aside::-webkit-scrollbar-thumb {
 
 .ms-2 {
   margin-left: 20px;
+}
+
+.new-item {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto;
+  line-height: normal;
+  height: fit-content;
+  padding: 2px 6px;
+  background: red;
+  color: #fff;
+  font-size: 12px;
+  border-radius: 5px;
+  text-transform: uppercase;
+}
+
+.info-section {
+  h2 {
+    position: relative;
+    width: fit-content;
+  }
+  .new-item {
+    left: 0;
+    right: auto;
+    top: -10px;
+  }
 }

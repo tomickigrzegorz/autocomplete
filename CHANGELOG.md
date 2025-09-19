@@ -1,3 +1,11 @@
+## 2025-09-19 (3.0.1)
+### Added
+- added `disable()` method to disable the autocomplete functionality
+- added `disable(true)` to disable the autocomplete and clear the input value
+- added example - disable
+- updated `table-three.json` with new method `disable()`
+- updated `script.d.ts` with new method `disable()`
+
 ## 2025-05-27 (3.0.0)
 ### Added
 - typeScript definitions for `keyCodes.js` (`keyCodes.d.ts`)

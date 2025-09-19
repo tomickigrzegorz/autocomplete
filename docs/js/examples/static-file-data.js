@@ -32,7 +32,7 @@ new Autocomplete("static-file-data", {
           <li class="loupe">
             <p>${name.replace(
               new RegExp(currentValue, "gi"),
-              (str) => `<b>${str}</b>`
+              (str) => `<b>${str}</b>`,
             )}</p>
             <small>status - ${status}</small>
           </li>`;

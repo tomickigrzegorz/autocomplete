@@ -890,6 +890,62 @@ export default class Autocomplete {
   };
 
   /**
+   * Disable autocomplete functionality
+   * Use this when you want to disable autocomplete but keep the selected value
+   * @param {boolean} clearInput - If true, clears the input value, if false keeps it
+   */
+  disable = (clearInput = false) => {
+    // if clear button is true then add class hidden
+    this._clearButton && classList(this._clearBtn, "add", "hidden");
+
+    // clear value searchId only if clearInput is true
+    if (clearInput) {
+      this._root.value = "";
+      this._root.focus();
+    }
+
+    // remove li from ul
+    this._resultList.textContent = "";
+
+    // remove class isActive
+    classList(this._resultWrap, "remove", this._isActive);
+
+    // reset aria attributes
+    setAttributes(this._root, {
+      "aria-expanded": "false",
+      removeClass: `${this._prefix}-expanded`,
+      "aria-activedescendant": "",
+    });
+
+    // remove all event listeners
+    offEvent(this._root, "input", this._handleInput);
+    offEvent(this._root, "keydown", this._handleKeys);
+    offEvent(this._root, "click", this._handleShowItems);
+    if (this._showValuesOnClick) {
+      offEvent(this._root, "click", this._handleInput);
+    }
+
+    // remove document click listener
+    if (!this._inline) {
+      offEvent(document, "click", this._handleDocClick);
+    }
+
+    // remove mouse events from result list
+    ["mousemove", "click"].forEach((eventType) => {
+      offEvent(this._resultList, eventType, this._handleMouse);
+    });
+
+    // remove loading animation
+    this._onLoading(false);
+
+    // remove error classes
+    this._error();
+
+    // callback function (without clearing input)
+    this._onClose();
+  };
+
+  /**
    * Clicking on the clear button
    * publick destroy method
    */

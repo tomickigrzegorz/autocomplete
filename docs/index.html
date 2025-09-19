@@ -38,7 +38,7 @@
     <main class="container">
       <header>
         <h1 class="loupe">
-          autocomplete <sup><small>v3.0.0</small></sup>
+          autocomplete <sup><small>v3.0.1</small></sup>
         </h1>
         <div class="switch-theme">
           <button class="theme theme-head" aria-label="change theme">
@@ -114,10 +114,10 @@
           <h3>Or CDN</h3>
           <div rel="HTML" class="html-class">
             <pre><code class="language-html">&lt;!-- css --&gt;
-&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.0.0/dist/css/autocomplete.min.css&quot;/&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.0.1/dist/css/autocomplete.min.css&quot;/&gt;
 
 &lt;!-- js --&gt;
-&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.0.0/dist/js/autocomplete.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.0.1/dist/js/autocomplete.min.js&quot;&gt;&lt;/script&gt;
           </code></pre>
           </div>
 
@@ -941,6 +941,35 @@
         </section>
         <!-- cache end -->
 
+
+         <!-- cache start -->
+        <section id="disable-example" class="section">
+          <div class="search-element">
+            <div class="info-section">
+              <h2>Disable Autocomplete</h2>
+              <div class="sources">
+                <a href="./js/examples/disable.js" target="_blank">source: disable</a>
+              </div>
+              <p>
+                The <code>disable</code> method can be called to disable the autocomplete functionality. When disabled, the autocomplete will not respond to user input or show suggestions. This can be useful in scenarios where you want to temporarily prevent user interaction with the autocomplete feature without destroying the instance entirely.
+              </p>
+            </div>
+            <div class="auto-search-wrapper">
+              <input type="text" id="disable" placeholder="type w" />
+            </div>
+          </div>
+          <div rel="docs/index.html" class="highlight html html-class"></div>
+          <div
+            rel="docs/js/examples/disablejs"
+            class="highlight javascript html-class"
+          >
+            <pre>
+                <code class="language-js" data-source="./js/examples/disable.js"></code>
+              </pre>
+          </div>
+        </section>
+        <!-- cache end -->
+
         <!-- show all values start -->
         <section id="show-inline-example" class="section">
           <div class="search-element">
@@ -1266,6 +1295,7 @@
     <script async src="./js/examples/multiple-choices.js"></script>
     <script async src="./js/examples/checkbox.js"></script>
     <script async src="./js/examples/cache.js"></script>
+    <script async src="./js/examples/disable.js"></script>
 
     <div class="modal"></div>
   </body>

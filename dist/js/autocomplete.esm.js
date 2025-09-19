@@ -1,6 +1,6 @@
 /*!
 * @name autocomplete
-* @version 3.0.0
+* @version 3.0.1
 * @author Grzegorz Tomicki
 * @link https://github.com/tomickigrzegorz/autocomplete
 * @license MIT
@@ -527,6 +527,38 @@ function Autocomplete(_element, _ref) {
     }
     var regexText = text.replace(_this._regex.expression, _this._regex.replacement);
     _this._searchItem(regexText.trim());
+  };
+  this.disable = function (clearInput) {
+    if (clearInput === void 0) {
+      clearInput = false;
+    }
+    _this._clearButton && classList(_this._clearBtn, "add", "hidden");
+    if (clearInput) {
+      _this._root.value = "";
+      _this._root.focus();
+    }
+    _this._resultList.textContent = "";
+    classList(_this._resultWrap, "remove", _this._isActive);
+    setAttributes(_this._root, {
+      "aria-expanded": "false",
+      removeClass: _this._prefix + "-expanded",
+      "aria-activedescendant": ""
+    });
+    offEvent(_this._root, "input", _this._handleInput);
+    offEvent(_this._root, "keydown", _this._handleKeys);
+    offEvent(_this._root, "click", _this._handleShowItems);
+    if (_this._showValuesOnClick) {
+      offEvent(_this._root, "click", _this._handleInput);
+    }
+    if (!_this._inline) {
+      offEvent(document, "click", _this._handleDocClick);
+    }
+    ["mousemove", "click"].forEach(function (eventType) {
+      offEvent(_this._resultList, eventType, _this._handleMouse);
+    });
+    _this._onLoading(false);
+    _this._error();
+    _this._onClose();
   };
   this.destroy = function () {
     _this._clearButton && classList(_this._clearBtn, "add", "hidden");

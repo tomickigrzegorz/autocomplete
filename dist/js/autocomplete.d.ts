@@ -65,6 +65,7 @@ export default class Autocomplete {
   constructor(element: string, options: Readonly<AutocompleteOptions>);
 
   rerender(inputValue?: string): void;
+  disable(clearInput?: boolean): void;
   destroy(): void;
 }
 

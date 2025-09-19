@@ -58,13 +58,13 @@ yarn add @tomickigrzegorz/autocomplete
 #### CSS
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.0.0/dist/css/autocomplete.min.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.0.1/dist/css/autocomplete.min.css"/>
 ```
 
 #### JavaScript
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.0.0/dist/js/autocomplete.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.0.1/dist/js/autocomplete.min.js"></script>
 ```
 
 ##### -- OR --
@@ -163,6 +163,7 @@ npm run prod
 | noResults            |  function  |                                     |         | Showing information: "no results"                                                                                                                                        |
 | destroy              |   method   |                                     |         | Removes the autocomplete instance and its bindings                                                                                                                       |
 | rerender             |   method   |                                     |         | This method allows you to re-render the results without modifying the input field. Of course, we can also send the string we want to search for to the method. render(string);                                                                                                                       |
+| disable             |   method   |                                     |         | This method allows you to disable the autocomplete functionality. `const auto = new Autocomplete('id', {...});` `auto.disable();` then we disable the autocomplete. To remove input value you need to call `auto.disable(true);`                                                                                                                       |
 | clearButton          |  boolean   |               `true`                |         | A parameter set to 'true' adds a button to remove text from the input field                                                                                              |GitHub Markdown Preview
 | clearButtonOnInitial |  boolean   |               `false`               |         | A parameter set to 'true' adds a button to remove text from the input field visible on initial Autocomplete lib.                                                         |
 | selectFirst          |  boolean   |               `false`               |         | Default selects the first item in the list of results                                                                                                                    |
@@ -481,8 +482,10 @@ const auto = new Autocomplete('you-id', {
 });
 
 // public methods
-auto.destroy();
-auto.rerender();
+auto.destroy(); // destroy autocomplete
+auto.disable(); // disable autocomplete
+auto.disable(true); // disable autocomplete and clear input value
+auto.rerender(); // re-render the results
 // pass string to search
 auto.rerender(string);
 ```

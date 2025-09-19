@@ -48,7 +48,7 @@ function generateMenu(data) {
 
     if (el.type === "new") {
       const section = document.querySelector(`#${el.link} h2`);
-      console.log("section", section);
+
       // adding "new" label to the section title
       if (section) {
         section.insertAdjacentHTML(

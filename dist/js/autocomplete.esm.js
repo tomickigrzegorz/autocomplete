@@ -97,11 +97,14 @@ var onEvent = function onEvent(element, action, callback) {
 var offEvent = function offEvent(element, action, callback) {
   element.removeEventListener(action, callback);
 };
-var ariaActiveDescendantDefault = function ariaActiveDescendantDefault(id) {
+var ariaActiveDescendantDefault = function ariaActiveDescendantDefault(id, insertToInput) {
+  if (insertToInput === void 0) {
+    insertToInput = false;
+  }
   return {
     "aria-owns": id,
     "aria-expanded": "false",
-    "aria-autocomplete": "list",
+    "aria-autocomplete": insertToInput ? "both" : "list",
     role: "combobox",
     removeClass: "auto-expanded"
   };
@@ -170,7 +173,7 @@ function Autocomplete(_element, _ref) {
     onSelectedItem = _ref$onSelectedItem === void 0 ? function () {} : _ref$onSelectedItem;
   this._initial = function () {
     _this._clearbutton();
-    var ariaAcrivedescentDefault = ariaActiveDescendantDefault(_this._outputUl);
+    var ariaAcrivedescentDefault = ariaActiveDescendantDefault(_this._outputUl, _this._toInput);
     setAttributes(_this._root, ariaAcrivedescentDefault);
     output(_this._root, _this._resultList, _this._outputUl, _this._resultWrap, _this._prefix);
     onEvent(_this._root, "input", _this._handleInput);
@@ -226,7 +229,7 @@ function Autocomplete(_element, _ref) {
   this._reset = function () {
     var _this$_matches;
     classList(_this._resultWrap, "remove", _this._isActive);
-    var ariaAcrivedescentDefault = ariaActiveDescendantDefault(_this._outputUl);
+    var ariaAcrivedescentDefault = ariaActiveDescendantDefault(_this._outputUl, _this._toInput);
     var ariaAcrivedescent = _this._preventScrollUp ? ariaAcrivedescentDefault : Object.assign({}, ariaAcrivedescentDefault, {
       "aria-activedescendant": ""
     });
@@ -542,7 +545,8 @@ function Autocomplete(_element, _ref) {
     setAttributes(_this._root, {
       "aria-expanded": "false",
       removeClass: _this._prefix + "-expanded",
-      "aria-activedescendant": ""
+      "aria-activedescendant": "",
+      "aria-autocomplete": "none"
     });
     offEvent(_this._root, "input", _this._handleInput);
     offEvent(_this._root, "keydown", _this._handleKeys);

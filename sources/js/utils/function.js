@@ -194,12 +194,13 @@ export const offEvent = (element, action, callback) => {
 /**
  * Default ARIA attributes for active descendant
  * @param {string} id
+ * @param {boolean} insertToInput - Whether text is inserted into input
  * @returns {Object<string, string>}
  */
-export const ariaActiveDescendantDefault = (id) => ({
+export const ariaActiveDescendantDefault = (id, insertToInput = false) => ({
   "aria-owns": id,
   "aria-expanded": "false",
-  "aria-autocomplete": "list",
+  "aria-autocomplete": insertToInput ? "both" : "list",
   role: "combobox",
   removeClass: "auto-expanded",
 });

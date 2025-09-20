@@ -1,3 +1,9 @@
+## 2025-09-20 (3.0.2)
+### Added
+- `aria-autocomplete` attribute now depends on `insertToInput` setting for better accessibility
+  - `insertToInput: true` → `aria-autocomplete="both"` (text completion + list)
+  - `insertToInput: false` → `aria-autocomplete="list"` (list only)
+
 ## 2025-09-19 (3.0.1)
 ### Added
 - added `disable()` method to disable the autocomplete functionality

@@ -156,6 +156,10 @@ export function offEvent(
 /**
  * Default ARIA attributes for active descendant
  * @param id - The ID of the element to own the ARIA attributes.
+ * @param insertToInput - Whether text is inserted into input (optional, defaults to false).
  * @returns An object containing the default ARIA attributes.
  */
-export function ariaActiveDescendantDefault(id: string): Record<string, string>;
+export function ariaActiveDescendantDefault(
+  id: string,
+  insertToInput?: boolean,
+): Record<string, string>;

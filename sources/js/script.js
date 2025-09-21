@@ -211,6 +211,7 @@ export default class Autocomplete {
 
     const ariaAcrivedescentDefault = ariaActiveDescendantDefault(
       this._outputUl,
+      this._toInput,
     );
     setAttributes(this._root, ariaAcrivedescentDefault);
 
@@ -317,6 +318,7 @@ export default class Autocomplete {
 
     const ariaAcrivedescentDefault = ariaActiveDescendantDefault(
       this._outputUl,
+      this._toInput,
     );
 
     const ariaAcrivedescent = this._preventScrollUp
@@ -910,11 +912,12 @@ export default class Autocomplete {
     // remove class isActive
     classList(this._resultWrap, "remove", this._isActive);
 
-    // reset aria attributes
+    // reset aria attributes and add accessibility information for disabled state
     setAttributes(this._root, {
       "aria-expanded": "false",
       removeClass: `${this._prefix}-expanded`,
       "aria-activedescendant": "",
+      "aria-autocomplete": "none",
     });
 
     // remove all event listeners

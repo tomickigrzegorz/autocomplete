@@ -1,6 +1,6 @@
 {
   "name": "@tomickigrzegorz/autocomplete",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "A lightweight, dependency-free autocomplete component in vanilla JavaScript with WAI-ARIA support.",
   "author": "Grzegorz Tomicki",
   "main": "dist/js/autocomplete.js",

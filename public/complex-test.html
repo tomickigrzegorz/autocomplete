@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../docs/css/autocomplete.css" />
+    <title>COMPLEX TEST</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
+
+      body {
+        font-family: "Lato", sans-serif;
+        margin-top: 50px;
+      }
+
+      p {
+        margin: 0;
+      }
+
+      h2,
+      h4 {
+        margin: 0;
+      }
+
+      a {
+        text-decoration: none;
+        color: orangered;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      textarea {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 300px;
+        border: 0;
+      }
+
+      .show-object {
+        border: 1px solid red;
+      }
+
+      .container {
+        max-width: 350px;
+        margin: 0 auto;
+      }
+
+      .max-height ul {
+        max-height: 420px;
+      }
+
+      .additional-elements {
+        padding: 5px 10px;
+      }
+
+      .group-by {
+        background: #fff;
+        color: #9600bb;
+        font-size: 0.7em;
+        letter-spacing: 1px;
+        line-height: 1;
+        position: relative;
+      }
+
+      .group-by:before {
+        border-bottom: 1px solid #9600bb;
+        content: "";
+        position: absolute;
+        top: 19px;
+        width: 100%;
+      }
+
+      .group-by span {
+        background: #fff;
+        letter-spacing: 0;
+        padding: 0 5px 0 0;
+        position: relative;
+        text-transform: uppercase;
+        z-index: 1;
+      }
+
+      .group-by small {
+        background: #fff;
+        border-radius: 2px;
+        letter-spacing: normal;
+        line-height: 22px;
+        padding: 0 12px 0 20px;
+        position: absolute;
+        right: 0;
+        top: 7px;
+      }
+
+      .group-by small:before {
+        content: "↓";
+        margin-left: -10px;
+        margin-top: 0;
+        position: absolute;
+      }
+
+      .logo {
+        height: 40px;
+      }
+
+      .additional-elements {
+        font-size: 80%;
+      }
+
+      .additional-elements:last-child {
+        box-shadow: 0 -1px 5px 0 rgba(128, 128, 128, 0.3);
+        border-top: 1px solid rgba(128, 128, 128, 0.4);
+      }
+
+      .auto-results-wrapper.auto-is-active {
+        display: block;
+        margin-top: 5px;
+        position: absolute;
+        width: 100%;
+        z-index: 0;
+      }
+      .auto-results-wrapper {
+        background-color: #fff;
+        border: 1px solid #858585;
+        box-sizing: border-box;
+        display: none;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <section>
+        <h1>Complex example</h1>
+        <div class="auto-search-wrapper max-height loupe">
+          <input
+            type="text"
+            id="complex"
+            placeholder="type w"
+            aria-describedby="instruction"
+            aria-label="Search for a name"
+          />
+          <div id="instruction" class="hidden">
+            When autocomplete results are available use up and down arrows to
+            review and enter to select. Touch device users, explore by touch or
+            with swipe gestures.
+          </div>
+        </div>
+        <textarea name="textarea" id="show-object"></textarea>
+      </section>
+    </div>
+
+    <script src="../docs/js/autocomplete.min.js"></script>
+    <script>
+      new Autocomplete("complex", {
+        // default selects the first item in
+        // the list of results
+        selectFirst: true,
+
+        // add text to the input field as you move through
+        // the results with the up/down cursors
+        insertToInput: true,
+
+        // the number of characters entered
+        // should start searching
+        howManyCharacters: 2,
+
+        // prevents results from hiding after
+        // clicking on element with this class
+        // footer/header elements have this class
+        // of course, any class name
+        classPreventClosing: "additional-elements",
+
+        // enter the name of the class by
+        // which you will name the group element
+        classGroup: "group-by",
+
+        // the characters entered in
+        // the input field are cached
+        cache: true,
+
+        onSearch: ({ currentValue }) => {
+          // static file
+          const api =
+            "https://raw.githubusercontent.com/tomickigrzegorz/autocomplete/master/docs/characters.json";
+
+          return new Promise((resolve) => {
+            fetch(api)
+              .then((response) => response.json())
+              .then((data) => {
+                const result = data
+                  .sort((a, b) => a.name.localeCompare(b.name))
+                  .filter((element) => {
+                    return element.name.match(new RegExp(currentValue, "gi"));
+                  });
+
+                resolve(result);
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+          });
+        },
+
+        onResults: ({ currentValue, matches, template, classGroup }) => {
+          const regex = new RegExp(currentValue, "gi");
+
+          // counting status elements
+          function count(status) {
+            let count = {};
+            matches.map((el) => {
+              count[el.status] = (count[el.status] || 0) + 1;
+            });
+            return `<small>${count[status]} items</small>`;
+          }
+
+          return matches === 0
+            ? template
+            : matches
+                .sort(
+                  (a, b) =>
+                    a.status.localeCompare(b.status) ||
+                    a.name.localeCompare(b.name),
+                )
+                .map((el, index, array) => {
+                  // we create an element of the group
+                  let group =
+                    el.status !== array[index - 1]?.status
+                      ? `<li class="${classGroup}"><span>${
+                          el.status
+                        }</span> ${count(el.status)}</li>`
+                      : "";
+
+                  return `
+                  ${group}
+                  <li>
+                    <h2 style="margin-bottom: 10px;">
+                      ${el.name.replace(
+                        regex,
+                        (str) => `<b style="color: red;">${str}</b>`,
+                      )}
+                    </h2>
+                    <div style="display: flex;">
+                      <div style="margin-right: 10px;">
+                        <img src="${
+                          el.img
+                        }" style="max-width: 67px;max-height:95px">
+                      </div>
+                      <div class="info">
+                        <h4>${el.name}</h4>
+                        <div><b>nickname:</b> - ${el.nickname}</div>
+                        <div><b>birthday:</b> - ${el.birthday}</div>
+                        <div><b>status:</b> - ${el.status}</div>
+                      </div>
+                    </div>
+                  </li>`;
+                })
+                .join("");
+        },
+
+        // this function is responsible for rendering
+        // additional elements above and below the results
+        onRender: ({ results }) => {
+          const linkToAPI = {
+            where: "afterend",
+            text: "Data come from <a class='link-to-api' href='https://breakingbadapi.com/' target='_blank'>breakingbadapi.com</a>",
+          };
+
+          results.insertAdjacentHTML(
+            linkToAPI.where,
+            `<div class="additional-elements">${linkToAPI.text}</div>`,
+          );
+        },
+
+        // the onSubmit function is executed when the user
+        // submits their result by either selecting a result
+        // from the list, or pressing enter or mouse button
+        onSubmit: ({ index, element, object, results }) => {
+          console.log("onSbmit", index, element, object, results);
+          // window.open(
+          //   `https://www.imdb.com/find?q=${encodeURI(element.value)}`
+          // );
+        },
+
+        // get index and data from li element after
+        // hovering over li with the mouse or using
+        // arrow keys ↓ | ↑
+        onSelectedItem: ({ index, element, object }) => {
+          console.log({ index, element, object });
+
+          const showObject = document.querySelector(".show-object");
+          if (showObject) {
+            showObject.value = JSON.stringify(
+              {
+                index,
+                object,
+              },
+              null,
+              2,
+            );
+          }
+        },
+
+        // callback function for the onChange event
+        onOpened: () => {
+          document.body.classList.add("active-modal");
+        },
+
+        // callback function after closing the results
+        onClose: () => {
+          document.body.classList.remove("active-modal");
+        },
+
+        // the callback presents no results
+        noResults: ({ element, template }) => {
+          template(`<li>No results found: "${element.value}"</li>`);
+        },
+      });
+    </script>
+  </body>
+</html>

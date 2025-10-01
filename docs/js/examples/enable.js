@@ -27,6 +27,15 @@ disableBtn.addEventListener("click", () => {
 // Enable autocomplete
 enableBtn.addEventListener("click", () => {
   autocompleteEnable.enable();
+  // if you trigger rerender then you'll be able to click on the
+  // input and see the list of results based on the entered text
+
+  // autocompleteEnable.rerender();
+
+  // if you trigger rerender with a string, the input will show
+  // that text and you'll see the results based on it
+
+  // autocompleteEnable.rerender("sk");
   console.log("Autocomplete enabled");
 });
 

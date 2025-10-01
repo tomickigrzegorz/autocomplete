@@ -201,10 +201,6 @@ export default class Autocomplete {
     // ----------------------------------------
 
     this._initial();
-
-    // Internal flag to prevent re-adding ARIA when component is disabled
-    /** @type {boolean} */
-    this._isComponentDisabled = false;
   }
 
   /**
@@ -317,11 +313,6 @@ export default class Autocomplete {
    * Default aria
    */
   _reset = () => {
-    if (this._isComponentDisabled) {
-      // ensure list wrapper inactive and do nothing else
-      classList(this._resultWrap, "remove", this._isActive);
-      return;
-    }
     // remove class isActive
     classList(this._resultWrap, "remove", this._isActive);
 
@@ -919,8 +910,6 @@ export default class Autocomplete {
    * @param {boolean} clearInput - If true, clears the input value, if false keeps it
    */
   disable = (clearInput = false) => {
-    this._isComponentDisabled = true;
-    clearTimeout(this._timeout);
     // if clear button is true then add class hidden
     this._clearButton && classList(this._clearBtn, "add", "hidden");
 
@@ -971,6 +960,11 @@ export default class Autocomplete {
 
     // callback function (without clearing input)
     this._onClose();
+
+    setTimeout(() => {
+      // set aria-autocomplete to none after a brief delay to ensure screen readers update correctly
+      this._root.setAttribute("aria-autocomplete", "none");
+    }, 0);
   };
 
   /**
@@ -978,8 +972,6 @@ export default class Autocomplete {
    * Restores all functionality after disable() was called
    */
   enable = () => {
-    if (!this._isComponentDisabled) return; // already enabled
-    this._isComponentDisabled = false;
     this._root.removeAttribute("data-auto-disabled");
     // Restore normal ARIA attributes based on insertToInput setting
     const ariaAttributes = ariaActiveDescendantDefault(
@@ -1022,8 +1014,6 @@ export default class Autocomplete {
    * publick destroy method
    */
   destroy = () => {
-    this._isComponentDisabled = true;
-    clearTimeout(this._timeout);
     // if clear button is true then add class hidden
     this._clearButton && classList(this._clearBtn, "add", "hidden");
     // clear value searchId
@@ -1048,15 +1038,5 @@ export default class Autocomplete {
     offEvent(this._root, "click", this._handleShowItems);
     // remove listener on click on document
     offEvent(document, "click", this._handleDocClick);
-
-    // Completely remove all ARIA attributes to clean up the component
-    setAttributes(this._root, {
-      "aria-owns": null,
-      "aria-expanded": null,
-      "aria-autocomplete": null,
-      role: null,
-      "aria-activedescendant": null,
-      "data-auto-disabled": null,
-    });
   };
 }

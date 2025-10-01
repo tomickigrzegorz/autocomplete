@@ -66,6 +66,7 @@ export default class Autocomplete {
 
   rerender(inputValue?: string): void;
   disable(clearInput?: boolean): void;
+  enable(): void;
   destroy(): void;
 }
 

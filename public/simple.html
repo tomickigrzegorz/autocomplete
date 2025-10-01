@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../docs/css/autocomplete.css" />
+    <title>SIMPLE TEST</title>
+    <style>
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+          sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+        margin-top: 50px;
+      }
+      p {
+        margin: 0;
+      }
+
+      .container {
+        max-width: 350px;
+        margin: 0 auto;
+      }
+
+      .max-height ul {
+        max-height: 420px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <section>
+        <h1>Simple example</h1>
+        <div class="auto-search-wrapper max-height">
+          <input type="text" id="simple" placeholder="type w" />
+        </div>
+      </section>
+    </div>
+
+    <script src="../docs/js/autocomplete.min.js"></script>
+    <script>
+      new Autocomplete("simple", {
+        onSearch: ({ currentValue }) => {
+          // static file
+          const api =
+            "https://raw.githubusercontent.com/tomickigrzegorz/autocomplete/master/docs/characters.json";
+
+          return new Promise((resolve) => {
+            fetch(api)
+              .then((response) => response.json())
+              .then((data) => {
+                const result = data
+                  .sort((a, b) => a.name.localeCompare(b.name))
+                  .filter((element) => {
+                    return element.name.match(new RegExp(currentValue, "gi"));
+                  });
+                resolve(result);
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+          });
+        },
+
+        onResults: ({ currentValue, matches }) => {
+          return matches
+            .map((el) => {
+              return `
+                <li>
+                  <p>${el.name.replace(
+                    new RegExp(currentValue, "gi"),
+                    (str) => `<b>${str}</b>`,
+                  )}</p>
+                </li>`;
+            })
+            .join("");
+        },
+      });
+    </script>
+  </body>
+</html>

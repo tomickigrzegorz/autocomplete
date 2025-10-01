@@ -561,8 +561,16 @@ export default class Autocomplete {
         ? firstElementChild.nextElementSibling
         : firstElementChild;
 
-    // calback function onSelect when first element is true
+    // Insert text to input if insertToInput is true and selectFirst is true
+    // this._root.value = getFirstElement(classSelectFirst);
 
+    // if (this._toInput && classSelectFirst) {
+    //   this._root.value = getFirstElement(classSelectFirst);
+    //   Show clear button if enabled
+    //   this._clearButton && classList(this._clearBtn, "remove", "hidden");
+    // }
+
+    // calback function onSelect when first element is true
     this._onSelected({
       index: this._index,
       element: this._root,
@@ -657,6 +665,11 @@ export default class Autocomplete {
       // add aria to li
       this._setAria(targetClosest);
       this._index = this._indexLiSelected(targetClosest);
+
+      // Insert text to input on mouse hover if insertToInput is true
+      if (this._toInput) {
+        this._root.value = getFirstElement(targetClosest);
+      }
 
       this._onSelected({
         index: this._index,
@@ -949,6 +962,47 @@ export default class Autocomplete {
   };
 
   /**
+   * Enable autocomplete functionality
+   * Restores all functionality after disable() was called
+   */
+  enable = () => {
+    // Restore normal ARIA attributes based on insertToInput setting
+    const ariaAttributes = ariaActiveDescendantDefault(
+      this._outputUl,
+      this._toInput,
+    );
+    setAttributes(this._root, ariaAttributes);
+
+    // Re-enable all event listeners
+    onEvent(this._root, "input", this._handleInput);
+    onEvent(this._root, "keydown", this._handleKeys);
+    onEvent(this._root, "click", this._handleShowItems);
+    if (this._showValuesOnClick) {
+      onEvent(this._root, "click", this._handleInput);
+    }
+    if (!this._inline) {
+      onEvent(document, "click", this._handleDocClick);
+    }
+
+    // Re-enable mouse events on result list
+    ["mousemove", "click"].forEach((eventType) => {
+      onEvent(this._resultList, eventType, this._handleMouse);
+    });
+
+    // Show clear button if input has value and clearButton is enabled
+    if (this._clearButton && this._root.value.length > 0) {
+      classList(this._clearBtn, "remove", "hidden");
+    }
+
+    // Callback function
+    this._onOpened({
+      type: "enable",
+      element: this._root,
+      results: this._resultList,
+    });
+  };
+
+  /**
    * Clicking on the clear button
    * publick destroy method
    */
@@ -977,5 +1031,13 @@ export default class Autocomplete {
     offEvent(this._root, "click", this._handleShowItems);
     // remove listener on click on document
     offEvent(document, "click", this._handleDocClick);
+
+    // NOTE: review if necessary
+    // Optional: completely remove ARIA attributes (uncomment if needed)
+    // this._root.removeAttribute("aria-owns");
+    // this._root.removeAttribute("aria-expanded");
+    // this._root.removeAttribute("aria-autocomplete");
+    // this._root.removeAttribute("role");
+    // this._root.removeAttribute("aria-activedescendant");
   };
 }

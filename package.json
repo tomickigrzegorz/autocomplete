@@ -41,7 +41,8 @@
     "test:simple": "npx playwright test tests/01-simple.spec.js",
     "test:show-all": "npx playwright test tests/02-show-all.spec.js",
     "test:complex": "npx playwright test tests/03-complex.spec.js",
-    "test:disable": "npx playwright test tests/04-disabled.spec.js",
+    "test:disable": "npx playwright test tests/04-disable.spec.js",
+    "test:enable": "npx playwright test tests/05-enable.spec.js",
     "test": "npx playwright test --workers=1"
   },
   "keywords": [

@@ -1,8 +1,9 @@
-## 2025-09-30 (3.0.3)
+## 2025-10-02 (3.0.3)
 ### Added
 - `enable()` method to re-enable autocomplete functionality after using `disable()`
 - comprehensive example showing enable/disable functionality with empty input transformation
 - enhanced `enable()` method documentation in README.md with practical usage examples
+- added Playwright tests for enable/disable functionality (`tests/05-enable.spec.js`, `tests/04-disable.spec.js`)
 
 ### Changed
 - `insertToInput: true` now supports also hovering over results with mouse inserting text into input field, no need to use `onSelectedItem` to achieve this behavior. But if you want to modify the input value, you can use the `onSelectedItem`event. `onSelectedItem: ({ element, object }) => {element.value = object.name}`

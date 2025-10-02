@@ -930,8 +930,6 @@ export default class Autocomplete {
       "aria-expanded": "false",
       removeClass: `${this._prefix}-expanded`,
       "aria-activedescendant": "",
-      // Explicitly set to none to indicate no autocomplete suggestions when disabled
-      "aria-autocomplete": "none",
     });
 
     // remove all event listeners

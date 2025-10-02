@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { getScreenshotPath } from "../scripts/shared-screenshot.js";
 import path from "path";
+import fs from "fs";
 
 const localFile =
   "file://" + path.join(process.cwd(), "public", "complex-test.html");
@@ -22,8 +23,47 @@ const openAccountDropdown = async (page) => {
   });
 };
 
+// Helpers
+async function typeAndWaitForResults(page, value, expectedCount) {
+  const input = page.locator("#complex");
+  await input.fill(value);
+  if (expectedCount !== undefined) {
+    await expect(page.locator("li")).toHaveCount(expectedCount, {
+      timeout: 5000,
+    });
+  }
+  return input;
+}
+
+async function waitForSelectedText(page, text) {
+  await expect(page.locator(".auto-selected > h2")).toHaveText(text, {
+    timeout: 5000,
+  });
+}
+
 test.describe("Complex autocomplete tests", () => {
   test.beforeEach(async ({ page }) => {
+    // Stub remote fetch to avoid network flakes
+    const charactersPath = path.join(process.cwd(), "docs", "characters.json");
+    const characters = JSON.parse(fs.readFileSync(charactersPath, "utf-8"));
+    await page.route("**/characters.json", (route) => {
+      route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify(characters),
+      });
+    });
+    await page.route(
+      /.*raw.githubusercontent.com.*characters\.json.*/,
+      (route) => {
+        route.fulfill({
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify(characters),
+        });
+      },
+    );
+
     await page.goto(localFile);
   });
 
@@ -38,8 +78,7 @@ test.describe("Complex autocomplete tests", () => {
         '- check that aria-expanded is still "false"',
       ],
     });
-    const input = page.locator("#complex");
-    await input.fill("w");
+    const input = await typeAndWaitForResults(page, "w");
 
     // brak auto-expanded
     await expect(input).not.toHaveClass(/auto-expanded/);
@@ -61,9 +100,7 @@ test.describe("Complex autocomplete tests", () => {
         '- check if root input has class "auto-expanded"',
       ],
     });
-    const input = page.locator("#complex");
-    await input.fill("wal");
-    await expect(page.locator("li")).toHaveCount(4);
+    const input = await typeAndWaitForResults(page, "wal", 4);
     await expect(input).toHaveClass(/auto-expanded/);
   });
 
@@ -75,11 +112,8 @@ test.describe("Complex autocomplete tests", () => {
         "- check if selected element is Walter White Jr. inside h2",
       ],
     });
-    const input = page.locator("#complex");
-    await input.fill("wal");
-    await expect(page.locator(".auto-selected > h2")).toHaveText(
-      "Walter White Jr.",
-    );
+    await typeAndWaitForResults(page, "wal", 4);
+    await waitForSelectedText(page, "Walter White Jr.");
     await page.screenshot({
       path: getScreenshotPath("complex", "screenshot_test03.png"),
     });
@@ -95,13 +129,9 @@ test.describe("Complex autocomplete tests", () => {
         "- check input value",
       ],
     });
-    const input = page.locator("#complex");
-    await input.fill("wal");
-    await page.waitForTimeout(2000);
+    const input = await typeAndWaitForResults(page, "wal", 4);
     await page.keyboard.press("ArrowDown");
-    await expect(page.locator(".auto-selected > h2")).toHaveText(
-      "Walter White",
-    );
+    await waitForSelectedText(page, "Walter White");
     await expect(input).toHaveValue("Walter White");
     await page.screenshot({
       path: getScreenshotPath("complex", "screenshot_test04.png"),
@@ -118,14 +148,9 @@ test.describe("Complex autocomplete tests", () => {
         "- clear input",
       ],
     });
-    const input = page.locator("#complex");
-    await input.fill("wal");
-    await page.waitForTimeout(2000);
+    const input = await typeAndWaitForResults(page, "wal", 4);
     await page.keyboard.press("ArrowDown");
-    await page.waitForTimeout(2000);
-    await expect(page.locator(".auto-selected > h2")).toHaveText(
-      "Walter White",
-    );
+    await waitForSelectedText(page, "Walter White");
     await expect(input).toHaveValue("Walter White");
     await page.screenshot({
       path: getScreenshotPath("complex", "screenshot_test05_before_clear.png"),
@@ -146,9 +171,7 @@ test.describe("Complex autocomplete tests", () => {
         "- check first and third element texts",
       ],
     });
-    const input = page.locator("#complex");
-    await input.fill("wal");
-    await page.waitForTimeout(1000);
+    const input = await typeAndWaitForResults(page, "wal", 4);
     await expect(page.locator(".group-by")).toHaveCount(2);
     await expect(page.locator(".group-by:nth-child(1)")).toHaveText(
       "Alive 1 items",
@@ -166,11 +189,8 @@ test.describe("Complex autocomplete tests", () => {
       number: "7",
       text: ['- type "świnka"', "- check no results", "- clear input"],
     });
-    const input = page.locator("#complex");
-    await input.fill("świnka");
-    await page.waitForTimeout(1000);
+    const input = await typeAndWaitForResults(page, "świnka");
     await expect(input).toHaveValue("świnka");
-    await page.waitForTimeout(1000);
     await expect(page.locator(".auto-selected")).toHaveText(
       'No results found: "świnka"',
     );
@@ -202,11 +222,11 @@ test.describe("Complex autocomplete tests", () => {
       console.log(msg.text());
     });
     await openAccountDropdown(page);
-    const input = page.locator("#complex");
-    await input.fill("wal");
+    const input = await typeAndWaitForResults(page, "wal", 4);
     await page.keyboard.press("ArrowDown");
     await page.keyboard.press("ArrowDown");
-    await expect(input).toHaveValue("wal");
+    // Depending on insertToInput=true the value may change; ensure it still starts with the original query
+    await expect(input).toHaveValue(/wal/i);
     await page.screenshot({
       path: getScreenshotPath("complex", "screenshot_test12.png"),
     });

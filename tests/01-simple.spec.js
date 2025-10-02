@@ -1,8 +1,10 @@
 import { test, expect } from "@playwright/test";
 import path from "path";
+import fs from "fs";
 
 const localFile = "file://" + path.join(process.cwd(), "public", "simple.html");
 
+// Styled console helper (kept for consistency with other specs)
 const styleConsoleLog = (text) => {
   Object.entries(text).forEach(([key, value]) => {
     const description =
@@ -13,40 +15,55 @@ const styleConsoleLog = (text) => {
   });
 };
 
-test.describe("Autocomplete tests", () => {
+// Helper to type and (optionally) wait for results count
+async function typeAndWaitForResults(page, value, expectedCount) {
+  const input = page.locator("#simple");
+  await input.fill(value);
+  if (typeof expectedCount === "number") {
+    await expect(page.locator("li")).toHaveCount(expectedCount, {
+      timeout: 5000,
+    });
+  }
+  return input;
+}
+
+test.describe("Simple autocomplete tests", () => {
   test.beforeEach(async ({ page }) => {
+    // Stub remote fetch to eliminate network flakiness
+    const charactersPath = path.join(process.cwd(), "docs", "characters.json");
+    const characters = JSON.parse(fs.readFileSync(charactersPath, "utf-8"));
+    await page.route(
+      /.*raw.githubusercontent.com.*characters\.json.*/,
+      (route) => {
+        route.fulfill({
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify(characters),
+        });
+      },
+    );
     await page.goto(localFile);
   });
 
-  test('test 01: Type "w" and count li elements - 13', async ({ page }) => {
-    const description = {
+  test('Test 01: Type "w" and count li elements (13)', async ({ page }) => {
+    styleConsoleLog({
       number: "1",
-      text: ['- type "w"', "- count li elements - 13"],
-    };
-    styleConsoleLog(description);
-
-    const input = page.locator("#simple");
-    await input.fill("w");
-
-    const items = page.locator("li");
-    await expect(items).toHaveCount(13);
+      text: ['- type "w"', "- expect 13 <li> results"],
+    });
+    await typeAndWaitForResults(page, "w", 13);
   });
 
-  test("test 02: Check if exist aria and class", async ({ page }) => {
-    const description = {
+  test('Test 02: Aria & classes after typing "w"', async ({ page }) => {
+    styleConsoleLog({
       number: "2",
       text: [
         '- type "w"',
-        '- check if root has atribute "aria-expanded" with value "true"',
-        '- check if root has class "auto-expanded"',
-        '- check if root nextSibling div has class "auto-is-active"',
+        '- expect aria-expanded="true"',
+        "- expect class auto-expanded on input",
+        "- expect sibling div has class auto-is-active",
       ],
-    };
-    styleConsoleLog(description);
-
-    const input = page.locator("#simple");
-    await input.fill("w");
-
+    });
+    const input = await typeAndWaitForResults(page, "w", 13);
     await expect(input).toHaveAttribute("aria-expanded", "true");
     await expect(input).toHaveClass(/auto-expanded/);
     await expect(input.locator("xpath=following-sibling::div[1]")).toHaveClass(
@@ -54,44 +71,30 @@ test.describe("Autocomplete tests", () => {
     );
   });
 
-  test("test 03: Press 3x down and check selected element", async ({
+  test('Test 03: Navigate results and clear (select "Duane Chow")', async ({
     page,
   }) => {
-    const description = {
+    styleConsoleLog({
       number: "3",
       text: [
         '- type "w"',
-        "- wait 2 seconds",
-        '- press key "down" 3x',
-        '- check if selected element has text "Duane Chow"',
-        "- press enter",
-        "- wait 2 seconds",
-        '- check if root value is "Duane Chow"',
-        "- click on root nextSibling div (x button)",
-        "- check if root value is empty",
+        "- ensure 13 results loaded",
+        "- press ArrowDown 3x",
+        '- expect selected item text "Duane Chow"',
+        "- press Enter to apply",
+        '- expect input value "Duane Chow"',
+        "- click clear button",
+        "- expect input cleared",
       ],
-    };
-    styleConsoleLog(description);
-
-    const input = page.locator("#simple");
-    await input.fill("w");
-    await page.waitForTimeout(2000);
-
-    // 3x arrow down
+    });
+    const input = await typeAndWaitForResults(page, "w", 13);
     await page.keyboard.press("ArrowDown");
     await page.keyboard.press("ArrowDown");
     await page.keyboard.press("ArrowDown");
-
-    const selected = page.locator(".auto-selected");
+    const selected = page.locator(".auto-selected p");
     await expect(selected).toHaveText("Duane Chow");
-
-    // press enter
     await page.keyboard.press("Enter");
-    await page.waitForTimeout(2000);
-
     await expect(input).toHaveValue("Duane Chow");
-
-    // click clear button
     await input.locator("xpath=following-sibling::button[1]").click();
     await expect(input).toHaveValue("");
   });

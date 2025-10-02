@@ -548,8 +548,7 @@ function Autocomplete(_element, _ref) {
     setAttributes(_this._root, {
       "aria-expanded": "false",
       removeClass: _this._prefix + "-expanded",
-      "aria-activedescendant": "",
-      "aria-autocomplete": "none"
+      "aria-activedescendant": ""
     });
     offEvent(_this._root, "input", _this._handleInput);
     offEvent(_this._root, "keydown", _this._handleKeys);
@@ -566,8 +565,12 @@ function Autocomplete(_element, _ref) {
     _this._onLoading(false);
     _this._error();
     _this._onClose();
+    setTimeout(function () {
+      _this._root.setAttribute("aria-autocomplete", "none");
+    }, 0);
   };
   this.enable = function () {
+    _this._root.removeAttribute("data-auto-disabled");
     var ariaAttributes = ariaActiveDescendantDefault(_this._outputUl, _this._toInput);
     setAttributes(_this._root, ariaAttributes);
     onEvent(_this._root, "input", _this._handleInput);

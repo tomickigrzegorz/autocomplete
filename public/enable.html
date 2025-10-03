@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../docs/css/autocomplete.css" />
+    <title>Enable TEST</title>
+    <style>
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+          sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+        margin-top: 50px;
+      }
+      p {
+        margin: 0;
+      }
+
+      .container {
+        max-width: 350px;
+        margin: 0 auto;
+      }
+
+      .max-height ul {
+        max-height: 420px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <section>
+        <h1>Enable example</h1>
+        <div class="auto-search-wrapper max-height">
+          <input type="text" id="enable" placeholder="type w" />
+          <div class="btn-group">
+            <button id="disable-btn" class="btn-action" type="button">
+              Disable
+            </button>
+            <button id="enable-btn" class="btn-action" type="button">
+              Enable
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script src="../docs/js/autocomplete.min.js"></script>
+    <script>
+      const autocompleteEnable = new Autocomplete("enable", {
+        onSearch: ({ currentValue }) => {
+          const data = [
+            { name: "Walter White" },
+            { name: "Jesse Pinkman" },
+            { name: "Skyler White" },
+            { name: "Walter White Jr." },
+          ];
+          return data.filter((item) =>
+            item.name.toLowerCase().includes(currentValue.toLowerCase()),
+          );
+        },
+        onResults: ({ matches }) =>
+          matches.map((el) => `<li>${el.name}</li>`).join(""),
+      });
+
+      // Buttons for enabling/disabling
+      const disableBtn = document.getElementById("disable-btn");
+      const enableBtn = document.getElementById("enable-btn");
+
+      // Disable autocomplete
+      disableBtn.addEventListener("click", () => {
+        autocompleteEnable.disable();
+        console.log("Autocomplete disabled");
+      });
+
+      // Enable autocomplete
+      enableBtn.addEventListener("click", () => {
+        autocompleteEnable.enable();
+        console.log("Autocomplete enabled");
+      });
+    </script>
+  </body>
+</html>

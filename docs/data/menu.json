@@ -54,7 +54,16 @@
   },
   {
     "link": "disable-example",
-    "html": "Disable Autocomplete",
+    "html": "Disable Autocomplete"
+  },
+  {
+    "link": "enable-example",
+    "html": "Enable/Disable Toggle",
+    "type": "new"
+  },
+  {
+    "link": "enable-disable-example",
+    "html": "Enable/Disable with Empty Input",
     "type": "new"
   },
   { "link": "show-inline-example", "html": "Inline" },

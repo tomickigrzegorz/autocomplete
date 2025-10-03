@@ -20,8 +20,13 @@ new Autocomplete("update-input", {
   onResults: ({ matches }) =>
     matches.map((el) => `<li>${el.name}</li>`).join(""),
 
-  onSelectedItem: ({ element, object }) => {
-    if (!object) return;
-    element.value = object.name;
-  },
+  // From now when insertToInput is true
+  // the input value will be updated automatically
+  // after hovering on an item from the list.
+  // But if you want to modify the input value,
+  // you can use the 'onSelectedItem' event.
+  // onSelectedItem: ({ element, object }) => {
+  //   if (!object) return;
+  //   element.value = `${object.name} [${new Date().toLocaleDateString()}]`;
+  // },
 });

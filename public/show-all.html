@@ -5,11 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../docs/css/autocomplete.css" />
-    <title>SIMPLE TEST</title>
+    <title>Show all results</title>
     <style>
       body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
-          Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+          sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
         margin-top: 50px;
       }
       p {
@@ -29,22 +30,21 @@
   <body>
     <div class="container">
       <section>
-        <h1>Simple example</h1>
+        <h1>Show all results</h1>
         <div class="auto-search-wrapper max-height">
-          <input
-            type="text"
-            id="simple"
-            aria-label="Search for a name"
-            autocomplete="off"
-            placeholder="type w"
-          />
+          <input type="text" id="show-all" placeholder="type w" />
         </div>
       </section>
     </div>
 
     <script src="../docs/js/autocomplete.min.js"></script>
     <script>
-      new Autocomplete("simple", {
+      const inline = new Autocomplete("show-all", {
+        disableCloseOnSelect: true,
+        insertToInput: true,
+
+        inline: true,
+
         onSearch: ({ currentValue }) => {
           // static file
           const api =
@@ -80,6 +80,12 @@
             })
             .join("");
         },
+      });
+
+      document.addEventListener("click", (event) => {
+        if (event.target.closest(".auto-clear")) {
+          inline.rerender();
+        }
       });
     </script>
   </body>

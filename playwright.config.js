@@ -5,7 +5,7 @@ export default defineConfig({
   timeout: 30000,
   retries: 1,
   use: {
-    headless: true,
+    headless: true, // Set to false if you want to see the browser
     viewport: { width: 1280, height: 720 },
     screenshot: "only-on-failure",
     video: "retain-on-failure",

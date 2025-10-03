@@ -179,6 +179,11 @@ var Autocomplete = (function () {
       var ariaAcrivedescentDefault = ariaActiveDescendantDefault(_this._outputUl, _this._toInput);
       setAttributes(_this._root, ariaAcrivedescentDefault);
       output(_this._root, _this._resultList, _this._outputUl, _this._resultWrap, _this._prefix);
+      try {
+        _this._resultList.id = _this._outputUl;
+        _this._root.setAttribute("aria-controls", _this._outputUl);
+      } catch (e) {
+      }
       onEvent(_this._root, "input", _this._handleInput);
       _this._showValuesOnClick && onEvent(_this._root, "click", _this._handleInput);
       if (_this._inline) {

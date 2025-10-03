@@ -906,6 +906,30 @@ aside::-webkit-scrollbar-thumb {
   .new-item {
     left: 0;
     right: auto;
-    top: -10px;
+    top: 0;
+    bottom: calc(100% - 125px);
+  }
+}
+
+.btn-group {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.btn-action {
+  margin-right: 10px;
+  height: 44px;
+  text-transform: uppercase;
+  padding: 0 10px;
+  border: 0;
+  background: #c8c8c8;
+  transition: all 300ms ease-in-out;
+  cursor: pointer;
+
+  &:hover {
+    background: #000;
+    color: #fff;
   }
 }

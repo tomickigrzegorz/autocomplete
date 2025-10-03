@@ -33,6 +33,16 @@
             "column": "This method allows you to disable the autocomplete functionality.<br><code>const auto = new Autocomplete('id', {...});</code> <code>auto.disable();</code> then we disable the autocomplete. To remove input value you need to call <code>auto.disable(true);</code> Example: <a href='#disable-example'>disable</a>"
           }
         ]
+      },
+      {
+        "row": [
+          {
+            "column": "<b>enable</b>"
+          },
+          {
+            "column": "This method allows you to re-enable the autocomplete functionality after using <code>disable()</code>.<br><code>const auto = new Autocomplete('id', {...});</code> <code>auto.disable();</code> then we disable the autocomplete. To re-enable it you need to call <code>auto.enable();</code> Example: <a href='#enable-example'>enable/disable toggle</a>, <a href='#enable-disable-example'>enable/disable with empty input</a>"
+          }
+        ]
       }
     ]
   }

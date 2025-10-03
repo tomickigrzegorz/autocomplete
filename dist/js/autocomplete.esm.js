@@ -1,6 +1,6 @@
 /*!
 * @name autocomplete
-* @version 3.0.2
+* @version 3.0.3
 * @author Grzegorz Tomicki
 * @link https://github.com/tomickigrzegorz/autocomplete
 * @license MIT
@@ -176,6 +176,11 @@ function Autocomplete(_element, _ref) {
     var ariaAcrivedescentDefault = ariaActiveDescendantDefault(_this._outputUl, _this._toInput);
     setAttributes(_this._root, ariaAcrivedescentDefault);
     output(_this._root, _this._resultList, _this._outputUl, _this._resultWrap, _this._prefix);
+    try {
+      _this._resultList.id = _this._outputUl;
+      _this._root.setAttribute("aria-controls", _this._outputUl);
+    } catch (e) {
+    }
     onEvent(_this._root, "input", _this._handleInput);
     _this._showValuesOnClick && onEvent(_this._root, "click", _this._handleInput);
     if (_this._inline) {
@@ -399,6 +404,9 @@ function Autocomplete(_element, _ref) {
       _this._removeAria(activeClassElement);
       _this._setAria(targetClosest);
       _this._index = _this._indexLiSelected(targetClosest);
+      if (_this._toInput) {
+        _this._root.value = getFirstElement(targetClosest);
+      }
       _this._onSelected({
         index: _this._index,
         element: _this._root,
@@ -545,8 +553,7 @@ function Autocomplete(_element, _ref) {
     setAttributes(_this._root, {
       "aria-expanded": "false",
       removeClass: _this._prefix + "-expanded",
-      "aria-activedescendant": "",
-      "aria-autocomplete": "none"
+      "aria-activedescendant": ""
     });
     offEvent(_this._root, "input", _this._handleInput);
     offEvent(_this._root, "keydown", _this._handleKeys);
@@ -563,6 +570,34 @@ function Autocomplete(_element, _ref) {
     _this._onLoading(false);
     _this._error();
     _this._onClose();
+    setTimeout(function () {
+      _this._root.setAttribute("aria-autocomplete", "none");
+    }, 0);
+  };
+  this.enable = function () {
+    _this._root.removeAttribute("data-auto-disabled");
+    var ariaAttributes = ariaActiveDescendantDefault(_this._outputUl, _this._toInput);
+    setAttributes(_this._root, ariaAttributes);
+    onEvent(_this._root, "input", _this._handleInput);
+    onEvent(_this._root, "keydown", _this._handleKeys);
+    onEvent(_this._root, "click", _this._handleShowItems);
+    if (_this._showValuesOnClick) {
+      onEvent(_this._root, "click", _this._handleInput);
+    }
+    if (!_this._inline) {
+      onEvent(document, "click", _this._handleDocClick);
+    }
+    ["mousemove", "click"].forEach(function (eventType) {
+      onEvent(_this._resultList, eventType, _this._handleMouse);
+    });
+    if (_this._clearButton && _this._root.value.length > 0) {
+      classList(_this._clearBtn, "remove", "hidden");
+    }
+    _this._onOpened({
+      type: "enable",
+      element: _this._root,
+      results: _this._resultList
+    });
   };
   this.destroy = function () {
     _this._clearButton && classList(_this._clearBtn, "add", "hidden");

@@ -48,7 +48,7 @@
           { "column": "false" },
           { "column": "" },
           {
-            "column": "Adding an element selected with arrows to the input field field"
+            "column": "From now when <code>insertToInput: true</code> the input value will be updated automatically after hovering on an item from the list. But if you want to modify the input value, you can use the <code>onSelectedItem</code> event - see example <a href=\"#modal-examples\">Modal Examples</a>."
           }
         ]
       },

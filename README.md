@@ -58,13 +58,13 @@ yarn add @tomickigrzegorz/autocomplete
 #### CSS
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.0.2/dist/css/autocomplete.min.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.0.3/dist/css/autocomplete.min.css"/>
 ```
 
 #### JavaScript
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.0.2/dist/js/autocomplete.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.0.3/dist/js/autocomplete.min.js"></script>
 ```
 
 ##### -- OR --
@@ -164,10 +164,11 @@ npm run prod
 | destroy              |   method   |                                     |         | Removes the autocomplete instance and its bindings                                                                                                                       |
 | rerender             |   method   |                                     |         | This method allows you to re-render the results without modifying the input field. Of course, we can also send the string we want to search for to the method. render(string);                                                                                                                       |
 | disable             |   method   |                                     |         | This method allows you to disable the autocomplete functionality. `const auto = new Autocomplete('id', {...});` `auto.disable();` then we disable the autocomplete. To remove input value you need to call `auto.disable(true);`                                                                                                                       |
+| enable              |   method   |                                     |         | This method allows you to re-enable the autocomplete functionality after it has been disabled. `const auto = new Autocomplete('id', {...});` `auto.disable();` `auto.enable();` - now the autocomplete is active again and all event listeners are restored                                                                                                                       |
 | clearButton          |  boolean   |               `true`                |         | A parameter set to 'true' adds a button to remove text from the input field                                                                                              |GitHub Markdown Preview
 | clearButtonOnInitial |  boolean   |               `false`               |         | A parameter set to 'true' adds a button to remove text from the input field visible on initial Autocomplete lib.                                                         |
 | selectFirst          |  boolean   |               `false`               |         | Default selects the first item in the list of results                                                                                                                    |
-| insertToInput        |  boolean   |               `false`               |         | Adding an element selected with arrows to the input field                                                                                                                |
+| insertToInput        |  boolean   |               `false`               |         | Adding an element selected with arrows or hovering with the mouse to the input field                                                                                                                |
 | disableCloseOnSelect |  boolean   |               `false`               |         | Prevents results from hiding after clicking on an item from the results list                                                                                             |
 | preventScrollUp      |  boolean   |               `false`               |         | The parameter prevents the results from scrolling up when scrolling after reopening the results. The results are displayed in the same place. The selected item does not disappear and is still selected.                                                                                             |
 | showAllValuesOnClick |  boolean   |               `false`               |         | This option will toggle showing all values when the input is clicked, like a default dropdown                                                                            |
@@ -485,10 +486,41 @@ const auto = new Autocomplete('you-id', {
 auto.destroy(); // destroy autocomplete
 auto.disable(); // disable autocomplete
 auto.disable(true); // disable autocomplete and clear input value
+auto.enable(); // enable autocomplete after it was disabled
 auto.rerender(); // re-render the results
 // pass string to search
 auto.rerender(string);
 ```
+
+### Enable/Disable Example
+
+The `enable()` method safely restores autocomplete functionality without automatically triggering search results:
+
+```js
+const auto = new Autocomplete('input', {
+  onSearch: ({ currentValue }) => {
+    // your search logic
+    return data.filter(item => item.name.includes(currentValue));
+  }
+});
+
+// Disable autocomplete
+auto.disable();
+
+// Re-enable autocomplete - this will NOT trigger search automatically
+// even if the input field is empty or has some text
+auto.enable();
+
+// After enable(), autocomplete will work normally:
+// - User needs to type (respecting howManyCharacters setting)
+// - OR click input (if showAllValuesOnClick: true)
+// - OR call auto.rerender() to trigger search programmatically
+```
+
+**Important**: `enable()` only restores event listeners and functionality. It doesn't automatically show results. Search is triggered only by:
+- User input (when `howManyCharacters` threshold is met)
+- Input click (when `showAllValuesOnClick: true`)  
+- Manual `rerender()` call
 
 ## License
 

@@ -20,6 +20,48 @@
 
       document.documentElement.setAttribute("data-theme", themeToSet);
     </script>
+    <style>
+      .status-enabled {
+        color: #22c55e;
+        font-weight: bold;
+        margin: 10px 0;
+        padding: 8px;
+        background: rgba(34, 197, 94, 0.1);
+        border-radius: 4px;
+        border-left: 4px solid #22c55e;
+      }
+      .status-disabled {
+        color: #ef4444;
+        font-weight: bold;
+        margin: 10px 0;
+        padding: 8px;
+        background: rgba(239, 68, 68, 0.1);
+        border-radius: 4px;
+        border-left: 4px solid #ef4444;
+      }
+      .btn-group {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+        flex-wrap: wrap;
+      }
+      .btn-action {
+        background: #3b82f6;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.2s;
+      }
+      .btn-action:hover {
+        background: #2563eb;
+      }
+      .btn-action:active {
+        background: #1d4ed8;
+      }
+    </style>
   </head>
 
   <body>
@@ -38,7 +80,7 @@
     <main class="container">
       <header>
         <h1 class="loupe">
-          autocomplete <sup><small>v3.0.2</small></sup>
+          autocomplete <sup><small>v3.0.3</small></sup>
         </h1>
         <div class="switch-theme">
           <button class="theme theme-head" aria-label="change theme">
@@ -114,10 +156,10 @@
           <h3>Or CDN</h3>
           <div rel="HTML" class="html-class">
             <pre><code class="language-html">&lt;!-- css --&gt;
-&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.0.2/dist/css/autocomplete.min.css&quot;/&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.0.3/dist/css/autocomplete.min.css&quot;/&gt;
 
 &lt;!-- js --&gt;
-&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.0.2/dist/js/autocomplete.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.0.3/dist/js/autocomplete.min.js&quot;&gt;&lt;/script&gt;
           </code></pre>
           </div>
 
@@ -968,7 +1010,80 @@
               </pre>
           </div>
         </section>
-        <!-- cache end -->
+        <!-- disable end -->
+
+        <!-- enable/disable toggle start -->
+        <section id="enable-example" class="section">
+          <div class="search-element">
+            <div class="info-section">
+              <h2>Enable/Disable Toggle</h2>
+              <div class="sources">
+                <a href="./js/examples/enable.js" target="_blank">source: enable</a>
+              </div>
+              <p>
+                The <code>enable()</code> method restores autocomplete functionality after it has been disabled using <code>disable()</code>. This allows you to toggle autocomplete on/off while preserving the same instance and configuration.
+              </p>
+            </div>
+            <div class="auto-search-wrapper">
+              <input type="text" id="enable-toggle" placeholder="type w" />
+              <div class="btn-group">
+                <button id="disable-btn" class="btn-action" type="button">Disable</button>
+                <button id="enable-btn" class="btn-action" type="button">Enable</button>
+                <button id="toggle-btn" class="btn-action" type="button">Toggle</button>
+              </div>
+            </div>
+          </div>
+          <div rel="docs/index.html" class="highlight html html-class"></div>
+          <div
+            rel="docs/js/examples/enablejs"
+            class="highlight javascript html-class"
+          >
+            <pre>
+                <code class="language-js" data-source="./js/examples/enable.js"></code>
+              </pre>
+          </div>
+        </section>
+        <!-- enable/disable toggle end -->
+
+        <!-- enable/disable with empty input start -->
+        <section id="enable-disable-example" class="section">
+          <div class="search-element">
+            <div class="info-section">
+              <h2>Enable/Disable with Empty Input</h2>
+              <div class="sources">
+                <a href="./js/examples/enable-disable.js" target="_blank">source: enable-disable</a>
+              </div>
+              <p>
+                This example shows how autocomplete transforms a regular input field. Initially the input is completely normal - no ARIA attributes, no autocomplete functionality.
+              </p>
+              <ul>
+                <li><strong>Enable:</strong> Creates autocomplete instance and adds ARIA attributes</li>
+                <li><strong>Disable:</strong> Removes functionality but keeps the instance</li>
+                <li><strong>Fill Input:</strong> Adds random data (triggers search only if enabled)</li>
+              </ul>
+              <p><em>Watch the console and inspect the input element to see the transformation!</em></p>
+            </div>
+            <div class="auto-search-wrapper">
+              <input type="text" id="enable-disable" placeholder="Start typing or use buttons below..." />
+              <div id="status-ed" class="status-enabled"></div>
+              <div class="btn-group">
+                <button id="disable-btn-ed" class="btn-action" type="button">Disable</button>
+                <button id="enable-btn-ed" class="btn-action" type="button">Enable</button>
+                <button id="fill-btn-ed" class="btn-action" type="button">Fill Input & Search</button>
+              </div>
+            </div>
+          </div>
+          <div rel="docs/index.html" class="highlight html html-class"></div>
+          <div
+            rel="docs/js/examples/enable-disable.js"
+            class="highlight javascript html-class"
+          >
+            <pre>
+                <code class="language-js" data-source="./js/examples/enable-disable.js"></code>
+              </pre>
+          </div>
+        </section>
+        <!-- enable/disable with empty input end -->
 
         <!-- show all values start -->
         <section id="show-inline-example" class="section">
@@ -1026,13 +1141,11 @@
               </div>
               <p>
                 Adding this parameter adds the selected data to the input field
-                while navigating through the records with the up/down arrows
+                while navigating through the records with the up/down arrows or hovering with the mouse.
                 <code>insertToInput: true</code>
               </p>
               <p>
-                If you want to be able to add data to the input field after
-                hovering the mouse over the record, you can do it using callback
-                funciton
+                From now when insertToInput: true the input value will be updated automatically after hovering on an item from the list. But if you want to modify the input value, you can use the 'onSelectedItem' event.
                 <code
                   >onSelectedItem: ({ element, object }) => {element.value =
                   object.name}</code
@@ -1296,6 +1409,9 @@
     <script async src="./js/examples/checkbox.js"></script>
     <script async src="./js/examples/cache.js"></script>
     <script async src="./js/examples/disable.js"></script>
+    <script async src="./js/examples/enable.js"></script>
+    <script async src="./js/examples/enable-disable.js"></script>
+    
 
     <div class="modal"></div>
   </body>

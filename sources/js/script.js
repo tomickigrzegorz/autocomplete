@@ -223,6 +223,15 @@ export default class Autocomplete {
       this._prefix,
     );
 
+    // ensure results list has the expected id immediately and connect it to the input
+    // the list may be empty initially but having aria-controls present improves accessibility
+    try {
+      this._resultList.id = this._outputUl;
+      this._root.setAttribute("aria-controls", this._outputUl);
+    } catch (e) {
+      // silent fallback
+    }
+
     // default aria
     onEvent(this._root, "input", this._handleInput);
 
@@ -486,7 +495,6 @@ export default class Autocomplete {
             classGroup: this._classGroup,
           });
 
-    // add data to ul
     this._resultList.insertAdjacentHTML("afterbegin", dataResults);
 
     // add class isActive

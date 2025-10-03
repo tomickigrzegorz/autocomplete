@@ -37,6 +37,15 @@ test.describe("Autocomplete enable/disable granular tests", () => {
     await page.goto(localFile);
   });
 
+  test("00: input has aria-controls set on load", async ({ page }) => {
+    styleConsoleLog({
+      number: "0",
+      text: ["- check if input has aria-controls on load"],
+    });
+    const input = page.locator("#enable");
+    await expect(input).toHaveAttribute("aria-controls", "auto-enable-results");
+  });
+
   test("01: type 'w'", async ({ page }) => {
     styleConsoleLog({ number: "1", text: ['- type "w"'] });
     const input = page.locator("#enable");

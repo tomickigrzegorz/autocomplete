@@ -906,7 +906,8 @@ aside::-webkit-scrollbar-thumb {
   .new-item {
     left: 0;
     right: auto;
-    top: -10px;
+    top: 0;
+    bottom: calc(100% - 125px);
   }
 }
 

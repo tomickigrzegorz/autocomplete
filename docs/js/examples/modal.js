@@ -25,10 +25,8 @@ new Autocomplete("modal-example", {
       },
     ];
     return data
-      .sort((a, b) => a.name.localeCompare(b.name))
-      .filter((element) => {
-        return element.name.match(new RegExp(currentValue, "i"));
-      });
+      .filter((el) => new RegExp(currentValue, "i").test(el.name))
+      .sort((a, b) => a.name.localeCompare(b.name));
   },
 
   onResults: ({ matches }) =>

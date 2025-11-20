@@ -14,13 +14,12 @@ new Autocomplete("group", {
           // of course, it is not always necessary because
           // such soroting may be obtained from REST API
           const result = data
+            .filter((el) => new RegExp(currentValue, "i").test(el.name))
             .sort(
               (a, b) =>
-                a.status.localeCompare(b.status) || a.name.localeCompare(b.name)
-            )
-            .filter((element) => {
-              return element.name.match(new RegExp(currentValue, "gi"));
-            });
+                a.status.localeCompare(b.status) ||
+                a.name.localeCompare(b.name),
+            );
           resolve(result);
         })
         .catch((error) => {
@@ -47,7 +46,7 @@ new Autocomplete("group", {
             let group =
               el.status !== array[index - 1]?.status
                 ? `<li class="${classGroup}"><span>${el.status}</span> ${count(
-                    el.status
+                    el.status,
                   )}</li>`
                 : "";
 
@@ -56,7 +55,7 @@ new Autocomplete("group", {
               <li class="icon loupe">
                 <p>${el.name.replace(
                   new RegExp(currentValue, "gi"),
-                  (str) => `<b>${str}</b>`
+                  (str) => `<b>${str}</b>`,
                 )}</p>
               </li>`;
           })

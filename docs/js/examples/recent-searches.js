@@ -13,10 +13,8 @@ new Autocomplete("recent-searches", {
         .then((response) => response.json())
         .then((data) => {
           const result = data
-            .sort((a, b) => a.name.localeCompare(b.name))
-            .filter((element) => {
-              return element.name.match(new RegExp(currentValue, "gi"));
-            });
+            .filter((el) => new RegExp(currentValue, "i").test(el.name))
+            .sort((a, b) => a.name.localeCompare(b.name));
           resolve(result);
         })
         .catch((error) => {
@@ -33,7 +31,7 @@ new Autocomplete("recent-searches", {
     elements.map((element) => {
       results.insertAdjacentHTML(
         element.where,
-        `<div class="additional-elements hidden" tabindex="0"><small>${element.text}</small></div>`
+        `<div class="additional-elements hidden" tabindex="0"><small>${element.text}</small></div>`,
       );
     });
 
@@ -63,7 +61,7 @@ new Autocomplete("recent-searches", {
     [...new Set(historyElements)].map((item) => {
       historyElement.insertAdjacentHTML(
         "beforeend",
-        `<div class="flex history-item">- ${item}</div>`
+        `<div class="flex history-item">- ${item}</div>`,
       );
     });
   },
@@ -79,7 +77,7 @@ new Autocomplete("recent-searches", {
         ({ name }) => `
         <li class="flex">
           <div class="name" title="clickable">${name}</div>
-        </li>`
+        </li>`,
       )
       .join("");
   },

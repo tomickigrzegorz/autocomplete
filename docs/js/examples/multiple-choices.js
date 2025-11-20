@@ -23,10 +23,8 @@ new Autocomplete("multiple-choices", {
       { name: "Nela" },
     ];
     return data
-      .sort((a, b) => a.name.localeCompare(b.name))
-      .filter((element) => {
-        return element.name.match(new RegExp(lastElement, "gi"));
-      });
+      .filter((el) => new RegExp(currentValue, "i").test(el.name))
+      .sort((a, b) => a.name.localeCompare(b.name));
   },
 
   onResults: ({ matches }) =>
@@ -53,7 +51,7 @@ new Autocomplete("multiple-choices", {
     // if not, remove the 'selected' class from the li element
     [].slice.call(results.children).map((item) => {
       item.classList[secondArray.includes(item.textContent) ? "add" : "remove"](
-        "selected"
+        "selected",
       );
     });
   },

@@ -8,10 +8,8 @@ new Autocomplete("static", {
         .then((response) => response.json())
         .then((data) => {
           const result = data
-            .sort((a, b) => a.name.localeCompare(b.name))
-            .filter((element) => {
-              return element.name.match(new RegExp(currentValue, "gi"));
-            });
+            .filter((el) => new RegExp(currentValue, "i").test(el.name))
+            .sort((a, b) => a.name.localeCompare(b.name));
           resolve(result);
         })
         .catch((error) => {
@@ -27,7 +25,7 @@ new Autocomplete("static", {
           <li class="loupe">
             <p>${el.name.replace(
               new RegExp(currentValue, "gi"),
-              (str) => `<b>${str}</b>`
+              (str) => `<b>${str}</b>`,
             )}</p>
           </li>`;
       })

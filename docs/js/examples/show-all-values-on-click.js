@@ -22,19 +22,14 @@ const phone = new Autocomplete("show-all-values-on-click", {
           // },
 
           const result = data
-            .sort((a, b) => a.text.localeCompare(b.text))
-            .filter((element, i) => {
-              if (
-                element.text
-                  .toLowerCase()
-                  .indexOf(currentValue.replace(/\\/g, "")) >= 0 ||
-                element.code
-                  .toLowerCase()
-                  .indexOf(currentValue.replace(/\\/g, "")) >= 0
-              ) {
-                return true;
-              } else false;
-            });
+            .filter((el) => {
+              const val = currentValue.replace(/\\/g, "").toLowerCase();
+              return (
+                el.text.toLowerCase().includes(val) ||
+                el.code.toLowerCase().includes(val)
+              );
+            })
+            .sort((a, b) => a.text.localeCompare(b.text));
           resolve(result);
         })
         .catch((error) => {

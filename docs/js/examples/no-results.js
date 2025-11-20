@@ -6,10 +6,8 @@ new Autocomplete("no-results", {
         .then((response) => response.json())
         .then((data) => {
           const result = data
-            .sort((a, b) => a.name.localeCompare(b.name))
-            .filter((element) => {
-              return element.name.match(new RegExp(currentValue, "gi"));
-            });
+            .filter((el) => new RegExp(currentValue, "i").test(el.name))
+            .sort((a, b) => a.name.localeCompare(b.name));
           resolve(result);
         })
         .catch((error) => {

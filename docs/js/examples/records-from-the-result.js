@@ -16,10 +16,8 @@ new Autocomplete("records-result", {
         .then((response) => response.json())
         .then((data) => {
           const result = data
-            .sort((a, b) => a.name.localeCompare(b.name))
-            .filter((element) => {
-              return element.name.match(new RegExp(currentValue, "gi"));
-            });
+            .filter((el) => new RegExp(currentValue, "i").test(el.name))
+            .sort((a, b) => a.name.localeCompare(b.name));
 
           // show only 5 records
           resolve(result.slice(0, maxRecords));
@@ -59,7 +57,7 @@ new Autocomplete("records-result", {
                 <li class="icon loupe">
                   <p>${el.name.replace(
                     new RegExp(currentValue, "gi"),
-                    (str) => `<b>${str}</b>`
+                    (str) => `<b>${str}</b>`,
                   )}</p>
                 </li>`;
           })

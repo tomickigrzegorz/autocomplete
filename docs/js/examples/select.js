@@ -13,10 +13,8 @@ new Autocomplete("select", {
           // of course, it is not always necessary because
           // such soroting may be obtained from REST API
           const result = data
-            .sort((a, b) => a.name.localeCompare(b.name))
-            .filter((element) => {
-              return element.name.match(new RegExp(currentValue, "gi"));
-            });
+            .filter((el) => new RegExp(currentValue, "i").test(el.name))
+            .sort((a, b) => a.name.localeCompare(b.name));
           resolve(result);
         })
         .catch((error) => {
@@ -55,7 +53,7 @@ new Autocomplete("select", {
     button.className = "remove-item";
     button.insertAdjacentHTML(
       "beforeend",
-      '<svg aria-label="Remove name" height="16" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z"/></svg>'
+      '<svg aria-label="Remove name" height="16" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z"/></svg>',
     );
 
     const item = document.createElement("div");

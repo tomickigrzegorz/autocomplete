@@ -10,15 +10,15 @@ new Autocomplete("special-characters", {
       { name: "Haydn Günther" },
       { name: "Gertrude Kühn" },
     ];
-    return data
-      .sort((a, b) => a.name.localeCompare(b.name))
-      .filter((element) => {
-        // https://stackoverflow.com/a/37511463/10424385
-        const elementNormalize = ConvertToAscii(element.name);
-        const currentValueNormalize = ConvertToAscii(currentValue);
 
-        return elementNormalize.match(new RegExp(currentValueNormalize, "i"));
-      });
+    // https://stackoverflow.com/a/37511463/10424385
+    const query = ConvertToAscii(currentValue);
+    return data
+      .filter((el) => {
+        const nameNorm = ConvertToAscii(el.name);
+        return new RegExp(query, "i").test(nameNorm);
+      })
+      .sort((a, b) => a.name.localeCompare(b.name));
   },
 
   onResults: ({ matches }) =>

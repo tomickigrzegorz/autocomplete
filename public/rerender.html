@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../docs/css/autocomplete.css" />
+    <title>RERENDER TEST</title>
+    <style>
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+          sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+        margin-top: 50px;
+      }
+      p {
+        margin: 0;
+      }
+
+      .container {
+        max-width: 350px;
+        margin: 0 auto;
+      }
+
+      .max-height ul {
+        max-height: 420px;
+      }
+
+      .buttons {
+        margin-top: 20px;
+        display: flex;
+        gap: 10px;
+      }
+
+      .buttons button {
+        padding: 8px 16px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <section>
+        <h1>Rerender example</h1>
+        <div class="auto-search-wrapper max-height">
+          <input type="text" id="rerender" placeholder="type w" />
+        </div>
+        <div class="buttons">
+          <button id="btn-rerender">Rerender</button>
+          <button id="btn-rerender-walter">Rerender "Walter"</button>
+          <button id="btn-rerender-empty">Rerender ""</button>
+        </div>
+      </section>
+    </div>
+
+    <script src="../docs/js/autocomplete.min.js"></script>
+    <script>
+      const data = [
+        { name: "Walter White" },
+        { name: "Jesse Pinkman" },
+        { name: "Skyler White" },
+        { name: "Walter White Jr." },
+        { name: "Hank Schrader" },
+        { name: "Marie Schrader" },
+      ];
+
+      // Expose to window for testing
+      const autocomplete = window.autocomplete = new Autocomplete("rerender", {
+        onSearch: ({ currentValue }) => {
+          return data
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .filter((element) => {
+              return element.name.match(new RegExp(currentValue, "i"));
+            });
+        },
+
+        onResults: ({ matches }) =>
+          matches.map((el) => `<li>${el.name}</li>`).join(""),
+      });
+
+      // Rerender with current input value
+      document.getElementById("btn-rerender").addEventListener("click", () => {
+        autocomplete.rerender();
+      });
+
+      // Rerender with specific value "Walter"
+      document.getElementById("btn-rerender-walter").addEventListener("click", () => {
+        autocomplete.rerender("Walter");
+      });
+
+      // Rerender with empty string
+      document.getElementById("btn-rerender-empty").addEventListener("click", () => {
+        autocomplete.rerender("");
+      });
+    </script>
+  </body>
+</html>

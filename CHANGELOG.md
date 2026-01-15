@@ -1,3 +1,23 @@
+## 2026-01-15 (3.0.4)
+### Fixed
+- fixed `_defaultExpression` undefined reference bug when providing partial `regex` config
+- fixed event listener leak in `_events()` - listeners are now removed before re-adding to prevent duplicates
+- fixed loose equality comparison (`==` changed to `===`)
+- fixed typos in comments (`Hangle` → `Handle`, `calback` → `callback`)
+- fixed `enable()`/`disable()` attribute sync - `disable()` now sets `data-auto-disabled` attribute
+- fixed package.json `style` and `exports` fields pointing to non-existent `autocomplete.css` (now correctly points to `autocomplete.min.css`)
+- added CSS subpath export (`@tomickigrzegorz/autocomplete/css`) for easier style imports in bundlers
+
+### Changed
+- added root element validation - throws descriptive `Error` when element with given ID is not found
+- changed `Array.map()` to `Array.forEach()` for side-effect operations
+- simplified regex default merging logic, removed duplicate default definition
+- removed dead/commented code
+
+### Added
+- added Playwright tests for `rerender()` method (`tests/06-rerender.spec.js`)
+- added Playwright tests for `removeResultsWhenInputIsEmpty` option (`tests/07-remove-results.spec.js`)
+
 ## 2025-10-02 (3.0.3)
 ### Added
 - `enable()` method to re-enable autocomplete functionality after using `disable()`

@@ -1,6 +1,6 @@
 /*!
 * @name autocomplete
-* @version 3.0.3
+* @version 3.0.4
 * @author Grzegorz Tomicki
 * @link https://github.com/tomickigrzegorz/autocomplete
 * @license MIT
@@ -120,7 +120,8 @@ var KEY_CODES = Object.freeze({
 
 var Autocomplete =
 function Autocomplete(_element, _ref) {
-  var _this = this;
+  var _this = this,
+    _regex$replacement;
   var _ref$delay = _ref.delay,
     _delay = _ref$delay === void 0 ? 500 : _ref$delay,
     _ref$clearButton = _ref.clearButton,
@@ -243,7 +244,7 @@ function Autocomplete(_element, _ref) {
       _this._removeAria(select("." + _this._activeList));
       _this._index = _this._selectFirst ? 0 : -1;
     }
-    if (((_this$_matches = _this._matches) == null ? void 0 : _this$_matches.length) == 0 && !_this._toInput || _this._showValuesOnClick) {
+    if (((_this$_matches = _this._matches) == null ? void 0 : _this$_matches.length) === 0 && !_this._toInput || _this._showValuesOnClick) {
       _this._resultList.textContent = "";
     }
     _this._onClose();
@@ -297,12 +298,18 @@ function Autocomplete(_element, _ref) {
     return classList(_this._root, "remove", _this._err);
   };
   this._events = function () {
+    offEvent(_this._root, "keydown", _this._handleKeys);
+    offEvent(_this._root, "click", _this._handleShowItems);
+    offEvent(document, "click", _this._handleDocClick);
+    ["mousemove", "click"].forEach(function (eventType) {
+      offEvent(_this._resultList, eventType, _this._handleMouse);
+    });
     onEvent(_this._root, "keydown", _this._handleKeys);
     onEvent(_this._root, "click", _this._handleShowItems);
     if (!_this._inline) {
       onEvent(document, "click", _this._handleDocClick);
     }
-    ["mousemove", "click"].map(function (eventType) {
+    ["mousemove", "click"].forEach(function (eventType) {
       onEvent(_this._resultList, eventType, _this._handleMouse);
     });
   };
@@ -543,6 +550,7 @@ function Autocomplete(_element, _ref) {
     if (clearInput === void 0) {
       clearInput = false;
     }
+    _this._root.setAttribute("data-auto-disabled", "true");
     _this._clearButton && classList(_this._clearBtn, "add", "hidden");
     if (clearInput) {
       _this._root.value = "";
@@ -615,6 +623,9 @@ function Autocomplete(_element, _ref) {
   };
   this._id = _element;
   this._root = document.getElementById(_element);
+  if (!this._root) {
+    throw new Error("Autocomplete: Element with id \"" + _element + "\" not found");
+  }
   this._onSearch = isPromise(onSearch) ? onSearch : function (_ref4) {
     var currentValue = _ref4.currentValue,
       element = _ref4.element;
@@ -658,16 +669,14 @@ function Autocomplete(_element, _ref) {
   this._resultWrap = createElement("div");
   this._resultList = createElement("ul");
   this._clearBtn = createElement("button");
-  this._regex = Object.assign({}, {
+  var defaultRegex = {
     expression: /[|\\{}()[\]^$+*?]/g,
     replacement: "\\$&"
-  }, _regex);
-  if (!this._regex.replacement) {
-    this._regex.replacement = this._defaultExpression.replacement;
-  }
-  if (!this._regex.expression) {
-    this._regex.expression = this._defaultExpression.expression;
-  }
+  };
+  this._regex = {
+    expression: _regex.expression || defaultRegex.expression,
+    replacement: (_regex$replacement = _regex.replacement) != null ? _regex$replacement : defaultRegex.replacement
+  };
   this._initial();
 };
 

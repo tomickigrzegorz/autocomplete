@@ -100,6 +100,11 @@ export default class Autocomplete {
     this._id = element;
     /** @type {HTMLElement} */
     this._root = document.getElementById(element);
+
+    if (!this._root) {
+      throw new Error(`Autocomplete: Element with id "${element}" not found`);
+    }
+
     /** @type {Function} */
     this._onSearch = isPromise(onSearch)
       ? onSearch
@@ -181,22 +186,14 @@ export default class Autocomplete {
     this._clearBtn = createElement("button");
 
     // ----------------------------------------
-    // regex
+    // regex - merge with defaults
 
+    const defaultRegex = { expression: /[|\\{}()[\]^$+*?]/g, replacement: "\\$&" };
     /** @type {RegexConfig} */
     this._regex = {
-      ...{ expression: /[|\\{}()[\]^$+*?]/g, replacement: "\\$&" },
-      ...regex,
+      expression: regex.expression || defaultRegex.expression,
+      replacement: regex.replacement ?? defaultRegex.replacement,
     };
-    // if regex is don't have replacement then set default
-    if (!this._regex.replacement) {
-      this._regex.replacement = this._defaultExpression.replacement;
-    }
-
-    // if regex is don't have expression then set default
-    if (!this._regex.expression) {
-      this._regex.expression = this._defaultExpression.expression;
-    }
 
     // ----------------------------------------
 
@@ -244,7 +241,7 @@ export default class Autocomplete {
       onEvent(this._root, "load", this._handleInput(config));
     }
 
-    // calback functions
+    // callback functions
     this._onRender({
       element: this._root,
       results: this._resultList,
@@ -345,10 +342,10 @@ export default class Autocomplete {
       this._index = this._selectFirst ? 0 : -1;
     }
 
-    // remove result when lengh = 0 and insertToInput is false
+    // remove result when length = 0 and insertToInput is false
     // https://github.com/tomickigrzegorz/autocomplete/issues/136
     if (
-      (this._matches?.length == 0 && !this._toInput) ||
+      (this._matches?.length === 0 && !this._toInput) ||
       this._showValuesOnClick
     ) {
       this._resultList.textContent = "";
@@ -446,9 +443,17 @@ export default class Autocomplete {
   _error = () => classList(this._root, "remove", this._err);
 
   /**
-   * Events
+   * Events - binds event listeners (removes existing ones first to prevent leaks)
    */
   _events = () => {
+    // Remove existing listeners to prevent duplicates
+    offEvent(this._root, "keydown", this._handleKeys);
+    offEvent(this._root, "click", this._handleShowItems);
+    offEvent(document, "click", this._handleDocClick);
+    ["mousemove", "click"].forEach((eventType) => {
+      offEvent(this._resultList, eventType, this._handleMouse);
+    });
+
     // handle click on keydown [up, down, enter, tab, esc]
     onEvent(this._root, "keydown", this._handleKeys);
 
@@ -459,8 +464,8 @@ export default class Autocomplete {
       onEvent(document, "click", this._handleDocClick);
     }
 
-    // temporarily disabled mouseleave
-    ["mousemove", "click"].map((eventType) => {
+    // mouse events on result list
+    ["mousemove", "click"].forEach((eventType) => {
       onEvent(this._resultList, eventType, this._handleMouse);
     });
   };
@@ -521,14 +526,11 @@ export default class Autocomplete {
     // select first element
     this._selectFirstElement();
 
-    // move the view item to the first item
-    // this.resultList.scrollTop = 0;
-    // if (this._preventScrollUp) return;
     scrollResultsToTop(this._resultList, this._resultWrap);
   };
 
   /**
-   * Hangle click on document
+   * Handle click on document
    *
    * @param {Event} object
    */
@@ -569,16 +571,7 @@ export default class Autocomplete {
         ? firstElementChild.nextElementSibling
         : firstElementChild;
 
-    // Insert text to input if insertToInput is true and selectFirst is true
-    // this._root.value = getFirstElement(classSelectFirst);
-
-    // if (this._toInput && classSelectFirst) {
-    //   this._root.value = getFirstElement(classSelectFirst);
-    //   Show clear button if enabled
-    //   this._clearButton && classList(this._clearBtn, "remove", "hidden");
-    // }
-
-    // calback function onSelect when first element is true
+    // callback function onSelect when first element is true
     this._onSelected({
       index: this._index,
       element: this._root,
@@ -615,8 +608,6 @@ export default class Autocomplete {
       // add isActive class to resultWrap
       classList(this._resultWrap, "add", this._isActive);
 
-      // move the view item to the first item
-      // this.resultList.scrollTop = 0;
       if (!this._preventScrollUp) {
         scrollResultsToTop(this._resultList, this._resultWrap);
         // select first element
@@ -918,6 +909,9 @@ export default class Autocomplete {
    * @param {boolean} clearInput - If true, clears the input value, if false keeps it
    */
   disable = (clearInput = false) => {
+    // mark as disabled
+    this._root.setAttribute("data-auto-disabled", "true");
+
     // if clear button is true then add class hidden
     this._clearButton && classList(this._clearBtn, "add", "hidden");
 

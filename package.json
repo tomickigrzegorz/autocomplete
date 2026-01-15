@@ -1,12 +1,12 @@
 {
   "name": "@tomickigrzegorz/autocomplete",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "description": "A lightweight, dependency-free autocomplete component in vanilla JavaScript with WAI-ARIA support.",
   "author": "Grzegorz Tomicki",
   "main": "dist/js/autocomplete.js",
   "module": "dist/js/autocomplete.esm.js",
   "types": "dist/js/autocomplete.d.ts",
-  "style": "dist/css/autocomplete.css",
+  "style": "dist/css/autocomplete.min.css",
   "license": "MIT",
   "files": [
     "dist/"
@@ -17,8 +17,10 @@
       "import": "./dist/js/autocomplete.esm.js",
       "types": "./dist/js/autocomplete.d.ts",
       "umd": "./dist/js/autocomplete.umd.js",
-      "style": "./dist/css/autocomplete.css"
-    }
+      "style": "./dist/css/autocomplete.min.css"
+    },
+    "./css": "./dist/css/autocomplete.min.css",
+    "./dist/css/autocomplete.min.css": "./dist/css/autocomplete.min.css"
   },
   "sideEffects": false,
   "repository": {

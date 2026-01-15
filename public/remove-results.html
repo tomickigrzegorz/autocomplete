@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../docs/css/autocomplete.css" />
+    <title>REMOVE RESULTS TEST</title>
+    <style>
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+          sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+        margin-top: 50px;
+      }
+      p {
+        margin: 0;
+      }
+
+      .container {
+        max-width: 350px;
+        margin: 0 auto;
+      }
+
+      .max-height ul {
+        max-height: 420px;
+      }
+
+      section {
+        margin-bottom: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <section>
+        <h1>removeResultsWhenInputIsEmpty: true</h1>
+        <div class="auto-search-wrapper max-height">
+          <input type="text" id="remove-results" placeholder="type w" />
+        </div>
+      </section>
+
+      <section>
+        <h1>removeResultsWhenInputIsEmpty: false (default)</h1>
+        <div class="auto-search-wrapper max-height">
+          <input type="text" id="keep-results" placeholder="type w" />
+        </div>
+      </section>
+    </div>
+
+    <script src="../docs/js/autocomplete.min.js"></script>
+    <script>
+      const data = [
+        { name: "Walter White" },
+        { name: "Jesse Pinkman" },
+        { name: "Skyler White" },
+        { name: "Walter White Jr." },
+        { name: "Hank Schrader" },
+        { name: "Marie Schrader" },
+      ];
+
+      // With removeResultsWhenInputIsEmpty: true
+      const autoRemove = window.autoRemove = new Autocomplete("remove-results", {
+        removeResultsWhenInputIsEmpty: true,
+
+        onSearch: ({ currentValue }) => {
+          return data
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .filter((element) => {
+              return element.name.match(new RegExp(currentValue, "i"));
+            });
+        },
+
+        onResults: ({ matches }) =>
+          matches.map((el) => `<li>${el.name}</li>`).join(""),
+      });
+
+      // With removeResultsWhenInputIsEmpty: false (default)
+      const autoKeep = window.autoKeep = new Autocomplete("keep-results", {
+        removeResultsWhenInputIsEmpty: false,
+
+        onSearch: ({ currentValue }) => {
+          return data
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .filter((element) => {
+              return element.name.match(new RegExp(currentValue, "i"));
+            });
+        },
+
+        onResults: ({ matches }) =>
+          matches.map((el) => `<li>${el.name}</li>`).join(""),
+      });
+    </script>
+  </body>
+</html>

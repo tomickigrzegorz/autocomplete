@@ -1,10 +1,9 @@
 import { test, expect } from "@playwright/test";
 import { getScreenshotPath } from "../scripts/shared-screenshot.js";
-import path from "path";
-import fs from "fs";
+import path from "node:path";
+import fs from "node:fs";
 
-const localFile =
-  "file://" + path.join(process.cwd(), "public", "complex-test.html");
+const localFile = `file://${path.join(process.cwd(), "public", "complex-test.html")}`;
 
 const styleConsoleLog = (text) => {
   Object.entries(text).forEach(([key, value]) => {

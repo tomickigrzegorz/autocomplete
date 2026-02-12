@@ -1,8 +1,7 @@
 import { test, expect } from "@playwright/test";
-import path from "path";
+import path from "node:path";
 
-const localFile =
-  "file://" + path.join(process.cwd(), "public", "rerender.html");
+const localFile = `file://${path.join(process.cwd(), "public", "rerender.html")}`;
 
 const styleConsoleLog = (text) => {
   Object.entries(text).forEach(([key, value]) => {
@@ -34,7 +33,10 @@ test.describe("Autocomplete rerender() method tests", () => {
   test("01: type 'w' shows 3 results", async ({ page }) => {
     styleConsoleLog({
       number: "1",
-      text: ['- type "w"', "- expect 3 results (Walter White, Walter White Jr., Skyler White)"],
+      text: [
+        '- type "w"',
+        "- expect 3 results (Walter White, Walter White Jr., Skyler White)",
+      ],
     });
     await typeAndWaitForResults(page, "w", 3);
   });

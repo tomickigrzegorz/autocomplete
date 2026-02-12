@@ -188,7 +188,10 @@ export default class Autocomplete {
     // ----------------------------------------
     // regex - merge with defaults
 
-    const defaultRegex = { expression: /[|\\{}()[\]^$+*?]/g, replacement: "\\$&" };
+    const defaultRegex = {
+      expression: /[|\\{}()[\]^$+*?]/g,
+      replacement: "\\$&",
+    };
     /** @type {RegexConfig} */
     this._regex = {
       expression: regex.expression || defaultRegex.expression,

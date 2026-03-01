@@ -1,8 +1,8 @@
 import { test, expect } from "@playwright/test";
-import path from "path";
-import fs from "fs";
+import path from "node:path";
+import fs from "node:fs";
 
-const localFile = "file://" + path.join(process.cwd(), "public", "simple.html");
+const localFile = `file://${path.join(process.cwd(), "public", "simple.html")}`;
 
 // Styled console helper (kept for consistency with other specs)
 const styleConsoleLog = (text) => {

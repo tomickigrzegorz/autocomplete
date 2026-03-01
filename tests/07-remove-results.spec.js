@@ -1,8 +1,7 @@
 import { test, expect } from "@playwright/test";
-import path from "path";
+import path from "node:path";
 
-const localFile =
-  "file://" + path.join(process.cwd(), "public", "remove-results.html");
+const localFile = `file://${path.join(process.cwd(), "public", "remove-results.html")}`;
 
 const styleConsoleLog = (text) => {
   Object.entries(text).forEach(([key, value]) => {
@@ -182,9 +181,10 @@ test.describe("removeResultsWhenInputIsEmpty option tests", () => {
       const input = page.locator("#keep-results");
       await input.fill("w");
 
-      await expect(
-        page.locator("#auto-keep-results-results > li"),
-      ).toHaveCount(3, { timeout: 5000 });
+      await expect(page.locator("#auto-keep-results-results > li")).toHaveCount(
+        3,
+        { timeout: 5000 },
+      );
     });
 
     test("08: clearing input keeps results in DOM (but hidden)", async ({
@@ -202,9 +202,10 @@ test.describe("removeResultsWhenInputIsEmpty option tests", () => {
       const input = page.locator("#keep-results");
       await input.fill("walter");
 
-      await expect(
-        page.locator("#auto-keep-results-results > li"),
-      ).toHaveCount(2, { timeout: 5000 });
+      await expect(page.locator("#auto-keep-results-results > li")).toHaveCount(
+        2,
+        { timeout: 5000 },
+      );
 
       // Click clear button
       const clearBtn = input.locator("xpath=following-sibling::button[1]");
@@ -235,17 +236,18 @@ test.describe("removeResultsWhenInputIsEmpty option tests", () => {
       ).toHaveCount(3, { timeout: 5000 });
 
       await inputKeep.fill("jesse");
-      await expect(
-        page.locator("#auto-keep-results-results > li"),
-      ).toHaveCount(1, { timeout: 5000 });
+      await expect(page.locator("#auto-keep-results-results > li")).toHaveCount(
+        1,
+        { timeout: 5000 },
+      );
 
       // Both should have results
       await expect(
         page.locator("#auto-remove-results-results > li"),
       ).toHaveCount(3);
-      await expect(
-        page.locator("#auto-keep-results-results > li"),
-      ).toHaveCount(1);
+      await expect(page.locator("#auto-keep-results-results > li")).toHaveCount(
+        1,
+      );
     });
   });
 });

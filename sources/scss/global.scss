@@ -858,6 +858,28 @@ aside::-webkit-scrollbar-thumb {
   }
 }
 
+::view-transition-old(root) {
+  animation: none;
+  z-index: -1;
+}
+
+::view-transition-new(root) {
+  animation: theme-reveal 0.6s ease-in-out;
+}
+
+@keyframes theme-reveal {
+  from {
+    clip-path: circle(
+      0% at var(--theme-x, calc(100% - 70px)) var(--theme-y, 25px)
+    );
+  }
+  to {
+    clip-path: circle(
+      150% at var(--theme-x, calc(100% - 70px)) var(--theme-y, 25px)
+    );
+  }
+}
+
 .show-values .auto-results-wrapper {
   position: relative !important;
 }

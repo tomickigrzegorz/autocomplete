@@ -1,8 +1,7 @@
 import { test, expect } from "@playwright/test";
-import path from "path";
+import path from "node:path";
 
-const localFile =
-  "file://" + path.join(process.cwd(), "public", "disable.html");
+const localFile = `file://${path.join(process.cwd(), "public", "disable.html")}`;
 
 const styleConsoleLog = (text) => {
   Object.entries(text).forEach(([key, value]) => {

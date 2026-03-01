@@ -283,15 +283,28 @@ tablesNew.forEach((tableRoot) => {
  * Switch theme
  */
 const switchTheme = () => {
-  const rootElemet = document.documentElement;
-  let dataTheme = rootElemet.getAttribute("data-theme");
-  let newTheme;
+  const rootElement = document.documentElement;
+  const dataTheme = rootElement.getAttribute("data-theme");
+  const newTheme = dataTheme === "light" ? "dark" : "light";
 
-  newTheme = dataTheme === "light" ? "dark" : "light";
+  const applyTheme = () => {
+    rootElement.setAttribute("data-theme", newTheme);
+    localStorage.setItem("theme", newTheme);
+  };
 
-  rootElemet.setAttribute("data-theme", newTheme);
+  if (document.startViewTransition) {
+    const button = document.querySelector(".switch-theme button");
+    const rect = button.getBoundingClientRect();
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
 
-  localStorage.setItem("theme", newTheme);
+    rootElement.style.setProperty("--theme-x", `${x}px`);
+    rootElement.style.setProperty("--theme-y", `${y}px`);
+
+    document.startViewTransition(applyTheme);
+  } else {
+    applyTheme();
+  }
 };
 
 document.querySelector(".switch-theme").addEventListener("click", switchTheme);

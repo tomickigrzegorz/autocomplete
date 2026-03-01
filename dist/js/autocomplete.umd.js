@@ -1,6 +1,6 @@
 /*!
 * @name autocomplete
-* @version 3.0.4
+* @version 3.0.5
 * @author Grzegorz Tomicki
 * @link https://github.com/tomickigrzegorz/autocomplete
 * @license MIT
@@ -623,9 +623,16 @@
       _this._error();
       _this._onReset(_this._root);
       _this._onLoading();
+      offEvent(_this._root, "input", _this._handleInput);
       offEvent(_this._root, "keydown", _this._handleKeys);
       offEvent(_this._root, "click", _this._handleShowItems);
+      if (_this._showValuesOnClick) {
+        offEvent(_this._root, "click", _this._handleInput);
+      }
       offEvent(document, "click", _this._handleDocClick);
+      ["mousemove", "click"].forEach(function (eventType) {
+        offEvent(_this._resultList, eventType, _this._handleMouse);
+      });
     };
     this._id = _element;
     this._root = document.getElementById(_element);

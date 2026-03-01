@@ -1,7 +1,7 @@
 // array initialization
 let secondArray = [];
 new Autocomplete("multiple-choices", {
-  onSearch: ({ element }) => {
+  onSearch: ({ element, currentValue }) => {
     // first get all the items and split with a comma
     const lastElement = element.value.split(",").pop().trim();
     // if the last item is 0 then we don't do a search

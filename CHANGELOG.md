@@ -1,3 +1,11 @@
+## 2026-03-01 (3.0.5)
+### Changed
+- replaced Prettier and ESLint with Biome for formatting and linting
+- refactored autocomplete: simplified ARIA/class logic, improved listener cleanup, enhanced readability
+
+### Fixed
+- added `currentValue` parameter to `onSearch` callback for improved functionality
+
 ## 2026-01-15 (3.0.4)
 ### Fixed
 - fixed `_defaultExpression` undefined reference bug when providing partial `regex` config

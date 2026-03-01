@@ -1,6 +1,6 @@
 /*!
 * @name autocomplete
-* @version 3.0.4
+* @version 3.0.5
 * @author Grzegorz Tomicki
 * @link https://github.com/tomickigrzegorz/autocomplete
 * @license MIT

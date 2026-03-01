@@ -1036,10 +1036,16 @@ export default class Autocomplete {
     // remove animation on loading
     this._onLoading();
 
-    // remove listener
+    // remove listeners
+    offEvent(this._root, "input", this._handleInput);
     offEvent(this._root, "keydown", this._handleKeys);
     offEvent(this._root, "click", this._handleShowItems);
-    // remove listener on click on document
+    if (this._showValuesOnClick) {
+      offEvent(this._root, "click", this._handleInput);
+    }
     offEvent(document, "click", this._handleDocClick);
+    ["mousemove", "click"].forEach((eventType) => {
+      offEvent(this._resultList, eventType, this._handleMouse);
+    });
   };
 }

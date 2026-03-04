@@ -22,6 +22,14 @@
 
 See the demo - [example](https://tomickigrzegorz.github.io/autocomplete/)
 
+## Select2 replacement
+
+This library can serve as a lightweight, zero-dependency alternative to **jQuery Select2**. Using `dropdownParent`, `showValuesOnClick` and `classPrefix` you can build fully custom select components — including flag-based country selectors and multi-select with chip tags — without pulling in jQuery or any extra dependencies.
+
+See the live examples:
+- [Country selector](https://tomickigrzegorz.github.io/autocomplete/#country-select-example) — single-select with flag icons
+- [Country selector multi](https://tomickigrzegorz.github.io/autocomplete/#country-select-multi-example) — multi-select with chips, configurable limit and deselect on click
+
 ## Features
 
 - You're in full control of the DOM elements to output
@@ -33,6 +41,7 @@ See the demo - [example](https://tomickigrzegorz.github.io/autocomplete/)
 - Showing 'no results'
 - Show all values on click
 - Multiple choices
+- **Select2 alternative** — build custom searchable selects with flags, chips and multi-select without jQuery
 - No dependencies
 - Very light library, packed gzip **only ~3KB**
 - And a lot more

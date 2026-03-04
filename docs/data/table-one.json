@@ -191,6 +191,18 @@
             "column": "Prefixing all autocomplete css class name, 'prefix-auto-', default 'auto-'"
           }
         ]
+      },
+      {
+        "row": [
+          {
+            "column": "<a href=\"#dropdown-parent-example\">dropdownParent</a>"
+          },
+          { "column": "null" },
+          { "column": "" },
+          {
+            "column": "Appends the dropdown to the specified element instead of next to the input. Accepts a CSS selector string or an <code>HTMLElement</code>. Use <code>document.body</code> to escape <code>overflow</code> clipping in modals or fixed-height containers."
+          }
+        ]
       }
     ]
   }

@@ -201,6 +201,7 @@ export const ariaActiveDescendantDefault = (id, insertToInput = false) => ({
   "aria-owns": id,
   "aria-expanded": "false",
   "aria-autocomplete": insertToInput ? "both" : "list",
+  "aria-haspopup": "listbox",
   role: "combobox",
   removeClass: "auto-expanded",
 });

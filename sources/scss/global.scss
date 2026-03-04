@@ -955,3 +955,271 @@ aside::-webkit-scrollbar-thumb {
     color: #fff;
   }
 }
+
+// === Country Select (Select2 replacement) ===
+.cs-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 340px;
+}
+
+.cs-trigger {
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  min-height: 42px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  cursor: pointer;
+  background: var(--bg-color, #fff);
+  width: 100%;
+  max-width: 340px;
+  user-select: none;
+  transition: border-color 0.15s;
+  box-sizing: border-box;
+
+  &:hover,
+  &:focus {
+    border-color: #6b7280;
+    outline: none;
+  }
+
+  &.is-open {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-color: #6b7280;
+
+    .cs-arrow {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.cs-flag {
+  display: none;
+  flex-shrink: 0;
+
+  &--visible {
+    display: block;
+  }
+}
+
+.cs-name {
+  flex: 1;
+  font-size: 14px;
+  color: var(--text-color, #374151);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cs-clear {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #9ca3af;
+  font-size: 12px;
+  flex-shrink: 0;
+  padding: 0 2px;
+  line-height: 1;
+
+  &:hover {
+    color: #374151;
+  }
+
+  &--visible {
+    display: block;
+  }
+}
+
+// === Country Select Multi ===
+.csm-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.csm-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px;
+  background: #e5f4ff;
+  border: 1px solid #93c5fd;
+  border-radius: 4px;
+  font-size: 13px;
+  line-height: 1;
+  color: #1d4ed8;
+  white-space: nowrap;
+}
+
+.csm-tag-flag {
+  display: block;
+  flex-shrink: 0;
+  width: 20px;
+  height: auto;
+}
+
+.csm-tag-remove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #60a5fa;
+  font-size: 11px;
+  padding: 0;
+  line-height: 1;
+  flex-shrink: 0;
+
+  &:hover {
+    color: #1d4ed8;
+  }
+}
+
+.csm-limit-msg {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #b91c1c;
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  &.is-visible {
+    display: block;
+  }
+}
+
+.csm-placeholder {
+  // flex: 1;
+  font-size: 14px;
+  color: #9ca3af;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.cs-arrow {
+  color: #9ca3af;
+  font-size: 11px;
+  flex-shrink: 0;
+  transition: transform 0.15s;
+}
+
+.cs-panel {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: var(--bg-color, #fff);
+  border: 1px solid #d1d5db;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  .auto-search-wrapper {
+    margin: 0;
+    padding: 6px 0;
+  }
+
+  &.is-open {
+    display: block;
+  }
+}
+
+.country-select-auto-results-wrapper {
+  display: none;
+  border: 1px solid #d1d5db;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  background: var(--bg-color, #fff);
+  overflow: hidden;
+  box-sizing: border-box;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow: auto;
+    max-height: 240px;
+
+    li {
+      position: relative;
+      cursor: pointer;
+      padding: 8px 10px;
+      overflow: hidden;
+
+      &:hover,
+      &.country-select-auto-selected {
+        background-color: #f0f0f0;
+      }
+    }
+  }
+
+  &.country-select-auto-is-active {
+    display: block;
+    z-index: 1000;
+  }
+}
+
+.csm-auto-results-wrapper {
+  display: none;
+  border: 1px solid #d1d5db;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  background: var(--bg-color, #fff);
+  overflow: hidden;
+  box-sizing: border-box;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow: auto;
+    max-height: 240px;
+
+    li {
+      position: relative;
+      cursor: pointer;
+      padding: 8px 10px;
+      overflow: hidden;
+
+      &:hover,
+      &.csm-auto-selected {
+        background-color: #f0f0f0;
+      }
+    }
+  }
+
+  &.csm-auto-is-active {
+    display: block;
+    z-index: 1000;
+  }
+}
+
+.cs-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cs-item-flag {
+  display: block;
+  flex-shrink: 0;
+}

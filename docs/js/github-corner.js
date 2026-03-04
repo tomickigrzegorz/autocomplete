@@ -94,11 +94,11 @@ fetchData(detectUrl("menu.json"), "json")
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting && entry.intersectionRatio >= 0.1) {
-          document.querySelector(".active").classList.remove("active");
+          document.querySelector(".active")?.classList.remove("active");
           let id = entry.target.getAttribute("id");
           document
             .querySelector(`[href="#${id}"]`)
-            .parentNode.classList.add("active");
+            ?.parentNode?.classList.add("active");
         }
       });
     }, options);

@@ -54,6 +54,16 @@
     "html": "Show all values on click"
   },
   {
+    "link": "country-select-example",
+    "html": "Country selector <div><small>Select2 alternative</small></div>",
+    "type": "new"
+  },
+  {
+    "link": "country-select-multi-example",
+    "html": "Country selector multi <div><small>Select2 alternative</small></div>",
+    "type": "new"
+  },
+  {
     "link": "cache-example",
     "html": "Cache"
   },

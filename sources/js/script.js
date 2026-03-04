@@ -39,6 +39,7 @@ import KEY_CODES from "./utils/keyCodes";
  * @property {boolean} [disableCloseOnSelect=false] - Prevent closing on selection.
  * @property {boolean} [preventScrollUp=false] - Prevent scrolling to the top.
  * @property {boolean} [removeResultsWhenInputIsEmpty=false] - Remove results when input is empty.
+ * @property {string|HTMLElement} [dropdownParent] - Element (or CSS selector) to append the dropdown to, useful for modals with overflow hidden.
  * @property {RegexConfig} [regex] - Configuration for regex matching.
  * @property {string} [classGroup] - CSS class for grouping results.
  * @property {string} [classPreventClosing] - CSS class to prevent closing.
@@ -80,6 +81,7 @@ export default class Autocomplete {
       disableCloseOnSelect = false,
       preventScrollUp = false,
       removeResultsWhenInputIsEmpty = false,
+      dropdownParent,
       regex = { expression: /[|\\{}()[\]^$+*?]/g, replacement: "\\$&" },
       classGroup,
       classPreventClosing,
@@ -158,6 +160,11 @@ export default class Autocomplete {
     this._preventScrollUp = preventScrollUp;
     /** @type {boolean} */
     this._removeResultsWhenInputIsEmpty = removeResultsWhenInputIsEmpty;
+    /** @type {HTMLElement|null} */
+    this._dropdownParent =
+      typeof dropdownParent === "string"
+        ? document.querySelector(dropdownParent)
+        : dropdownParent || null;
 
     // default config
     /** @type {boolean} */
@@ -222,6 +229,11 @@ export default class Autocomplete {
       this._resultWrap,
       this._prefix,
     );
+
+    // if dropdownParent is set, move the result wrapper there (e.g. body, to escape modal overflow)
+    if (this._dropdownParent) {
+      this._dropdownParent.appendChild(this._resultWrap);
+    }
 
     // ensure results list has the expected id immediately and connect it to the input
     // the list may be empty initially but having aria-controls present improves accessibility
@@ -319,11 +331,46 @@ export default class Autocomplete {
   };
 
   /**
+   * Position the dropdown below the input using fixed positioning.
+   * Called only when dropdownParent option is set.
+   */
+  _positionDropdown = () => {
+    const rect = this._root.getBoundingClientRect();
+    this._resultWrap.style.position = "fixed";
+    this._resultWrap.style.left = `${rect.left}px`;
+    this._resultWrap.style.top = `${rect.bottom}px`;
+    this._resultWrap.style.width = `${rect.width}px`;
+    this._resultWrap.style.zIndex = "9999";
+  };
+
+  /**
+   * Start tracking input position on scroll and resize.
+   */
+  _startPositionTracking = () => {
+    this._positionDropdown();
+    window.addEventListener("scroll", this._positionDropdown, true);
+    window.addEventListener("resize", this._positionDropdown);
+  };
+
+  /**
+   * Stop tracking input position.
+   */
+  _stopPositionTracking = () => {
+    window.removeEventListener("scroll", this._positionDropdown, true);
+    window.removeEventListener("resize", this._positionDropdown);
+  };
+
+  /**
    * Default aria
    */
   _reset = () => {
     // remove class isActive
     classList(this._resultWrap, "remove", this._isActive);
+
+    // stop tracking position when dropdownParent is set
+    if (this._dropdownParent) {
+      this._stopPositionTracking();
+    }
 
     const ariaAcrivedescentDefault = ariaActiveDescendantDefault(
       this._outputUl,
@@ -508,6 +555,11 @@ export default class Autocomplete {
     // add class isActive
     classList(this._resultWrap, "add", this._isActive);
 
+    // position dropdown below input when container option is set
+    if (this._dropdownParent) {
+      this._startPositionTracking();
+    }
+
     const checkIfClassGroupExist = this._classGroup
       ? `:not(.${this._classGroup})`
       : "";
@@ -610,6 +662,11 @@ export default class Autocomplete {
 
       // add isActive class to resultWrap
       classList(this._resultWrap, "add", this._isActive);
+
+      // position dropdown below input when container option is set
+      if (this._dropdownParent) {
+        this._startPositionTracking();
+      }
 
       if (!this._preventScrollUp) {
         scrollResultsToTop(this._resultList, this._resultWrap);
@@ -999,6 +1056,11 @@ export default class Autocomplete {
       onEvent(this._resultList, eventType, this._handleMouse);
     });
 
+    // Re-attach resultWrap to dropdownParent if destroy() removed it from the DOM
+    if (this._dropdownParent && !this._resultWrap.isConnected) {
+      this._dropdownParent.appendChild(this._resultWrap);
+    }
+
     // Show clear button if input has value and clearButton is enabled
     if (this._clearButton && this._root.value.length > 0) {
       classList(this._clearBtn, "remove", "hidden");
@@ -1017,6 +1079,14 @@ export default class Autocomplete {
    * publick destroy method
    */
   destroy = () => {
+    // stop position tracking if dropdownParent is set
+    if (this._dropdownParent) {
+      this._stopPositionTracking();
+    }
+    // remove resultWrap from dropdownParent to avoid orphaned elements in the DOM
+    if (this._dropdownParent && this._resultWrap.isConnected) {
+      this._resultWrap.remove();
+    }
     // if clear button is true then add class hidden
     this._clearButton && classList(this._clearBtn, "add", "hidden");
     // clear value searchId
@@ -1031,8 +1101,6 @@ export default class Autocomplete {
     if (this._inline) this._onClose();
     // remove error if exist
     this._error();
-    // callback function
-    this._onReset(this._root);
     // remove animation on loading
     this._onLoading();
 
@@ -1047,5 +1115,9 @@ export default class Autocomplete {
     ["mousemove", "click"].forEach((eventType) => {
       offEvent(this._resultList, eventType, this._handleMouse);
     });
+
+    // callback fires last — after all listeners are removed,
+    // so enable() can be safely called directly from onReset
+    this._onReset(this._root);
   };
 }

@@ -65,10 +65,8 @@ new Autocomplete("country-select", {
           .sort((a, b) => a.text.localeCompare(b.text)),
       ),
 
-  onResults: ({ currentValue, matches, template }) =>
-    matches === 0
-      ? template
-      : matches
+  onResults: ({ currentValue, matches }) =>
+    matches
           .map(
             (c) => `
         <li class="cs-item">
@@ -94,6 +92,6 @@ new Autocomplete("country-select", {
     closeCs();
   },
 
-  noResults: ({ element, template }) =>
-    template(`<li>No country found: "${element.value}"</li>`),
+  noResults: ({ element }) =>
+    `<li>No country found: "${element.value}"</li>`,
 });

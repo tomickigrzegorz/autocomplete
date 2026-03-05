@@ -28,7 +28,7 @@ new Autocomplete("group", {
     });
   },
 
-  onResults: ({ currentValue, matches, template, classGroup }) => {
+  onResults: ({ currentValue, matches, classGroup }) => {
     // counting status elements
     function count(status) {
       let count = {};
@@ -38,9 +38,7 @@ new Autocomplete("group", {
       return `<small>${count[status]} items</small>`;
     }
 
-    return matches === 0
-      ? template
-      : matches
+    return matches
           .map((el, index, array) => {
             // we create an element of the group
             let group =
@@ -66,6 +64,6 @@ new Autocomplete("group", {
     console.dir({ index, element, object });
   },
 
-  noResults: ({ currentValue, template }) =>
-    template(`<li>No results found: "${currentValue}"</li>`),
+  noResults: ({ currentValue }) =>
+    `<li>No results found: "${currentValue}"</li>`,
 });

@@ -173,5 +173,5 @@ const auto = new Autocomplete("complex", {
 // clear data
 const complexClear = document.querySelector(".complex-clear");
 complexClear.addEventListener("click", () => {
-  auto.destroy();
+  auto.reset();
 });

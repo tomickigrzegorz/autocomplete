@@ -1,31 +1,31 @@
 const fs = require("fs");
+const { version } = require("../package.json");
 
-const pkg = require("../package.json");
+const VERSION_REGEX = /@(\d+\.\d+\.\d+)\/dist/i;
 
-const newVersion = pkg.version;
+const files = ["README.md", "docs/index.html"];
 
-function updateVersion(file, newVersion) {
-  fs.readFile(file, "utf8", function (err, data) {
-    if (err) {
-      return console.log(err);
+for (const file of files) {
+  try {
+    const data = fs.readFileSync(file, "utf8");
+    const match = data.match(VERSION_REGEX);
+
+    if (!match) {
+      console.warn(`[version] No version found in ${file}, skipping.`);
+      continue;
     }
 
-    const matches = data.match(/\@(.*?)\/dist/i)[1];
+    const oldVersion = match[1];
 
-    const reg = new RegExp(matches.replace(/\./g, "\\."), "g");
+    if (oldVersion === version) {
+      console.log(`[version] ${file} already at ${version}, skipping.`);
+      continue;
+    }
 
-    const result = data.replace(reg, newVersion);
-
-    fs.writeFile(file, result, "utf8", function (err) {
-      if (err) return console.log(err);
-    });
-  });
+    const updated = data.replaceAll(oldVersion, version);
+    fs.writeFileSync(file, updated, "utf8");
+    console.log(`[version] ${file}: ${oldVersion} → ${version}`);
+  } catch (err) {
+    console.error(`[version] Error processing ${file}:`, err.message);
+  }
 }
-
-// ------------------------------------------------------------
-
-const someFiles = ["README.md", "docs/index.html"];
-
-someFiles.forEach((file) => {
-  updateVersion(file, newVersion);
-});

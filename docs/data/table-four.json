@@ -49,9 +49,9 @@
       },
       {
         "row": [
-          { "column": "template" },
+          { "column": "classGroup" },
           {
-            "column": "Create an element to display information about <code>no results</code>"
+            "column": "CSS class name passed to <code>onResults</code> for grouping list items"
           }
         ]
       }

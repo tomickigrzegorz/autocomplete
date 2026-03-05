@@ -1,7 +1,12 @@
 ## 2026-03-07 (3.2.0)
+### Added
+- `reset()` public method — clears the input and closes the results list while keeping all event listeners active. Use instead of `destroy()` when you just want to programmatically clear the field (e.g. an external "clear" button)
+
 ### Changed
 - `noResults` — now returns an HTML string instead of calling `template(html)`. Simpler and more consistent with `onResults`
 - `onResults` — `matches` is now always an array. Previously passed `0` (number) when no results — that case is now handled entirely by `noResults`
+- Built-in clear button ("×") now uses `reset()` instead of `destroy()` — autocomplete remains fully functional after clearing
+- `destroy()` is now strictly a teardown method — removes all event listeners and cleans up the DOM. Use it only when you want to permanently remove the autocomplete (e.g. closing a modal with `dropdownParent`)
 
 ### Fixed
 - `removeResultsWhenInputIsEmpty` — previously called `destroy()` on empty input which removed all event listeners, making autocomplete dead after clearing. Now only hides results and resets state while keeping listeners active

@@ -43,7 +43,7 @@ See the live examples:
 - Multiple choices
 - **Select2 alternative** — build custom searchable selects with flags, chips and multi-select without jQuery
 - No dependencies
-- Very light library, packed gzip **only ~3KB**
+- Very light library, packed gzip **only ~4KB**
 - And a lot more
 
 ## Installation
@@ -82,13 +82,13 @@ import 'node_modules/@tomickigrzegorz/autocomplete/dist/css/autocomplete.min.css
 #### CSS
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.1.0/dist/css/autocomplete.min.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.2.0/dist/css/autocomplete.min.css"/>
 ```
 
 #### JavaScript
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.1.0/dist/js/autocomplete.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.2.0/dist/js/autocomplete.min.js"></script>
 ```
 
 ##### -- OR --
@@ -184,7 +184,7 @@ npm run prod
 | onReset              |  function  |                                     |         | After clicking the 'x' button                                                                                                                                            |
 | onRender             |  function  |                                     |         | Possibility to add html elements, e.g. before and after the search results                                                                                               |
 | onClose              |  function  |                                     |         | e.g. delete class after close results, see example modal                                                                                                                 |
-| noResults            |  function  |                                     |         | Showing information: "no results"                                                                                                                                        |
+| noResults            |  function  |                                     |         | Called when no results are found. Return an HTML string to display: `noResults: ({ currentValue }) => \`<li>No results for "${currentValue}"</li>\`` |
 | destroy              |   method   |                                     |         | Removes the autocomplete instance and its bindings                                                                                                                       |
 | rerender             |   method   |                                     |         | This method allows you to re-render the results without modifying the input field. Of course, we can also send the string we want to search for to the method. render(string);                                                                                                                       |
 | disable             |   method   |                                     |         | This method allows you to disable the autocomplete functionality. `const auto = new Autocomplete('id', {...});` `auto.disable();` then we disable the autocomplete. To remove input value you need to call `auto.disable(true);`                                                                                                                       |
@@ -405,7 +405,7 @@ new Autocomplete('complex', {
   // this part is responsible for the number of records,
   // the appearance of li elements and it really depends
   // on you how it will look
-  onResults: ({ currentValue, matches, template, classGroup }) => {
+  onResults: ({ currentValue, matches, classGroup }) => {
     // const regex = new RegExp(^${input}`, 'gi'); // start with
     const regex = new RegExp(currentValue, 'gi');
 
@@ -418,11 +418,7 @@ new Autocomplete('complex', {
       return `<small>${count[status]} items</small>`;
     }
 
-    // checking if we have results if we don't
-    // take data from the noResults collback
-    return matches === 0
-      ? template
-      : matches
+    return matches
           .sort(
             (a, b) =>
               a.status.localeCompare(b.status) || a.name.localeCompare(b.name)
@@ -476,9 +472,9 @@ new Autocomplete('complex', {
     console.log('onSelectedItem:', index, element.value, object);
   },
 
-  // the calback function presents no results
-  noResults: ({ element, currentValue, template }) =>
-    template(`<li>No results found: "${currentValue}"</li>`),
+  // the callback presents no results
+  noResults: ({ currentValue }) =>
+    `<li>No results found: "${currentValue}"</li>`,
 });
 ```
 
@@ -505,14 +501,14 @@ const auto = new Autocomplete('you-id', {
   classGroup: "", // don't use empty value
   classPrefix: "", // don't use empty value
   onSearch: ({ currentValue, element }) => {},
-  onResults: ({ currentValue, matches, template, classGroup }) => {},
+  onResults: ({ currentValue, matches, classGroup }) => {},
   onRender: ({ element, results }) => {},
   onSubmit: ({ index, element, object, results }) => {},
   onOpened: ({ type, element, results }) => {},
   onSelectedItem: ({ index, element, object, currentValue }) => {},
   onReset: (element) => {},
   onClose: () => {},
-  noResults: ({ element, currentValue, template }) => {},
+  noResults: ({ element, currentValue }) => {},
 });
 
 // public methods

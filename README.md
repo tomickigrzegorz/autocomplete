@@ -62,18 +62,33 @@ Or using Yarn:
 yarn add @tomickigrzegorz/autocomplete
 ```
 
+### Import via ES module
+
+After installing via npm or Yarn you can import the library as an ES module:
+
+```js
+import Autocomplete from '@tomickigrzegorz/autocomplete';
+import '@tomickigrzegorz/autocomplete/css';
+```
+
+Or import CSS separately using the full path:
+
+```js
+import 'node_modules/@tomickigrzegorz/autocomplete/dist/css/autocomplete.min.css';
+```
+
 ### Using a CDN
 
 #### CSS
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.0.6/dist/css/autocomplete.min.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.1.0/dist/css/autocomplete.min.css"/>
 ```
 
 #### JavaScript
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.0.6/dist/js/autocomplete.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.1.0/dist/js/autocomplete.min.js"></script>
 ```
 
 ##### -- OR --

@@ -207,7 +207,7 @@
         results: _this._resultList
       });
       if (_this._clearButtonOnInitial) {
-        showBtnToClearData(_this._clearBtn, _this.destroy);
+        showBtnToClearData(_this._clearBtn, _this.reset);
       }
     };
     this._cacheAct = function (type, target) {
@@ -285,7 +285,7 @@
     this._searchItem = function (value) {
       _this._value = value;
       _this._onLoading(true);
-      showBtnToClearData(_this._clearBtn, _this.destroy);
+      showBtnToClearData(_this._clearBtn, _this.reset);
       if ((!value || (value == null ? void 0 : value.length) === 0) && _this._clearButton && !_this._clearButtonOnInitial) {
         classList(_this._clearBtn, "add", "hidden");
       }
@@ -671,6 +671,15 @@
       ["mousemove", "click"].forEach(function (eventType) {
         offEvent(_this._resultList, eventType, _this._handleMouse);
       });
+      _this._onReset(_this._root);
+    };
+    this.reset = function () {
+      _this._root.value = "";
+      _this._root.focus();
+      _this._resultList.textContent = "";
+      _this._clearButton && classList(_this._clearBtn, "add", "hidden");
+      _this._reset();
+      _this._error();
       _this._onReset(_this._root);
     };
     this._id = _element;

@@ -29,9 +29,9 @@ test.describe("Show all results (scenario tests)", () => {
     await page.goto(localFile);
   });
 
-  test("Scenario 1: initial render and selection", async ({ page }) => {
+  test("[02] 01: initial render and selection", async ({ page }) => {
     styleConsoleLog({
-      number: "1",
+      number: "[02] 01",
       text: [
         "- verify initial 63 items",
         "- screenshot before click",
@@ -63,9 +63,9 @@ test.describe("Show all results (scenario tests)", () => {
     await expect(clearButton).not.toHaveClass(/hidden/);
   });
 
-  test("Scenario 2: filtering and clearing (Adam)", async ({ page }) => {
+  test("[02] 02: filtering and clearing (Adam)", async ({ page }) => {
     styleConsoleLog({
-      number: "2",
+      number: "[02] 02",
       text: [
         ' - type "Adam"',
         "- expect 1 filtered result & auto-selected",
@@ -91,11 +91,11 @@ test.describe("Show all results (scenario tests)", () => {
     await expect(page.locator("li")).toHaveCount(63);
   });
 
-  test("Scenario 3: selection persists after multiple clicks", async ({
+  test("[02] 03: selection persists after multiple clicks", async ({
     page,
   }) => {
     styleConsoleLog({
-      number: "3",
+      number: "[02] 03",
       text: [
         "- click 3rd item",
         "- click 7th item",

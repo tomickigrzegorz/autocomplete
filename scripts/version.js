@@ -1,5 +1,5 @@
-const fs = require("fs");
-const { version } = require("../package.json");
+import fs from "node:fs";
+const { version } = JSON.parse(fs.readFileSync(new URL("../package.json", import.meta.url)));
 
 const VERSION_REGEX = /@(\d+\.\d+\.\d+)\/dist/i;
 

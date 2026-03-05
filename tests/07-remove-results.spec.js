@@ -20,9 +20,9 @@ test.describe("removeResultsWhenInputIsEmpty option tests", () => {
 
   // Tests for removeResultsWhenInputIsEmpty: true
   test.describe("With removeResultsWhenInputIsEmpty: true", () => {
-    test("01: typing shows results", async ({ page }) => {
+    test("[07] 01: typing shows results", async ({ page }) => {
       styleConsoleLog({
-        number: "1",
+        number: "[07] 01",
         text: ['- type "w"', "- expect 3 results"],
       });
       const input = page.locator("#remove-results");
@@ -33,9 +33,9 @@ test.describe("removeResultsWhenInputIsEmpty option tests", () => {
       ).toHaveCount(3, { timeout: 5000 });
     });
 
-    test("02: clearing input removes results from DOM", async ({ page }) => {
+    test("[07] 02: clearing input removes results from DOM", async ({ page }) => {
       styleConsoleLog({
-        number: "2",
+        number: "[07] 02",
         text: [
           '- type "walter"',
           "- expect 2 results",
@@ -59,9 +59,9 @@ test.describe("removeResultsWhenInputIsEmpty option tests", () => {
       ).toHaveCount(0);
     });
 
-    test("03: aria-expanded becomes false after clearing", async ({ page }) => {
+    test("[07] 03: aria-expanded becomes false after clearing", async ({ page }) => {
       styleConsoleLog({
-        number: "3",
+        number: "[07] 03",
         text: [
           '- type "hank"',
           "- expect aria-expanded true",
@@ -84,9 +84,9 @@ test.describe("removeResultsWhenInputIsEmpty option tests", () => {
       await expect(input).toHaveAttribute("aria-expanded", "false");
     });
 
-    test("04: clear button triggers removal", async ({ page }) => {
+    test("[07] 04: clear button triggers removal", async ({ page }) => {
       styleConsoleLog({
-        number: "4",
+        number: "[07] 04",
         text: [
           '- type "jesse"',
           "- click clear button",
@@ -111,9 +111,9 @@ test.describe("removeResultsWhenInputIsEmpty option tests", () => {
       await expect(input).toHaveValue("");
     });
 
-    test("05: backspace to empty removes results", async ({ page }) => {
+    test("[07] 05: backspace to empty removes results", async ({ page }) => {
       styleConsoleLog({
-        number: "5",
+        number: "[07] 05",
         text: [
           '- type "a"',
           "- expect results",
@@ -139,9 +139,9 @@ test.describe("removeResultsWhenInputIsEmpty option tests", () => {
       ).toHaveCount(0);
     });
 
-    test("06: can type again after clearing", async ({ page }) => {
+    test("[07] 06: can type again after clearing", async ({ page }) => {
       styleConsoleLog({
-        number: "6",
+        number: "[07] 06",
         text: [
           '- type "w"',
           "- clear input",
@@ -173,9 +173,9 @@ test.describe("removeResultsWhenInputIsEmpty option tests", () => {
 
   // Tests for removeResultsWhenInputIsEmpty: false (default)
   test.describe("With removeResultsWhenInputIsEmpty: false (default)", () => {
-    test("07: typing shows results", async ({ page }) => {
+    test("[07] 07: typing shows results", async ({ page }) => {
       styleConsoleLog({
-        number: "7",
+        number: "[07] 07",
         text: ['- type "w" in keep-results input', "- expect 3 results"],
       });
       const input = page.locator("#keep-results");
@@ -187,11 +187,11 @@ test.describe("removeResultsWhenInputIsEmpty option tests", () => {
       );
     });
 
-    test("08: clearing input keeps results in DOM (but hidden)", async ({
+    test("[07] 08: clearing input keeps results in DOM (but hidden)", async ({
       page,
     }) => {
       styleConsoleLog({
-        number: "8",
+        number: "[07] 08",
         text: [
           '- type "walter"',
           "- expect 2 results",
@@ -218,9 +218,9 @@ test.describe("removeResultsWhenInputIsEmpty option tests", () => {
 
   // Comparison tests
   test.describe("Comparison between options", () => {
-    test("09: both inputs work independently", async ({ page }) => {
+    test("[07] 09: both inputs work independently", async ({ page }) => {
       styleConsoleLog({
-        number: "9",
+        number: "[07] 09",
         text: [
           '- type "w" in remove-results',
           '- type "jesse" in keep-results',

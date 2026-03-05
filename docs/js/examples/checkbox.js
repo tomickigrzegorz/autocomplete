@@ -32,10 +32,8 @@ new Autocomplete("checkbox", {
     });
   },
 
-  onResults: ({ matches, template }) => {
-    return matches === 0
-      ? template
-      : matches
+  onResults: ({ matches }) => {
+    return matches
           .map((el) => {
             return `
             <li class="custom-element">
@@ -173,6 +171,6 @@ new Autocomplete("checkbox", {
     countNumberCheckbox.textContent = 0;
   },
 
-  noResults: ({ element, template }) =>
-    template(`<li>No results found: "${element.value}"</li>`),
+  noResults: ({ element }) =>
+    `<li>No results found: "${element.value}"</li>`,
 });

@@ -52,6 +52,7 @@ new Autocomplete("country-select", {
   showValuesOnClick: true,
   clearButton: false,
   cache: true,
+  selectFirst: true,
   classPrefix: "country-select",
 
   onSearch: ({ currentValue }) =>
@@ -65,12 +66,10 @@ new Autocomplete("country-select", {
           .sort((a, b) => a.text.localeCompare(b.text)),
       ),
 
-  onResults: ({ currentValue, matches, template }) =>
-    matches === 0
-      ? template
-      : matches
-          .map(
-            (c) => `
+  onResults: ({ currentValue, matches }) =>
+    matches
+      .map(
+        (c) => `
         <li class="cs-item">
           <img src="${c.flag}" alt="${c.text}" class="cs-item-flag" />
           <span>${
@@ -82,8 +81,8 @@ new Autocomplete("country-select", {
               : c.text
           }</span>
         </li>`,
-          )
-          .join(""),
+      )
+      .join(""),
 
   onSubmit: ({ object }) => {
     csFlag.src = object.flag;
@@ -94,6 +93,5 @@ new Autocomplete("country-select", {
     closeCs();
   },
 
-  noResults: ({ element, template }) =>
-    template(`<li>No country found: "${element.value}"</li>`),
+  noResults: ({ element }) => `<li>No country found: "${element.value}"</li>`,
 });

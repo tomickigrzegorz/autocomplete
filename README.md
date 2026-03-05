@@ -43,7 +43,7 @@ See the live examples:
 - Multiple choices
 - **Select2 alternative** — build custom searchable selects with flags, chips and multi-select without jQuery
 - No dependencies
-- Very light library, packed gzip **only ~3KB**
+- Very light library, packed gzip **only ~4KB**
 - And a lot more
 
 ## Installation
@@ -82,13 +82,13 @@ import 'node_modules/@tomickigrzegorz/autocomplete/dist/css/autocomplete.min.css
 #### CSS
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.1.0/dist/css/autocomplete.min.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.2.0/dist/css/autocomplete.min.css"/>
 ```
 
 #### JavaScript
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.1.0/dist/js/autocomplete.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.2.0/dist/js/autocomplete.min.js"></script>
 ```
 
 ##### -- OR --
@@ -184,8 +184,9 @@ npm run prod
 | onReset              |  function  |                                     |         | After clicking the 'x' button                                                                                                                                            |
 | onRender             |  function  |                                     |         | Possibility to add html elements, e.g. before and after the search results                                                                                               |
 | onClose              |  function  |                                     |         | e.g. delete class after close results, see example modal                                                                                                                 |
-| noResults            |  function  |                                     |         | Showing information: "no results"                                                                                                                                        |
-| destroy              |   method   |                                     |         | Removes the autocomplete instance and its bindings                                                                                                                       |
+| noResults            |  function  |                                     |         | Called when no results are found. Return an HTML string to display: `noResults: ({ currentValue }) => \`<li>No results for "${currentValue}"</li>\`` |
+| destroy              |   method   |                                     |         | Clears the input and removes all event listeners. Use `reset()` if you want to keep the autocomplete functional                                                          |
+| reset               |   method   |                                     |         | Clears the input and closes the results list while keeping all event listeners active. Safe alternative to `destroy()` when you just want to clear the field             |
 | rerender             |   method   |                                     |         | This method allows you to re-render the results without modifying the input field. Of course, we can also send the string we want to search for to the method. render(string);                                                                                                                       |
 | disable             |   method   |                                     |         | This method allows you to disable the autocomplete functionality. `const auto = new Autocomplete('id', {...});` `auto.disable();` then we disable the autocomplete. To remove input value you need to call `auto.disable(true);`                                                                                                                       |
 | enable              |   method   |                                     |         | This method allows you to re-enable the autocomplete functionality after it has been disabled. `const auto = new Autocomplete('id', {...});` `auto.disable();` `auto.enable();` - now the autocomplete is active again and all event listeners are restored                                                                                                                       |
@@ -197,7 +198,7 @@ npm run prod
 | preventScrollUp      |  boolean   |               `false`               |         | The parameter prevents the results from scrolling up when scrolling after reopening the results. The results are displayed in the same place. The selected item does not disappear and is still selected.                                                                                             |
 | showAllValuesOnClick |  boolean   |               `false`               |         | This option will toggle showing all values when the input is clicked, like a default dropdown                                                                            |
 | inline        |  boolean   |               `false`               |         | This option displays all results without clicking on the input field                                                                            |
-| removeResultsWhenInputIsEmpty        |  boolean   |               `false`               |         | set to true deletes the results when input is empty. We use the `destroy()` method which removes the results from the DOM and returns everything to its original state |
+| removeResultsWhenInputIsEmpty        |  boolean   |               `false`               |         | Set to `true` to clear the results when the input is empty                                                                                                              |
 | cache                |  boolean   |               `false`               |         | The characters entered in the input field are cached                                                                                                                     |
 | regex        |  object   |  `{ expression: /[\|\\{}()[\]^$+*?]/g, replacement: "\\$&" }`  |         | the parameter allows you modify string before search. For example, we can remove special characters from the string. Default value is object `{ expression: /[\|\\{}()[\]^$+*?]/g, replacement: "\\$&" }` You can add only `expression` or only `replacement`. |
 | howManyCharacters    |   number   |                 `1`                 |         | The number of characters entered should start searching                                                                                                                  |
@@ -405,7 +406,7 @@ new Autocomplete('complex', {
   // this part is responsible for the number of records,
   // the appearance of li elements and it really depends
   // on you how it will look
-  onResults: ({ currentValue, matches, template, classGroup }) => {
+  onResults: ({ currentValue, matches, classGroup }) => {
     // const regex = new RegExp(^${input}`, 'gi'); // start with
     const regex = new RegExp(currentValue, 'gi');
 
@@ -418,11 +419,7 @@ new Autocomplete('complex', {
       return `<small>${count[status]} items</small>`;
     }
 
-    // checking if we have results if we don't
-    // take data from the noResults collback
-    return matches === 0
-      ? template
-      : matches
+    return matches
           .sort(
             (a, b) =>
               a.status.localeCompare(b.status) || a.name.localeCompare(b.name)
@@ -476,9 +473,9 @@ new Autocomplete('complex', {
     console.log('onSelectedItem:', index, element.value, object);
   },
 
-  // the calback function presents no results
-  noResults: ({ element, currentValue, template }) =>
-    template(`<li>No results found: "${currentValue}"</li>`),
+  // the callback presents no results
+  noResults: ({ currentValue }) =>
+    `<li>No results found: "${currentValue}"</li>`,
 });
 ```
 
@@ -505,18 +502,19 @@ const auto = new Autocomplete('you-id', {
   classGroup: "", // don't use empty value
   classPrefix: "", // don't use empty value
   onSearch: ({ currentValue, element }) => {},
-  onResults: ({ currentValue, matches, template, classGroup }) => {},
+  onResults: ({ currentValue, matches, classGroup }) => {},
   onRender: ({ element, results }) => {},
   onSubmit: ({ index, element, object, results }) => {},
   onOpened: ({ type, element, results }) => {},
   onSelectedItem: ({ index, element, object, currentValue }) => {},
   onReset: (element) => {},
   onClose: () => {},
-  noResults: ({ element, currentValue, template }) => {},
+  noResults: ({ element, currentValue }) => {},
 });
 
 // public methods
-auto.destroy(); // destroy autocomplete
+auto.destroy(); // clear input and remove all event listeners
+auto.reset();   // clear input and close results, keeps listeners active
 auto.disable(); // disable autocomplete
 auto.disable(true); // disable autocomplete and clear input value
 auto.enable(); // enable autocomplete after it was disabled
@@ -552,8 +550,28 @@ auto.enable();
 
 **Important**: `enable()` only restores event listeners and functionality. It doesn't automatically show results. Search is triggered only by:
 - User input (when `howManyCharacters` threshold is met)
-- Input click (when `showAllValuesOnClick: true`)  
+- Input click (when `showAllValuesOnClick: true`)
 - Manual `rerender()` call
+
+### reset() vs destroy()
+
+| Method | Clears input | Closes dropdown | Removes listeners | When to use |
+|--------|-------------|-----------------|-------------------|-------------|
+| `reset()` | ✅ | ✅ | ❌ | Clear button, external "clear" action — autocomplete stays functional |
+| `destroy()` | ✅ | ✅ | ✅ | Permanent teardown — e.g. closing a modal with `dropdownParent` |
+
+```js
+// External clear button — use reset()
+document.querySelector('.clear-btn').addEventListener('click', () => {
+  auto.reset();
+});
+
+// Modal close — use destroy() to clean up resultWrap from document.body
+modalCloseBtn.addEventListener('click', () => {
+  modal.style.display = 'none';
+  auto.destroy();
+});
+```
 
 ## License
 

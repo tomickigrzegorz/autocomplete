@@ -90,10 +90,8 @@ new Autocomplete("country-select-multi", {
       ),
 
   // mark already-selected items directly in the rendered HTML
-  onResults: ({ currentValue, matches, template }) =>
-    matches === 0
-      ? template
-      : matches
+  onResults: ({ currentValue, matches }) =>
+    matches
           .map((c) => {
             const isSelected = csmSelected.some((s) => s.id === c.id);
             const label = currentValue
@@ -125,6 +123,6 @@ new Autocomplete("country-select-multi", {
     csmClose();
   },
 
-  noResults: ({ element, template }) =>
-    template(`<li>No country found: "${element.value}"</li>`),
+  noResults: ({ element }) =>
+    `<li>No country found: "${element.value}"</li>`,
 });

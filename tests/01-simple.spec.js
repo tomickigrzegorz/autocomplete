@@ -45,17 +45,17 @@ test.describe("Simple autocomplete tests", () => {
     await page.goto(localFile);
   });
 
-  test('Test 01: Type "w" and count li elements (13)', async ({ page }) => {
+  test('[01] 01: Type "w" and count li elements (13)', async ({ page }) => {
     styleConsoleLog({
-      number: "1",
+      number: "[01] 01",
       text: ['- type "w"', "- expect 13 <li> results"],
     });
     await typeAndWaitForResults(page, "w", 13);
   });
 
-  test('Test 02: Aria & classes after typing "w"', async ({ page }) => {
+  test('[01] 02: Aria & classes after typing "w"', async ({ page }) => {
     styleConsoleLog({
-      number: "2",
+      number: "[01] 02",
       text: [
         '- type "w"',
         '- expect aria-expanded="true"',
@@ -71,11 +71,11 @@ test.describe("Simple autocomplete tests", () => {
     );
   });
 
-  test('Test 03: Navigate results and clear (select "Duane Chow")', async ({
+  test('[01] 03: Navigate results and clear (select "Duane Chow")', async ({
     page,
   }) => {
     styleConsoleLog({
-      number: "3",
+      number: "[01] 03",
       text: [
         '- type "w"',
         "- ensure 13 results loaded",

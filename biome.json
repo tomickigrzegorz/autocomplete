@@ -30,12 +30,6 @@
     "enabled": false
   },
   "files": {
-    "ignore": [
-      "docs/",
-      "dist/",
-      "node_modules/",
-      "rollup.config.js",
-      "*.md"
-    ]
+    "ignore": ["docs/", "dist/", "node_modules/", "rollup.config.js", "*.md"]
   }
 }

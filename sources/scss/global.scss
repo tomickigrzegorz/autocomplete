@@ -995,6 +995,12 @@ aside::-webkit-scrollbar-thumb {
       transform: rotate(180deg);
     }
   }
+
+  @media (max-width: 100px) {
+    .cs-flag {
+      display: none;
+    }
+  }
 }
 
 .cs-flag {

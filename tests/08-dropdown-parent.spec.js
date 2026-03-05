@@ -18,9 +18,9 @@ test.describe("dropdownParent option tests", () => {
     await page.goto(localFile);
   });
 
-  test("01: dropdown is appended to body, not to wrapper", async ({ page }) => {
+  test("[08] 01: dropdown is appended to body, not to wrapper", async ({ page }) => {
     styleConsoleLog({
-      number: "1",
+      number: "[08] 01",
       text: [
         '- type "w"',
         "- expect results visible",
@@ -37,10 +37,13 @@ test.describe("dropdownParent option tests", () => {
     await expect(resultWrap).toBeAttached();
   });
 
-  test("02: typing shows correct results", async ({ page }) => {
+  test("[08] 02: typing shows correct results", async ({ page }) => {
     styleConsoleLog({
-      number: "2",
-      text: ['- type "w"', "- expect 3 results (Walter White, Walter Jr., Skyler White)"],
+      number: "[08] 02",
+      text: [
+        '- type "w"',
+        "- expect 3 results (Walter White, Walter Jr., Skyler White)",
+      ],
     });
     const input = page.locator("#dropdown-parent");
     await input.fill("w");
@@ -48,9 +51,9 @@ test.describe("dropdownParent option tests", () => {
     await expect(page.locator("li")).toHaveCount(3, { timeout: 5000 });
   });
 
-  test("03: selecting item sets input value", async ({ page }) => {
+  test("[08] 03: selecting item sets input value", async ({ page }) => {
     styleConsoleLog({
-      number: "3",
+      number: "[08] 03",
       text: [
         '- type "jesse"',
         "- expect 1 result",
@@ -63,13 +66,14 @@ test.describe("dropdownParent option tests", () => {
 
     await expect(page.locator("li")).toHaveCount(1, { timeout: 5000 });
 
+    await page.keyboard.press("ArrowDown");
     await page.keyboard.press("Enter");
     await expect(input).toHaveValue("Jesse Pinkman");
   });
 
-  test("04: dropdown closes on outside click", async ({ page }) => {
+  test("[08] 04: dropdown closes on outside click", async ({ page }) => {
     styleConsoleLog({
-      number: "4",
+      number: "[08] 04",
       text: [
         '- type "w"',
         "- expect dropdown open",
@@ -88,13 +92,13 @@ test.describe("dropdownParent option tests", () => {
     await expect(input).toHaveAttribute("aria-expanded", "false");
   });
 
-  test("05: keyboard navigation works", async ({ page }) => {
+  test("[08] 05: keyboard navigation works", async ({ page }) => {
     styleConsoleLog({
-      number: "5",
+      number: "[08] 05",
       text: [
         '- type "w"',
-        "- ArrowDown x2",
-        '- expect second item "Skyler White" highlighted',
+        "- ArrowDown x1",
+        '- expect first item "Skyler White" highlighted',
         "- Enter to select",
       ],
     });
@@ -103,7 +107,6 @@ test.describe("dropdownParent option tests", () => {
 
     await expect(page.locator("li")).toHaveCount(3, { timeout: 5000 });
 
-    await page.keyboard.press("ArrowDown");
     await page.keyboard.press("ArrowDown");
 
     const selected = page.locator(".auto-selected p");

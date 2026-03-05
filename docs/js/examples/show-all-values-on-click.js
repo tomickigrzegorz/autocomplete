@@ -66,5 +66,5 @@ function showMark(text, currentValue) {
 // clear data
 const phoneClear = document.querySelector(".phone-clear");
 phoneClear.addEventListener("click", () => {
-  phone.destroy();
+  phone.reset();
 });

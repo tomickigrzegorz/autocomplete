@@ -32,10 +32,8 @@ new Autocomplete("records-result", {
     });
   },
 
-  onResults: ({ currentValue, matches, template, classGroup }) => {
-    return matches === 0
-      ? template
-      : matches
+  onResults: ({ currentValue, matches, classGroup }) => {
+    return matches
           .map((el, index) => {
             let resultsCount =
               index === 0
@@ -68,6 +66,6 @@ new Autocomplete("records-result", {
     console.log(index, element, object);
   },
 
-  noResults: ({ currentValue, template }) =>
-    template(`<li>No results found: "${currentValue}"</li>`),
+  noResults: ({ currentValue }) =>
+    `<li>No results found: "${currentValue}"</li>`,
 });

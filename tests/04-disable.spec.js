@@ -31,20 +31,20 @@ test.describe("Autocomplete disable granular tests", () => {
     await page.goto(localFile);
   });
 
-  test("01: type 'w'", async ({ page }) => {
-    styleConsoleLog({ number: "1", text: ['- type "w"'] });
+  test("[04] 01: type 'w'", async ({ page }) => {
+    styleConsoleLog({ number: "[04] 01", text: ['- type "w"'] });
     const input = await typeW(page);
     await expect(input).toHaveValue("w");
   });
 
-  test("02: count li elements - 3", async ({ page }) => {
-    styleConsoleLog({ number: "2", text: ["- count li elements - 3"] });
+  test("[04] 02: count li elements - 3", async ({ page }) => {
+    styleConsoleLog({ number: "[04] 02", text: ["- count li elements - 3"] });
     await typeWAndGetItems(page);
   });
 
-  test("03: clear button visible & has class", async ({ page }) => {
+  test("[04] 03: clear button visible & has class", async ({ page }) => {
     styleConsoleLog({
-      number: "3",
+      number: "[04] 03",
       text: ['- check if button has class "auto-clear" and is visible'],
     });
     await typeWAndGetItems(page);
@@ -53,26 +53,26 @@ test.describe("Autocomplete disable granular tests", () => {
     await expect(button).toBeVisible();
   });
 
-  test("04: aria-expanded true after typing", async ({ page }) => {
+  test("[04] 04: aria-expanded true after typing", async ({ page }) => {
     styleConsoleLog({
-      number: "4",
+      number: "[04] 04",
       text: ['- check if input #disable has atribute aria-expanded="true"'],
     });
     const { input } = await typeWAndGetItems(page);
     await expect(input).toHaveAttribute("aria-expanded", "true");
   });
 
-  test("05: click first li element", async ({ page }) => {
-    styleConsoleLog({ number: "5", text: ["- click on first li element"] });
+  test("[04] 05: click first li element", async ({ page }) => {
+    styleConsoleLog({ number: "[04] 05", text: ["- click on first li element"] });
     const { items } = await typeWAndGetItems(page);
     await items.first().click();
   });
 
-  test("06: clear button hidden & aria-expanded false after selection", async ({
+  test("[04] 06: clear button hidden & aria-expanded false after selection", async ({
     page,
   }) => {
     styleConsoleLog({
-      number: "6",
+      number: "[04] 06",
       text: [
         "- check if button is not visible",
         "- aria-expanded becomes false",
@@ -85,11 +85,11 @@ test.describe("Autocomplete disable granular tests", () => {
     await expect(input).toHaveAttribute("aria-expanded", "false");
   });
 
-  test("07: after selecting & retyping results list empty (disabled state)", async ({
+  test("[04] 07: after selecting & retyping results list empty (disabled state)", async ({
     page,
   }) => {
     styleConsoleLog({
-      number: "7",
+      number: "[04] 07",
       text: ['- type "w" again', "- check if #auto-disable-results is empty"],
     });
     const { input, items } = await typeWAndGetItems(page);
@@ -99,9 +99,9 @@ test.describe("Autocomplete disable granular tests", () => {
     await expect(results).toBeEmpty();
   });
 
-  test("08: refresh page input cleared", async ({ page }) => {
+  test("[04] 08: refresh page input cleared", async ({ page }) => {
     styleConsoleLog({
-      number: "8",
+      number: "[04] 08",
       text: ["- refreash page and check if input is empty"],
     });
     const input = await typeW(page);
@@ -109,15 +109,15 @@ test.describe("Autocomplete disable granular tests", () => {
     await expect(input).toHaveValue("");
   });
 
-  test("09: retype after refresh", async ({ page }) => {
-    styleConsoleLog({ number: "9", text: ['- type "w" again'] });
+  test("[04] 09: retype after refresh", async ({ page }) => {
+    styleConsoleLog({ number: "[04] 09", text: ['- type "w" again'] });
     const input = await typeW(page);
     await expect(input).toHaveValue("w");
   });
 
-  test("10: list has 3 items again", async ({ page }) => {
+  test("[04] 10: list has 3 items again", async ({ page }) => {
     styleConsoleLog({
-      number: "10",
+      number: "[04] 10",
       text: ["- check if #auto-disable-results has 3 li elements"],
     });
     const { items } = await typeWAndGetItems(page);

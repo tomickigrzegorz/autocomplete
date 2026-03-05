@@ -66,11 +66,11 @@ test.describe("Complex autocomplete tests", () => {
     await page.goto(localFile);
   });
 
-  test('Test 01: Type "w" and check no auto-expanded class', async ({
+  test('[03] 01: Type "w" and check no auto-expanded class', async ({
     page,
   }) => {
     styleConsoleLog({
-      number: "1",
+      number: "[03] 01",
       text: [
         '- type "w"',
         '- check that input does NOT have class "auto-expanded"',
@@ -90,9 +90,9 @@ test.describe("Complex autocomplete tests", () => {
     });
   });
 
-  test('Test 02: Type "wal" and count li elements', async ({ page }) => {
+  test('[03] 02: Type "wal" and count li elements', async ({ page }) => {
     styleConsoleLog({
-      number: "2",
+      number: "[03] 02",
       text: [
         '- type "wal"',
         "- count li elements",
@@ -103,9 +103,9 @@ test.describe("Complex autocomplete tests", () => {
     await expect(input).toHaveClass(/auto-expanded/);
   });
 
-  test("Test 03: First element is Walter White Jr.", async ({ page }) => {
+  test("[03] 03: First element is Walter White Jr.", async ({ page }) => {
     styleConsoleLog({
-      number: "3",
+      number: "[03] 03",
       text: [
         '- type "wal"',
         "- check if selected element is Walter White Jr. inside h2",
@@ -118,9 +118,9 @@ test.describe("Complex autocomplete tests", () => {
     });
   });
 
-  test("Test 04: Key press down to Walter White", async ({ page }) => {
+  test("[03] 04: Key press down to Walter White", async ({ page }) => {
     styleConsoleLog({
-      number: "4",
+      number: "[03] 04",
       text: [
         '- type "wal"',
         '- press key "down"',
@@ -137,9 +137,9 @@ test.describe("Complex autocomplete tests", () => {
     });
   });
 
-  test("Test 05: Press down and clear input", async ({ page }) => {
+  test("[03] 05: Press down and clear input", async ({ page }) => {
     styleConsoleLog({
-      number: "5",
+      number: "[03] 05",
       text: [
         '- type "wal"',
         "- press down",
@@ -161,9 +161,9 @@ test.describe("Complex autocomplete tests", () => {
     });
   });
 
-  test('Test 06: Count ".group-by" and check texts', async ({ page }) => {
+  test('[03] 06: Count ".group-by" and check texts', async ({ page }) => {
     styleConsoleLog({
-      number: "6",
+      number: "[03] 06",
       text: [
         '- type "wal"',
         '- count ".group-by"',
@@ -183,9 +183,9 @@ test.describe("Complex autocomplete tests", () => {
     });
   });
 
-  test("Test 07: No results", async ({ page }) => {
+  test("[03] 07: No results", async ({ page }) => {
     styleConsoleLog({
-      number: "7",
+      number: "[03] 07",
       text: ['- type "świnka"', "- check no results", "- clear input"],
     });
     const input = await typeAndWaitForResults(page, "świnka");
@@ -207,9 +207,9 @@ test.describe("Complex autocomplete tests", () => {
     });
   });
 
-  test("Test 12: Check console.log messages", async ({ page }) => {
+  test("[03] 08: Check console.log messages", async ({ page }) => {
     styleConsoleLog({
-      number: "12",
+      number: "[03] 08",
       text: [
         "- open account dropdown",
         '- type "wal"',

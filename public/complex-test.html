@@ -205,7 +205,7 @@
           });
         },
 
-        onResults: ({ currentValue, matches, template, classGroup }) => {
+        onResults: ({ currentValue, matches, classGroup }) => {
           const regex = new RegExp(currentValue, "gi");
 
           // counting status elements
@@ -217,9 +217,7 @@
             return `<small>${count[status]} items</small>`;
           }
 
-          return matches === 0
-            ? template
-            : matches
+          return matches
                 .sort(
                   (a, b) =>
                     a.status.localeCompare(b.status) ||
@@ -315,9 +313,8 @@
         },
 
         // the callback presents no results
-        noResults: ({ element, template }) => {
-          template(`<li>No results found: "${element.value}"</li>`);
-        },
+        noResults: ({ element }) =>
+          `<li>No results found: "${element.value}"</li>`,
       });
     </script>
   </body>

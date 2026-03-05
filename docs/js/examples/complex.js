@@ -91,7 +91,7 @@ const auto = new Autocomplete("complex", {
   // this part is responsible for the number of records,
   // the appearance of li elements and it really depends
   // on you how it will look
-  onResults: ({ currentValue, matches, template, classGroup }) => {
+  onResults: ({ currentValue, matches, classGroup }) => {
     // const regex = new RegExp(^${input}`, 'gi'); // start with
     const regex = new RegExp(currentValue, "gi");
 
@@ -104,11 +104,7 @@ const auto = new Autocomplete("complex", {
       return `<small>${count[status]} items</small>`;
     }
 
-    // checking if we have results if we don't
-    // take data from the noResults callback
-    return matches === 0
-      ? template
-      : matches
+    return matches
           .sort(
             (a, b) =>
               a.status.localeCompare(b.status) || a.name.localeCompare(b.name)
@@ -170,13 +166,12 @@ const auto = new Autocomplete("complex", {
   },
 
   // the callback presents no results
-  noResults: ({ element, template }) => {
-    template(`<li>No results found: "${element.value}"</li>`);
-  },
+  noResults: ({ element }) =>
+    `<li>No results found: "${element.value}"</li>`,
 });
 
 // clear data
 const complexClear = document.querySelector(".complex-clear");
 complexClear.addEventListener("click", () => {
-  auto.destroy();
+  auto.reset();
 });

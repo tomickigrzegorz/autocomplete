@@ -16,14 +16,8 @@ new Autocomplete("no-results", {
     });
   },
 
-  onResults: ({ matches, template }) => {
-    // checking if we have results if we don't
-    // take data from the noResults callback
-    return matches === 0
-      ? template
-      : matches.map((el) => `<li>${el.name}</li>`).join("");
-  },
+  onResults: ({ matches }) =>
+    matches.map((el) => `<li>${el.name}</li>`).join(""),
 
-  noResults: ({ element, template }) =>
-    template(`<li>No results found: "${element.value}"</li>`),
+  noResults: ({ element }) => `<li>No results found: "${element.value}"</li>`,
 });

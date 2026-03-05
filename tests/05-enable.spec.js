@@ -37,45 +37,52 @@ test.describe("Autocomplete enable/disable granular tests", () => {
     await page.goto(localFile);
   });
 
-  test("00: input has aria-controls set on load", async ({ page }) => {
+  test("[05] 01: input has aria-controls set on load", async ({ page }) => {
     styleConsoleLog({
-      number: "0",
+      number: "[05] 01",
       text: ["- check if input has aria-controls on load"],
     });
     const input = page.locator("#enable");
     await expect(input).toHaveAttribute("aria-controls", "auto-enable-results");
   });
 
-  test("01: type 'w'", async ({ page }) => {
-    styleConsoleLog({ number: "1", text: ['- type "w"'] });
+  test("[05] 02: type 'w'", async ({ page }) => {
+    styleConsoleLog({ number: "[05] 02", text: ['- type "w"'] });
     const input = page.locator("#enable");
     await input.fill("w");
     await expect(input).toHaveValue("w");
   });
 
-  test("02: count li elements - 3", async ({ page }) => {
-    styleConsoleLog({ number: "2", text: ["- count li elements - 3"] });
+  test("[05] 03: count li elements - 3", async ({ page }) => {
+    styleConsoleLog({ number: "[05] 03", text: ["- count li elements - 3"] });
     await typeWAndExpectThree(page);
   });
 
-  test("03: input has aria-expanded= true after typing", async ({ page }) => {
+  test("[05] 04: input has aria-expanded= true after typing", async ({
+    page,
+  }) => {
     styleConsoleLog({
-      number: "3",
+      number: "[05] 04",
       text: ['- check if input #disable has atribute aria-expanded="true"'],
     });
     const { input } = await typeWAndExpectThree(page);
     await expect(input).toHaveAttribute("aria-expanded", "true");
   });
 
-  test("04: click on first li element", async ({ page }) => {
-    styleConsoleLog({ number: "4", text: ["- click on first li element"] });
+  test("[05] 05: click on first li element", async ({ page }) => {
+    styleConsoleLog({
+      number: "[05] 05",
+      text: ["- click on first li element"],
+    });
     const { items } = await typeWAndExpectThree(page);
     await items.first().click();
     // after click we don't assert value, because component may or may not insert depending on config
   });
 
-  test("05: click Disable button after selecting first", async ({ page }) => {
-    styleConsoleLog({ number: "5", text: ["- click on Disable button"] });
+  test("[05] 06: click Disable button after selecting first", async ({
+    page,
+  }) => {
+    styleConsoleLog({ number: "[05] 06", text: ["- click on Disable button"] });
     const { input, items } = await typeWAndExpectThree(page);
     await items.first().click();
     const disableButton = page.locator("#disable-btn");
@@ -84,16 +91,16 @@ test.describe("Autocomplete enable/disable granular tests", () => {
     await expect(input).toHaveAttribute("aria-autocomplete", "none");
   });
 
-  test("06: type 'w' again after disable", async ({ page }) => {
-    styleConsoleLog({ number: "6", text: ['- type "w" again'] });
+  test("[05] 07: type 'w' again after disable", async ({ page }) => {
+    styleConsoleLog({ number: "[05] 07", text: ['- type "w" again'] });
     const { input } = await flowToDisabled(page);
     await input.fill("w");
     await expect(input).toHaveValue("w");
   });
 
-  test("07: results list empty while disabled", async ({ page }) => {
+  test("[05] 08: results list empty while disabled", async ({ page }) => {
     styleConsoleLog({
-      number: "7",
+      number: "[05] 08",
       text: ["- check if #auto-enable-results is empty"],
     });
     const { input } = await flowToDisabled(page);
@@ -101,9 +108,9 @@ test.describe("Autocomplete enable/disable granular tests", () => {
     await expect(page.locator("#auto-enable-results")).toBeEmpty();
   });
 
-  test("08: refresh page and input is empty", async ({ page }) => {
+  test("[05] 09: refresh page and input is empty", async ({ page }) => {
     styleConsoleLog({
-      number: "8",
+      number: "[05] 09",
       text: ["- refreash page and check if input is empty"],
     });
     // Do a flow first (optional) then reload
@@ -113,16 +120,16 @@ test.describe("Autocomplete enable/disable granular tests", () => {
     await expect(input).toHaveValue("");
   });
 
-  test("09: type 'w' again after refresh", async ({ page }) => {
-    styleConsoleLog({ number: "9", text: ['- type "w" again'] });
+  test("[05] 10: type 'w' again after refresh", async ({ page }) => {
+    styleConsoleLog({ number: "[05] 10", text: ['- type "w" again'] });
     const input = page.locator("#enable");
     await input.fill("w");
     await expect(input).toHaveValue("w");
   });
 
-  test("10: results count is 3 after typing again", async ({ page }) => {
+  test("[05] 11: results count is 3 after typing again", async ({ page }) => {
     styleConsoleLog({
-      number: "10",
+      number: "[05] 11",
       text: ["- check if #auto-enable-results has 3 li elements"],
     });
     const { items } = await typeWAndExpectThree(page);

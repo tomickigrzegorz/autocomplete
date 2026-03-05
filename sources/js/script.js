@@ -264,7 +264,7 @@ export default class Autocomplete {
 
     // show clear button if
     if (this._clearButtonOnInitial) {
-      showBtnToClearData(this._clearBtn, this.destroy);
+      showBtnToClearData(this._clearBtn, this.reset);
     }
   };
 
@@ -321,7 +321,9 @@ export default class Autocomplete {
       // remove results when input is empty
       if (this._removeResultsWhenInputIsEmpty) {
         if (target?.value.length === 0) {
-          this.destroy();
+          this._resultList.textContent = "";
+          this._reset();
+          this._clearButton && classList(this._clearBtn, "add", "hidden");
           return;
         }
       }
@@ -418,7 +420,7 @@ export default class Autocomplete {
     this._onLoading(true);
 
     // hide button clear
-    showBtnToClearData(this._clearBtn, this.destroy);
+    showBtnToClearData(this._clearBtn, this.reset);
 
     // if there is no value and clearButton is true
     if (
@@ -461,11 +463,11 @@ export default class Autocomplete {
         if (resultLength === 0 && rootValueLength) {
           classList(this._root, "remove", "auto-expanded");
           this._reset();
-          this._noResults({
+          const noResultsHtml = this._noResults({
             element: this._root,
             currentValue: value,
-            template: this._results,
           });
+          if (noResultsHtml) this._results(noResultsHtml);
           this._events();
         } else if (resultLength > 0 || isObject(result)) {
           this._index = this._selectFirst ? 0 : -1;
@@ -536,19 +538,14 @@ export default class Autocomplete {
     // clear result list
     this._resultList.textContent = "";
 
-    // add all found records to otput ul
+    // add all found records to output ul
     const dataResults =
-      this._matches.length === 0
-        ? this._onResults({
-            currentValue: this._value,
-            matches: 0,
-            template,
-          })
-        : this._onResults({
-            currentValue: this._value,
-            matches: this._matches,
-            classGroup: this._classGroup,
-          });
+      template ??
+      this._onResults({
+        currentValue: this._value,
+        matches: this._matches,
+        classGroup: this._classGroup,
+      });
 
     this._resultList.insertAdjacentHTML("afterbegin", dataResults);
 
@@ -1120,6 +1117,27 @@ export default class Autocomplete {
 
     // callback fires last — after all listeners are removed,
     // so enable() can be safely called directly from onReset
+    this._onReset(this._root);
+  };
+
+  /**
+   * Reset autocomplete — clears input and closes results
+   * while keeping all event listeners active (unlike destroy())
+   */
+  reset = () => {
+    // clear input value
+    this._root.value = "";
+    // set focus
+    this._root.focus();
+    // remove li from ul
+    this._resultList.textContent = "";
+    // hide clear button
+    this._clearButton && classList(this._clearBtn, "add", "hidden");
+    // close dropdown / reset ARIA
+    this._reset();
+    // remove error if exist
+    this._error();
+    // callback
     this._onReset(this._root);
   };
 }

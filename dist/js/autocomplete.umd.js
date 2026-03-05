@@ -1,6 +1,6 @@
 /*!
 * @name autocomplete
-* @version 3.1.0
+* @version 3.2.0
 * @author Grzegorz Tomicki
 * @link https://github.com/tomickigrzegorz/autocomplete
 * @license MIT
@@ -207,7 +207,7 @@
         results: _this._resultList
       });
       if (_this._clearButtonOnInitial) {
-        showBtnToClearData(_this._clearBtn, _this.destroy);
+        showBtnToClearData(_this._clearBtn, _this.reset);
       }
     };
     this._cacheAct = function (type, target) {
@@ -236,7 +236,9 @@
         if (_this._removeResultsWhenInputIsEmpty) {
           var _target2;
           if (((_target2 = target) == null ? void 0 : _target2.value.length) === 0) {
-            _this.destroy();
+            _this._resultList.textContent = "";
+            _this._reset();
+            _this._clearButton && classList(_this._clearBtn, "add", "hidden");
             return;
           }
         }
@@ -283,7 +285,7 @@
     this._searchItem = function (value) {
       _this._value = value;
       _this._onLoading(true);
-      showBtnToClearData(_this._clearBtn, _this.destroy);
+      showBtnToClearData(_this._clearBtn, _this.reset);
       if ((!value || (value == null ? void 0 : value.length) === 0) && _this._clearButton && !_this._clearButtonOnInitial) {
         classList(_this._clearBtn, "add", "hidden");
       }
@@ -306,11 +308,11 @@
         if (resultLength === 0 && rootValueLength) {
           classList(_this._root, "remove", "auto-expanded");
           _this._reset();
-          _this._noResults({
+          var noResultsHtml = _this._noResults({
             element: _this._root,
-            currentValue: value,
-            template: _this._results
+            currentValue: value
           });
+          if (noResultsHtml) _this._results(noResultsHtml);
           _this._events();
         } else if (resultLength > 0 || isObject(result)) {
           _this._index = _this._selectFirst ? 0 : -1;
@@ -350,11 +352,7 @@
         addClass: _this._prefix + "-expanded"
       });
       _this._resultList.textContent = "";
-      var dataResults = _this._matches.length === 0 ? _this._onResults({
-        currentValue: _this._value,
-        matches: 0,
-        template: template
-      }) : _this._onResults({
+      var dataResults = template != null ? template : _this._onResults({
         currentValue: _this._value,
         matches: _this._matches,
         classGroup: _this._classGroup
@@ -673,6 +671,15 @@
       ["mousemove", "click"].forEach(function (eventType) {
         offEvent(_this._resultList, eventType, _this._handleMouse);
       });
+      _this._onReset(_this._root);
+    };
+    this.reset = function () {
+      _this._root.value = "";
+      _this._root.focus();
+      _this._resultList.textContent = "";
+      _this._clearButton && classList(_this._clearBtn, "add", "hidden");
+      _this._reset();
+      _this._error();
       _this._onReset(_this._root);
     };
     this._id = _element;

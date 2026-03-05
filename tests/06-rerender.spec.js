@@ -30,9 +30,9 @@ test.describe("Autocomplete rerender() method tests", () => {
     await page.goto(localFile);
   });
 
-  test("01: type 'w' shows 3 results", async ({ page }) => {
+  test("[06] 01: type 'w' shows 3 results", async ({ page }) => {
     styleConsoleLog({
-      number: "1",
+      number: "[06] 01",
       text: [
         '- type "w"',
         "- expect 3 results (Walter White, Walter White Jr., Skyler White)",
@@ -41,11 +41,11 @@ test.describe("Autocomplete rerender() method tests", () => {
     await typeAndWaitForResults(page, "w", 3);
   });
 
-  test("02: rerender(string) sets input value and searches", async ({
+  test("[06] 02: rerender(string) sets input value and searches", async ({
     page,
   }) => {
     styleConsoleLog({
-      number: "2",
+      number: "[06] 02",
       text: [
         '- type "jesse"',
         "- expect 1 result",
@@ -66,11 +66,11 @@ test.describe("Autocomplete rerender() method tests", () => {
     await expect(page.locator("#auto-rerender-results > li")).toHaveCount(2);
   });
 
-  test("03: rerender(string) without prior input triggers search", async ({
+  test("[06] 03: rerender(string) without prior input triggers search", async ({
     page,
   }) => {
     styleConsoleLog({
-      number: "3",
+      number: "[06] 03",
       text: [
         "- do not type anything",
         '- click rerender "Walter" button',
@@ -88,11 +88,11 @@ test.describe("Autocomplete rerender() method tests", () => {
     await expect(page.locator("#auto-rerender-results > li")).toHaveCount(2);
   });
 
-  test("04: rerender(string) shows correct result content", async ({
+  test("[06] 04: rerender(string) shows correct result content", async ({
     page,
   }) => {
     styleConsoleLog({
-      number: "4",
+      number: "[06] 04",
       text: [
         '- click rerender "marie" button equivalent',
         "- expect 1 result (Marie Schrader)",
@@ -110,9 +110,9 @@ test.describe("Autocomplete rerender() method tests", () => {
     await expect(firstResult).toHaveText("Marie Schrader");
   });
 
-  test("05: rerender() uses current input value", async ({ page }) => {
+  test("[06] 05: rerender() uses current input value", async ({ page }) => {
     styleConsoleLog({
-      number: "5",
+      number: "[06] 05",
       text: [
         '- type "hank"',
         "- call rerender() via JS",
@@ -132,9 +132,9 @@ test.describe("Autocomplete rerender() method tests", () => {
     await expect(input).toHaveValue("hank");
   });
 
-  test("06: keyboard navigation works after rerender", async ({ page }) => {
+  test("[06] 06: keyboard navigation works after rerender", async ({ page }) => {
     styleConsoleLog({
-      number: "6",
+      number: "[06] 06",
       text: [
         '- call rerender "Walter"',
         "- focus input",
@@ -172,11 +172,11 @@ test.describe("Autocomplete rerender() method tests", () => {
     expect(inputValue.length).toBeGreaterThan(0);
   });
 
-  test("07: rerender changes results when called with different value", async ({
+  test("[06] 07: rerender changes results when called with different value", async ({
     page,
   }) => {
     styleConsoleLog({
-      number: "7",
+      number: "[06] 07",
       text: [
         '- rerender "walter" - expect 2',
         '- rerender "jesse" - expect 1',
@@ -201,11 +201,11 @@ test.describe("Autocomplete rerender() method tests", () => {
     await expect(firstResult).toHaveText("Jesse Pinkman");
   });
 
-  test("08: rerender with whitespace-only string uses current value", async ({
+  test("[06] 08: rerender with whitespace-only string uses current value", async ({
     page,
   }) => {
     styleConsoleLog({
-      number: "8",
+      number: "[06] 08",
       text: [
         '- type "skyler"',
         '- rerender with "   " (spaces)',

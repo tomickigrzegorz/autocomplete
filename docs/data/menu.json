@@ -45,8 +45,23 @@
     "html": "Modal"
   },
   {
+    "link": "dropdown-parent-example",
+    "html": "Dropdown parent",
+    "type": "new"
+  },
+  {
     "link": "show-all-values-on-click-example",
     "html": "Show all values on click"
+  },
+  {
+    "link": "country-select-example",
+    "html": "Country selector <div><small>Select2 alternative</small></div>",
+    "type": "new"
+  },
+  {
+    "link": "country-select-multi-example",
+    "html": "Country selector multi <div><small>Select2 alternative</small></div>",
+    "type": "new"
   },
   {
     "link": "cache-example",
@@ -58,13 +73,11 @@
   },
   {
     "link": "enable-example",
-    "html": "Enable/Disable Toggle",
-    "type": "new"
+    "html": "Enable/Disable Toggle"
   },
   {
     "link": "enable-disable-example",
-    "html": "Enable/Disable with Empty Input",
-    "type": "new"
+    "html": "Enable/Disable with Empty Input"
   },
   { "link": "show-inline-example", "html": "Inline" },
   {

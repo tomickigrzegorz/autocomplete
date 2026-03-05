@@ -1,6 +1,6 @@
 /*!
 * @name autocomplete
-* @version 3.0.5
+* @version 3.1.0
 * @author Grzegorz Tomicki
 * @link https://github.com/tomickigrzegorz/autocomplete
 * @license MIT
@@ -108,6 +108,7 @@ var Autocomplete = (function () {
       "aria-owns": id,
       "aria-expanded": "false",
       "aria-autocomplete": insertToInput ? "both" : "list",
+      "aria-haspopup": "listbox",
       role: "combobox",
       removeClass: "auto-expanded"
     };
@@ -149,6 +150,7 @@ var Autocomplete = (function () {
       preventScrollUp = _ref$preventScrollUp === void 0 ? false : _ref$preventScrollUp,
       _ref$removeResultsWhe = _ref.removeResultsWhenInputIsEmpty,
       removeResultsWhenInputIsEmpty = _ref$removeResultsWhe === void 0 ? false : _ref$removeResultsWhe,
+      dropdownParent = _ref.dropdownParent,
       _ref$regex = _ref.regex,
       _regex = _ref$regex === void 0 ? {
         expression: /[|\\{}()[\]^$+*?]/g,
@@ -180,6 +182,9 @@ var Autocomplete = (function () {
       var ariaAcrivedescentDefault = ariaActiveDescendantDefault(_this._outputUl, _this._toInput);
       setAttributes(_this._root, ariaAcrivedescentDefault);
       output(_this._root, _this._resultList, _this._outputUl, _this._resultWrap, _this._prefix);
+      if (_this._dropdownParent) {
+        _this._dropdownParent.appendChild(_this._resultWrap);
+      }
       try {
         _this._resultList.id = _this._outputUl;
         _this._root.setAttribute("aria-controls", _this._outputUl);
@@ -235,9 +240,29 @@ var Autocomplete = (function () {
         _this._searchItem(regex == null ? void 0 : regex.trim());
       }, delay);
     };
+    this._positionDropdown = function () {
+      var rect = _this._root.getBoundingClientRect();
+      _this._resultWrap.style.position = "fixed";
+      _this._resultWrap.style.left = rect.left + "px";
+      _this._resultWrap.style.top = rect.bottom + "px";
+      _this._resultWrap.style.width = rect.width + "px";
+      _this._resultWrap.style.zIndex = "9999";
+    };
+    this._startPositionTracking = function () {
+      _this._positionDropdown();
+      window.addEventListener("scroll", _this._positionDropdown, true);
+      window.addEventListener("resize", _this._positionDropdown);
+    };
+    this._stopPositionTracking = function () {
+      window.removeEventListener("scroll", _this._positionDropdown, true);
+      window.removeEventListener("resize", _this._positionDropdown);
+    };
     this._reset = function () {
       var _this$_matches;
       classList(_this._resultWrap, "remove", _this._isActive);
+      if (_this._dropdownParent) {
+        _this._stopPositionTracking();
+      }
       var ariaAcrivedescentDefault = ariaActiveDescendantDefault(_this._outputUl, _this._toInput);
       var ariaAcrivedescent = _this._preventScrollUp ? ariaAcrivedescentDefault : Object.assign({}, ariaAcrivedescentDefault, {
         "aria-activedescendant": ""
@@ -333,6 +358,9 @@ var Autocomplete = (function () {
       });
       _this._resultList.insertAdjacentHTML("afterbegin", dataResults);
       classList(_this._resultWrap, "add", _this._isActive);
+      if (_this._dropdownParent) {
+        _this._startPositionTracking();
+      }
       var checkIfClassGroupExist = _this._classGroup ? ":not(." + _this._classGroup + ")" : "";
       _this._itemsLi = document.querySelectorAll("#" + _this._outputUl + " > li" + checkIfClassGroupExist);
       addAriaToAllLiElements(_this._itemsLi);
@@ -346,6 +374,7 @@ var Autocomplete = (function () {
     };
     this._handleDocClick = function (_ref3) {
       var target = _ref3.target;
+      if (!(target instanceof Element)) return;
       var disableClose = null;
       if (target.closest("ul") && _this._disable ||
       target.closest("." + _this._prevClosing)) {
@@ -383,6 +412,9 @@ var Autocomplete = (function () {
           addClass: _this._prefix + "-expanded"
         });
         classList(_this._resultWrap, "add", _this._isActive);
+        if (_this._dropdownParent) {
+          _this._startPositionTracking();
+        }
         if (!_this._preventScrollUp) {
           scrollResultsToTop(_this._resultList, _this._resultWrap);
           _this._selectFirstElement();
@@ -601,6 +633,9 @@ var Autocomplete = (function () {
       ["mousemove", "click"].forEach(function (eventType) {
         onEvent(_this._resultList, eventType, _this._handleMouse);
       });
+      if (_this._dropdownParent && !_this._resultWrap.isConnected) {
+        _this._dropdownParent.appendChild(_this._resultWrap);
+      }
       if (_this._clearButton && _this._root.value.length > 0) {
         classList(_this._clearBtn, "remove", "hidden");
       }
@@ -611,6 +646,12 @@ var Autocomplete = (function () {
       });
     };
     this.destroy = function () {
+      if (_this._dropdownParent) {
+        _this._stopPositionTracking();
+      }
+      if (_this._dropdownParent && _this._resultWrap.isConnected) {
+        _this._resultWrap.remove();
+      }
       _this._clearButton && classList(_this._clearBtn, "add", "hidden");
       _this._root.value = "";
       _this._root.focus();
@@ -618,7 +659,6 @@ var Autocomplete = (function () {
       if (!_this._inline) _this._reset();
       if (_this._inline) _this._onClose();
       _this._error();
-      _this._onReset(_this._root);
       _this._onLoading();
       offEvent(_this._root, "input", _this._handleInput);
       offEvent(_this._root, "keydown", _this._handleKeys);
@@ -630,6 +670,7 @@ var Autocomplete = (function () {
       ["mousemove", "click"].forEach(function (eventType) {
         offEvent(_this._resultList, eventType, _this._handleMouse);
       });
+      _this._onReset(_this._root);
     };
     this._id = _element;
     this._root = document.getElementById(_element);
@@ -667,6 +708,7 @@ var Autocomplete = (function () {
     this._disable = disableCloseOnSelect;
     this._preventScrollUp = preventScrollUp;
     this._removeResultsWhenInputIsEmpty = removeResultsWhenInputIsEmpty;
+    this._dropdownParent = typeof dropdownParent === "string" ? document.querySelector(dropdownParent) : dropdownParent || null;
     this._cache = cache;
     this._timeout = null;
     this._outputUl = this._prefix + "-" + this._id + "-results";

@@ -16,6 +16,7 @@ export interface AutocompleteOptions {
   disableCloseOnSelect?: boolean;
   preventScrollUp?: boolean;
   removeResultsWhenInputIsEmpty?: boolean;
+  dropdownParent?: string | HTMLElement;
   regex?: RegexConfig;
   classGroup?: string;
   classPreventClosing?: string;

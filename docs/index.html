@@ -61,6 +61,62 @@
       .btn-action:active {
         background: #1d4ed8;
       }
+      .dp-demo-row {
+        display: flex;
+        gap: 20px;
+        align-items: flex-start;
+        flex-wrap: wrap;
+      }
+      .dp-overflow-box {
+        flex: 1;
+        min-width: 180px;
+        overflow: hidden;
+        border: 2px dashed #858585;
+        padding: 4px;
+        box-sizing: border-box;
+      }
+      .dp-overflow-label {
+        font-size: 11px;
+        color: #858585;
+        margin: 0 0 4px 2px;
+      }
+      .dp-modal-backdrop {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+      }
+      .dp-modal-backdrop.is-open {
+        display: flex;
+      }
+      .dp-modal {
+        background: var(--bg-color, #fff);
+        border: 1px solid #d7d7d7;
+        border-radius: 6px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+        width: 380px;
+        max-height: 220px;
+        overflow: auto;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+      .dp-modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 14px;
+      }
+      .dp-modal-header strong {
+        font-size: 15px;
+      }
+      .dp-modal-footer {
+        margin-top: 200px;
+        color: #aaa;
+        font-size: 13px;
+      }
     </style>
   </head>
 
@@ -80,7 +136,7 @@
     <main class="container">
       <header>
         <h1 class="loupe">
-          autocomplete <sup><small>v3.0.5</small></sup>
+          autocomplete <sup><small>v3.1.0</small></sup>
         </h1>
         <div class="switch-theme">
           <button class="theme theme-head" aria-label="change theme">
@@ -130,7 +186,20 @@
           </div>
 
           <div class="info-section">
-            
+            <h3>Import via ES module</h3>
+            <p>
+              If you use a bundler (Vite, webpack, etc.), you can import the
+              library and its styles directly in your JavaScript file:
+            </p>
+          </div>
+          <div rel="HTML" class="html-class">
+            <pre><code class="language-javascript">import Autocomplete from '@tomickigrzegorz/autocomplete';
+import '@tomickigrzegorz/autocomplete/css';
+</code></pre>
+          </div>
+
+          <div class="info-section">
+
             <h3>Include JS and CSS files</h3>
             <p>
               The first thing you should do is download the
@@ -156,10 +225,10 @@
           <h3>Or CDN</h3>
           <div rel="HTML" class="html-class">
             <pre><code class="language-html">&lt;!-- css --&gt;
-&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.0.5/dist/css/autocomplete.min.css&quot;/&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.1.0/dist/css/autocomplete.min.css&quot;/&gt;
 
 &lt;!-- js --&gt;
-&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.0.5/dist/js/autocomplete.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.1.0/dist/js/autocomplete.min.js&quot;&gt;&lt;/script&gt;
           </code></pre>
           </div>
 
@@ -887,6 +956,59 @@
         </section>
         <!-- modal -->
 
+        <!-- dropdown-parent start -->
+        <section id="dropdown-parent-example" class="section">
+          <div class="search-element">
+            <div class="info-section">
+              <h2>Dropdown parent</h2>
+              <div class="sources">
+                <a href="./js/examples/dropdown-parent.js" target="_blank"
+                  >source: dropdown-parent</a
+                >
+              </div>
+              <p>
+                The <code>dropdownParent</code> option lets you render the
+                dropdown list inside a different element — typically
+                <code>document.body</code>. This solves the common problem of
+                the dropdown being clipped by a parent with
+                <code>overflow: hidden</code> or <code>overflow: auto</code>,
+                such as a scrollable modal or a fixed-height container.
+              </p>
+              <p>
+                Click <strong>Open modal</strong> to see it in action. The
+                modal has a limited height and <code>overflow: auto</code> —
+                without <code>dropdownParent</code> the dropdown list would be
+                cut off inside it.
+              </p>
+            </div>
+            <div class="dp-demo-row">
+              <div>
+                <p class="dp-overflow-label">container with <code>overflow: hidden</code></p>
+                <div class="dp-overflow-box">
+                  <div class="auto-search-wrapper">
+                    <input type="text" id="dropdown-parent-inline" placeholder="type w" />
+                  </div>
+                </div>
+              </div>
+              <div style="padding-top: 20px;">
+                <button class="btn-action" id="open-dropdown-parent-modal">
+                  Open modal
+                </button>
+              </div>
+            </div>
+          </div>
+          <div rel="docs/index.html" class="highlight html html-class"></div>
+          <div
+            rel="docs/js/examples/dropdown-parent.js"
+            class="highlight javascript html-class"
+          >
+            <pre>
+              <code class="language-js" data-source="./js/examples/dropdown-parent.js"></code>
+            </pre>
+          </div>
+        </section>
+        <!-- dropdown-parent end -->
+
         <!-- show all values start -->
         <section id="show-all-values-on-click-example" class="section">
           <div class="search-element">
@@ -940,6 +1062,128 @@
           </div>
         </section>
         <!-- show all values end -->
+
+        <!-- country-select start -->
+        <section id="country-select-example" class="section">
+          <div class="search-element">
+            <div class="info-section">
+              <h2>Country selector <small style="font-size:50%;font-weight:normal;">— Select2 alternative</small></h2>
+              <div class="sources">
+                <a href="./js/examples/country-select.js" target="_blank">source: country-select</a>
+              </div>
+              <p>
+                A lightweight, zero-dependency alternative to
+                <strong>jQuery Select2</strong> — built entirely with this
+                library and a handful of CSS rules. Click the selector to open
+                a searchable list of countries, each with a flag. After
+                selecting, the flag and country name are shown inside the
+                trigger element — just like a native <code>&lt;select&gt;</code>.
+              </p>
+              <p>
+                Two options make it work: <code>dropdownParent: document.body</code>
+                ensures the dropdown escapes any <code>overflow</code> clipping,
+                and <code>showValuesOnClick: true</code> shows the full list
+                immediately on focus. On narrow screens (&lt;480&nbsp;px) only
+                the flag icon is shown — saving space in mobile layouts.
+              </p>
+            </div>
+
+            <div class="cs-wrapper">
+              <!-- trigger — always visible, shows selected country -->
+              <div
+                class="cs-trigger"
+                id="cs-trigger"
+                role="button"
+                tabindex="0"
+                aria-label="Select country"
+                aria-haspopup="listbox"
+              >
+                <img class="cs-flag" id="cs-flag" src="" alt="" />
+                <span class="cs-name" id="cs-name">Country</span>
+                <button class="cs-clear" id="cs-clear" aria-label="Clear selection" title="Clear">&#10005;</button>
+                <span class="cs-arrow">&#9660;</span>
+              </div>
+
+              <!-- panel — opens below trigger on click -->
+              <div class="cs-panel" id="cs-panel">
+                <div class="auto-search-wrapper">
+                  <input
+                    type="text"
+                    id="country-select"
+                    placeholder="Search country..."
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div rel="docs/index.html" class="highlight html html-class"></div>
+          <div
+            rel="docs/js/examples/country-select.js"
+            class="highlight javascript html-class"
+          >
+            <pre>
+              <code class="language-js" data-source="./js/examples/country-select.js"></code>
+            </pre>
+          </div>
+        </section>
+        <!-- country-select end -->
+
+        <!-- country-select-multi start -->
+        <section id="country-select-multi-example" class="section">
+          <div class="search-element">
+            <div class="info-section">
+              <h2>Country selector <small style="font-size:50%;font-weight:normal;">— multi-select (max 2)</small></h2>
+              <div class="sources">
+                <a href="./js/examples/country-select-multi.js" target="_blank">source: country-select-multi</a>
+              </div>
+              <p>
+                Multi-select variant of the country selector — up to
+                <strong>2 countries</strong> can be chosen. Selected countries
+                appear as removable chips inside the trigger. Already-selected
+                items are highlighted in the list via <code>onOpened</code>.
+                When the limit is reached the panel closes automatically.
+              </p>
+            </div>
+
+            <div class="cs-wrapper">
+              <div
+                class="cs-trigger"
+                id="csm-trigger"
+                role="button"
+                tabindex="0"
+                aria-label="Select countries"
+                aria-haspopup="listbox"
+              >
+                <div class="csm-tags" id="csm-tags"></div>
+                <span class="csm-placeholder" id="csm-placeholder">Countries (max 2)</span>
+                <span class="cs-arrow">&#9660;</span>
+              </div>
+
+              <div class="cs-panel" id="csm-panel">
+                <div class="auto-search-wrapper">
+                  <input
+                    type="text"
+                    id="country-select-multi"
+                    placeholder="Search country..."
+                  />
+                </div>
+              </div>
+              <div class="csm-limit-msg" id="csm-limit-msg">
+                You can only select 2 items
+              </div>
+            </div>
+          </div>
+          <div rel="docs/index.html" class="highlight html html-class"></div>
+          <div
+            rel="docs/js/examples/country-select-multi.js"
+            class="highlight javascript html-class"
+          >
+            <pre>
+              <code class="language-js" data-source="./js/examples/country-select-multi.js"></code>
+            </pre>
+          </div>
+        </section>
+        <!-- country-select-multi end -->
 
         <!-- cache start -->
         <section id="cache-example" class="section">
@@ -1400,7 +1644,10 @@
     <script async src="./js/examples/regex.js"></script>
     <script async src="./js/examples/prevent-scroll-up.js"></script>
     <script async src="./js/examples/modal.js"></script>
+    <script async src="./js/examples/dropdown-parent.js"></script>
     <script async src="./js/examples/show-all-values-on-click.js"></script>
+    <script async src="./js/examples/country-select.js"></script>
+    <script async src="./js/examples/country-select-multi.js"></script>
     <script async src="./js/examples/show-inline.js"></script>
     <script async src="./js/examples/update-input.js"></script>
     <script async src="./js/examples/select.js"></script>
@@ -1414,5 +1661,19 @@
     
 
     <div class="modal"></div>
+
+    <!-- dropdown-parent modal -->
+    <div id="dropdown-parent-modal" class="dp-modal-backdrop">
+      <div class="dp-modal">
+        <div class="dp-modal-header">
+          <strong>Modal with overflow: auto</strong>
+          <button class="btn-action" id="close-dropdown-parent-modal">&#x2715; Close</button>
+        </div>
+        <div class="auto-search-wrapper">
+          <input type="text" id="dropdown-parent" placeholder="type w" />
+        </div>
+        <p class="dp-modal-footer">More content below&hellip;</p>
+      </div>
+    </div>
   </body>
 </html>

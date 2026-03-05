@@ -36,31 +36,6 @@ $autocomplete-color-white: #ffffff;
     }
   }
 
-  ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    overflow: auto;
-
-    li {
-      position: relative;
-      cursor: pointer;
-      margin: 0;
-      padding: 10px;
-      overflow: hidden;
-
-      &:not(:last-child) {
-        border-top: none;
-      }
-    }
-
-    li[disabled] {
-      pointer-events: none;
-      opacity: 0.5;
-      background: $autocomplete-color-light-gray-1;
-    }
-  }
-
   .auto-expanded {
     border: 1px solid $autocomplete-color-dark-gray;
     outline: none;
@@ -162,8 +137,33 @@ li.loupe:before {
   box-sizing: border-box;
   background-color: $autocomplete-color-white;
 
-  ul > .loupe {
-    padding-left: 40px;
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow: auto;
+
+    > .loupe {
+      padding-left: 40px;
+    }
+
+    li {
+      position: relative;
+      cursor: pointer;
+      margin: 0;
+      padding: 10px;
+      overflow: hidden;
+
+      &:not(:last-child) {
+        border-top: none;
+      }
+    }
+
+    li[disabled] {
+      pointer-events: none;
+      opacity: 0.5;
+      background: $autocomplete-color-light-gray-1;
+    }
   }
 
   &.auto-is-active {

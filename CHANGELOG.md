@@ -1,3 +1,22 @@
+## 2026-03-05 (3.1.0)
+### Added
+- `dropdownParent` option: appends the dropdown to a specified element (CSS selector or `HTMLElement`) instead of next to the input — solves dropdown clipping caused by `overflow: hidden` or `overflow: auto` on parent containers (e.g. modals). Uses `position: fixed` so no parent offset calculation is needed
+- `aria-haspopup="listbox"` attribute on the combobox input for improved screen reader support
+- **Country selector example** — searchable single-select with flag icons, built as a lightweight drop-in replacement for jQuery Select2. Uses `dropdownParent: document.body`, `showValuesOnClick: true` and `classPrefix` to render a custom trigger element with flag + country name. On narrow screens the name clips via `text-overflow: ellipsis` rather than hiding
+- **Country selector multi-select example** — multi-select variant (configurable max selections) with chip/tag UI inside the trigger. Selected items are highlighted in the dropdown via `onResults`, clicking a selected item deselects it, and a limit message is shown when the maximum is reached
+
+### Fixed
+- `_handleDocClick` now guards against non-Element targets (`!(target instanceof Element)`) — prevents crash when a synthetic `click` event is dispatched programmatically on `document` or `document.body` (e.g. to close the dropdown from external code)
+
+### Added (tests)
+- added Playwright tests for `dropdownParent` option (`tests/08-dropdown-parent.spec.js`) — verifies dropdown is appended to `body`, results appear inside `overflow: hidden` containers, keyboard navigation, outside-click close, and item selection
+
+### Changed
+- `destroy()` now removes `_resultWrap` from `dropdownParent` to prevent orphaned elements in the DOM
+- `enable()` now re-appends `_resultWrap` to `dropdownParent` if it was previously removed by `destroy()`
+- `onReset` callback now fires after all event listeners are removed (was before) — allows calling `enable()` directly from `onReset` without `setTimeout`
+- moved `ul`/`li` styles from `.auto-search-wrapper` to `.auto-results-wrapper` so dropdown styles apply correctly when `dropdownParent` moves the wrapper outside its original DOM context
+
 ## 2026-03-01 (3.0.5)
 ### Changed
 - replaced Prettier and ESLint with Biome for formatting and linting

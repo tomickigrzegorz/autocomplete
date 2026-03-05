@@ -22,6 +22,14 @@
 
 See the demo - [example](https://tomickigrzegorz.github.io/autocomplete/)
 
+## Select2 replacement
+
+This library can serve as a lightweight, zero-dependency alternative to **jQuery Select2**. Using `dropdownParent`, `showValuesOnClick` and `classPrefix` you can build fully custom select components — including flag-based country selectors and multi-select with chip tags — without pulling in jQuery or any extra dependencies.
+
+See the live examples:
+- [Country selector](https://tomickigrzegorz.github.io/autocomplete/#country-select-example) — single-select with flag icons
+- [Country selector multi](https://tomickigrzegorz.github.io/autocomplete/#country-select-multi-example) — multi-select with chips, configurable limit and deselect on click
+
 ## Features
 
 - You're in full control of the DOM elements to output
@@ -33,6 +41,7 @@ See the demo - [example](https://tomickigrzegorz.github.io/autocomplete/)
 - Showing 'no results'
 - Show all values on click
 - Multiple choices
+- **Select2 alternative** — build custom searchable selects with flags, chips and multi-select without jQuery
 - No dependencies
 - Very light library, packed gzip **only ~3KB**
 - And a lot more
@@ -53,18 +62,33 @@ Or using Yarn:
 yarn add @tomickigrzegorz/autocomplete
 ```
 
+### Import via ES module
+
+After installing via npm or Yarn you can import the library as an ES module:
+
+```js
+import Autocomplete from '@tomickigrzegorz/autocomplete';
+import '@tomickigrzegorz/autocomplete/css';
+```
+
+Or import CSS separately using the full path:
+
+```js
+import 'node_modules/@tomickigrzegorz/autocomplete/dist/css/autocomplete.min.css';
+```
+
 ### Using a CDN
 
 #### CSS
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.0.5/dist/css/autocomplete.min.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.1.0/dist/css/autocomplete.min.css"/>
 ```
 
 #### JavaScript
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.0.5/dist/js/autocomplete.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.1.0/dist/js/autocomplete.min.js"></script>
 ```
 
 ##### -- OR --
@@ -182,6 +206,7 @@ npm run prod
 | classPreventClosing  |   string   |                                     |         | Prevents results from hiding after clicking on element with this class                                                                                                   |
 | classGroup           |   string   |                                     |         | Enter a class name, this class will be added to the group name elements                                                                                                  |
 | classPrefix          |   string   |                                     |         | Prefixing all autocomplete css class name, 'prefix-auto-', default 'auto-'                                                                                               |
+| dropdownParent       | string/Element |            `null`               |         | Appends the dropdown to the specified element instead of next to the input. Accepts a CSS selector string or an `HTMLElement`. Use `document.body` to escape `overflow` clipping in modals or fixed-height containers. |
 
 **instructions** - has been removed from the library, [see how to add to html](https://tomickigrzegorz.github.io/autocomplete/#complex-example)
 
@@ -301,6 +326,13 @@ new Autocomplete('complex', {
   // results from the DOM and returns everything to its
   // original state
   removeResultsWhenInputIsEmpty: false,
+
+  // appends the dropdown to the specified element instead
+  // of next to the input. Accepts a CSS selector string
+  // or an HTMLElement — useful to escape overflow clipping
+  // in modals or fixed-height containers.
+  // by default is null
+  dropdownParent: document.body,
 
   // parameter allows you modify string before search.
   // For example, we can remove special characters from
@@ -468,6 +500,7 @@ const auto = new Autocomplete('you-id', {
   ariaLabelClear: "clear the search query",
   regex: { expression: /[\|\\{}()[\]^$+*?]/g, replacement: "\\$&" },
   removeResultsWhenInputIsEmpty: false,
+  dropdownParent: null, // string (CSS selector) or HTMLElement
   classPreventClosing: "", // don't use empty value
   classGroup: "", // don't use empty value
   classPrefix: "", // don't use empty value

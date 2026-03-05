@@ -7,30 +7,10 @@
       {
         "row": [
           {
-            "column": "<b>destroy</b>"
-          },
-          {
-            "column": "Removes the autocomplete instance and its bindings, <span>how to use:</span> <code>const auto = new Autocomplete('id', {...});</code> <code>auto.destroy();</code>"
-          }
-        ]
-      },
-      {
-        "row": [
-          {
-            "column": "<b>rerender</b>"
-          },
-          {
-            "column": "This method allows you to re-render the results without modifying the input field.<br>If we pass text <code>rerender(string);</code> then we render the results again and also replace the text in the input field."
-          }
-        ]
-      },
-      {
-        "row": [
-          {
             "column": "<b>disable</b>"
           },
           {
-            "column": "This method allows you to disable the autocomplete functionality.<br><code>const auto = new Autocomplete('id', {...});</code> <code>auto.disable();</code> then we disable the autocomplete. To remove input value you need to call <code>auto.disable(true);</code> Example: <a href='#disable-example'>disable</a>"
+            "column": "Disables the autocomplete — it will not respond to user input. Pass <code>true</code> to also clear the input value. <code>auto.disable();</code> <code>auto.disable(true);</code> Example: <a href='#disable-example'>disable</a>"
           }
         ]
       },
@@ -40,7 +20,37 @@
             "column": "<b>enable</b>"
           },
           {
-            "column": "This method allows you to re-enable the autocomplete functionality after using <code>disable()</code>.<br><code>const auto = new Autocomplete('id', {...});</code> <code>auto.disable();</code> then we disable the autocomplete. To re-enable it you need to call <code>auto.enable();</code> Example: <a href='#enable-example'>enable/disable toggle</a>, <a href='#enable-disable-example'>enable/disable with empty input</a>"
+            "column": "Re-enables the autocomplete after <code>disable()</code> or <code>destroy()</code>. Restores all event listeners without triggering a search. <code>auto.enable();</code> Example: <a href='#enable-example'>enable/disable toggle</a>, <a href='#enable-disable-example'>enable/disable with empty input</a>"
+          }
+        ]
+      },
+      {
+        "row": [
+          {
+            "column": "<b>reset</b>"
+          },
+          {
+            "column": "Clears the input and closes the results list while keeping the autocomplete fully functional. Use this instead of <code>destroy()</code> for a clear button or any programmatic reset. <code>auto.reset();</code>"
+          }
+        ]
+      },
+      {
+        "row": [
+          {
+            "column": "<b>destroy</b>"
+          },
+          {
+            "column": "Clears the input and removes all event listeners. Use only for permanent teardown (e.g. closing a modal). <code>auto.destroy();</code>"
+          }
+        ]
+      },
+      {
+        "row": [
+          {
+            "column": "<b>rerender</b>"
+          },
+          {
+            "column": "Re-renders the results without modifying the input field. Optionally pass a string to also update the input value. <code>auto.rerender();</code> <code>auto.rerender('search term');</code>"
           }
         ]
       }

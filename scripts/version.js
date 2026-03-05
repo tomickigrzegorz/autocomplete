@@ -1,4 +1,4 @@
-const fs = require("fs");
+import fs from "node:fs";
 const { version } = require("../package.json");
 
 const VERSION_REGEX = /@(\d+\.\d+\.\d+)\/dist/i;

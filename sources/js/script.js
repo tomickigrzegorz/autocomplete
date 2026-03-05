@@ -321,7 +321,9 @@ export default class Autocomplete {
       // remove results when input is empty
       if (this._removeResultsWhenInputIsEmpty) {
         if (target?.value.length === 0) {
-          this.destroy();
+          this._resultList.textContent = "";
+          this._reset();
+          this._clearButton && classList(this._clearBtn, "add", "hidden");
           return;
         }
       }
@@ -461,11 +463,11 @@ export default class Autocomplete {
         if (resultLength === 0 && rootValueLength) {
           classList(this._root, "remove", "auto-expanded");
           this._reset();
-          this._noResults({
+          const noResultsHtml = this._noResults({
             element: this._root,
             currentValue: value,
-            template: this._results,
           });
+          if (noResultsHtml) this._results(noResultsHtml);
           this._events();
         } else if (resultLength > 0 || isObject(result)) {
           this._index = this._selectFirst ? 0 : -1;
@@ -536,19 +538,14 @@ export default class Autocomplete {
     // clear result list
     this._resultList.textContent = "";
 
-    // add all found records to otput ul
+    // add all found records to output ul
     const dataResults =
-      this._matches.length === 0
-        ? this._onResults({
-            currentValue: this._value,
-            matches: 0,
-            template,
-          })
-        : this._onResults({
-            currentValue: this._value,
-            matches: this._matches,
-            classGroup: this._classGroup,
-          });
+      template ??
+      this._onResults({
+        currentValue: this._value,
+        matches: this._matches,
+        classGroup: this._classGroup,
+      });
 
     this._resultList.insertAdjacentHTML("afterbegin", dataResults);
 

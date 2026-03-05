@@ -590,6 +590,8 @@ export default class Autocomplete {
    * @param {Event} object
    */
   _handleDocClick = ({ target }) => {
+    if (!(target instanceof Element)) return;
+
     let disableClose = null;
 
     // if 'target' is a ul and 'disableCloseOnSelect'

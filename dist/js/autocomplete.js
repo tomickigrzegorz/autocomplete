@@ -1,6 +1,6 @@
 /*!
 * @name autocomplete
-* @version 3.0.6
+* @version 3.1.0
 * @author Grzegorz Tomicki
 * @link https://github.com/tomickigrzegorz/autocomplete
 * @license MIT
@@ -374,6 +374,7 @@ var Autocomplete = (function () {
     };
     this._handleDocClick = function (_ref3) {
       var target = _ref3.target;
+      if (!(target instanceof Element)) return;
       var disableClose = null;
       if (target.closest("ul") && _this._disable ||
       target.closest("." + _this._prevClosing)) {

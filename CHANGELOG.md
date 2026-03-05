@@ -1,4 +1,4 @@
-## 2026-03-07 (3.2.0)
+## 2026-03-05 (3.2.0)
 ### Added
 - `reset()` public method — clears the input and closes the results list while keeping all event listeners active. Use instead of `destroy()` when you just want to programmatically clear the field (e.g. an external "clear" button)
 

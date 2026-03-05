@@ -264,7 +264,7 @@ export default class Autocomplete {
 
     // show clear button if
     if (this._clearButtonOnInitial) {
-      showBtnToClearData(this._clearBtn, this.destroy);
+      showBtnToClearData(this._clearBtn, this.reset);
     }
   };
 
@@ -420,7 +420,7 @@ export default class Autocomplete {
     this._onLoading(true);
 
     // hide button clear
-    showBtnToClearData(this._clearBtn, this.destroy);
+    showBtnToClearData(this._clearBtn, this.reset);
 
     // if there is no value and clearButton is true
     if (
@@ -1117,6 +1117,27 @@ export default class Autocomplete {
 
     // callback fires last — after all listeners are removed,
     // so enable() can be safely called directly from onReset
+    this._onReset(this._root);
+  };
+
+  /**
+   * Reset autocomplete — clears input and closes results
+   * while keeping all event listeners active (unlike destroy())
+   */
+  reset = () => {
+    // clear input value
+    this._root.value = "";
+    // set focus
+    this._root.focus();
+    // remove li from ul
+    this._resultList.textContent = "";
+    // hide clear button
+    this._clearButton && classList(this._clearBtn, "add", "hidden");
+    // close dropdown / reset ARIA
+    this._reset();
+    // remove error if exist
+    this._error();
+    // callback
     this._onReset(this._root);
   };
 }

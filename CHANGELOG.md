@@ -1,3 +1,26 @@
+## 2026-03-07 (3.2.0)
+### Changed
+- `noResults` — now returns an HTML string instead of calling `template(html)`. Simpler and more consistent with `onResults`
+- `onResults` — `matches` is now always an array. Previously passed `0` (number) when no results — that case is now handled entirely by `noResults`
+
+### Fixed
+- `removeResultsWhenInputIsEmpty` — previously called `destroy()` on empty input which removed all event listeners, making autocomplete dead after clearing. Now only hides results and resets state while keeping listeners active
+
+### Migration from 3.1.x
+```js
+// Before:
+onResults: ({ currentValue, matches, template }) =>
+  matches === 0 ? template : matches.map(el => `<li>${el.name}</li>`).join(''),
+noResults: ({ element, template }) =>
+  template(`<li>No results: "${element.value}"</li>`),
+
+// After:
+onResults: ({ currentValue, matches }) =>
+  matches.map(el => `<li>${el.name}</li>`).join(''),
+noResults: ({ element }) =>
+  `<li>No results: "${element.value}"</li>`,
+```
+
 ## 2026-03-05 (3.1.0)
 ### Added
 - `dropdownParent` option: appends the dropdown to a specified element (CSS selector or `HTMLElement`) instead of next to the input — solves dropdown clipping caused by `overflow: hidden` or `overflow: auto` on parent containers (e.g. modals). Uses `position: fixed` so no parent offset calculation is needed

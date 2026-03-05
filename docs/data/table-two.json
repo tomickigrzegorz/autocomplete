@@ -18,11 +18,11 @@
       {
         "row": [
           {
-            "column": "<b>onResults</b>: ({ currentValue, matches, template, classGroup }) => {}"
+            "column": "<b>onResults</b>: ({ currentValue, matches, classGroup }) => {}"
           },
           { "column": "&check;" },
           {
-            "column": "When we want to add the information <code>No results found:</code> we need to do a comparison, check the matches is 0 then set the template <code>return matches === 0 ? template : matches</code>"
+            "column": "Renders the result list. <code>matches</code> is always an array. When no results are found, <code>noResults</code> is called instead."
           }
         ]
       },
@@ -87,11 +87,11 @@
       {
         "row": [
           {
-            "column": "<b>noResults</b>: ({ element, currentValue, template }) => {}"
+            "column": "<b>noResults</b>: ({ element, currentValue }) => {}"
           },
           { "column": "" },
           {
-            "column": "Showing information: \"no results\""
+            "column": "Called when no results are found. Return an HTML string to display, e.g. <code>noResults: ({ currentValue }) => `&lt;li&gt;No results for \"${currentValue}\"&lt;/li&gt;`</code>"
           }
         ]
       }

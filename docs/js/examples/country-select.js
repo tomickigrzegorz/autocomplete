@@ -24,8 +24,10 @@ function clearCs(e) {
   csFlag.classList.remove("cs-flag--visible");
   csName.textContent = "Country";
   csClear.classList.remove("cs-clear--visible");
-  document.getElementById("country-select").value = "";
+  const input = document.getElementById("country-select");
+  input.value = "";
   closeCs();
+  document.body.dispatchEvent(new MouseEvent("click", { bubbles: true }));
 }
 
 csTrigger.addEventListener("click", () => {

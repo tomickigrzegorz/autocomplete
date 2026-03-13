@@ -1,56 +1,440 @@
 [
   {
-    "text": "Turkey",
+    "text": "Afghanistan",
     "id": "1",
-    "flag": "https://flagcdn.com/w20/tr.png",
-    "code": "+90"
+    "flag": "https://flagcdn.com/w20/af.png",
+    "code": "+93"
   },
   {
-    "text": "Germany",
+    "text": "Albania",
     "id": "2",
-    "flag": "https://flagcdn.com/w20/de.png",
-    "code": "+49"
+    "flag": "https://flagcdn.com/w20/al.png",
+    "code": "+355"
   },
   {
-    "text": "Azerbaijan",
+    "text": "Algeria",
     "id": "3",
-    "flag": "https://flagcdn.com/w20/az.png",
+    "flag": "https://flagcdn.com/w20/dz.png",
+    "code": "+213"
+  },
+  {
+    "text": "Andorra",
+    "id": "4",
+    "flag": "https://flagcdn.com/w20/ad.png",
+    "code": "+376"
+  },
+  {
+    "text": "Argentina",
+    "id": "5",
+    "flag": "https://flagcdn.com/w20/ar.png",
+    "code": "+54"
+  },
+  {
+    "text": "Armenia",
+    "id": "6",
+    "flag": "https://flagcdn.com/w20/am.png",
     "code": "+374"
   },
   {
+    "text": "Australia",
+    "id": "7",
+    "flag": "https://flagcdn.com/w20/au.png",
+    "code": "+61"
+  },
+  {
+    "text": "Austria",
+    "id": "8",
+    "flag": "https://flagcdn.com/w20/at.png",
+    "code": "+43"
+  },
+  {
+    "text": "Azerbaijan",
+    "id": "9",
+    "flag": "https://flagcdn.com/w20/az.png",
+    "code": "+994"
+  },
+  {
+    "text": "Belarus",
+    "id": "10",
+    "flag": "https://flagcdn.com/w20/by.png",
+    "code": "+375"
+  },
+  {
     "text": "Belgium",
-    "id": "4",
+    "id": "11",
     "flag": "https://flagcdn.com/w20/be.png",
     "code": "+32"
   },
   {
+    "text": "Bosnia and Herzegovina",
+    "id": "12",
+    "flag": "https://flagcdn.com/w20/ba.png",
+    "code": "+387"
+  },
+  {
     "text": "Brazil",
-    "id": "5",
+    "id": "13",
     "flag": "https://flagcdn.com/w20/br.png",
     "code": "+55"
   },
   {
     "text": "Bulgaria",
-    "id": "6",
+    "id": "14",
     "flag": "https://flagcdn.com/w20/bg.png",
     "code": "+359"
   },
   {
-    "text": "Poland",
-    "id": "7",
-    "flag": "https://flagcdn.com/w20/pl.png",
-    "code": "+48"
+    "text": "Canada",
+    "id": "15",
+    "flag": "https://flagcdn.com/w20/ca.png",
+    "code": "+1"
+  },
+  {
+    "text": "Chile",
+    "id": "16",
+    "flag": "https://flagcdn.com/w20/cl.png",
+    "code": "+56"
+  },
+  {
+    "text": "China",
+    "id": "17",
+    "flag": "https://flagcdn.com/w20/cn.png",
+    "code": "+86"
+  },
+  {
+    "text": "Colombia",
+    "id": "18",
+    "flag": "https://flagcdn.com/w20/co.png",
+    "code": "+57"
+  },
+  {
+    "text": "Croatia",
+    "id": "19",
+    "flag": "https://flagcdn.com/w20/hr.png",
+    "code": "+385"
+  },
+  {
+    "text": "Cyprus",
+    "id": "20",
+    "flag": "https://flagcdn.com/w20/cy.png",
+    "code": "+357"
   },
   {
     "text": "Czech Republic",
-    "id": "8",
+    "id": "21",
     "flag": "https://flagcdn.com/w20/cz.png",
     "code": "+420"
   },
   {
+    "text": "Denmark",
+    "id": "22",
+    "flag": "https://flagcdn.com/w20/dk.png",
+    "code": "+45"
+  },
+  {
+    "text": "Egypt",
+    "id": "23",
+    "flag": "https://flagcdn.com/w20/eg.png",
+    "code": "+20"
+  },
+  {
+    "text": "Estonia",
+    "id": "24",
+    "flag": "https://flagcdn.com/w20/ee.png",
+    "code": "+372"
+  },
+  {
+    "text": "Finland",
+    "id": "25",
+    "flag": "https://flagcdn.com/w20/fi.png",
+    "code": "+358"
+  },
+  {
+    "text": "France",
+    "id": "26",
+    "flag": "https://flagcdn.com/w20/fr.png",
+    "code": "+33"
+  },
+  {
+    "text": "Georgia",
+    "id": "27",
+    "flag": "https://flagcdn.com/w20/ge.png",
+    "code": "+995"
+  },
+  {
+    "text": "Germany",
+    "id": "28",
+    "flag": "https://flagcdn.com/w20/de.png",
+    "code": "+49"
+  },
+  {
+    "text": "Greece",
+    "id": "29",
+    "flag": "https://flagcdn.com/w20/gr.png",
+    "code": "+30"
+  },
+  {
+    "text": "Hungary",
+    "id": "30",
+    "flag": "https://flagcdn.com/w20/hu.png",
+    "code": "+36"
+  },
+  {
+    "text": "Iceland",
+    "id": "31",
+    "flag": "https://flagcdn.com/w20/is.png",
+    "code": "+354"
+  },
+  {
+    "text": "India",
+    "id": "32",
+    "flag": "https://flagcdn.com/w20/in.png",
+    "code": "+91"
+  },
+  {
+    "text": "Indonesia",
+    "id": "33",
+    "flag": "https://flagcdn.com/w20/id.png",
+    "code": "+62"
+  },
+  {
+    "text": "Iran",
+    "id": "34",
+    "flag": "https://flagcdn.com/w20/ir.png",
+    "code": "+98"
+  },
+  {
+    "text": "Iraq",
+    "id": "35",
+    "flag": "https://flagcdn.com/w20/iq.png",
+    "code": "+964"
+  },
+  {
+    "text": "Ireland",
+    "id": "36",
+    "flag": "https://flagcdn.com/w20/ie.png",
+    "code": "+353"
+  },
+  {
+    "text": "Israel",
+    "id": "37",
+    "flag": "https://flagcdn.com/w20/il.png",
+    "code": "+972"
+  },
+  {
+    "text": "Italy",
+    "id": "38",
+    "flag": "https://flagcdn.com/w20/it.png",
+    "code": "+39"
+  },
+  {
+    "text": "Japan",
+    "id": "39",
+    "flag": "https://flagcdn.com/w20/jp.png",
+    "code": "+81"
+  },
+  {
+    "text": "Kazakhstan",
+    "id": "40",
+    "flag": "https://flagcdn.com/w20/kz.png",
+    "code": "+7"
+  },
+  {
+    "text": "Latvia",
+    "id": "41",
+    "flag": "https://flagcdn.com/w20/lv.png",
+    "code": "+371"
+  },
+  {
+    "text": "Lithuania",
+    "id": "42",
+    "flag": "https://flagcdn.com/w20/lt.png",
+    "code": "+370"
+  },
+  {
+    "text": "Luxembourg",
+    "id": "43",
+    "flag": "https://flagcdn.com/w20/lu.png",
+    "code": "+352"
+  },
+  {
+    "text": "Malaysia",
+    "id": "44",
+    "flag": "https://flagcdn.com/w20/my.png",
+    "code": "+60"
+  },
+  {
+    "text": "Mexico",
+    "id": "45",
+    "flag": "https://flagcdn.com/w20/mx.png",
+    "code": "+52"
+  },
+  {
+    "text": "Moldova",
+    "id": "46",
+    "flag": "https://flagcdn.com/w20/md.png",
+    "code": "+373"
+  },
+  {
+    "text": "Netherlands",
+    "id": "47",
+    "flag": "https://flagcdn.com/w20/nl.png",
+    "code": "+31"
+  },
+  {
+    "text": "New Zealand",
+    "id": "48",
+    "flag": "https://flagcdn.com/w20/nz.png",
+    "code": "+64"
+  },
+  {
+    "text": "Norway",
+    "id": "49",
+    "flag": "https://flagcdn.com/w20/no.png",
+    "code": "+47"
+  },
+  {
+    "text": "Pakistan",
+    "id": "50",
+    "flag": "https://flagcdn.com/w20/pk.png",
+    "code": "+92"
+  },
+  {
+    "text": "Peru",
+    "id": "51",
+    "flag": "https://flagcdn.com/w20/pe.png",
+    "code": "+51"
+  },
+  {
+    "text": "Philippines",
+    "id": "52",
+    "flag": "https://flagcdn.com/w20/ph.png",
+    "code": "+63"
+  },
+  {
+    "text": "Poland",
+    "id": "53",
+    "flag": "https://flagcdn.com/w20/pl.png",
+    "code": "+48"
+  },
+  {
+    "text": "Portugal",
+    "id": "54",
+    "flag": "https://flagcdn.com/w20/pt.png",
+    "code": "+351"
+  },
+  {
+    "text": "Romania",
+    "id": "55",
+    "flag": "https://flagcdn.com/w20/ro.png",
+    "code": "+40"
+  },
+  {
+    "text": "Russia",
+    "id": "56",
+    "flag": "https://flagcdn.com/w20/ru.png",
+    "code": "+7"
+  },
+  {
+    "text": "Saudi Arabia",
+    "id": "57",
+    "flag": "https://flagcdn.com/w20/sa.png",
+    "code": "+966"
+  },
+  {
+    "text": "Serbia",
+    "id": "58",
+    "flag": "https://flagcdn.com/w20/rs.png",
+    "code": "+381"
+  },
+  {
+    "text": "Singapore",
+    "id": "59",
+    "flag": "https://flagcdn.com/w20/sg.png",
+    "code": "+65"
+  },
+  {
     "text": "Slovakia",
-    "id": "8",
+    "id": "60",
     "flag": "https://flagcdn.com/w20/sk.png",
     "code": "+421"
+  },
+  {
+    "text": "Slovenia",
+    "id": "61",
+    "flag": "https://flagcdn.com/w20/si.png",
+    "code": "+386"
+  },
+  {
+    "text": "South Africa",
+    "id": "62",
+    "flag": "https://flagcdn.com/w20/za.png",
+    "code": "+27"
+  },
+  {
+    "text": "South Korea",
+    "id": "63",
+    "flag": "https://flagcdn.com/w20/kr.png",
+    "code": "+82"
+  },
+  {
+    "text": "Spain",
+    "id": "64",
+    "flag": "https://flagcdn.com/w20/es.png",
+    "code": "+34"
+  },
+  {
+    "text": "Sweden",
+    "id": "65",
+    "flag": "https://flagcdn.com/w20/se.png",
+    "code": "+46"
+  },
+  {
+    "text": "Switzerland",
+    "id": "66",
+    "flag": "https://flagcdn.com/w20/ch.png",
+    "code": "+41"
+  },
+  {
+    "text": "Thailand",
+    "id": "67",
+    "flag": "https://flagcdn.com/w20/th.png",
+    "code": "+66"
+  },
+  {
+    "text": "Turkey",
+    "id": "68",
+    "flag": "https://flagcdn.com/w20/tr.png",
+    "code": "+90"
+  },
+  {
+    "text": "Ukraine",
+    "id": "69",
+    "flag": "https://flagcdn.com/w20/ua.png",
+    "code": "+380"
+  },
+  {
+    "text": "United Arab Emirates",
+    "id": "70",
+    "flag": "https://flagcdn.com/w20/ae.png",
+    "code": "+971"
+  },
+  {
+    "text": "United Kingdom",
+    "id": "71",
+    "flag": "https://flagcdn.com/w20/gb.png",
+    "code": "+44"
+  },
+  {
+    "text": "United States",
+    "id": "72",
+    "flag": "https://flagcdn.com/w20/us.png",
+    "code": "+1"
+  },
+  {
+    "text": "Vietnam",
+    "id": "73",
+    "flag": "https://flagcdn.com/w20/vn.png",
+    "code": "+84"
   }
 ]

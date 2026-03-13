@@ -16,11 +16,19 @@ const dpData = [
 // Without dropdownParent the dropdown would be clipped; with it, the
 // resultWrap is appended to document.body and positioned via position: fixed.
 //
+// dropdownAttrs adds extra attributes to the wrapper element that is appended
+// to dropdownParent. Use `class` to apply CSS classes and `style` for inline
+// CSS — useful e.g. to override the default z-index of 9999.
+//
 // onReset fires after all listeners are removed, so enable() can be called
 // directly — no setTimeout needed.
 let dpInlineAc;
 dpInlineAc = new Autocomplete("dropdown-parent-inline", {
   dropdownParent: document.body,
+  dropdownAttrs: {
+    class: "my-wrapper",
+    style: "z-index: 10001",
+  },
   insertToInput: true,
 
   onSearch: ({ currentValue }) =>

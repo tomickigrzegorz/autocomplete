@@ -92,21 +92,21 @@ new Autocomplete("country-select-multi", {
   // mark already-selected items directly in the rendered HTML
   onResults: ({ currentValue, matches }) =>
     matches
-          .map((c) => {
-            const isSelected = csmSelected.some((s) => s.id === c.id);
-            const label = currentValue
-              ? c.text.replace(
-                  new RegExp(currentValue, "gi"),
-                  (s) => `<mark>${s}</mark>`,
-                )
-              : c.text;
-            return `
+      .map((c) => {
+        const isSelected = csmSelected.some((s) => s.id === c.id);
+        const label = currentValue
+          ? c.text.replace(
+              new RegExp(currentValue, "gi"),
+              (s) => `<mark>${s}</mark>`,
+            )
+          : c.text;
+        return `
         <li class="cs-item${isSelected ? " csm-auto-selected" : ""}">
           <img src="${c.flag}" alt="${c.text}" class="cs-item-flag" />
           <span>${label}</span>
         </li>`;
-          })
-          .join(""),
+      })
+      .join(""),
 
   onSubmit: ({ object }) => {
     // clicking an already-selected item removes it
@@ -123,6 +123,5 @@ new Autocomplete("country-select-multi", {
     csmClose();
   },
 
-  noResults: ({ element }) =>
-    `<li>No country found: "${element.value}"</li>`,
+  noResults: ({ element }) => `<li>No country found: "${element.value}"</li>`,
 });

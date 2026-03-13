@@ -1229,3 +1229,13 @@ aside::-webkit-scrollbar-thumb {
   display: block;
   flex-shrink: 0;
 }
+
+#auto-wikipedia-search-results li {
+  display: block;
+  border-top: 1px solid #d1d5db;
+  margin-top: 0;
+}
+
+#auto-wikipedia-search-results .wiki-result {
+  padding: 0;
+}

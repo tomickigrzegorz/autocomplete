@@ -40,6 +40,7 @@ import KEY_CODES from "./utils/keyCodes";
  * @property {boolean} [preventScrollUp=false] - Prevent scrolling to the top.
  * @property {boolean} [removeResultsWhenInputIsEmpty=false] - Remove results when input is empty.
  * @property {string|HTMLElement} [dropdownParent] - Element (or CSS selector) to append the dropdown to, useful for modals with overflow hidden.
+ * @property {{class?: string, style?: string}} [dropdownAttrs={}] - Extra HTML attributes applied to the dropdown wrapper when `dropdownParent` is set. Use `class` to add CSS classes and `style` for inline CSS (e.g. `"z-index: 10001"`)
  * @property {RegexConfig} [regex] - Configuration for regex matching.
  * @property {string} [classGroup] - CSS class for grouping results.
  * @property {string} [classPreventClosing] - CSS class to prevent closing.
@@ -53,6 +54,7 @@ import KEY_CODES from "./utils/keyCodes";
  * @property {Function} [onRender] - Callback for rendering the component.
  * @property {Function} [onClose] - Callback when results are closed.
  * @property {Function} [noResults] - Callback when no results are found.
+ * @property {Function} [onLoading] - Callback when search is in progress. Return HTML string to show in the dropdown while loading.
  * @property {Function} [onSelectedItem] - Callback when an item is selected.
  */
 
@@ -82,6 +84,7 @@ export default class Autocomplete {
       preventScrollUp = false,
       removeResultsWhenInputIsEmpty = false,
       dropdownParent,
+      dropdownAttrs = {},
       regex = { expression: /[|\\{}()[\]^$+*?]/g, replacement: "\\$&" },
       classGroup,
       classPreventClosing,
@@ -95,6 +98,7 @@ export default class Autocomplete {
       onRender = () => {},
       onClose = () => {},
       noResults = () => {},
+      onLoading = () => {},
       onSelectedItem = () => {},
     },
   ) {
@@ -126,6 +130,8 @@ export default class Autocomplete {
     this._onReset = onReset;
     /** @type {Function} */
     this._noResults = noResults;
+    /** @type {Function} */
+    this._onLoadingCb = onLoading;
     /** @type {Function} */
     this._onClose = onClose;
     /** @type {number} */
@@ -165,6 +171,8 @@ export default class Autocomplete {
       typeof dropdownParent === "string"
         ? document.querySelector(dropdownParent)
         : dropdownParent || null;
+    /** @type {Object} */
+    this._dropdownAttrs = dropdownAttrs;
 
     // default config
     /** @type {boolean} */
@@ -233,6 +241,14 @@ export default class Autocomplete {
     // if dropdownParent is set, move the result wrapper there (e.g. body, to escape modal overflow)
     if (this._dropdownParent) {
       this._dropdownParent.appendChild(this._resultWrap);
+      if (this._dropdownAttrs.class) {
+        this._resultWrap.classList.add(
+          ...this._dropdownAttrs.class.trim().split(/\s+/),
+        );
+      }
+      if (this._dropdownAttrs.style) {
+        this._resultWrap.setAttribute("style", this._dropdownAttrs.style);
+      }
     }
 
     // ensure results list has the expected id immediately and connect it to the input
@@ -342,7 +358,9 @@ export default class Autocomplete {
     this._resultWrap.style.left = `${rect.left}px`;
     this._resultWrap.style.top = `${rect.bottom}px`;
     this._resultWrap.style.width = `${rect.width}px`;
-    this._resultWrap.style.zIndex = "9999";
+    if (!this._dropdownAttrs.style?.includes("z-index")) {
+      this._resultWrap.style.zIndex = "9999";
+    }
   };
 
   /**
@@ -416,9 +434,6 @@ export default class Autocomplete {
   _searchItem = (value) => {
     this._value = value;
 
-    // if searching show loading icon
-    this._onLoading(true);
-
     // hide button clear
     showBtnToClearData(this._clearBtn, this.reset);
 
@@ -438,9 +453,11 @@ export default class Autocomplete {
       !this._showValuesOnClick &&
       !this._inline
     ) {
-      this._onLoading();
       return;
     }
+
+    // if searching show loading icon — only when a real search will fire
+    this._onLoading(true);
 
     // callblack function onSearch
     this._onSearch({ currentValue: value, element: this._root })
@@ -482,12 +499,33 @@ export default class Autocomplete {
   };
 
   /**
-   * Set or remove loading class
+   * Set or remove loading class and optionally show loading HTML in the dropdown
    *
    * @param {Boolean} type
    */
-  _onLoading = (type) =>
+  _onLoading = (type) => {
     this._root.parentNode.classList[type ? "add" : "remove"](this._isLoading);
+
+    if (type) {
+      const loadingHtml = this._onLoadingCb({
+        element: this._root,
+        currentValue: this._value,
+      });
+
+      if (loadingHtml) {
+        this._resultList.textContent = "";
+        this._resultList.insertAdjacentHTML("afterbegin", loadingHtml);
+        setAttributes(this._root, {
+          "aria-expanded": "true",
+          addClass: `${this._prefix}-expanded`,
+        });
+        classList(this._resultWrap, "add", this._isActive);
+        if (this._dropdownParent) {
+          this._startPositionTracking();
+        }
+      }
+    }
+  };
 
   /**
    * Set error class to the root element

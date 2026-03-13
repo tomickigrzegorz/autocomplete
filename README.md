@@ -185,6 +185,7 @@ npm run prod
 | onRender             |  function  |                                     |         | Possibility to add html elements, e.g. before and after the search results                                                                                               |
 | onClose              |  function  |                                     |         | e.g. delete class after close results, see example modal                                                                                                                 |
 | noResults            |  function  |                                     |         | Called when no results are found. Return an HTML string to display: `noResults: ({ currentValue }) => \`<li>No results for "${currentValue}"</li>\`` |
+| onLoading            |  function  |                                     |         | Called when an async search starts. Return an HTML string to display in the dropdown while waiting for results (e.g. a spinner or status message). Replaced automatically when results or `noResults` fires: `onLoading: ({ currentValue }) => \`<li>Searching for "${currentValue}"…</li>\`` |
 | destroy              |   method   |                                     |         | Clears the input and removes all event listeners. Use `reset()` if you want to keep the autocomplete functional                                                          |
 | reset               |   method   |                                     |         | Clears the input and closes the results list while keeping all event listeners active. Safe alternative to `destroy()` when you just want to clear the field             |
 | rerender             |   method   |                                     |         | This method allows you to re-render the results without modifying the input field. Of course, we can also send the string we want to search for to the method. render(string);                                                                                                                       |
@@ -208,6 +209,7 @@ npm run prod
 | classGroup           |   string   |                                     |         | Enter a class name, this class will be added to the group name elements                                                                                                  |
 | classPrefix          |   string   |                                     |         | Prefixing all autocomplete css class name, 'prefix-auto-', default 'auto-'                                                                                               |
 | dropdownParent       | string/Element |            `null`               |         | Appends the dropdown to the specified element instead of next to the input. Accepts a CSS selector string or an `HTMLElement`. Use `document.body` to escape `overflow` clipping in modals or fixed-height containers. |
+| dropdownAttrs        |   object   |               `{}`                  |         | Extra HTML attributes applied to the dropdown wrapper when `dropdownParent` is set. Supports `class` (adds CSS classes) and `style` (inline CSS string, e.g. `"z-index: 10001"` to override the default). |
 
 **instructions** - has been removed from the library, [see how to add to html](https://tomickigrzegorz.github.io/autocomplete/#complex-example)
 
@@ -323,7 +325,7 @@ new Autocomplete('complex', {
   preventScrollUp: false,
 
   // set to true deletes the results when input is empty.
-  // We use the `destroy()` method which removes the
+  // We use the `reset()` method which removes the
   // results from the DOM and returns everything to its
   // original state
   removeResultsWhenInputIsEmpty: false,
@@ -334,6 +336,12 @@ new Autocomplete('complex', {
   // in modals or fixed-height containers.
   // by default is null
   dropdownParent: document.body,
+
+  // extra HTML attributes applied to the dropdown wrapper
+  // element when dropdownParent is set.
+  // `class` adds CSS classes, `style` sets inline CSS
+  // (e.g. to override the default z-index: 9999).
+  dropdownAttrs: { class: "my-wrapper", style: "z-index: 10001" },
 
   // parameter allows you modify string before search.
   // For example, we can remove special characters from
@@ -476,6 +484,12 @@ new Autocomplete('complex', {
   // the callback presents no results
   noResults: ({ currentValue }) =>
     `<li>No results found: "${currentValue}"</li>`,
+
+  // called when async search starts — return HTML to show in the
+  // dropdown while waiting for results (replaced automatically
+  // when results or noResults fires)
+  onLoading: ({ currentValue }) =>
+    `<li>Searching for "${currentValue}"…</li>`,
 });
 ```
 
@@ -498,6 +512,7 @@ const auto = new Autocomplete('you-id', {
   regex: { expression: /[\|\\{}()[\]^$+*?]/g, replacement: "\\$&" },
   removeResultsWhenInputIsEmpty: false,
   dropdownParent: null, // string (CSS selector) or HTMLElement
+  dropdownAttrs: {}, // extra attrs on wrapper: { class, style } — only with dropdownParent
   classPreventClosing: "", // don't use empty value
   classGroup: "", // don't use empty value
   classPrefix: "", // don't use empty value
@@ -510,6 +525,7 @@ const auto = new Autocomplete('you-id', {
   onReset: (element) => {},
   onClose: () => {},
   noResults: ({ element, currentValue }) => {},
+  onLoading: ({ element, currentValue }) => {},
 });
 
 // public methods

@@ -148,6 +148,8 @@ function Autocomplete(_element, _ref) {
     _ref$removeResultsWhe = _ref.removeResultsWhenInputIsEmpty,
     removeResultsWhenInputIsEmpty = _ref$removeResultsWhe === void 0 ? false : _ref$removeResultsWhe,
     dropdownParent = _ref.dropdownParent,
+    _ref$dropdownAttrs = _ref.dropdownAttrs,
+    dropdownAttrs = _ref$dropdownAttrs === void 0 ? {} : _ref$dropdownAttrs,
     _ref$regex = _ref.regex,
     _regex = _ref$regex === void 0 ? {
       expression: /[|\\{}()[\]^$+*?]/g,
@@ -172,6 +174,8 @@ function Autocomplete(_element, _ref) {
     onClose = _ref$onClose === void 0 ? function () {} : _ref$onClose,
     _ref$noResults = _ref.noResults,
     noResults = _ref$noResults === void 0 ? function () {} : _ref$noResults,
+    _ref$onLoading = _ref.onLoading,
+    onLoading = _ref$onLoading === void 0 ? function () {} : _ref$onLoading,
     _ref$onSelectedItem = _ref.onSelectedItem,
     onSelectedItem = _ref$onSelectedItem === void 0 ? function () {} : _ref$onSelectedItem;
   this._initial = function () {
@@ -181,6 +185,13 @@ function Autocomplete(_element, _ref) {
     output(_this._root, _this._resultList, _this._outputUl, _this._resultWrap, _this._prefix);
     if (_this._dropdownParent) {
       _this._dropdownParent.appendChild(_this._resultWrap);
+      if (_this._dropdownAttrs.class) {
+        var _this$_resultWrap$cla;
+        (_this$_resultWrap$cla = _this._resultWrap.classList).add.apply(_this$_resultWrap$cla, _this._dropdownAttrs.class.trim().split(/\s+/));
+      }
+      if (_this._dropdownAttrs.style) {
+        _this._resultWrap.setAttribute("style", _this._dropdownAttrs.style);
+      }
     }
     try {
       _this._resultList.id = _this._outputUl;
@@ -240,12 +251,15 @@ function Autocomplete(_element, _ref) {
     }, delay);
   };
   this._positionDropdown = function () {
+    var _this$_dropdownAttrs$;
     var rect = _this._root.getBoundingClientRect();
     _this._resultWrap.style.position = "fixed";
     _this._resultWrap.style.left = rect.left + "px";
     _this._resultWrap.style.top = rect.bottom + "px";
     _this._resultWrap.style.width = rect.width + "px";
-    _this._resultWrap.style.zIndex = "9999";
+    if (!((_this$_dropdownAttrs$ = _this._dropdownAttrs.style) != null && _this$_dropdownAttrs$.includes("z-index"))) {
+      _this._resultWrap.style.zIndex = "9999";
+    }
   };
   this._startPositionTracking = function () {
     _this._positionDropdown();
@@ -278,15 +292,14 @@ function Autocomplete(_element, _ref) {
   };
   this._searchItem = function (value) {
     _this._value = value;
-    _this._onLoading(true);
     showBtnToClearData(_this._clearBtn, _this.reset);
     if ((!value || (value == null ? void 0 : value.length) === 0) && _this._clearButton && !_this._clearButtonOnInitial) {
       classList(_this._clearBtn, "add", "hidden");
     }
     if (_this._characters > (value == null ? void 0 : value.length) && !_this._showValuesOnClick && !_this._inline) {
-      _this._onLoading();
       return;
     }
+    _this._onLoading(true);
     _this._onSearch({
       currentValue: value,
       element: _this._root
@@ -319,7 +332,25 @@ function Autocomplete(_element, _ref) {
     });
   };
   this._onLoading = function (type) {
-    return _this._root.parentNode.classList[type ? "add" : "remove"](_this._isLoading);
+    _this._root.parentNode.classList[type ? "add" : "remove"](_this._isLoading);
+    if (type) {
+      var loadingHtml = _this._onLoadingCb({
+        element: _this._root,
+        currentValue: _this._value
+      });
+      if (loadingHtml) {
+        _this._resultList.textContent = "";
+        _this._resultList.insertAdjacentHTML("afterbegin", loadingHtml);
+        setAttributes(_this._root, {
+          "aria-expanded": "true",
+          addClass: _this._prefix + "-expanded"
+        });
+        classList(_this._resultWrap, "add", _this._isActive);
+        if (_this._dropdownParent) {
+          _this._startPositionTracking();
+        }
+      }
+    }
   };
   this._error = function () {
     return classList(_this._root, "remove", _this._err);
@@ -696,6 +727,7 @@ function Autocomplete(_element, _ref) {
   this._onOpened = onOpened;
   this._onReset = onReset;
   this._noResults = noResults;
+  this._onLoadingCb = onLoading;
   this._onClose = onClose;
   this._delay = _delay;
   this._characters = howManyCharacters;
@@ -713,6 +745,7 @@ function Autocomplete(_element, _ref) {
   this._preventScrollUp = preventScrollUp;
   this._removeResultsWhenInputIsEmpty = removeResultsWhenInputIsEmpty;
   this._dropdownParent = typeof dropdownParent === "string" ? document.querySelector(dropdownParent) : dropdownParent || null;
+  this._dropdownAttrs = dropdownAttrs;
   this._cache = cache;
   this._timeout = null;
   this._outputUl = this._prefix + "-" + this._id + "-results";

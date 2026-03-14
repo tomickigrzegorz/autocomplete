@@ -28,7 +28,7 @@ const auto = new Autocomplete("complex", {
 
   // Function for user input. It can be a synchronous function or a promise
   // you can fetch data with jquery, axios, fetch, etc.
-  onSearch: ({ currentValue }) => {
+  onSearch: async ({ currentValue }) => {
     // static file
     // const api = './characters.json';
 
@@ -73,19 +73,9 @@ const auto = new Autocomplete("complex", {
 
     // OR ----------------------------------
 
-    /**
-     * Promise
-     */
-    return new Promise((resolve) => {
-      fetch(api)
-        .then((response) => response.json())
-        .then((data) => {
-          resolve(data.results);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    });
+    const response = await fetch(api);
+    const data = await response.json();
+    return data.results;
   },
 
   // this part is responsible for the number of records,

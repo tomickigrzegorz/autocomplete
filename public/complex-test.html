@@ -182,27 +182,17 @@
         // the input field are cached
         cache: true,
 
-        onSearch: ({ currentValue }) => {
+        onSearch: async ({ currentValue }) => {
           // static file
           const api =
             "https://raw.githubusercontent.com/tomickigrzegorz/autocomplete/master/docs/characters.json";
-
-          return new Promise((resolve) => {
-            fetch(api)
-              .then((response) => response.json())
-              .then((data) => {
-                const result = data
-                  .sort((a, b) => a.name.localeCompare(b.name))
-                  .filter((element) => {
-                    return element.name.match(new RegExp(currentValue, "gi"));
-                  });
-
-                resolve(result);
-              })
-              .catch((error) => {
-                console.error(error);
-              });
-          });
+          const response = await fetch(api);
+          const data = await response.json();
+          return data
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .filter((element) =>
+              element.name.match(new RegExp(currentValue, "gi"))
+            );
         },
 
         onResults: ({ currentValue, matches, classGroup }) => {

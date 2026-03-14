@@ -458,6 +458,9 @@
         });
         if (!_this._cache) return;
         _this._cacheAct("update", _this._root);
+      } else if (_this._resultList.textContent.length > 0 && classList(_this._resultWrap, "contains", _this._isActive) && !_this._preventScrollUp) {
+        _this._selectFirstElement();
+        _this._index = _this._selectFirst ? 0 : -1;
       }
     };
     this._handleMouse = function (event) {

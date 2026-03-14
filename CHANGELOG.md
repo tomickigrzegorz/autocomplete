@@ -15,6 +15,16 @@ onLoading: ({ element, currentValue }) =>
 
 - **Wikipedia search example** — demonstrates `onLoading` with a real async API (`en.wikipedia.org/w/api.php`), including highlighted titles, snippet preview, and `noResults` fallback
 
+### Fixed
+- Clicking the input while the dropdown is open now correctly resets the highlighted selection (`auto-selected` class). Previously the selection disappeared visually but `this._index` was still remembered, causing inconsistent arrow key navigation on the next keystroke
+- With `preventScrollUp: true`, clicking the input while the dropdown is open no longer clears the selection — both scroll position and highlighted item are preserved, consistent with the existing close/reopen behavior
+
+### Changed
+- Selection reset on input click now respects `selectFirst`:
+  - `selectFirst: false` — no item highlighted after click; ↓ moves to first, ↑ moves to last
+  - `selectFirst: true` — first item is highlighted after click
+- `preventScrollUp: true` takes full precedence: clicking the input or closing/reopening the dropdown always preserves the previously highlighted item
+
 ## 2026-03-05 (3.2.0)
 ### Added
 - `reset()` public method — clears the input and closes the results list while keeping all event listeners active. Use instead of `destroy()` when you just want to programmatically clear the field (e.g. an external "clear" button)

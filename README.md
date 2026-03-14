@@ -196,7 +196,7 @@ npm run prod
 | selectFirst          |  boolean   |               `false`               |         | Default selects the first item in the list of results                                                                                                                    |
 | insertToInput        |  boolean   |               `false`               |         | Adding an element selected with arrows or hovering with the mouse to the input field                                                                                                                |
 | disableCloseOnSelect |  boolean   |               `false`               |         | Prevents results from hiding after clicking on an item from the results list                                                                                             |
-| preventScrollUp      |  boolean   |               `false`               |         | The parameter prevents the results from scrolling up when scrolling after reopening the results. The results are displayed in the same place. The selected item does not disappear and is still selected.                                                                                             |
+| preventScrollUp      |  boolean   |               `false`               |         | Prevents the results from scrolling to the top when the dropdown reopens. The scroll position and the highlighted selection are both preserved — clicking the input or closing and reopening the dropdown keeps the previously selected item highlighted.                                             |
 | showAllValuesOnClick |  boolean   |               `false`               |         | This option will toggle showing all values when the input is clicked, like a default dropdown                                                                            |
 | inline        |  boolean   |               `false`               |         | This option displays all results without clicking on the input field                                                                            |
 | removeResultsWhenInputIsEmpty        |  boolean   |               `false`               |         | Set to `true` to clear the results when the input is empty                                                                                                              |
@@ -352,7 +352,7 @@ new Autocomplete('complex', {
 
   // Function for user input. It can be a synchronous function or a promise
   // you can fetch data with jquery, axios, fetch, etc.
-  onSearch: ({ currentValue }) => {
+  onSearch: async ({ currentValue }) => {
     // static file
     // const api = './characters.json';
 
@@ -396,19 +396,9 @@ new Autocomplete('complex', {
 
     // OR ----------------------------------
 
-    /**
-     * Promise
-     */
-    return new Promise((resolve) => {
-      fetch(api)
-        .then((response) => response.json())
-        .then((data) => {
-          resolve(data.results);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    });
+    const response = await fetch(api);
+    const data = await response.json();
+    return data.results;
   },
 
   // this part is responsible for the number of records,
@@ -568,6 +558,26 @@ auto.enable();
 - User input (when `howManyCharacters` threshold is met)
 - Input click (when `showAllValuesOnClick: true`)
 - Manual `rerender()` call
+
+### preventScrollUp: selection behavior
+
+When `preventScrollUp: false` (default), clicking the input while the dropdown is open resets the highlighted selection:
+
+- `selectFirst: false` — no item highlighted; ↓ moves to first item, ↑ moves to last
+- `selectFirst: true` — first item is highlighted
+
+When `preventScrollUp: true`, clicking the input (or closing and reopening the dropdown) **preserves** the previously highlighted item — both the scroll position and the selection stay exactly where they were.
+
+```js
+new Autocomplete('search', {
+  preventScrollUp: true,
+
+  onSearch: async ({ currentValue }) => { ... },
+  onResults: ({ matches }) => matches.map(...).join(''),
+});
+// After selecting item #5 and clicking outside to close,
+// clicking the input again reopens with item #5 still highlighted.
+```
 
 ### reset() vs destroy()
 

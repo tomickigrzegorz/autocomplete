@@ -20,14 +20,10 @@ function initEnableDisableExample() {
   function createAutocomplete() {
     if (autoEnableDisable) return autoEnableDisable; // Already exists
     autoEnableDisable = new Autocomplete("enable-disable", {
-      onSearch: ({ currentValue }) => {
-        return new Promise((resolve) => {
-          const results = dataEnableDisable.filter((item) =>
-            item.name.toLowerCase().includes(currentValue.toLowerCase()),
-          );
-          resolve(results);
-        });
-      },
+      onSearch: ({ currentValue }) =>
+        dataEnableDisable.filter((item) =>
+          item.name.toLowerCase().includes(currentValue.toLowerCase()),
+        ),
       onResults: ({ matches }) => {
         return matches
           .map(

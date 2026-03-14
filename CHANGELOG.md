@@ -15,6 +15,9 @@ onLoading: ({ element, currentValue }) =>
 
 - **Wikipedia search example** — demonstrates `onLoading` with a real async API (`en.wikipedia.org/w/api.php`), including highlighted titles, snippet preview, and `noResults` fallback
 
+### Added (tests)
+- added Playwright tests for `onLoading` callback (`tests/09-loading.spec.js`) — verifies `auto-is-loading` class is added to the wrapper while fetching, removed after results arrive, loading HTML from the callback is shown in the dropdown during the request, and replaced by real results when the response comes back
+
 ### Fixed
 - Clicking the input while the dropdown is open now correctly resets the highlighted selection (`auto-selected` class). Previously the selection disappeared visually but `this._index` was still remembered, causing inconsistent arrow key navigation on the next keystroke
 - With `preventScrollUp: true`, clicking the input while the dropdown is open no longer clears the selection — both scroll position and highlighted item are preserved, consistent with the existing close/reopen behavior

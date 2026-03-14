@@ -1,3 +1,20 @@
+## 2026-03-14 (3.3.0)
+### Added
+- `dropdownAttrs` — extra HTML attributes applied to the dropdown wrapper element when `dropdownParent` is set. Supports `class` (adds CSS classes) and `style` (inline CSS string). Most common use case: overriding the default `z-index: 9999`
+
+```js
+dropdownAttrs: { class: "my-wrapper", style: "z-index: 10001" },
+```
+
+- `onLoading` — callback function called when an async search starts. Return an HTML string to display a loading indicator (or any content) in the dropdown while waiting for results. When results arrive (or `noResults` fires), the loading content is replaced automatically. The built-in `auto-is-loading` CSS class on the wrapper is still added/removed independently
+
+```js
+onLoading: ({ element, currentValue }) =>
+  `<li class="my-loading">Searching for "<strong>${currentValue}</strong>"…</li>`,
+```
+
+- **Wikipedia search example** — demonstrates `onLoading` with a real async API (`en.wikipedia.org/w/api.php`), including highlighted titles, snippet preview, and `noResults` fallback
+
 ## 2026-03-05 (3.2.0)
 ### Added
 - `reset()` public method — clears the input and closes the results list while keeping all event listeners active. Use instead of `destroy()` when you just want to programmatically clear the field (e.g. an external "clear" button)

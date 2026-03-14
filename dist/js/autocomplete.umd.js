@@ -94,9 +94,6 @@
   var createElement = function createElement(type) {
     return document.createElement(type);
   };
-  var select = function select(selector) {
-    return document.querySelector(selector);
-  };
   var onEvent = function onEvent(element, action, callback) {
     element.addEventListener(action, callback);
   };
@@ -288,7 +285,7 @@
       });
       setAttributes(_this._root, ariaAcrivedescent);
       if (!_this._preventScrollUp) {
-        _this._removeAria(select("." + _this._activeList));
+        _this._removeAria(_this._resultList.querySelector("." + _this._activeList));
         _this._index = _this._selectFirst ? 0 : -1;
       }
       if (((_this$_matches = _this._matches) == null ? void 0 : _this$_matches.length) === 0 && !_this._toInput || _this._showValuesOnClick) {
@@ -418,7 +415,7 @@
       }
     };
     this._selectFirstElement = function () {
-      _this._removeAria(select("." + _this._activeList));
+      _this._removeAria(_this._resultList.querySelector("." + _this._activeList));
       if (!_this._selectFirst) {
         return;
       }
@@ -470,7 +467,7 @@
       var targetClosest = target.closest("li");
       var targetClosestRole = targetClosest == null ? void 0 : targetClosest.hasAttribute("role");
       var activeClass = _this._activeList;
-      var activeClassElement = select("." + activeClass);
+      var activeClassElement = _this._resultList.querySelector("." + activeClass);
       if (!targetClosest || !targetClosestRole || target.closest("." + _this._prevClosing)) {
         return;
       }
@@ -524,7 +521,7 @@
       var keyCode = event.keyCode;
       var resultList = classList(_this._resultWrap, "contains", _this._isActive);
       var matchesLength = _this._matches.length + 1;
-      _this._selectedLi = select("." + _this._activeList);
+      _this._selectedLi = _this._resultList.querySelector("." + _this._activeList);
       switch (keyCode) {
         case KEY_CODES.UP:
         case KEY_CODES.DOWN:

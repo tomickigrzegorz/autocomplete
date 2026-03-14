@@ -406,7 +406,7 @@ export default class Autocomplete {
 
     if (!this._preventScrollUp) {
       // set default aria-selected, remove id and remove class 'auto-selected'
-      this._removeAria(select(`.${this._activeList}`));
+      this._removeAria(this._resultList.querySelector(`.${this._activeList}`));
 
       // set index
       this._index = this._selectFirst ? 0 : -1;
@@ -650,7 +650,7 @@ export default class Autocomplete {
    * Select first element
    */
   _selectFirstElement = () => {
-    this._removeAria(select(`.${this._activeList}`));
+    this._removeAria(this._resultList.querySelector(`.${this._activeList}`));
 
     if (!this._selectFirst) {
       return;
@@ -744,7 +744,7 @@ export default class Autocomplete {
     const targetClosest = target.closest("li");
     const targetClosestRole = targetClosest?.hasAttribute("role");
     const activeClass = this._activeList;
-    const activeClassElement = select(`.${activeClass}`);
+    const activeClassElement = this._resultList.querySelector(`.${activeClass}`);
 
     if (
       !targetClosest ||
@@ -848,7 +848,7 @@ export default class Autocomplete {
     const resultList = classList(this._resultWrap, "contains", this._isActive);
 
     const matchesLength = this._matches.length + 1;
-    this._selectedLi = select(`.${this._activeList}`);
+    this._selectedLi = this._resultList.querySelector(`.${this._activeList}`);
 
     // switch between keys
     switch (keyCode) {

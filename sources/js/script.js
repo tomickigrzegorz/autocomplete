@@ -720,6 +720,14 @@ export default class Autocomplete {
 
       if (!this._cache) return;
       this._cacheAct("update", this._root);
+    } else if (
+      this._resultList.textContent.length > 0 &&
+      classList(this._resultWrap, "contains", this._isActive) &&
+      !this._preventScrollUp
+    ) {
+      // dropdown already open — clicking input resets selection state
+      this._selectFirstElement();
+      this._index = this._selectFirst ? 0 : -1;
     }
   };
 

@@ -18,6 +18,7 @@ onLoading: ({ element, currentValue }) =>
 ### Fixed
 - Clicking the input while the dropdown is open now correctly resets the highlighted selection (`auto-selected` class). Previously the selection disappeared visually but `this._index` was still remembered, causing inconsistent arrow key navigation on the next keystroke
 - With `preventScrollUp: true`, clicking the input while the dropdown is open no longer clears the selection — both scroll position and highlighted item are preserved, consistent with the existing close/reopen behavior
+- Multiple autocomplete instances on the same page no longer interfere with each other's selection state — `auto-selected` lookups are now scoped to each instance's own result list instead of searching the entire document (`document.querySelector` → `this._resultList.querySelector`)
 
 ### Changed
 - Selection reset on input click now respects `selectFirst`:

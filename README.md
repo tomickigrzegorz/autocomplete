@@ -209,7 +209,7 @@ npm run prod
 | classGroup           |   string   |                                     |         | Enter a class name, this class will be added to the group name elements                                                                                                  |
 | classPrefix          |   string   |                                     |         | Prefixing all autocomplete css class name, 'prefix-auto-', default 'auto-'                                                                                               |
 | dropdownParent       | string/Element |            `null`               |         | Appends the dropdown to the specified element instead of next to the input. Accepts a CSS selector string or an `HTMLElement`. Use `document.body` to escape `overflow` clipping in modals or fixed-height containers. |
-| dropdownAttrs        |   object   |               `{}`                  |         | Extra HTML attributes applied to the dropdown wrapper when `dropdownParent` is set. Supports `class` (adds CSS classes) and `style` (inline CSS string, e.g. `"z-index: 10001"` to override the default). |
+| dropdownAttrs        |   object   |               `{}`                  |         | Extra HTML attributes applied to the dropdown wrapper when `dropdownParent` is set. Supports `class` (adds CSS classes) and `style` (inline CSS string, e.g. `"z-index: 10001"` to override the default). To style the inner result list use a descendant selector: `.my-wrapper ul { max-height: 200px; overflow-y: auto; }` |
 
 **instructions** - has been removed from the library, [see how to add to html](https://tomickigrzegorz.github.io/autocomplete/#complex-example)
 
@@ -341,6 +341,8 @@ new Autocomplete('complex', {
   // element when dropdownParent is set.
   // `class` adds CSS classes, `style` sets inline CSS
   // (e.g. to override the default z-index: 9999).
+  // To style the inner result list (e.g. height / scroll),
+  // use a CSS descendant selector: .my-wrapper ul { max-height: 200px; overflow-y: auto; }
   dropdownAttrs: { class: "my-wrapper", style: "z-index: 10001" },
 
   // parameter allows you modify string before search.

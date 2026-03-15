@@ -6,6 +6,15 @@
 dropdownAttrs: { class: "my-wrapper", style: "z-index: 10001" },
 ```
 
+  To style the inner result list (e.g. limit height or enable scrolling), target the `ul` inside your wrapper class:
+
+```css
+.my-wrapper ul {
+  max-height: 200px;
+  overflow-y: auto;
+}
+```
+
 - `onLoading` — callback function called when an async search starts. Return an HTML string to display a loading indicator (or any content) in the dropdown while waiting for results. When results arrive (or `noResults` fires), the loading content is replaced automatically. The built-in `auto-is-loading` CSS class on the wrapper is still added/removed independently
 
 ```js

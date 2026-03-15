@@ -19,6 +19,8 @@ const dpData = [
 // dropdownAttrs adds extra attributes to the wrapper element that is appended
 // to dropdownParent. Use `class` to apply CSS classes and `style` for inline
 // CSS — useful e.g. to override the default z-index of 9999.
+// To control the inner result list (height, scroll etc.) use a CSS descendant
+// selector, e.g.: .my-wrapper ul { max-height: 200px; overflow-y: auto; }
 //
 // onReset fires after all listeners are removed, so enable() can be called
 // directly — no setTimeout needed.

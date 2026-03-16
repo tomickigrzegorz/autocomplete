@@ -14,17 +14,22 @@ export function AutocompleteInput({
   ...options
 }: AutocompleteProps) {
   const ref = useRef<HTMLInputElement>(null);
-  const uid = useId();
+  const uid = useId().replace(/:/g, "");
+  const optionsRef = useRef(options);
+  optionsRef.current = options;
 
   useEffect(() => {
     if (!ref.current) return;
 
-    const instance = new Autocomplete(ref.current, options);
+    const instance = new Autocomplete(ref.current, optionsRef.current);
+
     return () => {
+      // remove the resultWrap from DOM before destroying to prevent orphaned elements
+      const resultWrap = ref.current?.nextElementSibling;
       instance.destroy();
+      resultWrap?.remove();
     };
-    // re-create instance when onSearch changes (e.g. new data source)
-  }, [options.onSearch]);
+  }, []); // create once on mount, destroy on unmount
 
   return (
     <input

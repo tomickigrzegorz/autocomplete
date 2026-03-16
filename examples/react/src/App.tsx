@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { AutocompleteInput } from "@tomickigrzegorz/autocomplete-react";
 import "@tomickigrzegorz/autocomplete/css";
 import "./app.css";
@@ -16,14 +16,14 @@ async function fetchCharacters(): Promise<Character[]> {
 export default function App() {
   const [selected, setSelected] = useState<Character | null>(null);
 
-  const onSearch = async ({ currentValue }: { currentValue: string }) => {
+  const onSearch = useCallback(async ({ currentValue }: { currentValue: string }) => {
     const data = await fetchCharacters();
     return data
       .sort((a, b) => a.name.localeCompare(b.name))
       .filter((el) => el.name.match(new RegExp(currentValue, "gi")));
-  };
+  }, []);
 
-  const onResults = ({
+  const onResults = useCallback(({
     currentValue,
     matches,
   }: {
@@ -39,11 +39,11 @@ export default function App() {
           <small>${el.status}</small>
         </li>`,
       )
-      .join("");
+      .join(""), []);
 
-  const onSubmit = ({ object }: { object: Character }) => {
+  const onSubmit = useCallback(({ object }: { object: Character }) => {
     setSelected(object);
-  };
+  }, []);
 
   return (
     <div className="container">

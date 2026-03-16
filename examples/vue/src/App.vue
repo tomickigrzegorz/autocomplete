@@ -6,7 +6,7 @@ import "@tomickigrzegorz/autocomplete/css";
 const API =
   "https://raw.githubusercontent.com/tomickigrzegorz/autocomplete/master/docs/characters.json";
 
-type Character = { name: string; actor: string; picture: string };
+type Character = { char_id: number; name: string; img: string; status: string };
 
 const selected = ref<Character | null>(null);
 
@@ -29,9 +29,9 @@ function onResults({
     .map(
       (el) => `
       <li>
-        <img src="${el.picture}" alt="${el.name}" width="32" height="32" />
+        <img src="${el.img}" alt="${el.name}" width="32" height="32" />
         <p>${el.name.replace(new RegExp(currentValue, "gi"), (s) => `<b>${s}</b>`)}</p>
-        <small>${el.actor}</small>
+        <small>${el.status}</small>
       </li>`,
     )
     .join("");
@@ -59,10 +59,10 @@ function onSubmit({ object }: { object: Character }) {
     </div>
 
     <div v-if="selected" class="selected-card">
-      <img :src="selected.picture" :alt="selected.name" />
+      <img :src="selected.img" :alt="selected.name" />
       <div>
         <strong>{{ selected.name }}</strong>
-        <span>played by {{ selected.actor }}</span>
+        <span>{{ selected.status }}</span>
       </div>
     </div>
   </div>

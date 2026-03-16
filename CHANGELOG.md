@@ -1,4 +1,4 @@
-## 2026-03-14 (3.3.0)
+## 2026-03-16 (3.3.0)
 ### Added
 - `dropdownAttrs` — extra HTML attributes applied to the dropdown wrapper element when `dropdownParent` is set. Supports `class` (adds CSS classes) and `style` (inline CSS string). Most common use case: overriding the default `z-index: 9999`
 

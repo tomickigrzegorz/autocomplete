@@ -8,8 +8,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@tomickigrzegorz/autocomplete": "workspace:*",
-    "@tomickigrzegorz/autocomplete-react": "workspace:*",
+    "@tomickigrzegorz/autocomplete": "file:../..",
+    "@tomickigrzegorz/autocomplete-react": "file:../../packages/react",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },

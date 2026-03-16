@@ -18,7 +18,7 @@
     "react-dom": ">=17.0.0"
   },
   "dependencies": {
-    "@tomickigrzegorz/autocomplete": "workspace:*"
+    "@tomickigrzegorz/autocomplete": "file:../.."
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.0",

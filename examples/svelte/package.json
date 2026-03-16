@@ -8,8 +8,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@tomickigrzegorz/autocomplete": "workspace:*",
-    "@tomickigrzegorz/autocomplete-svelte": "workspace:*",
+    "@tomickigrzegorz/autocomplete": "file:../..",
+    "@tomickigrzegorz/autocomplete-svelte": "file:../../packages/svelte",
     "svelte": "^4.0.0"
   },
   "devDependencies": {

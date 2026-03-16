@@ -8,8 +8,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@tomickigrzegorz/autocomplete": "workspace:*",
-    "@tomickigrzegorz/autocomplete-vue": "workspace:*",
+    "@tomickigrzegorz/autocomplete": "file:../..",
+    "@tomickigrzegorz/autocomplete-vue": "file:../../packages/vue",
     "vue": "^3.4.0"
   },
   "devDependencies": {

@@ -59,6 +59,8 @@ export const AutocompleteInput = defineComponent({
     inline: { type: Boolean, default: undefined },
     classPrefix: { type: String, default: undefined },
     classGroup: { type: String, default: undefined },
+    dropdownParent: { type: [String, Object] as PropType<AutocompleteOptions["dropdownParent"]>, default: undefined },
+    dropdownAttrs: { type: Object as PropType<AutocompleteOptions["dropdownAttrs"]>, default: undefined },
     placeholder: { type: String, default: undefined },
     class: { type: String, default: undefined },
   },
@@ -89,6 +91,8 @@ export const AutocompleteInput = defineComponent({
         ...(props.inline !== undefined && { inline: props.inline }),
         ...(props.classPrefix && { classPrefix: props.classPrefix }),
         ...(props.classGroup && { classGroup: props.classGroup }),
+        ...(props.dropdownParent !== undefined && { dropdownParent: props.dropdownParent }),
+        ...(props.dropdownAttrs !== undefined && { dropdownAttrs: props.dropdownAttrs }),
       });
     }
 

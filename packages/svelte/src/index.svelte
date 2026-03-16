@@ -29,6 +29,8 @@
     inline,
     classPrefix,
     classGroup,
+    dropdownParent,
+    dropdownAttrs,
   }: Props = $props();
 
   let inputEl: HTMLInputElement;
@@ -55,6 +57,8 @@
       ...(inline !== undefined && { inline }),
       ...(classPrefix && { classPrefix }),
       ...(classGroup && { classGroup }),
+      ...(dropdownParent !== undefined && { dropdownParent }),
+      ...(dropdownAttrs !== undefined && { dropdownAttrs }),
     });
   });
 

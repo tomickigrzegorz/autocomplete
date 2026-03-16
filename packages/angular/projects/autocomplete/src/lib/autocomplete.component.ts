@@ -42,6 +42,8 @@ export class AutocompleteComponent implements AfterViewInit, OnDestroy, OnChange
   @Input() inline?: boolean;
   @Input() classPrefix?: string;
   @Input() classGroup?: string;
+  @Input() dropdownParent?: AutocompleteOptions["dropdownParent"];
+  @Input() dropdownAttrs?: AutocompleteOptions["dropdownAttrs"];
   @Input() placeholder?: string;
   @Input() class?: string;
 
@@ -85,6 +87,8 @@ export class AutocompleteComponent implements AfterViewInit, OnDestroy, OnChange
       ...(this.inline !== undefined && { inline: this.inline }),
       ...(this.classPrefix && { classPrefix: this.classPrefix }),
       ...(this.classGroup && { classGroup: this.classGroup }),
+      ...(this.dropdownParent !== undefined && { dropdownParent: this.dropdownParent }),
+      ...(this.dropdownAttrs !== undefined && { dropdownAttrs: this.dropdownAttrs }),
     });
   }
 }

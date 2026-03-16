@@ -710,11 +710,14 @@ var Autocomplete = (function () {
       _this._error();
       _this._onReset(_this._root);
     };
-    this._id = _element;
-    this._root = document.getElementById(_element);
+    this._root = typeof _element === "string" ? document.getElementById(_element) : _element;
     if (!this._root) {
       throw new Error("Autocomplete: Element with id \"" + _element + "\" not found");
     }
+    if (!this._root.id) {
+      this._root.id = "auto-" + Math.random().toString(36).slice(2, 7);
+    }
+    this._id = this._root.id;
     this._onSearch = isPromise(onSearch) ? onSearch : function (_ref4) {
       var currentValue = _ref4.currentValue,
         element = _ref4.element;

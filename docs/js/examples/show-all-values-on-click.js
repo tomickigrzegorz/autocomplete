@@ -6,36 +6,27 @@ const phone = new Autocomplete("show-all-values-on-click", {
   // the input is clicked, like a default dropdown
   showValuesOnClick: true,
 
-  onSearch: ({ currentValue }) => {
+  onSearch: async ({ currentValue }) => {
     // local data
     const api = "./phoneCodes.json";
-    return new Promise((resolve) => {
-      fetch(api)
-        .then((response) => response.json())
-        .then((data) => {
-          // we are looking in two places "text" and "code"
-          // {
-          //   "text": "Poland",
-          //   "id": "7",
-          //   "flag": "https://flagcdn.com/w20/pl.png",
-          //   "code": "+48"
-          // },
-
-          const result = data
-            .filter((el) => {
-              const val = currentValue.replace(/\\/g, "").toLowerCase();
-              return (
-                el.text.toLowerCase().includes(val) ||
-                el.code.toLowerCase().includes(val)
-              );
-            })
-            .sort((a, b) => a.text.localeCompare(b.text));
-          resolve(result);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    });
+    const response = await fetch(api);
+    const data = await response.json();
+    // we are looking in two places "text" and "code"
+    // {
+    //   "text": "Poland",
+    //   "id": "7",
+    //   "flag": "https://flagcdn.com/w20/pl.png",
+    //   "code": "+48"
+    // },
+    return data
+      .filter((el) => {
+        const val = currentValue.replace(/\\/g, "").toLowerCase();
+        return (
+          el.text.toLowerCase().includes(val) ||
+          el.code.toLowerCase().includes(val)
+        );
+      })
+      .sort((a, b) => a.text.localeCompare(b.text));
   },
 
   onResults: ({ currentValue, matches }) => {

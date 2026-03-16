@@ -3,29 +3,21 @@ new Autocomplete("group", {
   // be added to the group name elements
   classGroup: "group-by",
 
-  onSearch: ({ currentValue }) => {
+  onSearch: async ({ currentValue }) => {
     const api = "./characters.json";
-    return new Promise((resolve) => {
-      fetch(api)
-        .then((response) => response.json())
-        .then((data) => {
-          // first, we sort by our group, in our case
-          // it will be the status, then we sort by name
-          // of course, it is not always necessary because
-          // such soroting may be obtained from REST API
-          const result = data
-            .filter((el) => new RegExp(currentValue, "i").test(el.name))
-            .sort(
-              (a, b) =>
-                a.status.localeCompare(b.status) ||
-                a.name.localeCompare(b.name),
-            );
-          resolve(result);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    });
+    const response = await fetch(api);
+    const data = await response.json();
+    // first, we sort by our group, in our case
+    // it will be the status, then we sort by name
+    // of course, it is not always necessary because
+    // such soroting may be obtained from REST API
+    return data
+      .filter((el) => new RegExp(currentValue, "i").test(el.name))
+      .sort(
+        (a, b) =>
+          a.status.localeCompare(b.status) ||
+          a.name.localeCompare(b.name),
+      );
   },
 
   onResults: ({ currentValue, matches, classGroup }) => {

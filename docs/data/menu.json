@@ -7,6 +7,11 @@
     "html": "Clear button on initial"
   },
   { "link": "no-results-example", "html": "No results" },
+  {
+    "link": "wikipedia-search-example",
+    "html": "Wikipedia search <div><small>onLoading callback</small></div>",
+    "type": "new"
+  },
   { "link": "static-file-example", "html": "Static file" },
   { "link": "data-elements-example", "html": "Static file + data-elelemts" },
   { "link": "groups-example", "html": "Data grouping" },

@@ -5,48 +5,45 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../docs/css/autocomplete.css" />
-    <title>Show all results</title>
+    <title>LOADING TEST</title>
     <style>
       body {
         font-family:
           -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
-          sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+          sans-serif;
         margin-top: 50px;
       }
       p {
         margin: 0;
       }
-
       .container {
         max-width: 350px;
         margin: 0 auto;
       }
-
-      .max-height ul {
-        max-height: 420px;
+      .loading-item {
+        padding: 8px 12px;
+        color: #888;
+        font-style: italic;
       }
     </style>
   </head>
   <body>
     <div class="container">
       <section>
-        <h1>Show all results</h1>
-        <div class="auto-search-wrapper max-height">
-          <input type="text" id="show-all" placeholder="type w" />
+        <h1>Loading test</h1>
+        <div class="auto-search-wrapper">
+          <input type="text" id="loading" placeholder="type w" />
         </div>
       </section>
     </div>
 
     <script src="../docs/js/autocomplete.min.js"></script>
     <script>
-      const inline = new Autocomplete("show-all", {
-        disableCloseOnSelect: true,
-        insertToInput: true,
-
-        inline: true,
+      new Autocomplete("loading", {
+        // no debounce — fetch starts immediately after typing
+        delay: 0,
 
         onSearch: async ({ currentValue }) => {
-          // static file
           const api =
             "https://raw.githubusercontent.com/tomickigrzegorz/autocomplete/master/docs/characters.json";
           const response = await fetch(api);
@@ -58,25 +55,18 @@
             );
         },
 
-        onResults: ({ currentValue, matches }) => {
-          return matches
-            .map((el) => {
-              return `
-                <li>
-                  <p>${el.name.replace(
-                    new RegExp(currentValue, "gi"),
-                    (str) => `<b>${str}</b>`,
-                  )}</p>
-                </li>`;
-            })
-            .join("");
-        },
-      });
+        onResults: ({ currentValue, matches }) =>
+          matches
+            .map(
+              (el) => `<li><p>${el.name.replace(
+                new RegExp(currentValue, "gi"),
+                (str) => `<b>${str}</b>`,
+              )}</p></li>`,
+            )
+            .join(""),
 
-      document.addEventListener("click", (event) => {
-        if (event.target.closest(".auto-clear")) {
-          inline.rerender();
-        }
+        onLoading: ({ currentValue }) =>
+          `<li class="loading-item">Searching for "${currentValue}"…</li>`,
       });
     </script>
   </body>

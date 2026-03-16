@@ -82,13 +82,13 @@ import 'node_modules/@tomickigrzegorz/autocomplete/dist/css/autocomplete.min.css
 #### CSS
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.2.0/dist/css/autocomplete.min.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.3.0/dist/css/autocomplete.min.css"/>
 ```
 
 #### JavaScript
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.2.0/dist/js/autocomplete.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.3.0/dist/js/autocomplete.min.js"></script>
 ```
 
 ##### -- OR --
@@ -185,6 +185,7 @@ npm run prod
 | onRender             |  function  |                                     |         | Possibility to add html elements, e.g. before and after the search results                                                                                               |
 | onClose              |  function  |                                     |         | e.g. delete class after close results, see example modal                                                                                                                 |
 | noResults            |  function  |                                     |         | Called when no results are found. Return an HTML string to display: `noResults: ({ currentValue }) => \`<li>No results for "${currentValue}"</li>\`` |
+| onLoading            |  function  |                                     |         | Called when an async search starts. Return an HTML string to display in the dropdown while waiting for results (e.g. a spinner or status message). Replaced automatically when results or `noResults` fires: `onLoading: ({ currentValue }) => \`<li>Searching for "${currentValue}"…</li>\`` |
 | destroy              |   method   |                                     |         | Clears the input and removes all event listeners. Use `reset()` if you want to keep the autocomplete functional                                                          |
 | reset               |   method   |                                     |         | Clears the input and closes the results list while keeping all event listeners active. Safe alternative to `destroy()` when you just want to clear the field             |
 | rerender             |   method   |                                     |         | This method allows you to re-render the results without modifying the input field. Of course, we can also send the string we want to search for to the method. render(string);                                                                                                                       |
@@ -195,7 +196,7 @@ npm run prod
 | selectFirst          |  boolean   |               `false`               |         | Default selects the first item in the list of results                                                                                                                    |
 | insertToInput        |  boolean   |               `false`               |         | Adding an element selected with arrows or hovering with the mouse to the input field                                                                                                                |
 | disableCloseOnSelect |  boolean   |               `false`               |         | Prevents results from hiding after clicking on an item from the results list                                                                                             |
-| preventScrollUp      |  boolean   |               `false`               |         | The parameter prevents the results from scrolling up when scrolling after reopening the results. The results are displayed in the same place. The selected item does not disappear and is still selected.                                                                                             |
+| preventScrollUp      |  boolean   |               `false`               |         | Prevents the results from scrolling to the top when the dropdown reopens. The scroll position and the highlighted selection are both preserved — clicking the input or closing and reopening the dropdown keeps the previously selected item highlighted.                                             |
 | showAllValuesOnClick |  boolean   |               `false`               |         | This option will toggle showing all values when the input is clicked, like a default dropdown                                                                            |
 | inline        |  boolean   |               `false`               |         | This option displays all results without clicking on the input field                                                                            |
 | removeResultsWhenInputIsEmpty        |  boolean   |               `false`               |         | Set to `true` to clear the results when the input is empty                                                                                                              |
@@ -208,6 +209,7 @@ npm run prod
 | classGroup           |   string   |                                     |         | Enter a class name, this class will be added to the group name elements                                                                                                  |
 | classPrefix          |   string   |                                     |         | Prefixing all autocomplete css class name, 'prefix-auto-', default 'auto-'                                                                                               |
 | dropdownParent       | string/Element |            `null`               |         | Appends the dropdown to the specified element instead of next to the input. Accepts a CSS selector string or an `HTMLElement`. Use `document.body` to escape `overflow` clipping in modals or fixed-height containers. |
+| dropdownAttrs        |   object   |               `{}`                  |         | Extra HTML attributes applied to the dropdown wrapper when `dropdownParent` is set. Supports `class` (adds CSS classes) and `style` (inline CSS string, e.g. `"z-index: 10001"` to override the default). To style the inner result list use a descendant selector: `.my-wrapper ul { max-height: 200px; overflow-y: auto; }` |
 
 **instructions** - has been removed from the library, [see how to add to html](https://tomickigrzegorz.github.io/autocomplete/#complex-example)
 
@@ -323,7 +325,7 @@ new Autocomplete('complex', {
   preventScrollUp: false,
 
   // set to true deletes the results when input is empty.
-  // We use the `destroy()` method which removes the
+  // We use the `reset()` method which removes the
   // results from the DOM and returns everything to its
   // original state
   removeResultsWhenInputIsEmpty: false,
@@ -335,6 +337,14 @@ new Autocomplete('complex', {
   // by default is null
   dropdownParent: document.body,
 
+  // extra HTML attributes applied to the dropdown wrapper
+  // element when dropdownParent is set.
+  // `class` adds CSS classes, `style` sets inline CSS
+  // (e.g. to override the default z-index: 9999).
+  // To style the inner result list (e.g. height / scroll),
+  // use a CSS descendant selector: .my-wrapper ul { max-height: 200px; overflow-y: auto; }
+  dropdownAttrs: { class: "my-wrapper", style: "z-index: 10001" },
+
   // parameter allows you modify string before search.
   // For example, we can remove special characters from
   // the string. Default value is object
@@ -344,7 +354,7 @@ new Autocomplete('complex', {
 
   // Function for user input. It can be a synchronous function or a promise
   // you can fetch data with jquery, axios, fetch, etc.
-  onSearch: ({ currentValue }) => {
+  onSearch: async ({ currentValue }) => {
     // static file
     // const api = './characters.json';
 
@@ -388,19 +398,9 @@ new Autocomplete('complex', {
 
     // OR ----------------------------------
 
-    /**
-     * Promise
-     */
-    return new Promise((resolve) => {
-      fetch(api)
-        .then((response) => response.json())
-        .then((data) => {
-          resolve(data.results);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    });
+    const response = await fetch(api);
+    const data = await response.json();
+    return data.results;
   },
 
   // this part is responsible for the number of records,
@@ -476,6 +476,12 @@ new Autocomplete('complex', {
   // the callback presents no results
   noResults: ({ currentValue }) =>
     `<li>No results found: "${currentValue}"</li>`,
+
+  // called when async search starts — return HTML to show in the
+  // dropdown while waiting for results (replaced automatically
+  // when results or noResults fires)
+  onLoading: ({ currentValue }) =>
+    `<li>Searching for "${currentValue}"…</li>`,
 });
 ```
 
@@ -498,6 +504,7 @@ const auto = new Autocomplete('you-id', {
   regex: { expression: /[\|\\{}()[\]^$+*?]/g, replacement: "\\$&" },
   removeResultsWhenInputIsEmpty: false,
   dropdownParent: null, // string (CSS selector) or HTMLElement
+  dropdownAttrs: {}, // extra attrs on wrapper: { class, style } — only with dropdownParent
   classPreventClosing: "", // don't use empty value
   classGroup: "", // don't use empty value
   classPrefix: "", // don't use empty value
@@ -510,6 +517,7 @@ const auto = new Autocomplete('you-id', {
   onReset: (element) => {},
   onClose: () => {},
   noResults: ({ element, currentValue }) => {},
+  onLoading: ({ element, currentValue }) => {},
 });
 
 // public methods
@@ -552,6 +560,26 @@ auto.enable();
 - User input (when `howManyCharacters` threshold is met)
 - Input click (when `showAllValuesOnClick: true`)
 - Manual `rerender()` call
+
+### preventScrollUp: selection behavior
+
+When `preventScrollUp: false` (default), clicking the input while the dropdown is open resets the highlighted selection:
+
+- `selectFirst: false` — no item highlighted; ↓ moves to first item, ↑ moves to last
+- `selectFirst: true` — first item is highlighted
+
+When `preventScrollUp: true`, clicking the input (or closing and reopening the dropdown) **preserves** the previously highlighted item — both the scroll position and the selection stay exactly where they were.
+
+```js
+new Autocomplete('search', {
+  preventScrollUp: true,
+
+  onSearch: async ({ currentValue }) => { ... },
+  onResults: ({ matches }) => matches.map(...).join(''),
+});
+// After selecting item #5 and clicking outside to close,
+// clicking the input again reopens with item #5 still highlighted.
+```
 
 ### reset() vs destroy()
 

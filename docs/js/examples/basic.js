@@ -1,18 +1,11 @@
 new Autocomplete("basic", {
-  onSearch: ({ currentValue }) => {
+  onSearch: async ({ currentValue }) => {
     const api = `https://rickandmortyapi.com/api/character?name=${encodeURI(
       currentValue
     )}`;
-    return new Promise((resolve) => {
-      fetch(api)
-        .then((response) => response.json())
-        .then((data) => {
-          resolve(data.results);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    });
+    const response = await fetch(api);
+    const data = await response.json();
+    return data.results;
   },
 
   onResults: ({ matches }) =>

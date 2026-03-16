@@ -136,7 +136,7 @@
     <main class="container">
       <header>
         <h1 class="loupe">
-          autocomplete <sup><small>v3.2.0</small></sup>
+          autocomplete <sup><small>v3.3.0</small></sup>
         </h1>
         <div class="switch-theme">
           <button class="theme theme-head" aria-label="change theme">
@@ -225,10 +225,10 @@ import '@tomickigrzegorz/autocomplete/css';
           <h3>Or CDN</h3>
           <div rel="HTML" class="html-class">
             <pre><code class="language-html">&lt;!-- css --&gt;
-&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.2.0/dist/css/autocomplete.min.css&quot;/&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.3.0/dist/css/autocomplete.min.css&quot;/&gt;
 
 &lt;!-- js --&gt;
-&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.2.0/dist/js/autocomplete.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.3.0/dist/js/autocomplete.min.js&quot;&gt;&lt;/script&gt;
           </code></pre>
           </div>
 
@@ -436,6 +436,53 @@ import '@tomickigrzegorz/autocomplete/css';
           </div>
         </section>
         <!-- No results end -->
+
+        <!-- Wikipedia search start -->
+        <section id="wikipedia-search-example" class="section">
+          <div class="search-element">
+            <div class="info-section">
+              <h2>Wikipedia search <span class="new-item" aria-label="New">new</span></h2>
+              <div class="sources">
+                <a href="./js/examples/wikipedia-search.js" target="_blank"
+                  >source: wikipedia-search</a
+                >
+              </div>
+              <p>
+                The <code>onLoading</code> callback is called as soon as the
+                async search starts — before the API response arrives. Return
+                an HTML string to display a loading indicator (or any message)
+                inside the dropdown. Once results arrive (or
+                <code>noResults</code> fires) the content is replaced
+                automatically.
+              </p>
+              <p>
+                The built-in <code>auto-is-loading</code> CSS spinner on the
+                wrapper still works independently alongside
+                <code>onLoading</code>.
+              </p>
+            </div>
+            <div class="auto-search-wrapper">
+              <input
+                type="text"
+                id="wikipedia-search"
+                placeholder="Search Wikipedia…"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+          <div rel="docs/index.html" class="highlight html html-class"></div>
+          <div
+            rel="docs/js/examples/wikipedia-search.js"
+            class="highlight javascript html-class"
+          >
+            <div>
+              <pre>
+                <code class="language-js" data-source="./js/examples/wikipedia-search.js"></code>
+              </pre>
+            </div>
+          </div>
+        </section>
+        <!-- Wikipedia search end -->
 
         <!-- Static file start -->
         <section id="static-file-example" class="section">
@@ -969,6 +1016,14 @@ import '@tomickigrzegorz/autocomplete/css';
                 the dropdown being clipped by a parent with
                 <code>overflow: hidden</code> or <code>overflow: auto</code>,
                 such as a scrollable modal or a fixed-height container.
+              </p>
+              <p>
+                Use <code>dropdownAttrs</code> to customize the wrapper element
+                that gets appended to <code>dropdownParent</code>. It accepts
+                <code>class</code> (adds CSS classes) and <code>style</code>
+                (inline CSS string) — handy for overriding the default
+                <code>z-index: 9999</code> when your layout requires a
+                different stacking order.
               </p>
               <p>
                 Click <strong>Open modal</strong> to see it in action. The
@@ -1626,6 +1681,7 @@ import '@tomickigrzegorz/autocomplete/css';
     <script async src="./js/examples/clear-button-on.js"></script>
     <script async src="./js/examples/complex.js"></script>
     <script async src="./js/examples/no-results.js"></script>
+    <script async src="./js/examples/wikipedia-search.js"></script>
     <script async src="./js/examples/static.js"></script>
     <script async src="./js/examples/static-file-data.js"></script>
     <script async src="./js/examples/group.js"></script>

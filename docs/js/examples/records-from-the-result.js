@@ -6,30 +6,23 @@ new Autocomplete("records-result", {
   cache: true,
   classGroup: "group-by",
 
-  onSearch: ({ currentValue }) => {
+  onSearch: async ({ currentValue }) => {
     // clear array always when new searching
     results = [];
 
     const api = "./characters.json";
-    return new Promise((resolve) => {
-      fetch(api)
-        .then((response) => response.json())
-        .then((data) => {
-          const result = data
-            .filter((el) => new RegExp(currentValue, "i").test(el.name))
-            .sort((a, b) => a.name.localeCompare(b.name));
+    const response = await fetch(api);
+    const data = await response.json();
+    const result = data
+      .filter((el) => new RegExp(currentValue, "i").test(el.name))
+      .sort((a, b) => a.name.localeCompare(b.name));
 
-          // show only 5 records
-          resolve(result.slice(0, maxRecords));
+    // we set the number of record
+    // to a global variable
+    results = result.length;
 
-          // we set the number of record
-          // to a global variable
-          results = result.length;
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    });
+    // show only 5 records
+    return result.slice(0, maxRecords);
   },
 
   onResults: ({ currentValue, matches, classGroup }) => {

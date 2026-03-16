@@ -94,6 +94,17 @@
             "column": "Called when no results are found. Return an HTML string to display, e.g. <code>noResults: ({ currentValue }) => `&lt;li&gt;No results for \"${currentValue}\"&lt;/li&gt;`</code>"
           }
         ]
+      },
+      {
+        "row": [
+          {
+            "column": "<b>onLoading</b>: ({ element, currentValue }) => {}"
+          },
+          { "column": "" },
+          {
+            "column": "Called when an async search starts. Return an HTML string to show in the dropdown while waiting for results — e.g. a spinner or status message. The content is replaced automatically when results or <code>noResults</code> fires. See the <code><a href=\"#wikipedia-search-example\">Wikipedia search</a></code> example."
+          }
+        ]
       }
     ]
   }

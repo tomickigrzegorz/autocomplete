@@ -1,3 +1,43 @@
+## 2026-03-16 (3.3.0)
+### Added
+- `dropdownAttrs` — extra HTML attributes applied to the dropdown wrapper element when `dropdownParent` is set. Supports `class` (adds CSS classes) and `style` (inline CSS string). Most common use case: overriding the default `z-index: 9999`
+
+```js
+dropdownAttrs: { class: "my-wrapper", style: "z-index: 10001" },
+```
+
+  To style the inner result list (e.g. limit height or enable scrolling), target the `ul` inside your wrapper class:
+
+```css
+.my-wrapper ul {
+  max-height: 200px;
+  overflow-y: auto;
+}
+```
+
+- `onLoading` — callback function called when an async search starts. Return an HTML string to display a loading indicator (or any content) in the dropdown while waiting for results. When results arrive (or `noResults` fires), the loading content is replaced automatically. The built-in `auto-is-loading` CSS class on the wrapper is still added/removed independently
+
+```js
+onLoading: ({ element, currentValue }) =>
+  `<li class="my-loading">Searching for "<strong>${currentValue}</strong>"…</li>`,
+```
+
+- **Wikipedia search example** — demonstrates `onLoading` with a real async API (`en.wikipedia.org/w/api.php`), including highlighted titles, snippet preview, and `noResults` fallback
+
+### Added (tests)
+- added Playwright tests for `onLoading` callback (`tests/09-loading.spec.js`) — verifies `auto-is-loading` class is added to the wrapper while fetching, removed after results arrive, loading HTML from the callback is shown in the dropdown during the request, and replaced by real results when the response comes back
+
+### Fixed
+- Clicking the input while the dropdown is open now correctly resets the highlighted selection (`auto-selected` class). Previously the selection disappeared visually but `this._index` was still remembered, causing inconsistent arrow key navigation on the next keystroke
+- With `preventScrollUp: true`, clicking the input while the dropdown is open no longer clears the selection — both scroll position and highlighted item are preserved, consistent with the existing close/reopen behavior
+- Multiple autocomplete instances on the same page no longer interfere with each other's selection state — `auto-selected` lookups are now scoped to each instance's own result list instead of searching the entire document (`document.querySelector` → `this._resultList.querySelector`)
+
+### Changed
+- Selection reset on input click now respects `selectFirst`:
+  - `selectFirst: false` — no item highlighted after click; ↓ moves to first, ↑ moves to last
+  - `selectFirst: true` — first item is highlighted after click
+- `preventScrollUp: true` takes full precedence: clicking the input or closing/reopening the dropdown always preserves the previously highlighted item
+
 ## 2026-03-05 (3.2.0)
 ### Added
 - `reset()` public method — clears the input and closes the results list while keeping all event listeners active. Use instead of `destroy()` when you just want to programmatically clear the field (e.g. an external "clear" button)

@@ -5,26 +5,17 @@ const inline = new Autocomplete("show-inline", {
   // this option showing all values
   inline: true,
 
-  onSearch: ({ currentValue }) => {
+  onSearch: async ({ currentValue }) => {
     const currentValueCheck = currentValue
       ? `?name=${encodeURI(currentValue)}`
       : "";
 
     const api = `https://rickandmortyapi.com/api/character${currentValueCheck}`;
-
-    return new Promise((resolve) => {
-      fetch(api)
-        .then((response) => response.json())
-        .then((data) => {
-          const result = data.results
-            .filter((el) => new RegExp(currentValue, "i").test(el.name))
-            .sort((a, b) => a.name.localeCompare(b.name));
-          resolve(result);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    });
+    const response = await fetch(api);
+    const data = await response.json();
+    return data.results
+      .filter((el) => new RegExp(currentValue, "i").test(el.name))
+      .sort((a, b) => a.name.localeCompare(b.name));
   },
 
   onResults: ({ matches }) =>

@@ -2,6 +2,7 @@
   "name": "autocomplete-svelte-demo",
   "private": true,
   "version": "0.0.0",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -10,7 +11,7 @@
   "dependencies": {
     "@tomickigrzegorz/autocomplete": "file:../..",
     "@tomickigrzegorz/autocomplete-svelte": "file:../../packages/svelte",
-    "svelte": "^4.0.0"
+    "svelte": "^5.0.0"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^3.0.0",

@@ -1,44 +1,47 @@
 <script lang="ts">
-  import { untrack } from "svelte";
-  import Autocomplete, { type AutocompleteOptions } from "@tomickigrzegorz/autocomplete";
+import { untrack } from "svelte";
+import Autocomplete, {
+  type AutocompleteOptions,
+} from "@tomickigrzegorz/autocomplete";
 
-  type Props = AutocompleteOptions & {
-    class?: string;
-    placeholder?: string;
-  };
+type Props = AutocompleteOptions & {
+  class?: string;
+  placeholder?: string;
+};
 
-  let {
-    class: className,
-    placeholder,
-    onSearch,
-    onResults,
-    onSubmit,
-    onReset,
-    onOpened,
-    onClose,
-    noResults,
-    onSelectedItem,
-    onLoading,
-    delay,
-    howManyCharacters,
-    clearButton,
-    selectFirst,
-    insertToInput,
-    showValuesOnClick,
-    cache,
-    inline,
-    classPrefix,
-    classGroup,
-    dropdownParent,
-    dropdownAttrs,
-  }: Props = $props();
+const {
+  class: className,
+  placeholder,
+  onSearch,
+  onResults,
+  onSubmit,
+  onReset,
+  onOpened,
+  onClose,
+  noResults,
+  onSelectedItem,
+  onLoading,
+  delay,
+  howManyCharacters,
+  clearButton,
+  selectFirst,
+  insertToInput,
+  showValuesOnClick,
+  cache,
+  inline,
+  classPrefix,
+  classGroup,
+  dropdownParent,
+  dropdownAttrs,
+}: Props = $props();
 
-  let inputEl: HTMLInputElement;
+let inputEl: HTMLInputElement;
 
-  $effect(() => {
-    const search = onSearch; // track only onSearch — re-create when it changes
+$effect(() => {
+  const search = onSearch; // track only onSearch — re-create when it changes
 
-    const instance = untrack(() =>
+  const instance = untrack(
+    () =>
       new Autocomplete(inputEl, {
         onSearch: search,
         ...(onResults && { onResults }),
@@ -61,11 +64,11 @@
         ...(classGroup && { classGroup }),
         ...(dropdownParent !== undefined && { dropdownParent }),
         ...(dropdownAttrs !== undefined && { dropdownAttrs }),
-      })
-    );
+      }),
+  );
 
-    return () => instance.destroy();
-  });
+  return () => instance.destroy();
+});
 </script>
 
 <input

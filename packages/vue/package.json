@@ -16,7 +16,16 @@
     }
   },
   "sideEffects": false,
-  "keywords": ["autocomplete", "vue", "vue3", "wrapper", "typeahead", "search", "accessibility", "aria"],
+  "keywords": [
+    "autocomplete",
+    "vue",
+    "vue3",
+    "wrapper",
+    "typeahead",
+    "search",
+    "accessibility",
+    "aria"
+  ],
   "scripts": {
     "build": "vite build && tsc --emitDeclarationOnly",
     "test": "vitest run",

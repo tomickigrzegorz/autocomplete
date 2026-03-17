@@ -16,7 +16,15 @@
     }
   },
   "sideEffects": false,
-  "keywords": ["autocomplete", "react", "wrapper", "typeahead", "search", "accessibility", "aria"],
+  "keywords": [
+    "autocomplete",
+    "react",
+    "wrapper",
+    "typeahead",
+    "search",
+    "accessibility",
+    "aria"
+  ],
   "scripts": {
     "build": "vite build && tsc --emitDeclarationOnly",
     "test": "vitest run",

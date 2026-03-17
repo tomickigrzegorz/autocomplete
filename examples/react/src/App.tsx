@@ -16,30 +16,36 @@ async function fetchCharacters(): Promise<Character[]> {
 export default function App() {
   const [selected, setSelected] = useState<Character | null>(null);
 
-  const onSearch = useCallback(async ({ currentValue }: { currentValue: string }) => {
-    const data = await fetchCharacters();
-    return data
-      .sort((a, b) => a.name.localeCompare(b.name))
-      .filter((el) => el.name.match(new RegExp(currentValue, "gi")));
-  }, []);
+  const onSearch = useCallback(
+    async ({ currentValue }: { currentValue: string }) => {
+      const data = await fetchCharacters();
+      return data
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .filter((el) => el.name.match(new RegExp(currentValue, "gi")));
+    },
+    [],
+  );
 
-  const onResults = useCallback(({
-    currentValue,
-    matches,
-  }: {
-    currentValue: string;
-    matches: Character[];
-  }) =>
-    matches
-      .map(
-        (el) => `
+  const onResults = useCallback(
+    ({
+      currentValue,
+      matches,
+    }: {
+      currentValue: string;
+      matches: Character[];
+    }) =>
+      matches
+        .map(
+          (el) => `
         <li>
           <img src="${el.img}" alt="${el.name}" width="32" height="32" />
           <p>${el.name.replace(new RegExp(currentValue, "gi"), (s) => `<b>${s}</b>`)}</p>
           <small>${el.status}</small>
         </li>`,
-      )
-      .join(""), []);
+        )
+        .join(""),
+    [],
+  );
 
   const onSubmit = useCallback(({ object }: { object: Character }) => {
     setSelected(object);
@@ -59,8 +65,12 @@ export default function App() {
           onResults={onResults}
           onSubmit={onSubmit}
           placeholder="e.g. Walter"
-          onLoading={({ element }) => `<li>Loading results for: "${element.value}"...</li>`}
-          noResults={({ element }) => `<li>No results found: "${element.value}"</li>`}
+          onLoading={({ element }) =>
+            `<li>Loading results for: "${element.value}"...</li>`
+          }
+          noResults={({ element }) =>
+            `<li>No results found: "${element.value}"</li>`
+          }
         />
       </div>
 

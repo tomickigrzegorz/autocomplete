@@ -1,4 +1,8 @@
-.container { max-width: 480px; margin: 0 auto; padding: 40px 16px; }
+.container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 40px 16px;
+}
 
 h1 {
   font-size: 1.5rem;
@@ -17,9 +21,15 @@ h1 {
   border-radius: 4px;
 }
 
-.hint { color: #666; font-size: 0.9rem; margin-bottom: 20px; }
+.hint {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+}
 
-.auto-search-wrapper { position: relative; }
+.auto-search-wrapper {
+  position: relative;
+}
 
 .selected-card {
   display: flex;
@@ -32,7 +42,21 @@ h1 {
   border: 1px solid #e0e0e0;
 }
 
-.selected-card img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; }
-.selected-card div { display: flex; flex-direction: column; gap: 2px; }
-.selected-card strong { font-size: 1rem; }
-.selected-card span { font-size: 0.85rem; color: #666; }
+.selected-card img {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.selected-card div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.selected-card strong {
+  font-size: 1rem;
+}
+.selected-card span {
+  font-size: 0.85rem;
+  color: #666;
+}

@@ -104,9 +104,7 @@ export default class Autocomplete {
   ) {
     /** @type {HTMLElement} */
     this._root =
-      typeof element === "string"
-        ? document.getElementById(element)
-        : element;
+      typeof element === "string" ? document.getElementById(element) : element;
 
     if (!this._root) {
       throw new Error(`Autocomplete: Element with id "${element}" not found`);
@@ -753,7 +751,9 @@ export default class Autocomplete {
     const targetClosest = target.closest("li");
     const targetClosestRole = targetClosest?.hasAttribute("role");
     const activeClass = this._activeList;
-    const activeClassElement = this._resultList.querySelector(`.${activeClass}`);
+    const activeClassElement = this._resultList.querySelector(
+      `.${activeClass}`,
+    );
 
     if (
       !targetClosest ||

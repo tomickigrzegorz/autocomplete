@@ -18,7 +18,9 @@ test.describe("dropdownParent option tests", () => {
     await page.goto(localFile);
   });
 
-  test("[08] 01: dropdown is appended to body, not to wrapper", async ({ page }) => {
+  test("[08] 01: dropdown is appended to body, not to wrapper", async ({
+    page,
+  }) => {
     styleConsoleLog({
       number: "[08] 01",
       text: [

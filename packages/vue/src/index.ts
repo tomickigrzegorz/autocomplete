@@ -5,9 +5,11 @@ import {
   onUnmounted,
   watch,
   h,
-  PropType,
+  type PropType,
 } from "vue";
-import Autocomplete, { AutocompleteOptions } from "@tomickigrzegorz/autocomplete";
+import Autocomplete, {
+  type AutocompleteOptions,
+} from "@tomickigrzegorz/autocomplete";
 
 export const AutocompleteInput = defineComponent({
   name: "AutocompleteInput",
@@ -59,8 +61,14 @@ export const AutocompleteInput = defineComponent({
     inline: { type: Boolean, default: undefined },
     classPrefix: { type: String, default: undefined },
     classGroup: { type: String, default: undefined },
-    dropdownParent: { type: [String, Object] as PropType<AutocompleteOptions["dropdownParent"]>, default: undefined },
-    dropdownAttrs: { type: Object as PropType<AutocompleteOptions["dropdownAttrs"]>, default: undefined },
+    dropdownParent: {
+      type: [String, Object] as PropType<AutocompleteOptions["dropdownParent"]>,
+      default: undefined,
+    },
+    dropdownAttrs: {
+      type: Object as PropType<AutocompleteOptions["dropdownAttrs"]>,
+      default: undefined,
+    },
     placeholder: { type: String, default: undefined },
     class: { type: String, default: undefined },
   },
@@ -82,27 +90,44 @@ export const AutocompleteInput = defineComponent({
         ...(props.onSelectedItem && { onSelectedItem: props.onSelectedItem }),
         ...(props.onLoading && { onLoading: props.onLoading }),
         ...(props.delay !== undefined && { delay: props.delay }),
-        ...(props.howManyCharacters !== undefined && { howManyCharacters: props.howManyCharacters }),
-        ...(props.clearButton !== undefined && { clearButton: props.clearButton }),
-        ...(props.selectFirst !== undefined && { selectFirst: props.selectFirst }),
-        ...(props.insertToInput !== undefined && { insertToInput: props.insertToInput }),
-        ...(props.showValuesOnClick !== undefined && { showValuesOnClick: props.showValuesOnClick }),
+        ...(props.howManyCharacters !== undefined && {
+          howManyCharacters: props.howManyCharacters,
+        }),
+        ...(props.clearButton !== undefined && {
+          clearButton: props.clearButton,
+        }),
+        ...(props.selectFirst !== undefined && {
+          selectFirst: props.selectFirst,
+        }),
+        ...(props.insertToInput !== undefined && {
+          insertToInput: props.insertToInput,
+        }),
+        ...(props.showValuesOnClick !== undefined && {
+          showValuesOnClick: props.showValuesOnClick,
+        }),
         ...(props.cache !== undefined && { cache: props.cache }),
         ...(props.inline !== undefined && { inline: props.inline }),
         ...(props.classPrefix && { classPrefix: props.classPrefix }),
         ...(props.classGroup && { classGroup: props.classGroup }),
-        ...(props.dropdownParent !== undefined && { dropdownParent: props.dropdownParent }),
-        ...(props.dropdownAttrs !== undefined && { dropdownAttrs: props.dropdownAttrs }),
+        ...(props.dropdownParent !== undefined && {
+          dropdownParent: props.dropdownParent,
+        }),
+        ...(props.dropdownAttrs !== undefined && {
+          dropdownAttrs: props.dropdownAttrs,
+        }),
       });
     }
 
     onMounted(init);
 
     // re-create when onSearch changes
-    watch(() => props.onSearch, () => {
-      instance?.destroy();
-      init();
-    });
+    watch(
+      () => props.onSearch,
+      () => {
+        instance?.destroy();
+        init();
+      },
+    );
 
     onUnmounted(() => {
       instance?.destroy();

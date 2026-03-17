@@ -16,7 +16,16 @@
     }
   },
   "sideEffects": false,
-  "keywords": ["autocomplete", "svelte", "svelte5", "wrapper", "typeahead", "search", "accessibility", "aria"],
+  "keywords": [
+    "autocomplete",
+    "svelte",
+    "svelte5",
+    "wrapper",
+    "typeahead",
+    "search",
+    "accessibility",
+    "aria"
+  ],
   "scripts": {
     "build": "vite build",
     "test": "vitest run",

@@ -8,7 +8,10 @@ export default defineConfig({
     alias: [
       {
         find: "@tomickigrzegorz/autocomplete/css",
-        replacement: path.resolve(__dirname, "../../dist/css/autocomplete.min.css"),
+        replacement: path.resolve(
+          __dirname,
+          "../../dist/css/autocomplete.min.css",
+        ),
       },
       {
         find: "@tomickigrzegorz/autocomplete-vue",
@@ -16,7 +19,10 @@ export default defineConfig({
       },
       {
         find: "@tomickigrzegorz/autocomplete",
-        replacement: path.resolve(__dirname, "../../dist/js/autocomplete.esm.js"),
+        replacement: path.resolve(
+          __dirname,
+          "../../dist/js/autocomplete.esm.js",
+        ),
       },
     ],
   },

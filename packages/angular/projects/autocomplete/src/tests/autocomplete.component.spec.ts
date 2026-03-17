@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { type ComponentFixture, TestBed } from "@angular/core/testing";
 import { AutocompleteComponent } from "../lib/autocomplete.component";
 
 jest.mock("@tomickigrzegorz/autocomplete", () => {
@@ -60,7 +60,12 @@ describe("AutocompleteComponent (Angular)", () => {
     component.onSearch = newSearch;
     // simulate ngOnChanges
     component.ngOnChanges({
-      onSearch: { currentValue: newSearch, previousValue: mockSearch, firstChange: false, isFirstChange: () => false },
+      onSearch: {
+        currentValue: newSearch,
+        previousValue: mockSearch,
+        firstChange: false,
+        isFirstChange: () => false,
+      },
     });
     expect(Autocomplete).toHaveBeenCalledTimes(2);
   });

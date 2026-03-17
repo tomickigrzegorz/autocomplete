@@ -6,7 +6,15 @@
   "license": "MIT",
   "files": ["dist/angular"],
   "sideEffects": false,
-  "keywords": ["autocomplete", "angular", "wrapper", "typeahead", "search", "accessibility", "aria"],
+  "keywords": [
+    "autocomplete",
+    "angular",
+    "wrapper",
+    "typeahead",
+    "search",
+    "accessibility",
+    "aria"
+  ],
   "scripts": {
     "build": "ng-packagr -p projects/autocomplete/ng-package.json",
     "test": "jest"

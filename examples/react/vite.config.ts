@@ -8,15 +8,24 @@ export default defineConfig({
     alias: [
       {
         find: "@tomickigrzegorz/autocomplete/css",
-        replacement: path.resolve(__dirname, "../../dist/css/autocomplete.min.css"),
+        replacement: path.resolve(
+          __dirname,
+          "../../dist/css/autocomplete.min.css",
+        ),
       },
       {
         find: "@tomickigrzegorz/autocomplete-react",
-        replacement: path.resolve(__dirname, "../../packages/react/src/index.tsx"),
+        replacement: path.resolve(
+          __dirname,
+          "../../packages/react/src/index.tsx",
+        ),
       },
       {
         find: "@tomickigrzegorz/autocomplete",
-        replacement: path.resolve(__dirname, "../../dist/js/autocomplete.esm.js"),
+        replacement: path.resolve(
+          __dirname,
+          "../../dist/js/autocomplete.esm.js",
+        ),
       },
     ],
   },

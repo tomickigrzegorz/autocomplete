@@ -1,21 +1,25 @@
 import {
   Component,
   Input,
-  ElementRef,
+  type ElementRef,
   ViewChild,
-  AfterViewInit,
-  OnDestroy,
-  OnChanges,
-  SimpleChanges,
+  type AfterViewInit,
+  type OnDestroy,
+  type OnChanges,
+  type SimpleChanges,
 } from "@angular/core";
-import Autocomplete, { AutocompleteOptions } from "@tomickigrzegorz/autocomplete";
+import Autocomplete, {
+  type AutocompleteOptions,
+} from "@tomickigrzegorz/autocomplete";
 
 @Component({
   selector: "ngx-autocomplete",
   standalone: true,
   template: `<input #inputEl type="text" [class]="class" [placeholder]="placeholder || ''" />`,
 })
-export class AutocompleteComponent implements AfterViewInit, OnDestroy, OnChanges {
+export class AutocompleteComponent
+  implements AfterViewInit, OnDestroy, OnChanges
+{
   @ViewChild("inputEl") inputEl!: ElementRef<HTMLInputElement>;
 
   // required
@@ -55,7 +59,7 @@ export class AutocompleteComponent implements AfterViewInit, OnDestroy, OnChange
 
   ngOnChanges(changes: SimpleChanges): void {
     // re-create when onSearch changes after initial mount
-    if (changes["onSearch"] && !changes["onSearch"].firstChange) {
+    if (changes.onSearch && !changes.onSearch.firstChange) {
       this.instance?.destroy();
       this.init();
     }
@@ -78,17 +82,27 @@ export class AutocompleteComponent implements AfterViewInit, OnDestroy, OnChange
       ...(this.onSelectedItem && { onSelectedItem: this.onSelectedItem }),
       ...(this.onLoading && { onLoading: this.onLoading }),
       ...(this.delay !== undefined && { delay: this.delay }),
-      ...(this.howManyCharacters !== undefined && { howManyCharacters: this.howManyCharacters }),
+      ...(this.howManyCharacters !== undefined && {
+        howManyCharacters: this.howManyCharacters,
+      }),
       ...(this.clearButton !== undefined && { clearButton: this.clearButton }),
       ...(this.selectFirst !== undefined && { selectFirst: this.selectFirst }),
-      ...(this.insertToInput !== undefined && { insertToInput: this.insertToInput }),
-      ...(this.showValuesOnClick !== undefined && { showValuesOnClick: this.showValuesOnClick }),
+      ...(this.insertToInput !== undefined && {
+        insertToInput: this.insertToInput,
+      }),
+      ...(this.showValuesOnClick !== undefined && {
+        showValuesOnClick: this.showValuesOnClick,
+      }),
       ...(this.cache !== undefined && { cache: this.cache }),
       ...(this.inline !== undefined && { inline: this.inline }),
       ...(this.classPrefix && { classPrefix: this.classPrefix }),
       ...(this.classGroup && { classGroup: this.classGroup }),
-      ...(this.dropdownParent !== undefined && { dropdownParent: this.dropdownParent }),
-      ...(this.dropdownAttrs !== undefined && { dropdownAttrs: this.dropdownAttrs }),
+      ...(this.dropdownParent !== undefined && {
+        dropdownParent: this.dropdownParent,
+      }),
+      ...(this.dropdownAttrs !== undefined && {
+        dropdownAttrs: this.dropdownAttrs,
+      }),
     });
   }
 }

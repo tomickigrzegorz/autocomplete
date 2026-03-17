@@ -63,7 +63,10 @@ export interface AutocompleteOptions {
  * Autocomplete class
  */
 export default class Autocomplete {
-  constructor(element: string | HTMLInputElement, options: Readonly<AutocompleteOptions>);
+  constructor(
+    element: string | HTMLInputElement,
+    options: Readonly<AutocompleteOptions>,
+  );
 
   rerender(inputValue?: string): void;
   disable(clearInput?: boolean): void;

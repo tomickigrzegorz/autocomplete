@@ -8,15 +8,24 @@ export default defineConfig({
     alias: [
       {
         find: "@tomickigrzegorz/autocomplete/css",
-        replacement: path.resolve(__dirname, "../../dist/css/autocomplete.min.css"),
+        replacement: path.resolve(
+          __dirname,
+          "../../dist/css/autocomplete.min.css",
+        ),
       },
       {
         find: "@tomickigrzegorz/autocomplete-svelte",
-        replacement: path.resolve(__dirname, "../../packages/svelte/src/index.svelte"),
+        replacement: path.resolve(
+          __dirname,
+          "../../packages/svelte/src/index.svelte",
+        ),
       },
       {
         find: "@tomickigrzegorz/autocomplete",
-        replacement: path.resolve(__dirname, "../../dist/js/autocomplete.esm.js"),
+        replacement: path.resolve(
+          __dirname,
+          "../../dist/js/autocomplete.esm.js",
+        ),
       },
     ],
   },

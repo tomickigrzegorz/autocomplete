@@ -18,17 +18,22 @@ test.describe("Element ref tests (HTMLElement instead of string ID)", () => {
   test.beforeEach(async ({ page }) => {
     const charactersPath = path.join(process.cwd(), "docs", "characters.json");
     const characters = JSON.parse(fs.readFileSync(charactersPath, "utf-8"));
-    await page.route(/.*raw.githubusercontent.com.*characters\.json.*/, (route) => {
-      route.fulfill({
-        status: 200,
-        contentType: "application/json",
-        body: JSON.stringify(characters),
-      });
-    });
+    await page.route(
+      /.*raw.githubusercontent.com.*characters\.json.*/,
+      (route) => {
+        route.fulfill({
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify(characters),
+        });
+      },
+    );
     await page.goto(localFile);
   });
 
-  test("[10] 01: HTMLElement with existing id — type 'w' shows results", async ({ page }) => {
+  test("[10] 01: HTMLElement with existing id — type 'w' shows results", async ({
+    page,
+  }) => {
     styleConsoleLog({
       number: "[10] 01",
       text: [
@@ -42,7 +47,9 @@ test.describe("Element ref tests (HTMLElement instead of string ID)", () => {
     await expect(page.locator("li")).toHaveCount(13, { timeout: 5000 });
   });
 
-  test("[10] 02: HTMLElement with existing id — ARIA attributes set correctly", async ({ page }) => {
+  test("[10] 02: HTMLElement with existing id — ARIA attributes set correctly", async ({
+    page,
+  }) => {
     styleConsoleLog({
       number: "[10] 02",
       text: [
@@ -59,7 +66,9 @@ test.describe("Element ref tests (HTMLElement instead of string ID)", () => {
     await expect(input).toHaveClass(/auto-expanded/);
   });
 
-  test("[10] 03: HTMLElement without id — auto-generated id assigned", async ({ page }) => {
+  test("[10] 03: HTMLElement without id — auto-generated id assigned", async ({
+    page,
+  }) => {
     styleConsoleLog({
       number: "[10] 03",
       text: [
@@ -72,7 +81,9 @@ test.describe("Element ref tests (HTMLElement instead of string ID)", () => {
     expect(generatedId).toMatch(/^auto-[a-z0-9]{5}$/);
   });
 
-  test("[10] 04: HTMLElement without id — type 'w' shows results", async ({ page }) => {
+  test("[10] 04: HTMLElement without id — type 'w' shows results", async ({
+    page,
+  }) => {
     styleConsoleLog({
       number: "[10] 04",
       text: [

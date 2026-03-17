@@ -1,44 +1,44 @@
 <script lang="ts">
-  import AutocompleteInput from "@tomickigrzegorz/autocomplete-svelte";
-  import "@tomickigrzegorz/autocomplete/css";
+import AutocompleteInput from "@tomickigrzegorz/autocomplete-svelte";
+import "@tomickigrzegorz/autocomplete/css";
 
-  const API =
-    "https://raw.githubusercontent.com/tomickigrzegorz/autocomplete/master/docs/characters.json";
+const API =
+  "https://raw.githubusercontent.com/tomickigrzegorz/autocomplete/master/docs/characters.json";
 
-  type Character = { char_id: number; name: string; img: string; status: string };
+type Character = { char_id: number; name: string; img: string; status: string };
 
-  let selected = $state<Character | null>(null);
+let selected = $state<Character | null>(null);
 
-  async function onSearch({ currentValue }: { currentValue: string }) {
-    const res = await fetch(API);
-    const data: Character[] = await res.json();
-    return data
-      .sort((a, b) => a.name.localeCompare(b.name))
-      .filter((el) => el.name.match(new RegExp(currentValue, "gi")));
-  }
+async function onSearch({ currentValue }: { currentValue: string }) {
+  const res = await fetch(API);
+  const data: Character[] = await res.json();
+  return data
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .filter((el) => el.name.match(new RegExp(currentValue, "gi")));
+}
 
-  function onResults({
-    currentValue,
-    matches,
-  }: {
-    currentValue: string;
-    matches: Character[];
-  }) {
-    return matches
-      .map(
-        (el) => `
+function onResults({
+  currentValue,
+  matches,
+}: {
+  currentValue: string;
+  matches: Character[];
+}) {
+  return matches
+    .map(
+      (el) => `
         <li>
           <img src="${el.img}" alt="${el.name}" width="32" height="32" />
           <p>${el.name.replace(new RegExp(currentValue, "gi"), (s) => `<b>${s}</b>`)}</p>
           <small>${el.status}</small>
         </li>`,
-      )
-      .join("");
-  }
+    )
+    .join("");
+}
 
-  function onSubmit({ object }: { object: Character }) {
-    selected = object;
-  }
+function onSubmit({ object }: { object: Character }) {
+  selected = object;
+}
 </script>
 
 <div class="container">

@@ -1,6 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import { resolve } from "path";
+import { resolve } from "node:path";
 
 export default defineConfig({
   plugins: [react()],
@@ -11,7 +11,12 @@ export default defineConfig({
       fileName: (format) => (format === "es" ? "index.esm.js" : "index.js"),
     },
     rollupOptions: {
-      external: ["react", "react-dom", "react/jsx-runtime", "@tomickigrzegorz/autocomplete"],
+      external: [
+        "react",
+        "react-dom",
+        "react/jsx-runtime",
+        "@tomickigrzegorz/autocomplete",
+      ],
     },
   },
 });

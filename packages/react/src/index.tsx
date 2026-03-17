@@ -1,5 +1,7 @@
 import { useEffect, useId, useRef } from "react";
-import Autocomplete, { AutocompleteOptions } from "@tomickigrzegorz/autocomplete";
+import Autocomplete, {
+  type AutocompleteOptions,
+} from "@tomickigrzegorz/autocomplete";
 
 export type AutocompleteProps = AutocompleteOptions & {
   className?: string;
@@ -18,6 +20,7 @@ export function AutocompleteInput({
   const optionsRef = useRef(options);
   optionsRef.current = options;
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: intentionally re-create instance only when onSearch changes
   useEffect(() => {
     if (!ref.current) return;
 

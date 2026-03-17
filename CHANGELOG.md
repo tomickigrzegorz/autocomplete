@@ -1,3 +1,16 @@
+## 2026-03-17 (3.4.0)
+### Added
+- **Framework wrappers** — official wrapper packages for React, Vue 3, Svelte 5 and Angular. Each wrapper installs the core library automatically
+
+| Package | Install |
+|---------|---------|
+| `@tomickigrzegorz/autocomplete-react` | `npm install @tomickigrzegorz/autocomplete-react` |
+| `@tomickigrzegorz/autocomplete-vue` | `npm install @tomickigrzegorz/autocomplete-vue` |
+| `@tomickigrzegorz/autocomplete-svelte` | `npm install @tomickigrzegorz/autocomplete-svelte` |
+| `@tomickigrzegorz/autocomplete-angular` | `npm install @tomickigrzegorz/autocomplete-angular` |
+
+All wrappers expose the same props as the core `AutocompleteOptions` and handle lifecycle (init on mount, destroy on unmount, re-create when `onSearch` changes).
+
 ## 2026-03-17 (3.3.1)
 ### Fixed
 - `autocomplete.d.ts` — `onResults` type: removed stale `template` param (no longer passed since v3.2.0)

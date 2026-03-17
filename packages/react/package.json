@@ -8,6 +8,15 @@
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
   "files": ["dist/"],
+  "exports": {
+    ".": {
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "sideEffects": false,
+  "keywords": ["autocomplete", "react", "wrapper", "typeahead", "search", "accessibility", "aria"],
   "scripts": {
     "build": "vite build && tsc --emitDeclarationOnly",
     "test": "vitest run",
@@ -18,7 +27,7 @@
     "react-dom": ">=17.0.0"
   },
   "dependencies": {
-    "@tomickigrzegorz/autocomplete": "file:../.."
+    "@tomickigrzegorz/autocomplete": "^3.4.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.0",

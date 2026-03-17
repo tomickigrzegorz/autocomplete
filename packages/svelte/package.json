@@ -8,6 +8,15 @@
   "module": "dist/index.esm.js",
   "svelte": "src/index.svelte",
   "files": ["dist/", "src/"],
+  "exports": {
+    ".": {
+      "svelte": "./src/index.svelte",
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "sideEffects": false,
+  "keywords": ["autocomplete", "svelte", "svelte5", "wrapper", "typeahead", "search", "accessibility", "aria"],
   "scripts": {
     "build": "vite build",
     "test": "vitest run",
@@ -17,7 +26,7 @@
     "svelte": ">=5.0.0"
   },
   "dependencies": {
-    "@tomickigrzegorz/autocomplete": "file:../.."
+    "@tomickigrzegorz/autocomplete": "^3.4.0"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^3.0.0",

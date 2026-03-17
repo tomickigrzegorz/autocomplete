@@ -4,6 +4,9 @@
   "description": "Angular wrapper for @tomickigrzegorz/autocomplete",
   "author": "Grzegorz Tomicki",
   "license": "MIT",
+  "files": ["dist/angular"],
+  "sideEffects": false,
+  "keywords": ["autocomplete", "angular", "wrapper", "typeahead", "search", "accessibility", "aria"],
   "scripts": {
     "build": "ng-packagr -p projects/autocomplete/ng-package.json",
     "test": "jest"
@@ -13,7 +16,7 @@
     "@angular/core": ">=16.0.0"
   },
   "dependencies": {
-    "@tomickigrzegorz/autocomplete": "file:../.."
+    "@tomickigrzegorz/autocomplete": "^3.4.0"
   },
   "devDependencies": {
     "@angular/common": "^17.0.0",

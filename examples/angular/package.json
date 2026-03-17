@@ -14,6 +14,7 @@
     "@angular/platform-browser": "^17.0.0",
     "@angular/platform-browser-dynamic": "^17.0.0",
     "@tomickigrzegorz/autocomplete": "file:../..",
+    "@tomickigrzegorz/autocomplete-angular": "file:../../packages/angular/dist/angular",
     "rxjs": "~7.8.0",
     "tslib": "^2.6.0",
     "zone.js": "~0.14.0"

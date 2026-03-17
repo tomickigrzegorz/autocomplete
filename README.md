@@ -82,13 +82,13 @@ import 'node_modules/@tomickigrzegorz/autocomplete/dist/css/autocomplete.min.css
 #### CSS
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.3.1/dist/css/autocomplete.min.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.4.0/dist/css/autocomplete.min.css"/>
 ```
 
 #### JavaScript
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.3.1/dist/js/autocomplete.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.4.0/dist/js/autocomplete.min.js"></script>
 ```
 
 ##### -- OR --
@@ -139,6 +139,122 @@ window.addEventListener('DOMContentLoaded', function () {
     },
   });
 });
+```
+
+## Framework Wrappers
+
+Official wrapper packages are available for React, Vue 3, Svelte 5 and Angular. Each wrapper installs the core library automatically — no separate install needed.
+
+### React
+
+```bash
+npm install @tomickigrzegorz/autocomplete-react
+```
+
+```tsx
+import { AutocompleteInput } from '@tomickigrzegorz/autocomplete-react';
+import '@tomickigrzegorz/autocomplete/css';
+
+function App() {
+  return (
+    <AutocompleteInput
+      onSearch={async ({ currentValue }) => {
+        const res = await fetch(`/api/search?q=${currentValue}`);
+        return res.json();
+      }}
+      onResults={({ matches }) =>
+        matches.map(el => `<li>${el.name}</li>`).join('')
+      }
+      placeholder="Search..."
+    />
+  );
+}
+```
+
+### Vue 3
+
+```bash
+npm install @tomickigrzegorz/autocomplete-vue
+```
+
+```vue
+<template>
+  <AutocompleteInput
+    :onSearch="onSearch"
+    :onResults="onResults"
+    placeholder="Search..."
+  />
+</template>
+
+<script setup>
+import { AutocompleteInput } from '@tomickigrzegorz/autocomplete-vue';
+import '@tomickigrzegorz/autocomplete/css';
+
+const onSearch = async ({ currentValue }) => {
+  const res = await fetch(`/api/search?q=${currentValue}`);
+  return res.json();
+};
+
+const onResults = ({ matches }) =>
+  matches.map(el => `<li>${el.name}</li>`).join('');
+</script>
+```
+
+### Svelte 5
+
+```bash
+npm install @tomickigrzegorz/autocomplete-svelte
+```
+
+```svelte
+<script>
+  import AutocompleteInput from '@tomickigrzegorz/autocomplete-svelte';
+  import '@tomickigrzegorz/autocomplete/css';
+
+  const onSearch = async ({ currentValue }) => {
+    const res = await fetch(`/api/search?q=${currentValue}`);
+    return res.json();
+  };
+
+  const onResults = ({ matches }) =>
+    matches.map(el => `<li>${el.name}</li>`).join('');
+</script>
+
+<AutocompleteInput {onSearch} {onResults} placeholder="Search..." />
+```
+
+### Angular
+
+```bash
+npm install @tomickigrzegorz/autocomplete-angular
+```
+
+```typescript
+import { Component } from '@angular/core';
+import { AutocompleteComponent } from '@tomickigrzegorz/autocomplete-angular';
+import '@tomickigrzegorz/autocomplete/css';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [AutocompleteComponent],
+  template: `
+    <ngx-autocomplete
+      [onSearch]="onSearch"
+      [onResults]="onResults"
+      placeholder="Search..."
+    />
+  `
+})
+export class AppComponent {
+  onSearch = async ({ currentValue }: { currentValue: string }) => {
+    const res = await fetch(`/api/search?q=${currentValue}`);
+    return res.json();
+  };
+
+  onResults = ({ matches }: { matches: any[] }) =>
+    matches.map(el => `<li>${el.name}</li>`).join('');
+}
 ```
 
 ## Package Manager

@@ -4,6 +4,7 @@
   "description": "A lightweight, dependency-free autocomplete component in vanilla JavaScript with WAI-ARIA support.",
   "author": "Grzegorz Tomicki",
   "main": "dist/js/autocomplete.js",
+  "browser": "dist/js/autocomplete.esm.js",
   "module": "dist/js/autocomplete.esm.js",
   "types": "dist/js/autocomplete.d.ts",
   "style": "dist/css/autocomplete.min.css",
@@ -13,6 +14,8 @@
   ],
   "exports": {
     ".": {
+      "es2020": "./dist/js/autocomplete.esm.js",
+      "es2015": "./dist/js/autocomplete.esm.js",
       "require": "./dist/js/autocomplete.js",
       "import": "./dist/js/autocomplete.esm.js",
       "types": "./dist/js/autocomplete.d.ts",

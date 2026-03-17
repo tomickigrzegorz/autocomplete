@@ -3,9 +3,10 @@ import { CommonModule } from "@angular/common";
 import { AutocompleteComponent } from "@tomickigrzegorz/autocomplete-angular";
 
 interface Character {
+  char_id: number;
   name: string;
-  actor: string;
-  picture: string;
+  img: string;
+  status: string;
 }
 
 const API =
@@ -32,10 +33,10 @@ const API =
       </div>
 
       <div class="selected-card" *ngIf="selected">
-        <img [src]="selected.picture" [alt]="selected.name" />
+        <img [src]="selected.img" [alt]="selected.name" />
         <div>
           <strong>{{ selected.name }}</strong>
-          <span>played by {{ selected.actor }}</span>
+          <span>{{ selected.status }}</span>
         </div>
       </div>
     </div>
@@ -64,9 +65,9 @@ export class AppComponent {
       .map(
         (el) => `
         <li>
-          <img src="${el.picture}" alt="${el.name}" width="32" height="32" />
+          <img src="${el.img}" alt="${el.name}" width="32" height="32" />
           <p>${el.name.replace(new RegExp(currentValue, "gi"), (s) => `<b>${s}</b>`)}</p>
-          <small>${el.actor}</small>
+          <small>${el.status}</small>
         </li>`,
       )
       .join("");

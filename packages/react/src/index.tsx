@@ -29,7 +29,7 @@ export function AutocompleteInput({
       instance.destroy();
       resultWrap?.remove();
     };
-  }, []); // create once on mount, destroy on unmount
+  }, [options.onSearch]); // re-create when onSearch changes
 
   return (
     <input

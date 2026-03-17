@@ -105,12 +105,9 @@
     padding: 10px 14px;
     font-size: 1rem;
     border: 2px solid #ddd;
-    border-radius: 8px;
     outline: none;
     transition: border-color 0.2s;
   }
-
-  :global(.auto-search-wrapper input:focus) { border-color: #ff3e00; }
 
   .selected-card {
     display: flex;
@@ -119,7 +116,6 @@
     margin-top: 20px;
     padding: 14px;
     background: #fff;
-    border-radius: 8px;
     border: 1px solid #e0e0e0;
   }
 

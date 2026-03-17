@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount, onDestroy } from "svelte";
+  import { untrack } from "svelte";
   import Autocomplete, { type AutocompleteOptions } from "@tomickigrzegorz/autocomplete";
 
   type Props = AutocompleteOptions & {
@@ -34,36 +34,37 @@
   }: Props = $props();
 
   let inputEl: HTMLInputElement;
-  let instance: Autocomplete | null = null;
 
-  onMount(() => {
-    instance = new Autocomplete(inputEl, {
-      onSearch,
-      ...(onResults && { onResults }),
-      ...(onSubmit && { onSubmit }),
-      ...(onReset && { onReset }),
-      ...(onOpened && { onOpened }),
-      ...(onClose && { onClose }),
-      ...(noResults && { noResults }),
-      ...(onSelectedItem && { onSelectedItem }),
-      ...(onLoading && { onLoading }),
-      ...(delay !== undefined && { delay }),
-      ...(howManyCharacters !== undefined && { howManyCharacters }),
-      ...(clearButton !== undefined && { clearButton }),
-      ...(selectFirst !== undefined && { selectFirst }),
-      ...(insertToInput !== undefined && { insertToInput }),
-      ...(showValuesOnClick !== undefined && { showValuesOnClick }),
-      ...(cache !== undefined && { cache }),
-      ...(inline !== undefined && { inline }),
-      ...(classPrefix && { classPrefix }),
-      ...(classGroup && { classGroup }),
-      ...(dropdownParent !== undefined && { dropdownParent }),
-      ...(dropdownAttrs !== undefined && { dropdownAttrs }),
-    });
-  });
+  $effect(() => {
+    const search = onSearch; // track only onSearch — re-create when it changes
 
-  onDestroy(() => {
-    instance?.destroy();
+    const instance = untrack(() =>
+      new Autocomplete(inputEl, {
+        onSearch: search,
+        ...(onResults && { onResults }),
+        ...(onSubmit && { onSubmit }),
+        ...(onReset && { onReset }),
+        ...(onOpened && { onOpened }),
+        ...(onClose && { onClose }),
+        ...(noResults && { noResults }),
+        ...(onSelectedItem && { onSelectedItem }),
+        ...(onLoading && { onLoading }),
+        ...(delay !== undefined && { delay }),
+        ...(howManyCharacters !== undefined && { howManyCharacters }),
+        ...(clearButton !== undefined && { clearButton }),
+        ...(selectFirst !== undefined && { selectFirst }),
+        ...(insertToInput !== undefined && { insertToInput }),
+        ...(showValuesOnClick !== undefined && { showValuesOnClick }),
+        ...(cache !== undefined && { cache }),
+        ...(inline !== undefined && { inline }),
+        ...(classPrefix && { classPrefix }),
+        ...(classGroup && { classGroup }),
+        ...(dropdownParent !== undefined && { dropdownParent }),
+        ...(dropdownAttrs !== undefined && { dropdownAttrs }),
+      })
+    );
+
+    return () => instance.destroy();
   });
 </script>
 

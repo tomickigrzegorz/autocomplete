@@ -54,10 +54,13 @@ export default function App() {
 
       <div className="auto-search-wrapper">
         <AutocompleteInput
+          removeResultsWhenInputIsEmpty={true}
           onSearch={onSearch}
           onResults={onResults}
           onSubmit={onSubmit}
           placeholder="e.g. Walter"
+          onLoading={({ element }) => `<li>Loading results for: "${element.value}"...</li>`}
+          noResults={({ element }) => `<li>No results found: "${element.value}"</li>`}
         />
       </div>
 

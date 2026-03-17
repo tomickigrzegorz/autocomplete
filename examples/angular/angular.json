@@ -9,18 +9,30 @@
       "sourceRoot": "src",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist",
             "index": "src/index.html",
-            "browser": "src/main.ts",
+            "main": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
+            "preserveSymlinks": true,
             "styles": [
               "node_modules/@tomickigrzegorz/autocomplete/dist/css/autocomplete.min.css",
               "src/styles.css"
             ],
             "scripts": []
-          }
+          },
+          "configurations": {
+            "development": {
+              "optimization": false,
+              "sourceMap": true
+            },
+            "production": {
+              "optimization": true,
+              "sourceMap": false
+            }
+          },
+          "defaultConfiguration": "development"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",

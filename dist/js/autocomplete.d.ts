@@ -17,6 +17,7 @@ export interface AutocompleteOptions {
   preventScrollUp?: boolean;
   removeResultsWhenInputIsEmpty?: boolean;
   dropdownParent?: string | HTMLElement;
+  dropdownAttrs?: { class?: string; style?: string };
   regex?: RegexConfig;
   classGroup?: string;
   classPreventClosing?: string;
@@ -30,7 +31,6 @@ export interface AutocompleteOptions {
     currentValue: string;
     matches: any;
     classGroup?: string;
-    template?: string | HTMLElement;
   }) => string | HTMLElement;
   onSubmit?: (params: {
     index: number;
@@ -49,23 +49,24 @@ export interface AutocompleteOptions {
   noResults?: (params: {
     element: HTMLElement;
     currentValue: string;
-    template: string | HTMLElement;
-  }) => void;
+  }) => string | HTMLElement | void;
   onSelectedItem?: (params: {
     index: number;
     element: HTMLElement;
     object: any;
     currentValue?: string;
   }) => void;
+  onLoading?: (params: { element: HTMLInputElement }) => string;
 }
 
 /**
  * Autocomplete class
  */
 export default class Autocomplete {
-  constructor(element: string, options: Readonly<AutocompleteOptions>);
+  constructor(element: string | HTMLInputElement, options: Readonly<AutocompleteOptions>);
 
   rerender(inputValue?: string): void;
+  reset(): void;
   disable(clearInput?: boolean): void;
   enable(): void;
   destroy(): void;

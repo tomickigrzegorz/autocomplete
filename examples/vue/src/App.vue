@@ -108,12 +108,9 @@ h1 {
   padding: 10px 14px;
   font-size: 1rem;
   border: 2px solid #ddd;
-  border-radius: 8px;
   outline: none;
   transition: border-color 0.2s;
 }
-
-.auto-search-wrapper input:focus { border-color: #42b883; }
 
 .selected-card {
   display: flex;
@@ -122,7 +119,7 @@ h1 {
   margin-top: 20px;
   padding: 14px;
   background: #fff;
-  border-radius: 8px;
+  border-radius: 0;
   border: 1px solid #e0e0e0;
 }
 

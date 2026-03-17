@@ -9,7 +9,7 @@
   "types": "dist/index.d.ts",
   "files": ["dist/"],
   "scripts": {
-    "build": "vite build",
+    "build": "vite build && tsc --emitDeclarationOnly",
     "test": "vitest run",
     "test:watch": "vitest"
   },

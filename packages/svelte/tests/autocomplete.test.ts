@@ -48,4 +48,14 @@ describe("AutocompleteInput (Svelte)", () => {
     unmount();
     expect(instance.destroy).toHaveBeenCalledOnce();
   });
+
+  it("re-creates instance when onSearch changes", async () => {
+    const newSearch = vi.fn(async () => []);
+    const { rerender } = render(AutocompleteInput, {
+      props: { onSearch: mockSearch },
+    });
+    expect(Autocomplete).toHaveBeenCalledTimes(1);
+    await rerender({ props: { onSearch: newSearch } });
+    expect(Autocomplete).toHaveBeenCalledTimes(2);
+  });
 });

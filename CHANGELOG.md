@@ -1,3 +1,14 @@
+## 2026-03-17 (3.3.1)
+### Fixed
+- `autocomplete.d.ts` — `onResults` type: removed stale `template` param (no longer passed since v3.2.0)
+- `autocomplete.d.ts` — `noResults` type: removed stale `template` param, return type corrected to `string | HTMLElement | void`
+- `autocomplete.d.ts` — `onLoading` was missing from types despite being available since v3.3.0
+- `autocomplete.d.ts` — `dropdownAttrs` was missing from types despite being available since v3.3.0
+- `autocomplete.d.ts` — `reset()` was missing from the class declaration despite being available since v3.2.0
+
+### Migration
+If you were using `template` in `onResults` or `noResults`, see the [v3.2.0 migration guide](#migration-from-31x) below.
+
 ## 2026-03-16 (3.3.0)
 ### Added
 - `dropdownAttrs` — extra HTML attributes applied to the dropdown wrapper element when `dropdownParent` is set. Supports `class` (adds CSS classes) and `style` (inline CSS string). Most common use case: overriding the default `z-index: 9999`

@@ -1,0 +1,70 @@
+name: Publish to npm
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: "https://registry.npmjs.org"
+
+      # ── core ────────────────────────────────────────────────
+      - name: Install core dependencies
+        run: npm install
+
+      - name: Publish core
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_AUTOCOMPLETE_PUBLISH }}
+
+      # ── react ───────────────────────────────────────────────
+      - name: Build react wrapper
+        run: npm install && npm run build
+        working-directory: packages/react
+
+      - name: Publish react wrapper
+        run: npm publish --access public
+        working-directory: packages/react
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_AUTOCOMPLETE_PUBLISH }}
+
+      # ── vue ─────────────────────────────────────────────────
+      - name: Build vue wrapper
+        run: npm install && npm run build
+        working-directory: packages/vue
+
+      - name: Publish vue wrapper
+        run: npm publish --access public
+        working-directory: packages/vue
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_AUTOCOMPLETE_PUBLISH }}
+
+      # ── svelte ──────────────────────────────────────────────
+      - name: Build svelte wrapper
+        run: npm install && npm run build
+        working-directory: packages/svelte
+
+      - name: Publish svelte wrapper
+        run: npm publish --access public
+        working-directory: packages/svelte
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_AUTOCOMPLETE_PUBLISH }}
+
+      # ── angular ─────────────────────────────────────────────
+      - name: Build angular wrapper
+        run: npm install && npm run build
+        working-directory: packages/angular
+
+      - name: Publish angular wrapper
+        run: npm publish --access public
+        working-directory: packages/angular/dist/angular
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_AUTOCOMPLETE_PUBLISH }}

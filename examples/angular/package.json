@@ -1,0 +1,28 @@
+{
+  "name": "autocomplete-angular-demo",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "ng serve",
+    "build": "ng build"
+  },
+  "dependencies": {
+    "@angular/animations": "^17.0.0",
+    "@angular/common": "^17.0.0",
+    "@angular/compiler": "^17.0.0",
+    "@angular/core": "^17.0.0",
+    "@angular/platform-browser": "^17.0.0",
+    "@angular/platform-browser-dynamic": "^17.0.0",
+    "@tomickigrzegorz/autocomplete": "file:../..",
+    "@tomickigrzegorz/autocomplete-angular": "file:../../packages/angular/dist/angular",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.6.0",
+    "zone.js": "~0.14.0"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^17.3.17",
+    "@angular/cli": "^17.0.0",
+    "@angular/compiler-cli": "^17.0.0",
+    "typescript": "~5.2.0"
+  }
+}

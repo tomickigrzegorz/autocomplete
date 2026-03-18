@@ -1,0 +1,56 @@
+{
+  "name": "@tomickigrzegorz/autocomplete-vue",
+  "version": "1.0.0",
+  "description": "Vue 3 wrapper for @tomickigrzegorz/autocomplete",
+  "author": "Grzegorz Tomicki",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist/"],
+  "exports": {
+    ".": {
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "sideEffects": false,
+  "keywords": [
+    "autocomplete",
+    "vue",
+    "vue3",
+    "wrapper",
+    "typeahead",
+    "search",
+    "accessibility",
+    "aria"
+  ],
+  "scripts": {
+    "build": "vite build && tsc --emitDeclarationOnly",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "peerDependencies": {
+    "vue": ">=3.0.0"
+  },
+  "dependencies": {
+    "@tomickigrzegorz/autocomplete": "^3.4.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.4.0",
+    "@testing-library/vue": "^8.0.0",
+    "@vitejs/plugin-vue": "^5.0.0",
+    "@vue/test-utils": "^2.4.0",
+    "jsdom": "^24.0.0",
+    "typescript": "^5.0.0",
+    "vite": "^5.0.0",
+    "vitest": "^1.0.0",
+    "vue": "^3.4.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tomickigrzegorz/autocomplete.git",
+    "directory": "packages/vue"
+  }
+}

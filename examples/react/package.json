@@ -1,0 +1,20 @@
+{
+  "name": "autocomplete-react-demo",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@tomickigrzegorz/autocomplete": "file:../..",
+    "@tomickigrzegorz/autocomplete-react": "file:../../packages/react",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.0.0",
+    "vite": "^5.0.0"
+  }
+}

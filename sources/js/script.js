@@ -65,7 +65,7 @@ export default class Autocomplete {
   /**
    * Constructor
    *
-   * @param {string} element - ID of the root element.
+   * @param {string|HTMLElement} element - ID of the root element or the element itself.
    * @param {AutocompleteOptions} object - Configuration options.
    */
   constructor(
@@ -102,14 +102,21 @@ export default class Autocomplete {
       onSelectedItem = () => {},
     },
   ) {
-    /** @type {string} */
-    this._id = element;
     /** @type {HTMLElement} */
-    this._root = document.getElementById(element);
+    this._root =
+      typeof element === "string" ? document.getElementById(element) : element;
 
     if (!this._root) {
       throw new Error(`Autocomplete: Element with id "${element}" not found`);
     }
+
+    // ensure the element has an id (needed for ARIA and internal selectors)
+    if (!this._root.id) {
+      this._root.id = `auto-${Math.random().toString(36).slice(2, 7)}`;
+    }
+
+    /** @type {string} */
+    this._id = this._root.id;
 
     /** @type {Function} */
     this._onSearch = isPromise(onSearch)
@@ -744,7 +751,9 @@ export default class Autocomplete {
     const targetClosest = target.closest("li");
     const targetClosestRole = targetClosest?.hasAttribute("role");
     const activeClass = this._activeList;
-    const activeClassElement = this._resultList.querySelector(`.${activeClass}`);
+    const activeClassElement = this._resultList.querySelector(
+      `.${activeClass}`,
+    );
 
     if (
       !targetClosest ||

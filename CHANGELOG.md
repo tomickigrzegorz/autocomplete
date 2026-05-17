@@ -1,3 +1,8 @@
+## 2026-05-17 (3.3.2)
+### Fixed
+- `autocomplete.d.ts` — `onLoading` is now actually present in `AutocompleteOptions` (listed in the 3.3.1 changelog but not added to the type files)
+- `autocomplete.d.ts` — `dropdownAttrs` is now actually present in `AutocompleteOptions` (same as above)
+
 ## 2026-03-17 (3.3.1)
 ### Fixed
 - `autocomplete.d.ts` — `onResults` type: removed stale `template` param (no longer passed since v3.2.0)

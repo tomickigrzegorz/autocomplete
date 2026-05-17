@@ -1,4 +1,4 @@
-## 2026-03-17 (3.4.0)
+## 2026-05-18 (3.4.0)
 ### Added
 - **Framework wrappers** — official wrapper packages for React, Vue 3, Svelte 5 and Angular. Each wrapper installs the core library automatically
 
@@ -10,6 +10,11 @@
 | `@tomickigrzegorz/autocomplete-angular` | `npm install @tomickigrzegorz/autocomplete-angular` |
 
 All wrappers expose the same props as the core `AutocompleteOptions` and handle lifecycle (init on mount, destroy on unmount, re-create when `onSearch` changes).
+
+## 2026-05-17 (3.3.2)
+### Fixed
+- `autocomplete.d.ts` — `onLoading` is now actually present in `AutocompleteOptions` (listed in the 3.3.1 changelog but not added to the type files)
+- `autocomplete.d.ts` — `dropdownAttrs` is now actually present in `AutocompleteOptions` (same as above)
 
 ## 2026-03-17 (3.3.1)
 ### Fixed

@@ -9,8 +9,7 @@
   { "link": "no-results-example", "html": "No results" },
   {
     "link": "wikipedia-search-example",
-    "html": "Wikipedia search <div><small>onLoading callback</small></div>",
-    "type": "new"
+    "html": "Wikipedia search <div><small>onLoading callback</small></div>"
   },
   { "link": "static-file-example", "html": "Static file" },
   { "link": "data-elements-example", "html": "Static file + data-elelemts" },
@@ -51,8 +50,7 @@
   },
   {
     "link": "dropdown-parent-example",
-    "html": "Dropdown parent",
-    "type": "new"
+    "html": "Dropdown parent"
   },
   {
     "link": "show-all-values-on-click-example",
@@ -60,13 +58,11 @@
   },
   {
     "link": "country-select-example",
-    "html": "Country selector <div><small>Select2 alternative</small></div>",
-    "type": "new"
+    "html": "Country selector <div><small>Select2 alternative</small></div>"
   },
   {
     "link": "country-select-multi-example",
-    "html": "Country selector multi <div><small>Select2 alternative</small></div>",
-    "type": "new"
+    "html": "Country selector multi <div><small>Select2 alternative</small></div>"
   },
   {
     "link": "cache-example",
@@ -112,5 +108,25 @@
   {
     "link": "bootstrap-modal-example",
     "html": "Bootstrap with modal"
+  },
+  {
+    "link": "react-wrapper-example",
+    "html": "React <div><small>framework wrapper</small></div>",
+    "type": "new"
+  },
+  {
+    "link": "vue-wrapper-example",
+    "html": "Vue 3 <div><small>framework wrapper</small></div>",
+    "type": "new"
+  },
+  {
+    "link": "svelte-wrapper-example",
+    "html": "Svelte 5 <div><small>framework wrapper</small></div>",
+    "type": "new"
+  },
+  {
+    "link": "angular-wrapper-example",
+    "html": "Angular <div><small>framework wrapper</small></div>",
+    "type": "new"
   }
 ]

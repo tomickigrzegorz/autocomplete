@@ -203,6 +203,16 @@
             "column": "Appends the dropdown to the specified element instead of next to the input. Accepts a CSS selector string or an <code>HTMLElement</code>. Use <code>document.body</code> to escape <code>overflow</code> clipping in modals or fixed-height containers."
           }
         ]
+      },
+      {
+        "row": [
+          { "column": "dropdownAttrs" },
+          { "column": "{}" },
+          { "column": "" },
+          {
+            "column": "Extra HTML attributes applied to the dropdown wrapper when <code>dropdownParent</code> is set. Supports <code>class</code> (CSS classes) and <code>style</code> (inline CSS). Most common use case: overriding the default <code>z-index: 9999</code>. Example: <code>dropdownAttrs: { class: \"my-wrapper\", style: \"z-index: 10001\" }</code>"
+          }
+        ]
       }
     ]
   }

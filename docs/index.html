@@ -1660,6 +1660,207 @@ import '@tomickigrzegorz/autocomplete/css';
           </iframe>
         </article>
         <!-- boostrap end -->
+
+        <!-- React wrapper start -->
+        <article id="react-wrapper-example" class="section">
+          <div class="info-section">
+            <h2>React</h2>
+            <p>
+              Official React wrapper:
+              <code>@tomickigrzegorz/autocomplete-react</code> — exposes the same options as the core library and handles lifecycle (mount, unmount, re-create on <code>onSearch</code> change).
+            </p>
+            <p>
+              Full props reference:
+              <a href="https://github.com/tomickigrzegorz/autocomplete/tree/master/packages/react" target="_blank">packages/react</a>.
+            </p>
+          </div>
+          <div rel="HTML" class="html-class">
+            <pre><code class="language-bash">npm install @tomickigrzegorz/autocomplete-react @tomickigrzegorz/autocomplete</code></pre>
+          </div>
+          <div rel="HTML" class="html-class">
+            <pre><code class="language-jsx">import { AutocompleteInput } from "@tomickigrzegorz/autocomplete-react";
+import "@tomickigrzegorz/autocomplete/css";
+
+const data = [
+  { name: "Walter White" },
+  { name: "Jesse Pinkman" },
+  { name: "Skyler White" },
+  { name: "Walter White Jr." },
+];
+
+export default function App() {
+  return (
+    &lt;div className="auto-search-wrapper"&gt;
+      &lt;AutocompleteInput
+        onSearch={({ currentValue }) =&gt;
+          data.filter((el) =&gt; new RegExp(currentValue, "i").test(el.name))
+        }
+        onResults={({ matches }) =&gt;
+          matches.map((el) =&gt; `&lt;li&gt;${el.name}&lt;/li&gt;`).join("")
+        }
+        placeholder="type w"
+      /&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+          </div>
+        </article>
+        <!-- React wrapper end -->
+
+        <!-- Vue wrapper start -->
+        <article id="vue-wrapper-example" class="section">
+          <div class="info-section">
+            <h2>Vue 3</h2>
+            <p>
+              Official Vue 3 wrapper:
+              <code>@tomickigrzegorz/autocomplete-vue</code> — exposes the same options as the core library and handles lifecycle (mount, unmount, re-create on <code>onSearch</code> change).
+            </p>
+            <p>
+              Full props reference:
+              <a href="https://github.com/tomickigrzegorz/autocomplete/tree/master/packages/vue" target="_blank">packages/vue</a>.
+            </p>
+          </div>
+          <div rel="HTML" class="html-class">
+            <pre><code class="language-bash">npm install @tomickigrzegorz/autocomplete-vue @tomickigrzegorz/autocomplete</code></pre>
+          </div>
+          <div rel="HTML" class="html-class">
+            <pre><code class="language-html">&lt;script setup lang="ts"&gt;
+import { AutocompleteInput } from "@tomickigrzegorz/autocomplete-vue";
+import "@tomickigrzegorz/autocomplete/css";
+
+const data = [
+  { name: "Walter White" },
+  { name: "Jesse Pinkman" },
+  { name: "Skyler White" },
+  { name: "Walter White Jr." },
+];
+
+const onSearch = ({ currentValue }) =&gt;
+  data.filter((el) =&gt; new RegExp(currentValue, "i").test(el.name));
+
+const onResults = ({ matches }) =&gt;
+  matches.map((el) =&gt; `&lt;li&gt;${el.name}&lt;/li&gt;`).join("");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;div class="auto-search-wrapper"&gt;
+    &lt;AutocompleteInput
+      :onSearch="onSearch"
+      :onResults="onResults"
+      placeholder="type w"
+    /&gt;
+  &lt;/div&gt;
+&lt;/template&gt;</code></pre>
+          </div>
+        </article>
+        <!-- Vue wrapper end -->
+
+        <!-- Svelte wrapper start -->
+        <article id="svelte-wrapper-example" class="section">
+          <div class="info-section">
+            <h2>Svelte 5</h2>
+            <p>
+              Official Svelte 5 wrapper:
+              <code>@tomickigrzegorz/autocomplete-svelte</code> — exposes the same options as the core library and handles lifecycle (mount, unmount, re-create on <code>onSearch</code> change).
+            </p>
+            <p>
+              Full props reference:
+              <a href="https://github.com/tomickigrzegorz/autocomplete/tree/master/packages/svelte" target="_blank">packages/svelte</a>.
+            </p>
+          </div>
+          <div rel="HTML" class="html-class">
+            <pre><code class="language-bash">npm install @tomickigrzegorz/autocomplete-svelte @tomickigrzegorz/autocomplete</code></pre>
+          </div>
+          <div rel="HTML" class="html-class">
+            <pre><code class="language-html">&lt;script lang="ts"&gt;
+  import AutocompleteInput from "@tomickigrzegorz/autocomplete-svelte";
+  import "@tomickigrzegorz/autocomplete/css";
+
+  const data = [
+    { name: "Walter White" },
+    { name: "Jesse Pinkman" },
+    { name: "Skyler White" },
+    { name: "Walter White Jr." },
+  ];
+
+  const onSearch = ({ currentValue }) =&gt;
+    data.filter((el) =&gt; new RegExp(currentValue, "i").test(el.name));
+
+  const onResults = ({ matches }) =&gt;
+    matches.map((el) =&gt; `&lt;li&gt;${el.name}&lt;/li&gt;`).join("");
+&lt;/script&gt;
+
+&lt;div class="auto-search-wrapper"&gt;
+  &lt;AutocompleteInput
+    {onSearch}
+    {onResults}
+    placeholder="type w"
+  /&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+        </article>
+        <!-- Svelte wrapper end -->
+
+        <!-- Angular wrapper start -->
+        <article id="angular-wrapper-example" class="section">
+          <div class="info-section">
+            <h2>Angular</h2>
+            <p>
+              Official Angular wrapper:
+              <code>@tomickigrzegorz/autocomplete-angular</code> — standalone component for Angular 16+. Exposes the same inputs as the core library and handles lifecycle (mount, destroy, re-create on <code>onSearch</code> change).
+            </p>
+            <p>
+              Full inputs reference:
+              <a href="https://github.com/tomickigrzegorz/autocomplete/tree/master/packages/angular" target="_blank">packages/angular</a>.
+            </p>
+            <p>
+              Add the autocomplete CSS to your <code>angular.json</code>:
+            </p>
+          </div>
+          <div rel="HTML" class="html-class">
+            <pre><code class="language-bash">npm install @tomickigrzegorz/autocomplete-angular @tomickigrzegorz/autocomplete</code></pre>
+          </div>
+          <div rel="HTML" class="html-class">
+            <pre><code class="language-json">"styles": [
+  "node_modules/@tomickigrzegorz/autocomplete/dist/css/autocomplete.min.css",
+  "src/styles.css"
+]</code></pre>
+          </div>
+          <div rel="HTML" class="html-class">
+            <pre><code class="language-typescript">import { Component } from "@angular/core";
+import { AutocompleteComponent } from "@tomickigrzegorz/autocomplete-angular";
+
+@Component({
+  selector: "app-root",
+  standalone: true,
+  imports: [AutocompleteComponent],
+  template: `
+    &lt;div class="auto-search-wrapper"&gt;
+      &lt;ngx-autocomplete
+        [onSearch]="onSearch"
+        [onResults]="onResults"
+        placeholder="type w"
+      /&gt;
+    &lt;/div&gt;
+  `,
+})
+export class AppComponent {
+  data = [
+    { name: "Walter White" },
+    { name: "Jesse Pinkman" },
+    { name: "Skyler White" },
+    { name: "Walter White Jr." },
+  ];
+
+  onSearch = ({ currentValue }: { currentValue: string }) =&gt;
+    this.data.filter((el) =&gt; new RegExp(currentValue, "i").test(el.name));
+
+  onResults = ({ matches }: { matches: { name: string }[] }) =&gt;
+    matches.map((el) =&gt; `&lt;li&gt;${el.name}&lt;/li&gt;`).join("");
+}</code></pre>
+          </div>
+        </article>
+        <!-- Angular wrapper end -->
       </div>
 
       <!-- <div class="based"><a href="https://breakingbadapi.com/" target="_blank">BASED ON: The Breaking Bad API</a>

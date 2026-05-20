@@ -313,7 +313,7 @@ npm run prod
 | insertToInput        |  boolean   |               `false`               |         | Adding an element selected with arrows or hovering with the mouse to the input field                                                                                                                |
 | disableCloseOnSelect |  boolean   |               `false`               |         | Prevents results from hiding after clicking on an item from the results list                                                                                             |
 | preventScrollUp      |  boolean   |               `false`               |         | Prevents the results from scrolling to the top when the dropdown reopens. The scroll position and the highlighted selection are both preserved — clicking the input or closing and reopening the dropdown keeps the previously selected item highlighted.                                             |
-| showAllValuesOnClick |  boolean   |               `false`               |         | This option will toggle showing all values when the input is clicked, like a default dropdown                                                                            |
+| showValuesOnClick |  boolean   |               `false`               |         | This option will toggle showing all values when the input is clicked, like a default dropdown                                                                            |
 | inline        |  boolean   |               `false`               |         | This option displays all results without clicking on the input field                                                                            |
 | removeResultsWhenInputIsEmpty        |  boolean   |               `false`               |         | Set to `true` to clear the results when the input is empty                                                                                                              |
 | cache                |  boolean   |               `false`               |         | The characters entered in the input field are cached                                                                                                                     |
@@ -424,7 +424,7 @@ new Autocomplete('complex', {
   // values when the input is clicked,
   // like a default dropdown
   // by default is false
-  showAllValuesOnClick: false,
+  showValuesOnClick: false,
 
   // this option displays all results
   // without clicking on the input field
@@ -611,7 +611,7 @@ const auto = new Autocomplete('you-id', {
   insertToInput: false,
   disableCloseOnSelect: false,
   cache: false,
-  showAllValuesOnClick: false,
+  showValuesOnClick: false,
   inline: false,
   howManyCharacters: 1,
   preventScrollUp: false,
@@ -668,13 +668,13 @@ auto.enable();
 
 // After enable(), autocomplete will work normally:
 // - User needs to type (respecting howManyCharacters setting)
-// - OR click input (if showAllValuesOnClick: true)
+// - OR click input (if showValuesOnClick: true)
 // - OR call auto.rerender() to trigger search programmatically
 ```
 
 **Important**: `enable()` only restores event listeners and functionality. It doesn't automatically show results. Search is triggered only by:
 - User input (when `howManyCharacters` threshold is met)
-- Input click (when `showAllValuesOnClick: true`)
+- Input click (when `showValuesOnClick: true`)
 - Manual `rerender()` call
 
 ### preventScrollUp: selection behavior

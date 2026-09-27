@@ -95,6 +95,14 @@ All inputs mirror [`AutocompleteOptions`](https://github.com/tomickigrzegorz/aut
 | `placeholder` | `string` | | Input placeholder |
 | `class` | `string` | | CSS class for the input element |
 
+## Updating inputs
+
+Callback inputs (`onSearch`, `onResults`, `onSubmit`, …) always call the latest value bound to the component. Define them as arrow function properties (as in the example above) — a plain class method passed as `[onSearch]="search"` loses its `this`.
+
+Other inputs (`delay`, `cache`, `dropdownParent`, `classPrefix`, …) are read once on init. To apply a new value, re-create the component, e.g. by toggling it with `@if`.
+
+The component is SSR-safe — the autocomplete is initialized only in the browser.
+
 ## Demo
 
 ```bash

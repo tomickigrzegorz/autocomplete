@@ -1379,6 +1379,46 @@ import '@tomickigrzegorz/autocomplete/css';
         </section>
         <!-- enable/disable with empty input end -->
 
+        <!-- unmount start -->
+        <section id="unmount-example" class="section">
+          <div class="search-element">
+            <div class="info-section">
+              <h2>Unmount / re-create with new options</h2>
+              <div class="sources">
+                <a href="./js/examples/unmount.js" target="_blank">source: unmount</a>
+              </div>
+              <p>
+                The <code>unmount()</code> method removes everything the instance added to the page (results list, clear button) and all event listeners. Unlike <code>destroy()</code> it does not clear the input, does not move focus and does not call <code>onReset</code>.
+              </p>
+              <ul>
+                <li><strong>Unmount:</strong> the input becomes a plain field — the typed text stays</li>
+                <li><strong>Mount:</strong> creates a new instance on the same input</li>
+                <li><strong>Re-create:</strong> <code>unmount()</code> + <code>new Autocomplete()</code> with a different <code>delay</code> (0 ⇄ 500ms)</li>
+              </ul>
+              <p><em>Use it when the input is removed from the page (modal, SPA view) or to change options on the fly.</em></p>
+            </div>
+            <div class="auto-search-wrapper">
+              <input type="text" id="unmount" placeholder="type w" />
+              <div id="status-unmount" class="status-enabled"></div>
+              <div class="btn-group">
+                <button id="unmount-btn" class="btn-action" type="button">Unmount</button>
+                <button id="mount-btn" class="btn-action" type="button">Mount</button>
+                <button id="remount-btn" class="btn-action" type="button">Re-create (toggle delay)</button>
+              </div>
+            </div>
+          </div>
+          <div rel="docs/index.html" class="highlight html html-class"></div>
+          <div
+            rel="docs/js/examples/unmount.js"
+            class="highlight javascript html-class"
+          >
+            <pre>
+                <code class="language-js" data-source="./js/examples/unmount.js"></code>
+              </pre>
+          </div>
+        </section>
+        <!-- unmount end -->
+
         <!-- show all values start -->
         <section id="show-inline-example" class="section">
           <div class="search-element">
@@ -1667,7 +1707,7 @@ import '@tomickigrzegorz/autocomplete/css';
             <h2>React</h2>
             <p>
               Official React wrapper:
-              <code>@tomickigrzegorz/autocomplete-react</code> — exposes the same options as the core library and handles lifecycle (mount, unmount, re-create on <code>onSearch</code> change).
+              <code>@tomickigrzegorz/autocomplete-react</code> (React 18+) — exposes the same options as the core library and handles lifecycle (mount, unmount). Callbacks always use the latest props; other options are read once on mount.
             </p>
             <p>
               Full props reference:
@@ -1713,7 +1753,7 @@ export default function App() {
             <h2>Vue 3</h2>
             <p>
               Official Vue 3 wrapper:
-              <code>@tomickigrzegorz/autocomplete-vue</code> — exposes the same options as the core library and handles lifecycle (mount, unmount, re-create on <code>onSearch</code> change).
+              <code>@tomickigrzegorz/autocomplete-vue</code> — exposes the same options as the core library and handles lifecycle (mount, unmount). Callbacks always use the latest props; other options are read once on mount.
             </p>
             <p>
               Full props reference:
@@ -1724,7 +1764,7 @@ export default function App() {
             <pre><code class="language-bash">npm install @tomickigrzegorz/autocomplete-vue @tomickigrzegorz/autocomplete</code></pre>
           </div>
           <div rel="HTML" class="html-class">
-            <pre><code class="language-html">&lt;script setup lang="ts"&gt;
+            <pre><code class="language-html">&lt;script setup&gt;
 import { AutocompleteInput } from "@tomickigrzegorz/autocomplete-vue";
 import "@tomickigrzegorz/autocomplete/css";
 
@@ -1761,7 +1801,7 @@ const onResults = ({ matches }) =&gt;
             <h2>Svelte 5</h2>
             <p>
               Official Svelte 5 wrapper:
-              <code>@tomickigrzegorz/autocomplete-svelte</code> — exposes the same options as the core library and handles lifecycle (mount, unmount, re-create on <code>onSearch</code> change).
+              <code>@tomickigrzegorz/autocomplete-svelte</code> — exposes the same options as the core library and handles lifecycle (mount, unmount). Callbacks always use the latest props; other options are read once on mount.
             </p>
             <p>
               Full props reference:
@@ -1772,7 +1812,7 @@ const onResults = ({ matches }) =&gt;
             <pre><code class="language-bash">npm install @tomickigrzegorz/autocomplete-svelte @tomickigrzegorz/autocomplete</code></pre>
           </div>
           <div rel="HTML" class="html-class">
-            <pre><code class="language-html">&lt;script lang="ts"&gt;
+            <pre><code class="language-html">&lt;script&gt;
   import AutocompleteInput from "@tomickigrzegorz/autocomplete-svelte";
   import "@tomickigrzegorz/autocomplete/css";
 
@@ -1807,7 +1847,7 @@ const onResults = ({ matches }) =&gt;
             <h2>Angular</h2>
             <p>
               Official Angular wrapper:
-              <code>@tomickigrzegorz/autocomplete-angular</code> — standalone component for Angular 16+. Exposes the same inputs as the core library and handles lifecycle (mount, destroy, re-create on <code>onSearch</code> change).
+              <code>@tomickigrzegorz/autocomplete-angular</code> — standalone component for Angular 16+. Exposes the same inputs as the core library and handles lifecycle (init, destroy) and is SSR-safe. Callback inputs always use the latest value; other inputs are read once on init.
             </p>
             <p>
               Full inputs reference:
@@ -1910,6 +1950,7 @@ export class AppComponent {
     <script async src="./js/examples/disable.js"></script>
     <script async src="./js/examples/enable.js"></script>
     <script async src="./js/examples/enable-disable.js"></script>
+    <script async src="./js/examples/unmount.js"></script>
     
 
     <div class="modal"></div>

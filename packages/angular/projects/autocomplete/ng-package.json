@@ -3,5 +3,6 @@
   "lib": {
     "entryFile": "src/public-api.ts"
   },
-  "dest": "../../dist/angular"
+  "dest": "../../dist/angular",
+  "allowedNonPeerDependencies": ["@tomickigrzegorz/autocomplete"]
 }

@@ -47,6 +47,16 @@
       {
         "row": [
           {
+            "column": "<b>unmount</b>"
+          },
+          {
+            "column": "<span class=\"new-item\" aria-label=\"New\">new</span> Removes everything the instance added to the page (results list, clear button) and all event listeners, cancels a pending search. Unlike <code>destroy()</code> it keeps the input value, does not move focus and does not call <code>onReset</code>. Use it when the input is removed from the page or to re-create the instance with new options. <code>auto.unmount();</code> Example: <a href='#unmount-example'>unmount / re-create</a>"
+          }
+        ]
+      },
+      {
+        "row": [
+          {
             "column": "<b>rerender</b>"
           },
           {

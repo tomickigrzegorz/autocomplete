@@ -9,7 +9,7 @@
           { "column": "element" },
           { "column": "" },
           { "column": "&check;" },
-          { "column": "Input field id" }
+          { "column": "Input field id or the input element itself <span class=\"new-item\" aria-label=\"New\">new</span>" }
         ]
       },
       {

@@ -4,4 +4,4 @@ reports/
 node_modules/
 
 test-results/
-examples
+/examples/*/.angular/

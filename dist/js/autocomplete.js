@@ -304,6 +304,7 @@ var Autocomplete = (function () {
         currentValue: value,
         element: _this._root
       }).then(function (result) {
+        if (_this._unmounted) return;
         var rootValueLength = _this._root.value.length;
         var resultLength = result.length;
         _this._matches = Array.isArray(result) ? result : JSON.parse(JSON.stringify(result));
@@ -327,6 +328,7 @@ var Autocomplete = (function () {
           _this._events();
         }
       }).catch(function () {
+        if (_this._unmounted) return;
         _this._onLoading();
         _this._reset();
       });
@@ -689,6 +691,10 @@ var Autocomplete = (function () {
       if (_this._inline) _this._onClose();
       _this._error();
       _this._onLoading();
+      _this._detachEvents();
+      _this._onReset(_this._root);
+    };
+    this._detachEvents = function () {
       offEvent(_this._root, "input", _this._handleInput);
       offEvent(_this._root, "keydown", _this._handleKeys);
       offEvent(_this._root, "click", _this._handleShowItems);
@@ -699,7 +705,19 @@ var Autocomplete = (function () {
       ["mousemove", "click"].forEach(function (eventType) {
         offEvent(_this._resultList, eventType, _this._handleMouse);
       });
-      _this._onReset(_this._root);
+    };
+    this.unmount = function () {
+      var _this$_root$parentNod;
+      _this._unmounted = true;
+      clearTimeout(_this._timeout);
+      if (_this._dropdownParent) {
+        _this._stopPositionTracking();
+      }
+      _this._detachEvents();
+      offEvent(_this._clearBtn, "click", _this.reset);
+      (_this$_root$parentNod = _this._root.parentNode) == null || _this$_root$parentNod.classList.remove(_this._isLoading);
+      _this._resultWrap.remove();
+      _this._clearBtn.remove();
     };
     this.reset = function () {
       _this._root.value = "";
@@ -712,7 +730,7 @@ var Autocomplete = (function () {
     };
     this._root = typeof _element === "string" ? document.getElementById(_element) : _element;
     if (!this._root) {
-      throw new Error("Autocomplete: Element with id \"" + _element + "\" not found");
+      throw new Error(typeof _element === "string" ? "Autocomplete: Element with id \"" + _element + "\" not found" : "Autocomplete: Element not found - expected an input element or its id");
     }
     if (!this._root.id) {
       this._root.id = "auto-" + Math.random().toString(36).slice(2, 7);
@@ -754,8 +772,10 @@ var Autocomplete = (function () {
     this._dropdownAttrs = dropdownAttrs;
     this._cache = cache;
     this._timeout = null;
-    this._outputUl = this._prefix + "-" + this._id + "-results";
-    this._cacheData = "data-cache-auto-" + this._id;
+    this._unmounted = false;
+    var safeId = this._id.replace(/[^a-zA-Z0-9_-]/g, "") || Math.random().toString(36).slice(2, 7);
+    this._outputUl = this._prefix + "-" + safeId + "-results";
+    this._cacheData = "data-cache-auto-" + safeId;
     this._isLoading = this._prefix + "-is-loading";
     this._isActive = this._prefix + "-is-active";
     this._activeList = this._prefix + "-selected";

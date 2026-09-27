@@ -80,6 +80,16 @@ All props mirror [`AutocompleteOptions`](https://github.com/tomickigrzegorz/auto
 | `placeholder` | `string` | | Input placeholder |
 | `class` | `string` | | CSS class for the input element |
 
+## Updating props
+
+Callback props (`onSearch`, `onResults`, `onSubmit`, …) always call the latest function passed to the component, so they can be changed at any time without re-creating the autocomplete.
+
+Other options (`delay`, `cache`, `dropdownParent`, `classPrefix`, …) are read once on mount. To apply a new value, re-mount the component with a `key`:
+
+```vue
+<AutocompleteInput :key="delay" :delay="delay" :onSearch="onSearch" :onResults="onResults" />
+```
+
 ## Demo
 
 ```bash

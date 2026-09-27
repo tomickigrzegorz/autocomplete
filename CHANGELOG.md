@@ -1,6 +1,6 @@
-## 2026-05-18 (3.4.0)
+## 2026-09-27 (3.4.0)
 ### Added
-- **Framework wrappers** — official wrapper packages for React, Vue 3, Svelte 5 and Angular. Each wrapper installs the core library automatically
+- **Framework wrappers** — official wrapper packages for React 18+, Vue 3, Svelte 5 and Angular 16+. Each wrapper installs the core library automatically
 
 | Package | Install |
 |---------|---------|
@@ -9,7 +9,16 @@
 | `@tomickigrzegorz/autocomplete-svelte` | `npm install @tomickigrzegorz/autocomplete-svelte` |
 | `@tomickigrzegorz/autocomplete-angular` | `npm install @tomickigrzegorz/autocomplete-angular` |
 
-All wrappers expose the same props as the core `AutocompleteOptions` and handle lifecycle (init on mount, destroy on unmount, re-create when `onSearch` changes).
+All wrappers expose the same props as the core `AutocompleteOptions`. Callbacks always use the latest props (inline functions never re-create the instance); other options are read once on mount.
+
+- **Element instead of id** — the constructor accepts the input element itself: `new Autocomplete(inputElement, {...})`. If the element has no `id`, one is generated automatically
+- `unmount()` — removes everything the instance added to the DOM (results wrapper, clear button) and all listeners, and cancels a pending search. Unlike `destroy()` it does not clear the input, move focus or call `onReset` — use it when the input is removed from the page or to re-create the instance with new options
+
+### Fixed
+- ids containing characters invalid in CSS selectors (e.g. `:` or `.`) no longer break the results list
+- `require("@tomickigrzegorz/autocomplete")` now returns the class (CommonJS points to the UMD build) — previously it returned an empty object
+- TypeScript types are now resolved correctly via `exports` (`types` condition listed first)
+- `autocomplete.d.ts` — added `unmount()`; constructor accepts `string | HTMLInputElement`
 
 ## 2026-05-17 (3.3.2)
 ### Fixed

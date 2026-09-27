@@ -83,6 +83,16 @@ All props mirror [`AutocompleteOptions`](https://github.com/tomickigrzegorz/auto
 | `className` | `string` | | CSS class for the input element |
 | `aria-label` | `string` | | ARIA label for the input element |
 
+## Updating props
+
+Callback props (`onSearch`, `onResults`, `onSubmit`, …) always call the latest function passed to the component, so inline arrow functions are fine and never re-create the autocomplete.
+
+Other options (`delay`, `cache`, `dropdownParent`, `classPrefix`, …) are read once on mount. To apply a new value, re-mount the component with a `key`:
+
+```jsx
+<AutocompleteInput key={delay} delay={delay} onSearch={onSearch} onResults={onResults} />
+```
+
 ## Demo
 
 ```bash

@@ -4,15 +4,14 @@
   "description": "Svelte wrapper for @tomickigrzegorz/autocomplete",
   "author": "Grzegorz Tomicki",
   "license": "MIT",
-  "main": "dist/index.js",
-  "module": "dist/index.esm.js",
-  "svelte": "src/index.svelte",
-  "files": ["dist/", "src/"],
+  "svelte": "./dist/index.svelte",
+  "types": "./dist/index.svelte.d.ts",
+  "files": ["dist/"],
   "exports": {
     ".": {
-      "svelte": "./src/index.svelte",
-      "import": "./dist/index.esm.js",
-      "require": "./dist/index.js"
+      "types": "./dist/index.svelte.d.ts",
+      "svelte": "./dist/index.svelte",
+      "default": "./dist/index.svelte"
     }
   },
   "sideEffects": false,
@@ -27,7 +26,7 @@
     "aria"
   ],
   "scripts": {
-    "build": "vite build",
+    "build": "svelte-package -i src -o dist",
     "test": "vitest run",
     "test:watch": "vitest"
   },
@@ -38,7 +37,8 @@
     "@tomickigrzegorz/autocomplete": "^3.4.0"
   },
   "devDependencies": {
-    "@sveltejs/vite-plugin-svelte": "^3.0.0",
+    "@sveltejs/package": "^2.3.0",
+    "@sveltejs/vite-plugin-svelte": "^4.0.0",
     "@testing-library/jest-dom": "^6.4.0",
     "@testing-library/svelte": "^5.0.0",
     "jsdom": "^24.0.0",

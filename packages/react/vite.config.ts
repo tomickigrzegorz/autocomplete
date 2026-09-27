@@ -17,6 +17,12 @@ export default defineConfig({
         "react/jsx-runtime",
         "@tomickigrzegorz/autocomplete",
       ],
+      output: {
+        // client component (useEffect/useRef) — required by React Server
+        // Components (e.g. Next.js App Router); added as a banner because
+        // rollup strips module-level directives from the source
+        banner: '"use client";',
+      },
     },
   },
 });

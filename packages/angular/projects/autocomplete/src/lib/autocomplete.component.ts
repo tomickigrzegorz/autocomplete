@@ -1,25 +1,64 @@
+import { isPlatformBrowser } from "@angular/common";
 import {
+  ChangeDetectionStrategy,
   Component,
   Input,
+  PLATFORM_ID,
   type ElementRef,
   ViewChild,
+  inject,
   type AfterViewInit,
   type OnDestroy,
-  type OnChanges,
-  type SimpleChanges,
 } from "@angular/core";
 import Autocomplete, {
   type AutocompleteOptions,
 } from "@tomickigrzegorz/autocomplete";
 
+// every callback is delegated — also those passed only after init
+const CALLBACK_KEYS = [
+  "onSearch",
+  "onResults",
+  "onSubmit",
+  "onReset",
+  "onOpened",
+  "onClose",
+  "onRender",
+  "noResults",
+  "onSelectedItem",
+  "onLoading",
+] as const;
+
+const CONFIG_KEYS = [
+  "delay",
+  "howManyCharacters",
+  "clearButton",
+  "clearButtonOnInitial",
+  "selectFirst",
+  "insertToInput",
+  "showValuesOnClick",
+  "cache",
+  "inline",
+  "disableCloseOnSelect",
+  "preventScrollUp",
+  "removeResultsWhenInputIsEmpty",
+  "classPrefix",
+  "classGroup",
+  "classPreventClosing",
+  "ariaLabelClear",
+  "dropdownParent",
+  "dropdownAttrs",
+  "regex",
+] as const;
+
+type Callback = (...args: unknown[]) => unknown;
+
 @Component({
   selector: "ngx-autocomplete",
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<input #inputEl type="text" [class]="class" [placeholder]="placeholder || ''" />`,
 })
-export class AutocompleteComponent
-  implements AfterViewInit, OnDestroy, OnChanges
-{
+export class AutocompleteComponent implements AfterViewInit, OnDestroy {
   @ViewChild("inputEl") inputEl!: ElementRef<HTMLInputElement>;
 
   // required
@@ -60,85 +99,33 @@ export class AutocompleteComponent
   @Input() class?: string;
 
   private instance: Autocomplete | null = null;
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   ngAfterViewInit(): void {
-    this.init();
-  }
+    // the core needs a real DOM — skip on the server (SSR)
+    if (!this.isBrowser || !this.inputEl?.nativeElement) return;
 
-  ngOnChanges(changes: SimpleChanges): void {
-    // re-create when onSearch changes after initial mount
-    if (changes.onSearch && !changes.onSearch.firstChange) {
-      this.cleanup();
-      this.init();
+    // callbacks delegate through the component instance, so updated
+    // @Input callbacks are picked up without re-creating the autocomplete;
+    // undefined values fall back to core defaults
+    const self = this as unknown as Record<string, unknown>;
+    const options: Record<string, unknown> = {};
+    for (const key of CONFIG_KEYS) {
+      options[key] = self[key];
     }
+    for (const key of CALLBACK_KEYS) {
+      options[key] = (...args: unknown[]) =>
+        (self[key] as Callback | undefined)?.(...args);
+    }
+
+    this.instance = new Autocomplete(
+      this.inputEl.nativeElement,
+      options as unknown as AutocompleteOptions,
+    );
   }
 
   ngOnDestroy(): void {
-    this.cleanup();
-  }
-
-  private cleanup(): void {
-    // resultWrap is the input's next sibling when no dropdownParent is set;
-    // destroy() doesn't remove it in that case, so we remove it manually
-    // to avoid orphaned elements when the instance is re-created.
-    const resultWrap = this.inputEl?.nativeElement?.nextElementSibling;
-    this.instance?.destroy();
-    resultWrap?.remove();
+    this.instance?.unmount();
     this.instance = null;
-  }
-
-  private init(): void {
-    if (!this.inputEl?.nativeElement) return;
-    this.instance = new Autocomplete(this.inputEl.nativeElement, {
-      onSearch: this.onSearch,
-      ...(this.onResults && { onResults: this.onResults }),
-      ...(this.onSubmit && { onSubmit: this.onSubmit }),
-      ...(this.onReset && { onReset: this.onReset }),
-      ...(this.onOpened && { onOpened: this.onOpened }),
-      ...(this.onClose && { onClose: this.onClose }),
-      ...(this.onRender && { onRender: this.onRender }),
-      ...(this.noResults && { noResults: this.noResults }),
-      ...(this.onSelectedItem && { onSelectedItem: this.onSelectedItem }),
-      ...(this.onLoading && { onLoading: this.onLoading }),
-      ...(this.delay !== undefined && { delay: this.delay }),
-      ...(this.howManyCharacters !== undefined && {
-        howManyCharacters: this.howManyCharacters,
-      }),
-      ...(this.clearButton !== undefined && { clearButton: this.clearButton }),
-      ...(this.clearButtonOnInitial !== undefined && {
-        clearButtonOnInitial: this.clearButtonOnInitial,
-      }),
-      ...(this.selectFirst !== undefined && { selectFirst: this.selectFirst }),
-      ...(this.insertToInput !== undefined && {
-        insertToInput: this.insertToInput,
-      }),
-      ...(this.showValuesOnClick !== undefined && {
-        showValuesOnClick: this.showValuesOnClick,
-      }),
-      ...(this.cache !== undefined && { cache: this.cache }),
-      ...(this.inline !== undefined && { inline: this.inline }),
-      ...(this.disableCloseOnSelect !== undefined && {
-        disableCloseOnSelect: this.disableCloseOnSelect,
-      }),
-      ...(this.preventScrollUp !== undefined && {
-        preventScrollUp: this.preventScrollUp,
-      }),
-      ...(this.removeResultsWhenInputIsEmpty !== undefined && {
-        removeResultsWhenInputIsEmpty: this.removeResultsWhenInputIsEmpty,
-      }),
-      ...(this.classPrefix && { classPrefix: this.classPrefix }),
-      ...(this.classGroup && { classGroup: this.classGroup }),
-      ...(this.classPreventClosing && {
-        classPreventClosing: this.classPreventClosing,
-      }),
-      ...(this.ariaLabelClear && { ariaLabelClear: this.ariaLabelClear }),
-      ...(this.dropdownParent !== undefined && {
-        dropdownParent: this.dropdownParent,
-      }),
-      ...(this.dropdownAttrs !== undefined && {
-        dropdownAttrs: this.dropdownAttrs,
-      }),
-      ...(this.regex !== undefined && { regex: this.regex }),
-    });
   }
 }

@@ -2,14 +2,29 @@ import {
   defineComponent,
   ref,
   onMounted,
-  onUnmounted,
-  watch,
+  onBeforeUnmount,
   h,
   type PropType,
 } from "vue";
 import Autocomplete, {
   type AutocompleteOptions,
 } from "@tomickigrzegorz/autocomplete";
+
+// every callback is delegated — also those passed only after mount
+const CALLBACK_KEYS = [
+  "onSearch",
+  "onResults",
+  "onSubmit",
+  "onOpened",
+  "onReset",
+  "onRender",
+  "onClose",
+  "noResults",
+  "onLoading",
+  "onSelectedItem",
+] as const;
+
+type Callback = (...args: unknown[]) => unknown;
 
 export const AutocompleteInput = defineComponent({
   name: "AutocompleteInput",
@@ -91,87 +106,35 @@ export const AutocompleteInput = defineComponent({
     const inputRef = ref<HTMLInputElement | null>(null);
     let instance: Autocomplete | null = null;
 
-    function cleanup() {
-      // resultWrap is the input's next sibling when no dropdownParent is set;
-      // destroy() doesn't remove it in that case, so we remove it manually
-      // to avoid orphaned elements when the instance is re-created.
-      const resultWrap = inputRef.value?.nextElementSibling;
-      instance?.destroy();
-      resultWrap?.remove();
-      instance = null;
-    }
-
-    function init() {
+    onMounted(() => {
       if (!inputRef.value) return;
-      instance = new Autocomplete(inputRef.value, {
-        onSearch: props.onSearch,
-        ...(props.onResults && { onResults: props.onResults }),
-        ...(props.onSubmit && { onSubmit: props.onSubmit }),
-        ...(props.onReset && { onReset: props.onReset }),
-        ...(props.onOpened && { onOpened: props.onOpened }),
-        ...(props.onClose && { onClose: props.onClose }),
-        ...(props.onRender && { onRender: props.onRender }),
-        ...(props.noResults && { noResults: props.noResults }),
-        ...(props.onSelectedItem && { onSelectedItem: props.onSelectedItem }),
-        ...(props.onLoading && { onLoading: props.onLoading }),
-        ...(props.delay !== undefined && { delay: props.delay }),
-        ...(props.howManyCharacters !== undefined && {
-          howManyCharacters: props.howManyCharacters,
-        }),
-        ...(props.clearButton !== undefined && {
-          clearButton: props.clearButton,
-        }),
-        ...(props.clearButtonOnInitial !== undefined && {
-          clearButtonOnInitial: props.clearButtonOnInitial,
-        }),
-        ...(props.selectFirst !== undefined && {
-          selectFirst: props.selectFirst,
-        }),
-        ...(props.insertToInput !== undefined && {
-          insertToInput: props.insertToInput,
-        }),
-        ...(props.showValuesOnClick !== undefined && {
-          showValuesOnClick: props.showValuesOnClick,
-        }),
-        ...(props.cache !== undefined && { cache: props.cache }),
-        ...(props.inline !== undefined && { inline: props.inline }),
-        ...(props.disableCloseOnSelect !== undefined && {
-          disableCloseOnSelect: props.disableCloseOnSelect,
-        }),
-        ...(props.preventScrollUp !== undefined && {
-          preventScrollUp: props.preventScrollUp,
-        }),
-        ...(props.removeResultsWhenInputIsEmpty !== undefined && {
-          removeResultsWhenInputIsEmpty: props.removeResultsWhenInputIsEmpty,
-        }),
-        ...(props.classPrefix && { classPrefix: props.classPrefix }),
-        ...(props.classGroup && { classGroup: props.classGroup }),
-        ...(props.classPreventClosing && {
-          classPreventClosing: props.classPreventClosing,
-        }),
-        ...(props.ariaLabelClear && { ariaLabelClear: props.ariaLabelClear }),
-        ...(props.dropdownParent !== undefined && {
-          dropdownParent: props.dropdownParent,
-        }),
-        ...(props.dropdownAttrs !== undefined && {
-          dropdownAttrs: props.dropdownAttrs,
-        }),
-        ...(props.regex !== undefined && { regex: props.regex }),
-      });
-    }
 
-    onMounted(init);
+      // callbacks delegate through the reactive props object, so the
+      // instance always calls the latest prop without being re-created;
+      // undefined values fall back to core defaults;
+      // placeholder and class belong to the <input>, not to the core
+      const {
+        placeholder: _placeholder,
+        class: _class,
+        ...options
+      } = props as Record<string, unknown>;
+      for (const key of CALLBACK_KEYS) {
+        options[key] = (...args: unknown[]) =>
+          (props[key] as Callback | undefined)?.(...args);
+      }
 
-    // re-create when onSearch changes
-    watch(
-      () => props.onSearch,
-      () => {
-        cleanup();
-        init();
-      },
-    );
+      instance = new Autocomplete(
+        inputRef.value,
+        options as unknown as AutocompleteOptions,
+      );
+    });
 
-    onUnmounted(cleanup);
+    // onBeforeUnmount — the input is still in the DOM here, and unmount()
+    // removes the dropdown/clear-button nodes the instance created
+    onBeforeUnmount(() => {
+      instance?.unmount();
+      instance = null;
+    });
 
     return () =>
       h("input", {

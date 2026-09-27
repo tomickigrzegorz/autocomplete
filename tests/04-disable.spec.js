@@ -63,7 +63,10 @@ test.describe("Autocomplete disable granular tests", () => {
   });
 
   test("[04] 05: click first li element", async ({ page }) => {
-    styleConsoleLog({ number: "[04] 05", text: ["- click on first li element"] });
+    styleConsoleLog({
+      number: "[04] 05",
+      text: ["- click on first li element"],
+    });
     const { items } = await typeWAndGetItems(page);
     await items.first().click();
   });

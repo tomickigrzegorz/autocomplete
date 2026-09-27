@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../docs/css/autocomplete.css" />
+    <title>ELEMENT REF TEST</title>
+    <style>
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+          sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+        margin-top: 50px;
+      }
+      p { margin: 0; }
+      .container { max-width: 350px; margin: 0 auto; }
+      .max-height ul { max-height: 420px; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <section>
+        <h1>Element ref test</h1>
+
+        <!-- test 1: HTMLElement with existing id -->
+        <div class="auto-search-wrapper max-height">
+          <input type="text" id="ref-with-id" placeholder="HTMLElement with id" />
+        </div>
+
+        <!-- test 2: HTMLElement without id (id generated automatically) -->
+        <div class="auto-search-wrapper max-height" style="margin-top:20px">
+          <input type="text" placeholder="HTMLElement without id" />
+        </div>
+      </section>
+    </div>
+
+    <script src="../docs/js/autocomplete.min.js"></script>
+    <script>
+      const API = "https://raw.githubusercontent.com/tomickigrzegorz/autocomplete/master/docs/characters.json";
+
+      const searchFn = async ({ currentValue }) => {
+        const response = await fetch(API);
+        const data = await response.json();
+        return data
+          .sort((a, b) => a.name.localeCompare(b.name))
+          .filter((el) => el.name.match(new RegExp(currentValue, "gi")));
+      };
+
+      const resultsFn = ({ currentValue, matches }) =>
+        matches
+          .map(
+            (el) =>
+              `<li><p>${el.name.replace(
+                new RegExp(currentValue, "gi"),
+                (str) => `<b>${str}</b>`,
+              )}</p></li>`,
+          )
+          .join("");
+
+      // test 1: pass HTMLElement directly (has existing id)
+      const elWithId = document.getElementById("ref-with-id");
+      new Autocomplete(elWithId, { onSearch: searchFn, onResults: resultsFn });
+
+      // test 2: pass HTMLElement without id (auto-generated id)
+      const elWithoutId = document.querySelector("input[placeholder='HTMLElement without id']");
+      new Autocomplete(elWithoutId, { onSearch: searchFn, onResults: resultsFn });
+    </script>
+  </body>
+</html>

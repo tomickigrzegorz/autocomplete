@@ -82,13 +82,13 @@ import 'node_modules/@tomickigrzegorz/autocomplete/dist/css/autocomplete.min.css
 #### CSS
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.3.2/dist/css/autocomplete.min.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.4.0/dist/css/autocomplete.min.css"/>
 ```
 
 #### JavaScript
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.3.2/dist/js/autocomplete.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/tomickigrzegorz/autocomplete@3.4.0/dist/js/autocomplete.min.js"></script>
 ```
 
 ##### -- OR --
@@ -141,6 +141,140 @@ window.addEventListener('DOMContentLoaded', function () {
 });
 ```
 
+Instead of the `id` you can pass the input element itself — if it has no `id`, one is generated automatically:
+
+```js
+const input = document.querySelector('.search-input');
+new Autocomplete(input, { onSearch, onResults });
+```
+
+## Framework Wrappers
+
+Official wrapper packages are available for React, Vue 3, Svelte 5 and Angular. Each wrapper depends on the core library — install it alongside, since the CSS is imported from it (`@tomickigrzegorz/autocomplete/css`).
+
+As with the core library, place the component inside a `<div class="auto-search-wrapper">` — the CSS relies on it.
+
+### React
+
+```bash
+npm install @tomickigrzegorz/autocomplete-react @tomickigrzegorz/autocomplete
+```
+
+```tsx
+import { AutocompleteInput } from '@tomickigrzegorz/autocomplete-react';
+import '@tomickigrzegorz/autocomplete/css';
+
+function App() {
+  return (
+    <div className="auto-search-wrapper">
+      <AutocompleteInput
+        onSearch={async ({ currentValue }) => {
+          const res = await fetch(`/api/search?q=${currentValue}`);
+          return res.json();
+        }}
+        onResults={({ matches }) =>
+          matches.map(el => `<li>${el.name}</li>`).join('')
+        }
+        placeholder="Search..."
+      />
+    </div>
+  );
+}
+```
+
+### Vue 3
+
+```bash
+npm install @tomickigrzegorz/autocomplete-vue @tomickigrzegorz/autocomplete
+```
+
+```vue
+<template>
+  <div class="auto-search-wrapper">
+    <AutocompleteInput
+      :onSearch="onSearch"
+      :onResults="onResults"
+      placeholder="Search..."
+    />
+  </div>
+</template>
+
+<script setup>
+import { AutocompleteInput } from '@tomickigrzegorz/autocomplete-vue';
+import '@tomickigrzegorz/autocomplete/css';
+
+const onSearch = async ({ currentValue }) => {
+  const res = await fetch(`/api/search?q=${currentValue}`);
+  return res.json();
+};
+
+const onResults = ({ matches }) =>
+  matches.map(el => `<li>${el.name}</li>`).join('');
+</script>
+```
+
+### Svelte 5
+
+```bash
+npm install @tomickigrzegorz/autocomplete-svelte @tomickigrzegorz/autocomplete
+```
+
+```svelte
+<script>
+  import AutocompleteInput from '@tomickigrzegorz/autocomplete-svelte';
+  import '@tomickigrzegorz/autocomplete/css';
+
+  const onSearch = async ({ currentValue }) => {
+    const res = await fetch(`/api/search?q=${currentValue}`);
+    return res.json();
+  };
+
+  const onResults = ({ matches }) =>
+    matches.map(el => `<li>${el.name}</li>`).join('');
+</script>
+
+<div class="auto-search-wrapper">
+  <AutocompleteInput {onSearch} {onResults} placeholder="Search..." />
+</div>
+```
+
+### Angular
+
+```bash
+npm install @tomickigrzegorz/autocomplete-angular @tomickigrzegorz/autocomplete
+```
+
+Add the CSS to `angular.json` → `styles`: `"node_modules/@tomickigrzegorz/autocomplete/dist/css/autocomplete.min.css"`
+
+```typescript
+import { Component } from '@angular/core';
+import { AutocompleteComponent } from '@tomickigrzegorz/autocomplete-angular';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [AutocompleteComponent],
+  template: `
+    <div class="auto-search-wrapper">
+      <ngx-autocomplete
+        [onSearch]="onSearch"
+        [onResults]="onResults"
+        placeholder="Search..."
+      />
+    </div>
+  `
+})
+export class AppComponent {
+  onSearch = async ({ currentValue }: { currentValue: string }) => {
+    const res = await fetch(`/api/search?q=${currentValue}`);
+    return res.json();
+  };
+
+  onResults = ({ matches }: { matches: any[] }) =>
+    matches.map(el => `<li>${el.name}</li>`).join('');
+}
+```
+
 ## Package Manager
 
 Before the first use, clone this repository and install node dependencies:
@@ -188,16 +322,17 @@ npm run prod
 | onLoading            |  function  |                                     |         | Called when an async search starts. Return an HTML string to display in the dropdown while waiting for results (e.g. a spinner or status message). Replaced automatically when results or `noResults` fires: `onLoading: ({ currentValue }) => \`<li>Searching for "${currentValue}"…</li>\`` |
 | destroy              |   method   |                                     |         | Clears the input and removes all event listeners. Use `reset()` if you want to keep the autocomplete functional                                                          |
 | reset               |   method   |                                     |         | Clears the input and closes the results list while keeping all event listeners active. Safe alternative to `destroy()` when you just want to clear the field             |
+| unmount             |   method   |                                     |         | Removes everything the instance added to the DOM (results wrapper, clear button) and all event listeners, cancels a pending search. Does not clear the input, move focus or call `onReset`. Use it when the input is removed from the page (modal, SPA view, framework component) or to re-create the instance with new options |
 | rerender             |   method   |                                     |         | This method allows you to re-render the results without modifying the input field. Of course, we can also send the string we want to search for to the method. render(string);                                                                                                                       |
 | disable             |   method   |                                     |         | This method allows you to disable the autocomplete functionality. `const auto = new Autocomplete('id', {...});` `auto.disable();` then we disable the autocomplete. To remove input value you need to call `auto.disable(true);`                                                                                                                       |
 | enable              |   method   |                                     |         | This method allows you to re-enable the autocomplete functionality after it has been disabled. `const auto = new Autocomplete('id', {...});` `auto.disable();` `auto.enable();` - now the autocomplete is active again and all event listeners are restored                                                                                                                       |
-| clearButton          |  boolean   |               `true`                |         | A parameter set to 'true' adds a button to remove text from the input field                                                                                              |GitHub Markdown Preview
+| clearButton          |  boolean   |               `true`                |         | A parameter set to 'true' adds a button to remove text from the input field                                                                                              |
 | clearButtonOnInitial |  boolean   |               `false`               |         | A parameter set to 'true' adds a button to remove text from the input field visible on initial Autocomplete lib.                                                         |
 | selectFirst          |  boolean   |               `false`               |         | Default selects the first item in the list of results                                                                                                                    |
 | insertToInput        |  boolean   |               `false`               |         | Adding an element selected with arrows or hovering with the mouse to the input field                                                                                                                |
 | disableCloseOnSelect |  boolean   |               `false`               |         | Prevents results from hiding after clicking on an item from the results list                                                                                             |
 | preventScrollUp      |  boolean   |               `false`               |         | Prevents the results from scrolling to the top when the dropdown reopens. The scroll position and the highlighted selection are both preserved — clicking the input or closing and reopening the dropdown keeps the previously selected item highlighted.                                             |
-| showAllValuesOnClick |  boolean   |               `false`               |         | This option will toggle showing all values when the input is clicked, like a default dropdown                                                                            |
+| showValuesOnClick |  boolean   |               `false`               |         | This option will toggle showing all values when the input is clicked, like a default dropdown                                                                            |
 | inline        |  boolean   |               `false`               |         | This option displays all results without clicking on the input field                                                                            |
 | removeResultsWhenInputIsEmpty        |  boolean   |               `false`               |         | Set to `true` to clear the results when the input is empty                                                                                                              |
 | cache                |  boolean   |               `false`               |         | The characters entered in the input field are cached                                                                                                                     |
@@ -308,7 +443,7 @@ new Autocomplete('complex', {
   // values when the input is clicked,
   // like a default dropdown
   // by default is false
-  showAllValuesOnClick: false,
+  showValuesOnClick: false,
 
   // this option displays all results
   // without clicking on the input field
@@ -495,7 +630,7 @@ const auto = new Autocomplete('you-id', {
   insertToInput: false,
   disableCloseOnSelect: false,
   cache: false,
-  showAllValuesOnClick: false,
+  showValuesOnClick: false,
   inline: false,
   howManyCharacters: 1,
   preventScrollUp: false,
@@ -523,6 +658,7 @@ const auto = new Autocomplete('you-id', {
 // public methods
 auto.destroy(); // clear input and remove all event listeners
 auto.reset();   // clear input and close results, keeps listeners active
+auto.unmount(); // remove created DOM nodes and listeners, keeps input value
 auto.disable(); // disable autocomplete
 auto.disable(true); // disable autocomplete and clear input value
 auto.enable(); // enable autocomplete after it was disabled
@@ -552,13 +688,13 @@ auto.enable();
 
 // After enable(), autocomplete will work normally:
 // - User needs to type (respecting howManyCharacters setting)
-// - OR click input (if showAllValuesOnClick: true)
+// - OR click input (if showValuesOnClick: true)
 // - OR call auto.rerender() to trigger search programmatically
 ```
 
 **Important**: `enable()` only restores event listeners and functionality. It doesn't automatically show results. Search is triggered only by:
 - User input (when `howManyCharacters` threshold is met)
-- Input click (when `showAllValuesOnClick: true`)
+- Input click (when `showValuesOnClick: true`)
 - Manual `rerender()` call
 
 ### preventScrollUp: selection behavior
@@ -581,12 +717,13 @@ new Autocomplete('search', {
 // clicking the input again reopens with item #5 still highlighted.
 ```
 
-### reset() vs destroy()
+### reset() vs destroy() vs unmount()
 
 | Method | Clears input | Closes dropdown | Removes listeners | When to use |
 |--------|-------------|-----------------|-------------------|-------------|
 | `reset()` | ✅ | ✅ | ❌ | Clear button, external "clear" action — autocomplete stays functional |
 | `destroy()` | ✅ | ✅ | ✅ | Permanent teardown — e.g. closing a modal with `dropdownParent` |
+| `unmount()` | ❌ | ✅ | ✅ | Input removed from the page or instance re-created with new options — also removes the results wrapper and clear button |
 
 ```js
 // External clear button — use reset()
@@ -599,6 +736,10 @@ modalCloseBtn.addEventListener('click', () => {
   modal.style.display = 'none';
   auto.destroy();
 });
+
+// Re-create with new options — use unmount(), the typed text stays in the input
+auto.unmount();
+auto = new Autocomplete(input, { ...options, delay: 0 });
 ```
 
 ## License

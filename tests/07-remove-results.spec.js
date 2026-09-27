@@ -33,7 +33,9 @@ test.describe("removeResultsWhenInputIsEmpty option tests", () => {
       ).toHaveCount(3, { timeout: 5000 });
     });
 
-    test("[07] 02: clearing input removes results from DOM", async ({ page }) => {
+    test("[07] 02: clearing input removes results from DOM", async ({
+      page,
+    }) => {
       styleConsoleLog({
         number: "[07] 02",
         text: [
@@ -59,7 +61,9 @@ test.describe("removeResultsWhenInputIsEmpty option tests", () => {
       ).toHaveCount(0);
     });
 
-    test("[07] 03: aria-expanded becomes false after clearing", async ({ page }) => {
+    test("[07] 03: aria-expanded becomes false after clearing", async ({
+      page,
+    }) => {
       styleConsoleLog({
         number: "[07] 03",
         text: [

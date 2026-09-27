@@ -132,7 +132,9 @@ test.describe("Autocomplete rerender() method tests", () => {
     await expect(input).toHaveValue("hank");
   });
 
-  test("[06] 06: keyboard navigation works after rerender", async ({ page }) => {
+  test("[06] 06: keyboard navigation works after rerender", async ({
+    page,
+  }) => {
     styleConsoleLog({
       number: "[06] 06",
       text: [

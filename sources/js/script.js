@@ -65,7 +65,7 @@ export default class Autocomplete {
   /**
    * Constructor
    *
-   * @param {string} element - ID of the root element.
+   * @param {string|HTMLElement} element - ID of the root element or the element itself.
    * @param {AutocompleteOptions} object - Configuration options.
    */
   constructor(
@@ -102,14 +102,25 @@ export default class Autocomplete {
       onSelectedItem = () => {},
     },
   ) {
-    /** @type {string} */
-    this._id = element;
     /** @type {HTMLElement} */
-    this._root = document.getElementById(element);
+    this._root =
+      typeof element === "string" ? document.getElementById(element) : element;
 
     if (!this._root) {
-      throw new Error(`Autocomplete: Element with id "${element}" not found`);
+      throw new Error(
+        typeof element === "string"
+          ? `Autocomplete: Element with id "${element}" not found`
+          : "Autocomplete: Element not found - expected an input element or its id",
+      );
     }
+
+    // ensure the element has an id (needed for ARIA and internal selectors)
+    if (!this._root.id) {
+      this._root.id = `auto-${Math.random().toString(36).slice(2, 7)}`;
+    }
+
+    /** @type {string} */
+    this._id = this._root.id;
 
     /** @type {Function} */
     this._onSearch = isPromise(onSearch)
@@ -179,10 +190,18 @@ export default class Autocomplete {
     this._cache = cache;
     /** @type {number|null} */
     this._timeout = null;
+    /** @type {boolean} */
+    this._unmounted = false;
+    // internal token derived from the id — sanitized because it is used in
+    // CSS selectors (#auto-…-results) and attribute names (data-cache-auto-…),
+    // where characters like ":" (React useId) or "." would be invalid
+    const safeId =
+      this._id.replace(/[^a-zA-Z0-9_-]/g, "") ||
+      Math.random().toString(36).slice(2, 7);
     /** @type {string} */
-    this._outputUl = `${this._prefix}-${this._id}-results`;
+    this._outputUl = `${this._prefix}-${safeId}-results`;
     /** @type {string} */
-    this._cacheData = `data-cache-auto-${this._id}`;
+    this._cacheData = `data-cache-auto-${safeId}`;
     /** @type {string} */
     this._isLoading = `${this._prefix}-is-loading`;
     /** @type {string} */
@@ -462,6 +481,9 @@ export default class Autocomplete {
     // callblack function onSearch
     this._onSearch({ currentValue: value, element: this._root })
       .then((result) => {
+        // ignore late results when the instance was unmounted mid-search
+        if (this._unmounted) return;
+
         const rootValueLength = this._root.value.length;
         const resultLength = result.length;
         // set no result
@@ -493,6 +515,7 @@ export default class Autocomplete {
         }
       })
       .catch(() => {
+        if (this._unmounted) return;
         this._onLoading();
         this._reset();
       });
@@ -744,7 +767,9 @@ export default class Autocomplete {
     const targetClosest = target.closest("li");
     const targetClosestRole = targetClosest?.hasAttribute("role");
     const activeClass = this._activeList;
-    const activeClassElement = this._resultList.querySelector(`.${activeClass}`);
+    const activeClassElement = this._resultList.querySelector(
+      `.${activeClass}`,
+    );
 
     if (
       !targetClosest ||
@@ -1150,6 +1175,17 @@ export default class Autocomplete {
     this._onLoading();
 
     // remove listeners
+    this._detachEvents();
+
+    // callback fires last — after all listeners are removed,
+    // so enable() can be safely called directly from onReset
+    this._onReset(this._root);
+  };
+
+  /**
+   * Detach all event listeners attached by the instance
+   */
+  _detachEvents = () => {
     offEvent(this._root, "input", this._handleInput);
     offEvent(this._root, "keydown", this._handleKeys);
     offEvent(this._root, "click", this._handleShowItems);
@@ -1160,10 +1196,34 @@ export default class Autocomplete {
     ["mousemove", "click"].forEach((eventType) => {
       offEvent(this._resultList, eventType, this._handleMouse);
     });
+  };
 
-    // callback fires last — after all listeners are removed,
-    // so enable() can be safely called directly from onReset
-    this._onReset(this._root);
+  /**
+   * Remove the autocomplete from the DOM and detach all listeners.
+   * Unlike destroy(), it does not clear the input value, does not move
+   * focus and does not fire onReset — use it when the input is removed
+   * from the page (modal, SPA view, framework component) or to re-create
+   * the instance with new options.
+   */
+  unmount = () => {
+    this._unmounted = true;
+
+    // cancel pending debounced search
+    clearTimeout(this._timeout);
+
+    if (this._dropdownParent) {
+      this._stopPositionTracking();
+    }
+
+    this._detachEvents();
+    offEvent(this._clearBtn, "click", this.reset);
+
+    // remove loading class — the input may already be detached from the DOM
+    this._root.parentNode?.classList.remove(this._isLoading);
+
+    // remove DOM nodes the instance created
+    this._resultWrap.remove();
+    this._clearBtn.remove();
   };
 
   /**

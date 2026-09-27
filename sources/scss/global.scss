@@ -920,6 +920,14 @@ aside::-webkit-scrollbar-thumb {
   text-transform: uppercase;
 }
 
+// inline badge inside tables (options / methods)
+td .new-item {
+  position: static;
+  display: inline-block;
+  margin: 0 6px 0 0;
+  vertical-align: middle;
+}
+
 .info-section {
   h2 {
     position: relative;

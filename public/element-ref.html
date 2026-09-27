@@ -40,9 +40,6 @@
       const API = "https://raw.githubusercontent.com/tomickigrzegorz/autocomplete/master/docs/characters.json";
 
       const searchFn = async ({ currentValue }) => {
-        if (!API.startsWith("https://")) {
-          throw new Error("API endpoint must use HTTPS to avoid transmitting data in plaintext.");
-        }
         const response = await fetch(API);
         const data = await response.json();
         return data

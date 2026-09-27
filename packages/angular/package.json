@@ -16,7 +16,7 @@
     "aria"
   ],
   "scripts": {
-    "build": "ng-packagr -p projects/autocomplete/ng-package.json",
+    "build": "ng-packagr -p projects/autocomplete/ng-package.json && node -e \"require('fs').copyFileSync('README.md','dist/angular/README.md')\"",
     "test": "jest"
   },
   "peerDependencies": {

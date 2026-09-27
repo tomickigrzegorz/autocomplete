@@ -1,6 +1,23 @@
 {
   "name": "@tomickigrzegorz/autocomplete-angular",
   "version": "1.0.0",
+  "description": "Angular wrapper for @tomickigrzegorz/autocomplete",
+  "author": "Grzegorz Tomicki",
+  "license": "MIT",
+  "keywords": [
+    "autocomplete",
+    "angular",
+    "wrapper",
+    "typeahead",
+    "search",
+    "accessibility",
+    "aria"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tomickigrzegorz/autocomplete.git",
+    "directory": "packages/angular"
+  },
   "dependencies": {
     "@tomickigrzegorz/autocomplete": "^3.4.0"
   },

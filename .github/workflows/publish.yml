@@ -21,50 +21,97 @@ jobs:
         run: npm install
 
       - name: Publish core
-        run: npm publish --access public
+        # skip when this version is already on npm — makes re-runs safe
+        run: |
+          PKG="$(node -p "require('./package.json').name")@$(node -p "require('./package.json').version")"
+          if npm view "$PKG" version > /dev/null 2>&1; then
+            echo "$PKG already published — skipping"
+          else
+            npm publish --access public
+          fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_AUTOCOMPLETE_PUBLISH }}
 
       # ── react ───────────────────────────────────────────────
       - name: Build react wrapper
-        run: npm install && npm run build
+        # retry install — the core version published a moment ago may not be visible in the registry yet
+        run: |
+          for i in 1 2 3 4 5 6; do npm install && break; echo "npm install failed, retrying in 20s"; sleep 20; done
+          npm run build
         working-directory: packages/react
 
       - name: Publish react wrapper
-        run: npm publish --access public
+        # skip when this version is already on npm — makes re-runs safe
+        run: |
+          PKG="$(node -p "require('./package.json').name")@$(node -p "require('./package.json').version")"
+          if npm view "$PKG" version > /dev/null 2>&1; then
+            echo "$PKG already published — skipping"
+          else
+            npm publish --access public
+          fi
         working-directory: packages/react
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_AUTOCOMPLETE_PUBLISH }}
 
       # ── vue ─────────────────────────────────────────────────
       - name: Build vue wrapper
-        run: npm install && npm run build
+        # retry install — the core version published a moment ago may not be visible in the registry yet
+        run: |
+          for i in 1 2 3 4 5 6; do npm install && break; echo "npm install failed, retrying in 20s"; sleep 20; done
+          npm run build
         working-directory: packages/vue
 
       - name: Publish vue wrapper
-        run: npm publish --access public
+        # skip when this version is already on npm — makes re-runs safe
+        run: |
+          PKG="$(node -p "require('./package.json').name")@$(node -p "require('./package.json').version")"
+          if npm view "$PKG" version > /dev/null 2>&1; then
+            echo "$PKG already published — skipping"
+          else
+            npm publish --access public
+          fi
         working-directory: packages/vue
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_AUTOCOMPLETE_PUBLISH }}
 
       # ── svelte ──────────────────────────────────────────────
       - name: Build svelte wrapper
-        run: npm install && npm run build
+        # retry install — the core version published a moment ago may not be visible in the registry yet
+        run: |
+          for i in 1 2 3 4 5 6; do npm install && break; echo "npm install failed, retrying in 20s"; sleep 20; done
+          npm run build
         working-directory: packages/svelte
 
       - name: Publish svelte wrapper
-        run: npm publish --access public
+        # skip when this version is already on npm — makes re-runs safe
+        run: |
+          PKG="$(node -p "require('./package.json').name")@$(node -p "require('./package.json').version")"
+          if npm view "$PKG" version > /dev/null 2>&1; then
+            echo "$PKG already published — skipping"
+          else
+            npm publish --access public
+          fi
         working-directory: packages/svelte
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_AUTOCOMPLETE_PUBLISH }}
 
       # ── angular ─────────────────────────────────────────────
       - name: Build angular wrapper
-        run: npm install && npm run build
+        # retry install — the core version published a moment ago may not be visible in the registry yet
+        run: |
+          for i in 1 2 3 4 5 6; do npm install && break; echo "npm install failed, retrying in 20s"; sleep 20; done
+          npm run build
         working-directory: packages/angular
 
       - name: Publish angular wrapper
-        run: npm publish --access public
+        # skip when this version is already on npm — makes re-runs safe
+        run: |
+          PKG="$(node -p "require('./package.json').name")@$(node -p "require('./package.json').version")"
+          if npm view "$PKG" version > /dev/null 2>&1; then
+            echo "$PKG already published — skipping"
+          else
+            npm publish --access public
+          fi
         working-directory: packages/angular/dist/angular
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_AUTOCOMPLETE_PUBLISH }}

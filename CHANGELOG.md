@@ -1,6 +1,18 @@
+## 2026-11-14 (3.4.1)
+### Fixed
+- out-of-order responses - when an older, slower `onSearch` resolved after a newer one, its results replaced the current ones. Only the latest search is rendered now
+- `reset()`, `disable()` and `destroy()` cancel a pending (debounced) search and ignore one that is still in flight - previously the results could reopen for a cleared or disabled input
+- `reset()` removes the loading class when called during a search
+- `classPrefix` - the `{prefix}-auto-expanded` class was never removed from the input on close (the unprefixed `auto-expanded` was removed instead)
+- `enable()` called before the first search no longer throws on key press
+- `onSearch` throwing synchronously no longer leaves the loading class stuck
+- `disable()` stops scroll/resize position tracking when `dropdownParent` is set
+- `sideEffects` in `package.json` now lists the CSS file - bundlers no longer drop `import "@tomickigrzegorz/autocomplete/css"` in production builds
+- `autocomplete.d.ts` - `onResults` and `noResults`: removed stale `template` param (announced in 3.3.1 but still present); `noResults` returns `string | void`, `onResults` returns `string`; `onSearch` may return a plain value, not only a `Promise`
+
 ## 2026-09-27 (3.4.0)
 ### Added
-- **Framework wrappers** — official wrapper packages for React 18+, Vue 3, Svelte 5 and Angular 16+. Each wrapper installs the core library automatically
+- **Framework wrappers** - official wrapper packages for React 18+, Vue 3, Svelte 5 and Angular 16+. Each wrapper installs the core library automatically
 
 | Package | Install |
 |---------|---------|
@@ -11,34 +23,34 @@
 
 All wrappers expose the same props as the core `AutocompleteOptions`. Callbacks always use the latest props (inline functions never re-create the instance); other options are read once on mount.
 
-- **Element instead of id** — the constructor accepts the input element itself: `new Autocomplete(inputElement, {...})`. If the element has no `id`, one is generated automatically
-- `unmount()` — removes everything the instance added to the DOM (results wrapper, clear button) and all listeners, and cancels a pending search. Unlike `destroy()` it does not clear the input, move focus or call `onReset` — use it when the input is removed from the page or to re-create the instance with new options
+- **Element instead of id** - the constructor accepts the input element itself: `new Autocomplete(inputElement, {...})`. If the element has no `id`, one is generated automatically
+- `unmount()` - removes everything the instance added to the DOM (results wrapper, clear button) and all listeners, and cancels a pending search. Unlike `destroy()` it does not clear the input, move focus or call `onReset` - use it when the input is removed from the page or to re-create the instance with new options
 
 ### Fixed
 - ids containing characters invalid in CSS selectors (e.g. `:` or `.`) no longer break the results list
-- `require("@tomickigrzegorz/autocomplete")` now returns the class (CommonJS points to the UMD build) — previously it returned an empty object
+- `require("@tomickigrzegorz/autocomplete")` now returns the class (CommonJS points to the UMD build) - previously it returned an empty object
 - TypeScript types are now resolved correctly via `exports` (`types` condition listed first)
-- `autocomplete.d.ts` — added `unmount()`; constructor accepts `string | HTMLInputElement`
+- `autocomplete.d.ts` - added `unmount()`; constructor accepts `string | HTMLInputElement`
 
 ## 2026-05-17 (3.3.2)
 ### Fixed
-- `autocomplete.d.ts` — `onLoading` is now actually present in `AutocompleteOptions` (listed in the 3.3.1 changelog but not added to the type files)
-- `autocomplete.d.ts` — `dropdownAttrs` is now actually present in `AutocompleteOptions` (same as above)
+- `autocomplete.d.ts` - `onLoading` is now actually present in `AutocompleteOptions` (listed in the 3.3.1 changelog but not added to the type files)
+- `autocomplete.d.ts` - `dropdownAttrs` is now actually present in `AutocompleteOptions` (same as above)
 
 ## 2026-03-17 (3.3.1)
 ### Fixed
-- `autocomplete.d.ts` — `onResults` type: removed stale `template` param (no longer passed since v3.2.0)
-- `autocomplete.d.ts` — `noResults` type: removed stale `template` param, return type corrected to `string | HTMLElement | void`
-- `autocomplete.d.ts` — `onLoading` was missing from types despite being available since v3.3.0
-- `autocomplete.d.ts` — `dropdownAttrs` was missing from types despite being available since v3.3.0
-- `autocomplete.d.ts` — `reset()` was missing from the class declaration despite being available since v3.2.0
+- `autocomplete.d.ts` - `onResults` type: removed stale `template` param (no longer passed since v3.2.0)
+- `autocomplete.d.ts` - `noResults` type: removed stale `template` param, return type corrected to `string | HTMLElement | void`
+- `autocomplete.d.ts` - `onLoading` was missing from types despite being available since v3.3.0
+- `autocomplete.d.ts` - `dropdownAttrs` was missing from types despite being available since v3.3.0
+- `autocomplete.d.ts` - `reset()` was missing from the class declaration despite being available since v3.2.0
 
 ### Migration
 If you were using `template` in `onResults` or `noResults`, see the [v3.2.0 migration guide](#migration-from-31x) below.
 
 ## 2026-03-16 (3.3.0)
 ### Added
-- `dropdownAttrs` — extra HTML attributes applied to the dropdown wrapper element when `dropdownParent` is set. Supports `class` (adds CSS classes) and `style` (inline CSS string). Most common use case: overriding the default `z-index: 9999`
+- `dropdownAttrs` - extra HTML attributes applied to the dropdown wrapper element when `dropdownParent` is set. Supports `class` (adds CSS classes) and `style` (inline CSS string). Most common use case: overriding the default `z-index: 9999`
 
 ```js
 dropdownAttrs: { class: "my-wrapper", style: "z-index: 10001" },
@@ -53,41 +65,41 @@ dropdownAttrs: { class: "my-wrapper", style: "z-index: 10001" },
 }
 ```
 
-- `onLoading` — callback function called when an async search starts. Return an HTML string to display a loading indicator (or any content) in the dropdown while waiting for results. When results arrive (or `noResults` fires), the loading content is replaced automatically. The built-in `auto-is-loading` CSS class on the wrapper is still added/removed independently
+- `onLoading` - callback function called when an async search starts. Return an HTML string to display a loading indicator (or any content) in the dropdown while waiting for results. When results arrive (or `noResults` fires), the loading content is replaced automatically. The built-in `auto-is-loading` CSS class on the wrapper is still added/removed independently
 
 ```js
 onLoading: ({ element, currentValue }) =>
   `<li class="my-loading">Searching for "<strong>${currentValue}</strong>"…</li>`,
 ```
 
-- **Wikipedia search example** — demonstrates `onLoading` with a real async API (`en.wikipedia.org/w/api.php`), including highlighted titles, snippet preview, and `noResults` fallback
+- **Wikipedia search example** - demonstrates `onLoading` with a real async API (`en.wikipedia.org/w/api.php`), including highlighted titles, snippet preview, and `noResults` fallback
 
 ### Added (tests)
-- added Playwright tests for `onLoading` callback (`tests/09-loading.spec.js`) — verifies `auto-is-loading` class is added to the wrapper while fetching, removed after results arrive, loading HTML from the callback is shown in the dropdown during the request, and replaced by real results when the response comes back
+- added Playwright tests for `onLoading` callback (`tests/09-loading.spec.js`) - verifies `auto-is-loading` class is added to the wrapper while fetching, removed after results arrive, loading HTML from the callback is shown in the dropdown during the request, and replaced by real results when the response comes back
 
 ### Fixed
 - Clicking the input while the dropdown is open now correctly resets the highlighted selection (`auto-selected` class). Previously the selection disappeared visually but `this._index` was still remembered, causing inconsistent arrow key navigation on the next keystroke
-- With `preventScrollUp: true`, clicking the input while the dropdown is open no longer clears the selection — both scroll position and highlighted item are preserved, consistent with the existing close/reopen behavior
-- Multiple autocomplete instances on the same page no longer interfere with each other's selection state — `auto-selected` lookups are now scoped to each instance's own result list instead of searching the entire document (`document.querySelector` → `this._resultList.querySelector`)
+- With `preventScrollUp: true`, clicking the input while the dropdown is open no longer clears the selection - both scroll position and highlighted item are preserved, consistent with the existing close/reopen behavior
+- Multiple autocomplete instances on the same page no longer interfere with each other's selection state - `auto-selected` lookups are now scoped to each instance's own result list instead of searching the entire document (`document.querySelector` → `this._resultList.querySelector`)
 
 ### Changed
 - Selection reset on input click now respects `selectFirst`:
-  - `selectFirst: false` — no item highlighted after click; ↓ moves to first, ↑ moves to last
-  - `selectFirst: true` — first item is highlighted after click
+  - `selectFirst: false` - no item highlighted after click; ↓ moves to first, ↑ moves to last
+  - `selectFirst: true` - first item is highlighted after click
 - `preventScrollUp: true` takes full precedence: clicking the input or closing/reopening the dropdown always preserves the previously highlighted item
 
 ## 2026-03-05 (3.2.0)
 ### Added
-- `reset()` public method — clears the input and closes the results list while keeping all event listeners active. Use instead of `destroy()` when you just want to programmatically clear the field (e.g. an external "clear" button)
+- `reset()` public method - clears the input and closes the results list while keeping all event listeners active. Use instead of `destroy()` when you just want to programmatically clear the field (e.g. an external "clear" button)
 
 ### Changed
-- `noResults` — now returns an HTML string instead of calling `template(html)`. Simpler and more consistent with `onResults`
-- `onResults` — `matches` is now always an array. Previously passed `0` (number) when no results — that case is now handled entirely by `noResults`
-- Built-in clear button ("×") now uses `reset()` instead of `destroy()` — autocomplete remains fully functional after clearing
-- `destroy()` is now strictly a teardown method — removes all event listeners and cleans up the DOM. Use it only when you want to permanently remove the autocomplete (e.g. closing a modal with `dropdownParent`)
+- `noResults` - now returns an HTML string instead of calling `template(html)`. Simpler and more consistent with `onResults`
+- `onResults` - `matches` is now always an array. Previously passed `0` (number) when no results - that case is now handled entirely by `noResults`
+- Built-in clear button ("×") now uses `reset()` instead of `destroy()` - autocomplete remains fully functional after clearing
+- `destroy()` is now strictly a teardown method - removes all event listeners and cleans up the DOM. Use it only when you want to permanently remove the autocomplete (e.g. closing a modal with `dropdownParent`)
 
 ### Fixed
-- `removeResultsWhenInputIsEmpty` — previously called `destroy()` on empty input which removed all event listeners, making autocomplete dead after clearing. Now only hides results and resets state while keeping listeners active
+- `removeResultsWhenInputIsEmpty` - previously called `destroy()` on empty input which removed all event listeners, making autocomplete dead after clearing. Now only hides results and resets state while keeping listeners active
 
 ### Migration from 3.1.x
 ```js
@@ -106,21 +118,21 @@ noResults: ({ element }) =>
 
 ## 2026-03-05 (3.1.0)
 ### Added
-- `dropdownParent` option: appends the dropdown to a specified element (CSS selector or `HTMLElement`) instead of next to the input — solves dropdown clipping caused by `overflow: hidden` or `overflow: auto` on parent containers (e.g. modals). Uses `position: fixed` so no parent offset calculation is needed
+- `dropdownParent` option: appends the dropdown to a specified element (CSS selector or `HTMLElement`) instead of next to the input - solves dropdown clipping caused by `overflow: hidden` or `overflow: auto` on parent containers (e.g. modals). Uses `position: fixed` so no parent offset calculation is needed
 - `aria-haspopup="listbox"` attribute on the combobox input for improved screen reader support
-- **Country selector example** — searchable single-select with flag icons, built as a lightweight drop-in replacement for jQuery Select2. Uses `dropdownParent: document.body`, `showValuesOnClick: true` and `classPrefix` to render a custom trigger element with flag + country name. On narrow screens the name clips via `text-overflow: ellipsis` rather than hiding
-- **Country selector multi-select example** — multi-select variant (configurable max selections) with chip/tag UI inside the trigger. Selected items are highlighted in the dropdown via `onResults`, clicking a selected item deselects it, and a limit message is shown when the maximum is reached
+- **Country selector example** - searchable single-select with flag icons, built as a lightweight drop-in replacement for jQuery Select2. Uses `dropdownParent: document.body`, `showValuesOnClick: true` and `classPrefix` to render a custom trigger element with flag + country name. On narrow screens the name clips via `text-overflow: ellipsis` rather than hiding
+- **Country selector multi-select example** - multi-select variant (configurable max selections) with chip/tag UI inside the trigger. Selected items are highlighted in the dropdown via `onResults`, clicking a selected item deselects it, and a limit message is shown when the maximum is reached
 
 ### Fixed
-- `_handleDocClick` now guards against non-Element targets (`!(target instanceof Element)`) — prevents crash when a synthetic `click` event is dispatched programmatically on `document` or `document.body` (e.g. to close the dropdown from external code)
+- `_handleDocClick` now guards against non-Element targets (`!(target instanceof Element)`) - prevents crash when a synthetic `click` event is dispatched programmatically on `document` or `document.body` (e.g. to close the dropdown from external code)
 
 ### Added (tests)
-- added Playwright tests for `dropdownParent` option (`tests/08-dropdown-parent.spec.js`) — verifies dropdown is appended to `body`, results appear inside `overflow: hidden` containers, keyboard navigation, outside-click close, and item selection
+- added Playwright tests for `dropdownParent` option (`tests/08-dropdown-parent.spec.js`) - verifies dropdown is appended to `body`, results appear inside `overflow: hidden` containers, keyboard navigation, outside-click close, and item selection
 
 ### Changed
 - `destroy()` now removes `_resultWrap` from `dropdownParent` to prevent orphaned elements in the DOM
 - `enable()` now re-appends `_resultWrap` to `dropdownParent` if it was previously removed by `destroy()`
-- `onReset` callback now fires after all event listeners are removed (was before) — allows calling `enable()` directly from `onReset` without `setTimeout`
+- `onReset` callback now fires after all event listeners are removed (was before) - allows calling `enable()` directly from `onReset` without `setTimeout`
 - moved `ul`/`li` styles from `.auto-search-wrapper` to `.auto-results-wrapper` so dropdown styles apply correctly when `dropdownParent` moves the wrapper outside its original DOM context
 
 ## 2026-03-01 (3.0.5)

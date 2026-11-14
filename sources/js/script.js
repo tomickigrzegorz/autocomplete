@@ -5,12 +5,10 @@ import {
   followActiveElement,
   getFirstElement,
   isObject,
-  isPromise,
   offEvent,
   onEvent,
   output,
   scrollResultsToTop,
-  select,
   setAriaActivedescendant,
   setAttributes,
   showBtnToClearData,
@@ -123,10 +121,10 @@ export default class Autocomplete {
     this._id = this._root.id;
 
     /** @type {Function} */
-    this._onSearch = isPromise(onSearch)
-      ? onSearch
-      : ({ currentValue, element }) =>
-          Promise.resolve(onSearch({ currentValue, element }));
+    // wrapped in a promise executor so a synchronous throw inside onSearch
+    // becomes a rejection instead of leaving the loading state stuck
+    this._onSearch = ({ currentValue, element }) =>
+      new Promise((resolve) => resolve(onSearch({ currentValue, element })));
     /** @type {Function} */
     this._onResults = onResults;
     /** @type {Function} */
@@ -192,6 +190,13 @@ export default class Autocomplete {
     this._timeout = null;
     /** @type {boolean} */
     this._unmounted = false;
+    // id of the latest search - results of older or cancelled searches are ignored
+    /** @type {number} */
+    this._requestId = 0;
+    /** @type {Array|Object} */
+    this._matches = [];
+    /** @type {number} */
+    this._index = selectFirst ? 0 : -1;
     // internal token derived from the id — sanitized because it is used in
     // CSS selectors (#auto-…-results) and attribute names (data-cache-auto-…),
     // where characters like ":" (React useId) or "." would be invalid
@@ -238,16 +243,32 @@ export default class Autocomplete {
   }
 
   /**
+   * Default aria attributes of the input - closed state.
+   * The expanded class respects classPrefix.
+   *
+   * @returns {Object<string, string>}
+   */
+  _defaultAria = () => ({
+    ...ariaActiveDescendantDefault(this._outputUl, this._toInput),
+    removeClass: `${this._prefix}-expanded`,
+  });
+
+  /**
+   * Cancel a pending debounced search and ignore the result
+   * of a search that is still in flight
+   */
+  _cancelPending = () => {
+    clearTimeout(this._timeout);
+    this._requestId += 1;
+  };
+
+  /**
    * Initial function
    */
   _initial = () => {
     this._clearbutton();
 
-    const ariaAcrivedescentDefault = ariaActiveDescendantDefault(
-      this._outputUl,
-      this._toInput,
-    );
-    setAttributes(this._root, ariaAcrivedescentDefault);
+    setAttributes(this._root, this._defaultAria());
 
     output(
       this._root,
@@ -279,16 +300,15 @@ export default class Autocomplete {
       // silent fallback
     }
 
-    // default aria
+    // search while typing
     onEvent(this._root, "input", this._handleInput);
 
     // show all values on click root input
     this._showValuesOnClick && onEvent(this._root, "click", this._handleInput);
 
-    // show all values
+    // inline mode - run the search right away, without waiting for input
     if (this._inline) {
-      const config = { root: this._root, type: "load" };
-      onEvent(this._root, "load", this._handleInput(config));
+      this._handleInput({ target: this._root, type: "load" });
     }
 
     // callback functions
@@ -297,17 +317,18 @@ export default class Autocomplete {
       results: this._resultList,
     });
 
-    // show clear button if
+    // show clear button from the start
     if (this._clearButtonOnInitial) {
       showBtnToClearData(this._clearBtn, this.reset);
     }
   };
 
   /**
-   * Actions on input
+   * Cache of the typed value (only when the cache option is on)
    *
-   * @param {String} type - set attribute depending on type
-   * @param {String} target
+   * @param {String} [type] - "update" stores the value of target,
+   * "remove" deletes it, anything else restores the stored value in the input
+   * @param {HTMLInputElement} [target] - input to read the value from
    */
   _cacheAct = (type, target) => {
     if (!this._cache) return;
@@ -322,9 +343,10 @@ export default class Autocomplete {
   };
 
   /**
-   * Handle input
+   * Handle input, click (showValuesOnClick) and the initial load (inline) -
+   * starts a debounced search
    *
-   * @param {Event} object
+   * @param {Event|{target: HTMLElement, type: string}} object
    */
   _handleInput = ({ target, type }) => {
     if (
@@ -400,7 +422,7 @@ export default class Autocomplete {
   };
 
   /**
-   * Default aria
+   * Close the results and restore the default aria attributes
    */
   _reset = () => {
     // remove class isActive
@@ -411,10 +433,7 @@ export default class Autocomplete {
       this._stopPositionTracking();
     }
 
-    const ariaAcrivedescentDefault = ariaActiveDescendantDefault(
-      this._outputUl,
-      this._toInput,
-    );
+    const ariaAcrivedescentDefault = this._defaultAria();
 
     const ariaAcrivedescent = this._preventScrollUp
       ? ariaAcrivedescentDefault
@@ -445,15 +464,15 @@ export default class Autocomplete {
   };
 
   /**
-   * The async function gets the text from the search
-   * and returns the matching array
+   * Calls onSearch with the typed text and renders
+   * the results (or noResults) when it resolves
    *
    * @param {String} value
    */
   _searchItem = (value) => {
     this._value = value;
 
-    // hide button clear
+    // show clear button and bind reset to it
     showBtnToClearData(this._clearBtn, this.reset);
 
     // if there is no value and clearButton is true
@@ -465,8 +484,8 @@ export default class Autocomplete {
       classList(this._clearBtn, "add", "hidden");
     }
 
-    // if declare characters more then value.len and showAll is false
-    // remove class isActive
+    // do not search when the value is shorter than howManyCharacters,
+    // unless showValuesOnClick or inline is set
     if (
       this._characters > value?.length &&
       !this._showValuesOnClick &&
@@ -475,18 +494,23 @@ export default class Autocomplete {
       return;
     }
 
+    // only the latest search may render its results
+    this._requestId += 1;
+    const requestId = this._requestId;
+
     // if searching show loading icon — only when a real search will fire
     this._onLoading(true);
 
-    // callblack function onSearch
+    // callback function onSearch
     this._onSearch({ currentValue: value, element: this._root })
       .then((result) => {
         // ignore late results when the instance was unmounted mid-search
-        if (this._unmounted) return;
+        // or when a newer search / reset / disable / destroy superseded this one
+        if (this._unmounted || requestId !== this._requestId) return;
 
         const rootValueLength = this._root.value.length;
         const resultLength = result.length;
-        // set no result
+        // keep the results - arrays as they are, objects as a plain copy
         this._matches = Array.isArray(result)
           ? result
           : JSON.parse(JSON.stringify(result));
@@ -494,13 +518,12 @@ export default class Autocomplete {
         this._onLoading();
         this._error();
 
-        // if use destroy() method
+        // no results and empty input - hide clear button
         if (resultLength === 0 && rootValueLength === 0) {
           classList(this._clearBtn, "add", "hidden");
         }
 
         if (resultLength === 0 && rootValueLength) {
-          classList(this._root, "remove", "auto-expanded");
           this._reset();
           const noResultsHtml = this._noResults({
             element: this._root,
@@ -515,7 +538,7 @@ export default class Autocomplete {
         }
       })
       .catch(() => {
-        if (this._unmounted) return;
+        if (this._unmounted || requestId !== this._requestId) return;
         this._onLoading();
         this._reset();
       });
@@ -527,7 +550,8 @@ export default class Autocomplete {
    * @param {Boolean} type
    */
   _onLoading = (type) => {
-    this._root.parentNode.classList[type ? "add" : "remove"](this._isLoading);
+    // the input may already be detached from the DOM
+    this._root.parentNode?.classList[type ? "add" : "remove"](this._isLoading);
 
     if (type) {
       const loadingHtml = this._onLoadingCb({
@@ -551,7 +575,7 @@ export default class Autocomplete {
   };
 
   /**
-   * Set error class to the root element
+   * Remove error class from the root element
    */
   _error = () => classList(this._root, "remove", this._err);
 
@@ -567,7 +591,7 @@ export default class Autocomplete {
       offEvent(this._resultList, eventType, this._handleMouse);
     });
 
-    // handle click on keydown [up, down, enter, tab, esc]
+    // handle keydown [up, down, enter, tab, esc]
     onEvent(this._root, "keydown", this._handleKeys);
 
     onEvent(this._root, "click", this._handleShowItems);
@@ -586,8 +610,8 @@ export default class Autocomplete {
   /**
    * Results
    *
-   * @param {HTMLElement|String} template - html or string returned from the function,
-   * look at the example - https://github.com/tomickigrzegorz/autocomplete/blob/master/docs/js/examples/no-results.js#L30
+   * @param {String} [template] - html string returned from noResults;
+   * when omitted the list is built by onResults
    */
   _results = (template) => {
     // set attribute to root
@@ -613,7 +637,7 @@ export default class Autocomplete {
     // add class isActive
     classList(this._resultWrap, "add", this._isActive);
 
-    // position dropdown below input when container option is set
+    // position dropdown below input when dropdownParent option is set
     if (this._dropdownParent) {
       this._startPositionTracking();
     }
@@ -652,12 +676,12 @@ export default class Autocomplete {
 
     let disableClose = null;
 
-    // if 'target' is a ul and 'disableCloseOnSelect'
-    // is a 'true' set 'disableClose' on true
+    // do not close when the click is inside a list
+    // and 'disableCloseOnSelect' is true
     if (
       (target.closest("ul") && this._disable) ||
-      // when class classDisableClose
-      // then do not not close results
+      // or when the click is inside an element
+      // with the 'classPreventClosing' class
       target.closest(`.${this._prevClosing}`)
     ) {
       disableClose = true;
@@ -686,7 +710,7 @@ export default class Autocomplete {
         ? firstElementChild.nextElementSibling
         : firstElementChild;
 
-    // callback function onSelect when first element is true
+    // callback function onSelectedItem when selectFirst is true
     this._onSelected({
       index: this._index,
       element: this._root,
@@ -723,7 +747,7 @@ export default class Autocomplete {
       // add isActive class to resultWrap
       classList(this._resultWrap, "add", this._isActive);
 
-      // position dropdown below input when container option is set
+      // position dropdown below input when dropdownParent option is set
       if (this._dropdownParent) {
         this._startPositionTracking();
       }
@@ -831,7 +855,7 @@ export default class Autocomplete {
     // get first element from li and set it to root
     this._root.value = getFirstElement(element);
 
-    // onSubmit passing text to function
+    // callback function onSubmit with the selected item
     this._onSubmit({
       index: this._index,
       element: this._root,
@@ -923,7 +947,7 @@ export default class Autocomplete {
           // set aria-selected
           this._setAria(selectedElement);
         } else {
-          // catch action
+          // left the list - restore the cached input value
           this._cacheAct();
           setAriaActivedescendant(this._root);
 
@@ -937,7 +961,7 @@ export default class Autocomplete {
         break;
       // keycode enter
       case KEY_CODES.ENTER:
-        // https:github.com/tomickigrzegorz/autocomplete/issues/145
+        // https://github.com/tomickigrzegorz/autocomplete/issues/145
         event.preventDefault();
 
         this._getTextFromLi(this._selectedLi);
@@ -958,7 +982,8 @@ export default class Autocomplete {
   };
 
   /**
-   * Set aria label on item li
+   * Mark li as selected - id, class, aria-selected
+   * and aria-activedescendant on the input
    *
    * @param {HTMLElement} target
    */
@@ -986,7 +1011,7 @@ export default class Autocomplete {
   };
 
   /**
-   * Remove aria label from item li
+   * Unmark selected li - id, class and aria-selected
    *
    * @param {HTMLElement} element
    */
@@ -1002,8 +1027,7 @@ export default class Autocomplete {
   };
 
   /**
-   * Create clear button and
-   * removing text from the input field
+   * Create clear button and insert it after the input
    */
   _clearbutton = () => {
     if (!this._clearButton) return;
@@ -1017,8 +1041,9 @@ export default class Autocomplete {
   };
 
   /**
-   * Rerender rows without remove root input and close elements
-   * @param {String} inputValue
+   * Run the search again and rerender the results
+   * @param {String} [inputValue] - new value for the input;
+   * when omitted the current input value is used
    */
   rerender = (inputValue) => {
     const text = inputValue?.trim() ? inputValue.trim() : this._root.value;
@@ -1039,13 +1064,16 @@ export default class Autocomplete {
    * @param {boolean} clearInput - If true, clears the input value, if false keeps it
    */
   disable = (clearInput = false) => {
+    // cancel pending / in-flight search so it cannot reopen the results
+    this._cancelPending();
+
     // mark as disabled
     this._root.setAttribute("data-auto-disabled", "true");
 
     // if clear button is true then add class hidden
     this._clearButton && classList(this._clearBtn, "add", "hidden");
 
-    // clear value searchId only if clearInput is true
+    // clear input value only if clearInput is true
     if (clearInput) {
       this._root.value = "";
       this._root.focus();
@@ -1057,7 +1085,12 @@ export default class Autocomplete {
     // remove class isActive
     classList(this._resultWrap, "remove", this._isActive);
 
-    // reset aria attributes and add accessibility information for disabled state
+    // stop tracking position when dropdownParent is set
+    if (this._dropdownParent) {
+      this._stopPositionTracking();
+    }
+
+    // reset aria attributes
     setAttributes(this._root, {
       "aria-expanded": "false",
       removeClass: `${this._prefix}-expanded`,
@@ -1104,11 +1137,7 @@ export default class Autocomplete {
   enable = () => {
     this._root.removeAttribute("data-auto-disabled");
     // Restore normal ARIA attributes based on insertToInput setting
-    const ariaAttributes = ariaActiveDescendantDefault(
-      this._outputUl,
-      this._toInput,
-    );
-    setAttributes(this._root, ariaAttributes);
+    setAttributes(this._root, this._defaultAria());
 
     // Re-enable all event listeners
     onEvent(this._root, "input", this._handleInput);
@@ -1145,10 +1174,12 @@ export default class Autocomplete {
   };
 
   /**
-   * Clicking on the clear button
-   * publick destroy method
+   * Clear the input, close the results and remove all event listeners.
+   * Call enable() to make the autocomplete work again.
    */
   destroy = () => {
+    // cancel pending / in-flight search so it cannot reopen the results
+    this._cancelPending();
     // stop position tracking if dropdownParent is set
     if (this._dropdownParent) {
       this._stopPositionTracking();
@@ -1159,7 +1190,7 @@ export default class Autocomplete {
     }
     // if clear button is true then add class hidden
     this._clearButton && classList(this._clearBtn, "add", "hidden");
-    // clear value searchId
+    // clear input value
     this._root.value = "";
     // set focus
     this._root.focus();
@@ -1209,7 +1240,7 @@ export default class Autocomplete {
     this._unmounted = true;
 
     // cancel pending debounced search
-    clearTimeout(this._timeout);
+    this._cancelPending();
 
     if (this._dropdownParent) {
       this._stopPositionTracking();
@@ -1231,6 +1262,10 @@ export default class Autocomplete {
    * while keeping all event listeners active (unlike destroy())
    */
   reset = () => {
+    // cancel pending / in-flight search - its results would show up
+    // for an input that has just been cleared
+    this._cancelPending();
+    this._onLoading(false);
     // clear input value
     this._root.value = "";
     // set focus

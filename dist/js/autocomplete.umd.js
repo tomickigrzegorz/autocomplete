@@ -1,6 +1,6 @@
 /*!
 * @name autocomplete
-* @version 3.4.0
+* @version 3.4.1
 * @author Grzegorz Tomicki
 * @link https://github.com/tomickigrzegorz/autocomplete
 * @license MIT
@@ -13,9 +13,6 @@
 
   var isObject = function isObject(value) {
     return value && typeof value === "object" && value.constructor === Object;
-  };
-  var isPromise = function isPromise(value) {
-    return Boolean(value && typeof value.then === "function");
   };
   var setAttributes = function setAttributes(el, attributes) {
     Object.entries(attributes).forEach(function (_ref) {
@@ -181,10 +178,18 @@
       onLoading = _ref$onLoading === void 0 ? function () {} : _ref$onLoading,
       _ref$onSelectedItem = _ref.onSelectedItem,
       onSelectedItem = _ref$onSelectedItem === void 0 ? function () {} : _ref$onSelectedItem;
+    this._defaultAria = function () {
+      return Object.assign({}, ariaActiveDescendantDefault(_this._outputUl, _this._toInput), {
+        removeClass: _this._prefix + "-expanded"
+      });
+    };
+    this._cancelPending = function () {
+      clearTimeout(_this._timeout);
+      _this._requestId += 1;
+    };
     this._initial = function () {
       _this._clearbutton();
-      var ariaAcrivedescentDefault = ariaActiveDescendantDefault(_this._outputUl, _this._toInput);
-      setAttributes(_this._root, ariaAcrivedescentDefault);
+      setAttributes(_this._root, _this._defaultAria());
       output(_this._root, _this._resultList, _this._outputUl, _this._resultWrap, _this._prefix);
       if (_this._dropdownParent) {
         _this._dropdownParent.appendChild(_this._resultWrap);
@@ -204,11 +209,10 @@
       onEvent(_this._root, "input", _this._handleInput);
       _this._showValuesOnClick && onEvent(_this._root, "click", _this._handleInput);
       if (_this._inline) {
-        var config = {
-          root: _this._root,
+        _this._handleInput({
+          target: _this._root,
           type: "load"
-        };
-        onEvent(_this._root, "load", _this._handleInput(config));
+        });
       }
       _this._onRender({
         element: _this._root,
@@ -279,7 +283,7 @@
       if (_this._dropdownParent) {
         _this._stopPositionTracking();
       }
-      var ariaAcrivedescentDefault = ariaActiveDescendantDefault(_this._outputUl, _this._toInput);
+      var ariaAcrivedescentDefault = _this._defaultAria();
       var ariaAcrivedescent = _this._preventScrollUp ? ariaAcrivedescentDefault : Object.assign({}, ariaAcrivedescentDefault, {
         "aria-activedescendant": ""
       });
@@ -302,12 +306,14 @@
       if (_this._characters > (value == null ? void 0 : value.length) && !_this._showValuesOnClick && !_this._inline) {
         return;
       }
+      _this._requestId += 1;
+      var requestId = _this._requestId;
       _this._onLoading(true);
       _this._onSearch({
         currentValue: value,
         element: _this._root
       }).then(function (result) {
-        if (_this._unmounted) return;
+        if (_this._unmounted || requestId !== _this._requestId) return;
         var rootValueLength = _this._root.value.length;
         var resultLength = result.length;
         _this._matches = Array.isArray(result) ? result : JSON.parse(JSON.stringify(result));
@@ -317,7 +323,6 @@
           classList(_this._clearBtn, "add", "hidden");
         }
         if (resultLength === 0 && rootValueLength) {
-          classList(_this._root, "remove", "auto-expanded");
           _this._reset();
           var noResultsHtml = _this._noResults({
             element: _this._root,
@@ -331,13 +336,14 @@
           _this._events();
         }
       }).catch(function () {
-        if (_this._unmounted) return;
+        if (_this._unmounted || requestId !== _this._requestId) return;
         _this._onLoading();
         _this._reset();
       });
     };
     this._onLoading = function (type) {
-      _this._root.parentNode.classList[type ? "add" : "remove"](_this._isLoading);
+      var _this$_root$parentNod;
+      (_this$_root$parentNod = _this._root.parentNode) == null || _this$_root$parentNod.classList[type ? "add" : "remove"](_this._isLoading);
       if (type) {
         var loadingHtml = _this._onLoadingCb({
           element: _this._root,
@@ -619,6 +625,7 @@
       if (clearInput === void 0) {
         clearInput = false;
       }
+      _this._cancelPending();
       _this._root.setAttribute("data-auto-disabled", "true");
       _this._clearButton && classList(_this._clearBtn, "add", "hidden");
       if (clearInput) {
@@ -627,6 +634,9 @@
       }
       _this._resultList.textContent = "";
       classList(_this._resultWrap, "remove", _this._isActive);
+      if (_this._dropdownParent) {
+        _this._stopPositionTracking();
+      }
       setAttributes(_this._root, {
         "aria-expanded": "false",
         removeClass: _this._prefix + "-expanded",
@@ -653,8 +663,7 @@
     };
     this.enable = function () {
       _this._root.removeAttribute("data-auto-disabled");
-      var ariaAttributes = ariaActiveDescendantDefault(_this._outputUl, _this._toInput);
-      setAttributes(_this._root, ariaAttributes);
+      setAttributes(_this._root, _this._defaultAria());
       onEvent(_this._root, "input", _this._handleInput);
       onEvent(_this._root, "keydown", _this._handleKeys);
       onEvent(_this._root, "click", _this._handleShowItems);
@@ -680,6 +689,7 @@
       });
     };
     this.destroy = function () {
+      _this._cancelPending();
       if (_this._dropdownParent) {
         _this._stopPositionTracking();
       }
@@ -710,19 +720,21 @@
       });
     };
     this.unmount = function () {
-      var _this$_root$parentNod;
+      var _this$_root$parentNod2;
       _this._unmounted = true;
-      clearTimeout(_this._timeout);
+      _this._cancelPending();
       if (_this._dropdownParent) {
         _this._stopPositionTracking();
       }
       _this._detachEvents();
       offEvent(_this._clearBtn, "click", _this.reset);
-      (_this$_root$parentNod = _this._root.parentNode) == null || _this$_root$parentNod.classList.remove(_this._isLoading);
+      (_this$_root$parentNod2 = _this._root.parentNode) == null || _this$_root$parentNod2.classList.remove(_this._isLoading);
       _this._resultWrap.remove();
       _this._clearBtn.remove();
     };
     this.reset = function () {
+      _this._cancelPending();
+      _this._onLoading(false);
       _this._root.value = "";
       _this._root.focus();
       _this._resultList.textContent = "";
@@ -739,13 +751,15 @@
       this._root.id = "auto-" + Math.random().toString(36).slice(2, 7);
     }
     this._id = this._root.id;
-    this._onSearch = isPromise(onSearch) ? onSearch : function (_ref4) {
+    this._onSearch = function (_ref4) {
       var currentValue = _ref4.currentValue,
         element = _ref4.element;
-      return Promise.resolve(onSearch({
-        currentValue: currentValue,
-        element: element
-      }));
+      return new Promise(function (resolve) {
+        return resolve(onSearch({
+          currentValue: currentValue,
+          element: element
+        }));
+      });
     };
     this._onResults = onResults;
     this._onRender = onRender;
@@ -776,6 +790,9 @@
     this._cache = cache;
     this._timeout = null;
     this._unmounted = false;
+    this._requestId = 0;
+    this._matches = [];
+    this._index = selectFirst ? 0 : -1;
     var safeId = this._id.replace(/[^a-zA-Z0-9_-]/g, "") || Math.random().toString(36).slice(2, 7);
     this._outputUl = this._prefix + "-" + safeId + "-results";
     this._cacheData = "data-cache-auto-" + safeId;

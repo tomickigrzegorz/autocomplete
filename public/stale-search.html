@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../docs/css/autocomplete.css" />
+    <title>STALE SEARCH TEST</title>
+    <style>
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+          sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+        margin-top: 50px;
+      }
+      p { margin: 0; }
+      .container { max-width: 350px; margin: 0 auto; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <section>
+        <h1>Stale search test</h1>
+
+        <!-- out-of-order responses, reset/disable/destroy while a search is in flight -->
+        <div class="auto-search-wrapper" id="wrap-slow">
+          <input type="text" id="stale-slow" placeholder="slow search" />
+        </div>
+
+        <!-- reset/disable while the debounce timer is pending -->
+        <div class="auto-search-wrapper" id="wrap-debounce" style="margin-top:20px">
+          <input type="text" id="stale-debounce" placeholder="debounced search" />
+        </div>
+
+        <!-- classPrefix -->
+        <div class="pre-auto-search-wrapper" id="wrap-prefix" style="margin-top:20px">
+          <input type="text" id="stale-prefix" placeholder="classPrefix" />
+        </div>
+
+        <!-- enable() before the first search -->
+        <div class="auto-search-wrapper" id="wrap-enable" style="margin-top:20px">
+          <input type="text" id="stale-enable" placeholder="enable before search" />
+        </div>
+
+        <!-- onSearch throwing synchronously -->
+        <div class="auto-search-wrapper" id="wrap-throw" style="margin-top:20px">
+          <input type="text" id="stale-throw" placeholder="throwing onSearch" />
+        </div>
+      </section>
+    </div>
+
+    <script src="../docs/js/autocomplete.min.js"></script>
+    <script>
+      const data = ["Walter White", "Jesse Pinkman", "Skyler White", "Hank Schrader"];
+
+      window.searchCalls = 0;
+
+      const searchFn = ({ currentValue }) => {
+        window.searchCalls += 1;
+        return data.filter((el) => el.match(new RegExp(currentValue, "gi")));
+      };
+
+      // the shorter the query, the slower the answer - an older request
+      // resolves after a newer one
+      const slowSearchFn = ({ currentValue }) => {
+        window.searchCalls += 1;
+        const time = currentValue.length <= 1 ? 800 : 100;
+        return new Promise((resolve) => {
+          setTimeout(
+            () =>
+              resolve(
+                data.filter((el) => el.match(new RegExp(currentValue, "gi"))),
+              ),
+            time,
+          );
+        });
+      };
+
+      const resultsFn = ({ matches }) =>
+        matches.map((el) => `<li><p>${el}</p></li>`).join("");
+
+      window.acSlow = new Autocomplete("stale-slow", {
+        delay: 0,
+        onSearch: slowSearchFn,
+        onResults: resultsFn,
+      });
+
+      window.acDebounce = new Autocomplete("stale-debounce", {
+        delay: 300,
+        onSearch: searchFn,
+        onResults: resultsFn,
+      });
+
+      window.acPrefix = new Autocomplete("stale-prefix", {
+        delay: 0,
+        classPrefix: "pre",
+        onSearch: searchFn,
+        onResults: resultsFn,
+      });
+
+      window.acEnable = new Autocomplete("stale-enable", {
+        delay: 0,
+        onSearch: searchFn,
+        onResults: resultsFn,
+      });
+
+      window.acThrow = new Autocomplete("stale-throw", {
+        delay: 0,
+        onSearch: () => {
+          throw new Error("onSearch failed");
+        },
+        onResults: resultsFn,
+      });
+    </script>
+  </body>
+</html>

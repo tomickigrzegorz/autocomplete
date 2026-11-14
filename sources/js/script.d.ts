@@ -26,13 +26,12 @@ export interface AutocompleteOptions {
   onSearch: (params: {
     currentValue: string;
     element: HTMLElement;
-  }) => Promise<any>;
+  }) => Promise<any> | any;
   onResults?: (params: {
     currentValue: string;
     matches: any;
     classGroup?: string;
-    template?: string | HTMLElement;
-  }) => string | HTMLElement;
+  }) => string;
   onSubmit?: (params: {
     index: number;
     element: HTMLElement;
@@ -50,8 +49,7 @@ export interface AutocompleteOptions {
   noResults?: (params: {
     element: HTMLElement;
     currentValue: string;
-    template: string | HTMLElement;
-  }) => void;
+  }) => string | void;
   onLoading?: (params: {
     element: HTMLElement;
     currentValue: string;

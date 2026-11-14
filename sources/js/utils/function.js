@@ -63,9 +63,9 @@ export const addAriaToAllLiElements = (itemsLi) => {
 };
 
 /**
- * Show the clear button and attach a destroy event
+ * Show the clear button and attach a click handler to it
  * @param {HTMLElement} clearButton
- * @param {Function} destroy
+ * @param {Function} destroy - called on click (the instance passes reset)
  */
 export const showBtnToClearData = (clearButton, destroy) => {
   if (!clearButton) return;
@@ -76,8 +76,9 @@ export const showBtnToClearData = (clearButton, destroy) => {
 /**
  * Manage class list actions
  * @param {HTMLElement} element
- * @param {"add" | "remove"} action
+ * @param {"add" | "remove" | "contains"} action
  * @param {string} className
+ * @returns {boolean | undefined} result of "contains", otherwise undefined
  */
 export const classList = (element, action, className) =>
   element.classList[action](className);
@@ -85,14 +86,14 @@ export const classList = (element, action, className) =>
 /**
  * Set the aria-activedescendant attribute
  * @param {HTMLElement} root
- * @param {string} type
+ * @param {string} [type] - id of the active option, empty when omitted
  */
 export const setAriaActivedescendant = (root, type) => {
   setAttributes(root, { "aria-activedescendant": type || "" });
 };
 
 /**
- * Get the height of list items excluding a specific group class
+ * Get the total height of list items, excluding group headers
  * @param {string} outputUl
  * @param {string} classGroup
  * @returns {number}
